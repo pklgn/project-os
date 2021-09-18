@@ -1,3 +1,4 @@
+// @Flow типа такого
 /**
  * @param {Editor} editor
  * @param {Slide} slide
