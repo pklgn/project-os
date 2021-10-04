@@ -1,8 +1,9 @@
 enum Color {
-    Yellow,
-    Green,
-    Blue,
     Red,
+    Blue,
+    Green,
+    White,
+    Yellow,
 }
 
 type PresentationMode = "edit" | "show"
@@ -10,29 +11,38 @@ type PresentationMode = "edit" | "show"
 type Editor = {
     mode: PresentationMode,
     presentation: Presentation,
-    selectedSlideList: Slide[],
+    selectedSlidesList: Slide[],
 }
 
 type Presentation = {
     name: string,
-    slideList: Slide[],
+    slidesList: Slide[],
 }
 
 type Slide = {
-    background: Color,
-    elementList: SlideElement[],
+    background: Background,
+    elementsList: SlideElement[],
+}
+
+type Background = {
+    //TODO переделать color на строку, чтобы не было непонятных чисел
+    src: string
+    color: number,
 }
 
 type SlideElement = {
     id: string,
     opacity: number,
     content: TextElement | PictureElement | FigureElement,
-    position: ElementPosition,
+    position: SlideElementPosition,
 }
 
-
-type ElementPosition = {
+type SlideElementPosition = {
     startPoint: Coordinates,
+    size: Size,
+}
+
+type Size = {
     width: number,
     height: number,
 }
@@ -44,22 +54,21 @@ type Coordinates = {
 
 type TextElement = {
     content: string,
-    color: Color,
     fontSize: number,
+    fontColor: Color,
 }
 
 type PictureElement = {
-    content: string,
+    src: string,
 }
 
 enum FigureShape {
     Circle,
-    Rectangle,
     Triangle,
+    Rectangle,
 }
 
 type FigureElement = {
     type: FigureShape,
     color: Color,
 }
-

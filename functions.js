@@ -3,7 +3,72 @@
  * @returns {Editor}
  */
 function addSlide(editor) {
-    //TODO implement addSlide function
+    const currPresentation = editor.presentation
+    const currSlideList = editor.presentation.slidesList
+
+    /** @type {Background}*/
+    const background = {
+        color: Color.White,
+        src: ''
+    }
+
+    /** @type {Slide} */
+    const newSlide = {
+        background,
+        elementsList: [],
+    }
+
+    const updatedSlidesList = updateSlidesList(currSlideList, newSlide)
+    const updatedPresentation = updatePresentation(currPresentation, updatedSlidesList)
+    return {
+        ...editor,
+        presentation: updatedPresentation,
+    }
+}
+
+/**
+ * @param {Slide[]} slideList
+ * @param {Slide} slide
+ * @param {number} [slideIndex]
+ * @returns {Slide[]}
+ */
+function updateSlidesList(slideList, slide, slideIndex){
+    if (slideIndex) {
+        return slideList.map((element, index) => {
+            if (index === slideIndex) {
+                return slide
+            }
+            else {
+                return element
+            }
+        })
+    }
+    else {
+        return [
+            ...slideList,
+            slide
+        ]
+    }
+}
+
+/**
+ * @param {Presentation} presentation
+ * @param {Slide[]|string} changedValue
+ * @returns {Presentation}
+ */
+function updatePresentation(presentation, changedValue) {
+    if (typeof changedValue === "string") {
+        return {
+            ...presentation,
+            name: changedValue,
+        }
+    }
+    else {
+        return {
+            ...presentation,
+            slidesList: changedValue,
+        }
+    }
 }
 
 /**
@@ -71,16 +136,16 @@ function redo(editor) {
 /**
  * @param {Editor} editor
  * @param {Slide} slide
- * @param {ElementType} type
+ * @param {TextElement|PictureElement|FigureElement} element
  * @returns {Editor}
  */
-function addElement(editor, slide, type) {
+function addElement(editor, slide, element) {
     //TODO implement element adding
 }
 
 /**
  * @param {Editor} editor
- * @param {Mode} mode
+ * @param {PresentationMode} mode
  * @returns {Editor}
  */
 function changeMode(editor, mode) {
@@ -113,7 +178,7 @@ function changeElementLayoutIndex(editor, slide, element, index) {
  * @param {Editor} editor
  * @param {Slide} slide
  * @param {SlideElement} element
- * @param {ElementSize} size
+ * @param {Size} size
  * @returns {Editor}
  */
 function changeElementSize(editor, slide, element, size) {
@@ -135,7 +200,7 @@ function changeElementOpacity(editor, slide, element, opacity) {
  * @param {Editor} editor
  * @param {Slide} slide
  * @param {SlideElement} element
- * @param {Figure} figure
+ * @param {FigureElement} figure
  * @param {Color} color
  * @returns {Editor}
  */
