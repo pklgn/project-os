@@ -215,8 +215,6 @@ function addElement(editor, slide, element) {
  * @returns {Editor}
  */
 function changeMode(editor, mode) {
-    const presentation = editor.presentation
-
     return {
         ...editor,
         mode,
