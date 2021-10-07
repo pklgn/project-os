@@ -234,18 +234,7 @@ function changeSlideBackground(editor, slide, background) {
         background,
     }
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
-    //TODO возможно, вынести в отдельную функцию обновления списка слайдов
-    //Рафаиль
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList: 
-                [...editor.presentation.slidesList.slice(0, slideIndex),
-                newSlide,
-                ...editor.presentation.slidesList.slice(slideIndex+1)]
-        }
-    }
+    return newEditor(editor, newSlide, slideIndex)
 }
 
 /**
@@ -275,19 +264,7 @@ function changeElementLayoutIndex(editor, slide, element, newIndex) {
         ...slide,
         elementsList: newElementsList
     }
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            //TODO реализовать функцию обновления списка слайдов
-            //Рафаиль
-            slidesList: [
-                ...editor.presentation.slidesList.slice(0, slideIndex),
-                newSlide,
-                ...editor.presentation.slidesList.slice(slideIndex+1)
-            ]
-        }
-    }
+    return newEditor(editor, newSlide, slideIndex)
 }
 
 /**
@@ -314,17 +291,7 @@ function changeElementSize(editor, slide, element, size) {
         ...slide,
         elementsList: newElementsList
     }
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList: [
-                ...editor.presentation.slidesList.slice(0, slideIndex),
-                newSlide,
-                ...editor.presentation.slidesList.slice(slideIndex+1)
-            ]
-        }
-    }
+    return newEditor(editor, newSlide, slideIndex)
 }
 
 /**
@@ -351,17 +318,7 @@ function changeElementOpacity(editor, slide, element, opacity) {
         ...slide,
         elementsList: newElementsList
     }
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList: [
-                ...editor.presentation.slidesList.slice(0, slideIndex),
-                newSlide,
-                ...editor.presentation.slidesList.slice(slideIndex+1)
-            ]
-        }
-    }
+    return newEditor(editor, newSlide, slideIndex)
 }
 
 /**
@@ -396,17 +353,7 @@ function changeFigureColor(editor, slide, element, figure, color) {
         ...slide,
         elementsList: newElementsList
     }
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList: [
-                ...editor.presentation.slidesList.slice(0, slideIndex),
-                newSlide,
-                ...editor.presentation.slidesList.slice(slideIndex+1)
-            ]
-        }
-    }
+    return newEditor(editor, newSlide, slideIndex)
 }
 
 /**
@@ -422,12 +369,48 @@ function changeTextSize(editor, elementId, textSize) {
 
 /**
  * @param {Editor} editor
- * @param {string} elementId
+ * @param {Slide} slide
+ * @param {SlideElement} element
  * @param {Color} color
  * @returns {Editor}
  */
-function changeTextColor(editor, elementId, color) {
-    //TODO implement text color type
-    //Рафаиль
+function changeTextColor(editor, slide, element, color) {
+    const elementIndex = slide.elementsList.indexOf(element)
+    const newElement = {
+        ...element,
+        content: {
+            ...element.content,
+            fontColor: color
+        }
+    }
+    const newElementsList = [
+        ...slide.elementsList.slice(0, elementIndex),
+        newElement,
+        ...slide.elementsList.slice(elementIndex+1)
+    ]
+    const newSlide = {
+        ...slide,
+        elementsList: newElementsList
+    }
+    const slideIndex = editor.presentation.slideList.indexOf(slide)
+    return newEditor(editor, newSlide, slideIndex)
 }
 
+/**
+ * @param {Editor} editor 
+ * @param {Slide} newSlide
+ * @param {number} newSlideIndex
+ * @returns {Editor}
+ */
+ function newEditor(editor, newSlide, newSlideIndex) {
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList: 
+                [...editor.presentation.slidesList.slice(0, newSlideIndex),
+                newSlide,
+                ...editor.presentation.slidesList.slice(newSlideIndex+1)]
+        }
+    }
+}
