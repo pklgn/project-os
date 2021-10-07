@@ -154,10 +154,16 @@ function redo(editor) {
  */
 function addElement(editor, slide, element) {
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    const newElementsList = {
+        ...slide.elementsList,
+        element
+    }
+
     const newSlide = {
         ...slide,
         elementsList: newElementsList
     }
+    
     return {
         ...editor,
         presentation: {
