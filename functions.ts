@@ -392,15 +392,15 @@ function changeTextSize(editor, slide, element, fontSize) {
                 {
                     ...slide,
                     elementsList: [
-                        ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
+                        ...slide.elementsList.slice(0, elementIndex),
                         {
                             ...element,             // читать отсюда
                             content: {
                                 ...element.content,
-                                fontsize
+                                fontSize
                             }
                         },
-                        ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex+1)
+                        ...slide.elementsList.slice(elementIndex+1)
                     ]
                 },
                 ...editor.presentation.slidesList.slice(slideIndex+1)
