@@ -31,7 +31,6 @@ type Background = {
 }
 
 type SlideElement = {
-    id: string,
     size: Size,
     opacity: number,
     content: TextElement | PictureElement | FigureElement,
