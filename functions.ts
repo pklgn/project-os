@@ -194,17 +194,25 @@ function redo(editor) {
 function addElement(editor, slide, element) {
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
 
+    const newElementsList = {
+        ...slide.elementsList,
+        element
+    }
+
+    const newSlide = {
+        ...slide,
+        elementsList: newElementsList
+    }
+    //TODO newEditor
     return {
         ...editor,
         presentation: {
             ...editor.presentation,
-            slidesList: {
-                ...editor.presentation.slidesList,
-                elementsList: {
-                    ...editor.presentation.slidesList[slideIndex].elementsList,
-                    element
-                }
-            }
+            slidesList: [
+                ...editor.presentation.slidesList.slice(0, slideIndex),
+                newSlide,
+                ...editor.presentation.slidesList.slice(slideIndex+1)
+            ]
         }
     }
 }
@@ -361,11 +369,39 @@ function changeFigureColor(editor, slide, element, color) {
 
 /**
  * @param {Editor} editor
- * @param {string} elementId
- * @param {number} textSize
+ * @param {Slide} slide
+ * @param {SlideElement} element
+ * @param {number} fontSize
  * @returns {Editor}
  */
-function changeTextSize(editor, elementId, textSize) {
+function changeTextSize(editor, slide, element, fontSize) {
+    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
+
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList: [
+                ...editor.presentation.slidesList.slice(0, slideIndex),
+                {
+                    ...slide,
+                    elementsList: [
+                        ...slide.elementsList.slice(0, elementIndex),
+                        {
+                            ...element,             // читать отсюда
+                            content: {
+                                ...element.content,
+                                fontSize
+                            }
+                        },
+                        ...slide.elementsList.slice(elementIndex+1)
+                    ]
+                },
+                ...editor.presentation.slidesList.slice(slideIndex+1)
+            ]
+        }
+    }
 }
 
 /**
