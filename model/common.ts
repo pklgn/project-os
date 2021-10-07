@@ -15,6 +15,7 @@ type Editor = {
 
 type Presentation = {
     name: string,
+    dateCreated: string,
     slidesList: Slide[],
     selectedSlideIndexes: number[],
 }
@@ -31,14 +32,11 @@ type Background = {
 }
 
 type SlideElement = {
+    id: string,
+    size: Size,
     opacity: number,
     content: TextElement | PictureElement | FigureElement,
-    position: SlideElementPosition,
-}
-
-type SlideElementPosition = {
     startPoint: Coordinates,
-    size: Size,
 }
 
 type Size = {
