@@ -76,9 +76,10 @@ function updatePresentation(presentation, changedValue) {
  * @param {Array<number>} slideIndexes
  * @returns {Editor}
  */
-function removeSlides(editor, slideIndexes) {
+function removeSelectedSlides(editor) {
+    const slideIndexes = editor.presentation.selectedSlideIndexes
     const currSlideList = editor.presentation.slidesList.map((element, index) => {
-        if (typeof slideIndexes.find(index) === "undefined") return element 
+        if (!slideIndexes.includes(index)) return element
     })
 
     const newSlideIndexes = [slideIndexes[0]]
@@ -153,17 +154,19 @@ function redo(editor) {
  */
 function addElement(editor, slide, element) {
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    const newSlide = {
+        ...slide,
+        elementsList: newElementsList
+    }
     return {
         ...editor,
         presentation: {
             ...editor.presentation,
-            slidesList: {
-                ...editor.presentation.slidesList,
-                elementsList: {
-                    ...editor.presentation.slidesList[slideIndex].elementsList,
-                    element
-                }
-            }
+            slidesList: [
+                ...editor.presentation.slidesList.slice(0, slideIndex),
+                newSlide,
+                ...editor.presentation.slidesList.slice(slideIndex+1)
+            ]
         }
     }
 }
@@ -330,15 +333,17 @@ function changeElementOpacity(editor, slide, element, opacity) {
 function changeFigureColor(editor, slide, element, figure, color) {
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
     const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
+
     const newContent = {
-        ...content,
-        
+        ...element.content,
+        color: color
     }
 
     const newElement = {
         ...element,
-        content: 
+        content: newContent
     }
+
     const newElementsList = [
         ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
         newElement,
