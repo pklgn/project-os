@@ -15,7 +15,6 @@ type Editor = {
 
 type Presentation = {
     name: string,
-    dateCreated: string,
     slidesList: Slide[],
     selectedSlideIndexes: number[],
 }
