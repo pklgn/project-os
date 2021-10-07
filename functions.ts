@@ -1,4 +1,4 @@
-import 'model/common'
+import './model/common'
 
 /**
  * @param {Editor} editor
@@ -32,7 +32,7 @@ function addSlide(editor, slideIndex?) {
 
 /**
  * @param {Editor} editor
- * @param {Slide} slide
+ * @param {number} slideIndex
  * @returns {Editor}
  */
  function deleteSlide(editor, slideIndex) {
@@ -48,7 +48,7 @@ function addSlide(editor, slideIndex?) {
 
 /**
  * @param {Presentation} presentation
- * @param {Slide[]|Array<number>|string} changedValue
+ * @param {Slide[]|number[]|string} changedValue
  * @returns {Presentation}
  */
 function updatePresentation(presentation, changedValue) {
@@ -67,25 +67,65 @@ function updatePresentation(presentation, changedValue) {
         return {
             ...presentation,
             slidesList: changedValue,
-        }        
+        }
     }
 }
 
 /**
  * @param {Editor} editor
- * @param {Array<number>} slideIndexes
  * @returns {Editor}
  */
-function removeSlides(editor, slideIndexes) {
-    const currSlideList = editor.presentation.slidesList.map((element, index) => {
-        if (typeof slideIndexes.find(index) === "undefined") return element 
+function removeSelectedSlides(editor) {
+    const slidesIndexesToRemove = editor.presentation.selectedSlideIndexes
+    const slideList = editor.presentation.slidesList.map((element, index) => {
+        if (!slidesIndexesToRemove.includes(index)) {
+            return element
+        }
     })
 
-    const newSlideIndexes = [slideIndexes[0]]
+    const selectedSlide = selectSlide(editor)
+
     
     return {
-        ...setSelectedSlideIndexes(editor, newSlideIndexes),
-        presentation: updatePresentation(editor.presentation, currSlideList)
+        ...setSelectedSlideIndexes(editor, selectedSlide),
+        presentation: updatePresentation(editor.presentation, slideList)
+    }
+}
+
+/**
+ * @param {Editor} editor
+ * @return {number}
+ */
+function selectSlide(editor) {
+    let currSlidesIndexes = []
+    const slidesAmount = editor.presentation.slidesList.length
+    for (let i = 0; i < slidesAmount; i++) {
+        currSlidesIndexes.push(i)
+    }
+    const unselectedSlidesIndexes = currSlidesIndexes.map((element) => {
+        if (!editor.presentation.selectedSlideIndexes.includes(element)) {
+            return element
+        }
+    })
+    if (!unselectedSlidesIndexes) {
+        return -1
+    }
+    else {
+        const lastSelectedSlideIndex = editor.presentation.selectedSlideIndexes[-1]
+        if (lastSelectedSlideIndex < slidesAmount - 1) {
+            unselectedSlidesIndexes.forEach((index) => {
+                if (index > lastSelectedSlideIndex) {
+                    return index
+                }
+            })
+        }
+        else {
+            for (let i = lastSelectedSlideIndex; i >= 0; i--) {
+                if (unselectedSlidesIndexes.indexOf(i) !== -1) {
+                    return i
+                }
+            }
+        }
     }
 }
 
@@ -119,7 +159,7 @@ function replaceSlides(editor, position) {
 
 /**
  * @param {Editor} editor
- * @param {Array<number>} slidesIndexes
+ * @param {number[]} slidesIndexes
  * @returns {Editor}
  */
 function setSelectedSlideIndexes(editor, slidesIndexes) {
@@ -152,6 +192,7 @@ function redo(editor) {
  * @returns {Editor}
  */
 function addElement(editor, slide, element) {
+    //Леня!
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
     return {
         ...editor,
@@ -159,6 +200,7 @@ function addElement(editor, slide, element) {
             ...editor.presentation,
             slidesList: {
                 ...editor.presentation.slidesList,
+
                 elementsList: {
                     ...editor.presentation.slidesList[slideIndex].elementsList,
                     element
@@ -175,6 +217,8 @@ function addElement(editor, slide, element) {
  */
 function changeMode(editor, mode) {
     //TODO implement mode changing function
+    //делает Паша
+
 }
 
 
@@ -187,9 +231,11 @@ function changeMode(editor, mode) {
 function changeSlideBackground(editor, slide, background) {
     const newSlide = {
         ...slide,
-        background: background
+        background,
     }
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    //TODO возможно, вынести в отдельную функцию обновления списка слайдов
+    //Рафаиль
     return {
         ...editor,
         presentation: {
@@ -206,24 +252,24 @@ function changeSlideBackground(editor, slide, background) {
  * @param {Editor} editor
  * @param {Slide} slide
  * @param {SlideElement} element
- * @param {number} index
+ * @param {number} newIndex
  * @returns {Editor}
  */
-function changeElementLayoutIndex(editor, slide, element, insIndex) {
+function changeElementLayoutIndex(editor, slide, element, newIndex) {
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
     const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
-    const newElementsList = (elementIndex > insIndex) 
+    const newElementsList = (elementIndex > newIndex)
                 ? [
-                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, insIndex), 
+                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, newIndex),
                     element,
-                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(insIndex, elementIndex),
+                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(newIndex, elementIndex),
                     ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex+1)
                 ]
                 : [
                     ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
-                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex+1, insIndex), 
+                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex+1, newIndex),
                     element,
-                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(insIndex)
+                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(newIndex)
                 ]
     const newSlide = {
         ...slide,
@@ -233,6 +279,8 @@ function changeElementLayoutIndex(editor, slide, element, insIndex) {
         ...editor,
         presentation: {
             ...editor.presentation,
+            //TODO реализовать функцию обновления списка слайдов
+            //Рафаиль
             slidesList: [
                 ...editor.presentation.slidesList.slice(0, slideIndex),
                 newSlide,
@@ -254,10 +302,7 @@ function changeElementSize(editor, slide, element, size) {
     const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
     const newElement = {
         ...element,
-        position: {
-            ...element.position,
-            size: size
-        }
+        size,
     }
     const newElementsList = [
         ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
@@ -331,7 +376,9 @@ function changeFigureColor(editor, slide, element, figure, color) {
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
     const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
     const newContent = {
-        ...content,
+        ...element,
+        content:
+        //TODO доделать Паша
         
     }
 
@@ -370,6 +417,7 @@ function changeFigureColor(editor, slide, element, figure, color) {
  */
 function changeTextSize(editor, elementId, textSize) {
     //TODO implement elementId, нужно в процессе создания элемента присваивать ему id
+    //Леня
 }
 
 /**
@@ -380,5 +428,6 @@ function changeTextSize(editor, elementId, textSize) {
  */
 function changeTextColor(editor, elementId, color) {
     //TODO implement text color type
+    //Рафаиль
 }
 
