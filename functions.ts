@@ -1,14 +1,33 @@
+import 'model/common'
+
 /**
  * @param {Editor} editor
+ * @param {number} [slideIndex]
  * @returns {Editor}
  */
-function addSlide(editor: Editor) {
-    //TODO implement addSlide function
-    const slide: Slide = {
-            background: Color.White,
-            elementList: []
-    };
-    editor.presentation.slideList.push(slide);
+function addSlide(editor, slideIndex?) {
+    /** @type {Background}*/
+    const background = {
+        color: Color.White,
+        src: ''
+    }
+
+    /** @type {Slide} */
+    const newSlide = {
+        background,
+        elementsList: [],
+    }
+
+    const currSlideList = slideIndex !== 'undefined' 
+                ? [...editor.presentation.slidesList.slice(0, slideIndex), newSlide, 
+                   ...editor.presentation.slidesList.slice(slideIndex)]
+                : [...editor.presentation.slidesList, newSlide]
+
+    const updatedPresentation = updatePresentation(editor.presentation, currSlideList)
+    return {
+        ...editor,
+        presentation: updatedPresentation,
+    }
 }
 
 /**
@@ -16,53 +35,98 @@ function addSlide(editor: Editor) {
  * @param {Slide} slide
  * @returns {Editor}
  */
+ function deleteSlide(editor, slideIndex) {
+    const currSlideList = [...editor.presentation.slidesList.slice(0, slideIndex),
+        ...editor.presentation.slidesList.slice(slideIndex+1)]
 
-function deleteSlide(editor: Editor, slide: Slide) {
-    //TODO implement deleteSlide function
-    editor.presentation.undo.push(editor.presentation.slideList[editor.presentation.slideList.indexOf(slide)])
-    delete editor.presentation.slideList[editor.presentation.slideList.indexOf(slide)];
+    const updatedPresentation = updatePresentation(editor.presentation, currSlideList)
+    return {
+        ...editor,
+        presentation: updatedPresentation,
+    }
+}
+
+/**
+ * @param {Presentation} presentation
+ * @param {Slide[]|Array<number>|string} changedValue
+ * @returns {Presentation}
+ */
+function updatePresentation(presentation, changedValue) {
+    if (typeof changedValue === "string") {
+        return {
+            ...presentation,
+            name: changedValue,
+        }
+    } else if (typeof changedValue[0] === "number") {
+        return {
+            ...presentation,
+            selectedSlideIndexes: changedValue,
+        }
+    } else {
+
+        return {
+            ...presentation,
+            slidesList: changedValue,
+        }        
+    }
 }
 
 /**
  * @param {Editor} editor
- * @param {Array<Slide>} slides
+ * @param {Array<number>} slideIndexes
  * @returns {Editor}
  */
-function removeSlides(editor: Editor, slides: Slide[]) {
-    // TODO implement removeSlide function
-    slides.forEach((slide: Slide) => deleteSlide(editor, slide));
+function removeSlides(editor, slideIndexes) {
+    const currSlideList = editor.presentation.slidesList.map((element, index) => {
+        if (typeof slideIndexes.find(index) === "undefined") return element 
+    })
+
+    const newSlideIndexes = [slideIndexes[0]]
+    
+    return {
+        ...setSelectedSlideIndexes(editor, newSlideIndexes),
+        presentation: updatePresentation(editor.presentation, currSlideList)
+    }
 }
 
 /**
  * @param {Editor} editor
- * @param {Slide} slide
- * @param {number} position нужен ли он, возможно, стоит брать значение из истории действий
+ * @param {Array<number>} slidesIndexes
+ * @param {number} position
  * @returns {Editor}
  */
-function replaceSlide(editor: Editor, slide: Slide, position: number) {
-    //TODO implement replaceSlide function
-    //swap: b = [a, a = b][0];
-    editor.presentation.slideList[editor.presentation.slideList.indexOf(slide)] = 
-    [editor.presentation.slideList[position],
-    editor.presentation.slideList[position] = editor.presentation.slideList[editor.presentation.slideList.indexOf(slide)]][0];
+function replaceSlides(editor, position) {
+    const currSlideList = [
+        ...editor.presentation.slidesList.slice(0, position).map((element, index) => {
+            if (typeof editor.presentation.selectedSlideIndexes.find(index) === "undefined") return element 
+        }),
+        ...editor.presentation.slidesList.map((element, index) => {
+            if (typeof editor.presentation.selectedSlideIndexes.find(index) !== "undefined") return element 
+        }),
+        ...editor.presentation.slidesList.slice(position).map((element, index) => {
+            if (typeof editor.presentation.selectedSlideIndexes.find(index) === "undefined") return element 
+        })
+    ]
+    const newSlideIndexes = editor.selectedSlideIndexes.map((element, index) => {
+        return position+index
+    })
+    
+    return {
+        ...setSelectedSlideIndexes(editor, newSlideIndexes),
+        presentation: updatePresentation(editor.presentation, currSlideList)
+    }
 }
 
 /**
  * @param {Editor} editor
- * @param {string} name аналогично с replaceSlide
+ * @param {Array<number>} slidesIndexes
  * @returns {Editor}
  */
-function renamePresentation(editor, name) {
-    //TODO implement renamePresentation function
-}
-
-/**
- * @param {Editor} editor
- * @param {Slide} slide
- * @returns {Editor}
- */
-function selectSlide(editor, slide) {
-    //TODO implement selectSlide function
+function setSelectedSlideIndexes(editor, slidesIndexes) {
+    return {
+        ...editor,
+        presentation: updatePresentation(editor.presentation, slidesIndexes),
+    }    
 }
 
 /**
@@ -84,16 +148,29 @@ function redo(editor) {
 /**
  * @param {Editor} editor
  * @param {Slide} slide
- * @param {ElementType} type
+ * @param {TextElement|PictureElement|FigureElement} element
  * @returns {Editor}
  */
-function addElement(editor, slide, type) {
-    //TODO implement element adding
+function addElement(editor, slide, element) {
+    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList: {
+                ...editor.presentation.slidesList,
+                elementsList: {
+                    ...editor.presentation.slidesList[slideIndex].elementsList,
+                    element
+                }
+            }
+        }
+    }
 }
 
 /**
  * @param {Editor} editor
- * @param {Mode} mode
+ * @param {PresentationMode} mode
  * @returns {Editor}
  */
 function changeMode(editor, mode) {
@@ -108,7 +185,21 @@ function changeMode(editor, mode) {
  * @returns {Editor}
  */
 function changeSlideBackground(editor, slide, background) {
-    //TODO implement background changing function
+    const newSlide = {
+        ...slide,
+        background: background
+    }
+    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList: 
+                [...editor.presentation.slidesList.slice(0, slideIndex),
+                newSlide,
+                ...editor.presentation.slidesList.slice(slideIndex+1)]
+        }
+    }
 }
 
 /**
@@ -118,19 +209,77 @@ function changeSlideBackground(editor, slide, background) {
  * @param {number} index
  * @returns {Editor}
  */
-function changeElementLayoutIndex(editor, slide, element, index) {
-    //TODO implement work with element layout
+function changeElementLayoutIndex(editor, slide, element, insIndex) {
+    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
+    const newElementsList = (elementIndex > insIndex) 
+                ? [
+                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, insIndex), 
+                    element,
+                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(insIndex, elementIndex),
+                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex+1)
+                ]
+                : [
+                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
+                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex+1, insIndex), 
+                    element,
+                    ...editor.presentation.slidesList[slideIndex].elementsList.slice(insIndex)
+                ]
+    const newSlide = {
+        ...slide,
+        elementsList: newElementsList
+    }
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList: [
+                ...editor.presentation.slidesList.slice(0, slideIndex),
+                newSlide,
+                ...editor.presentation.slidesList.slice(slideIndex+1)
+            ]
+        }
+    }
 }
 
 /**
  * @param {Editor} editor
  * @param {Slide} slide
  * @param {SlideElement} element
- * @param {ElementSize} size
+ * @param {Size} size
  * @returns {Editor}
  */
 function changeElementSize(editor, slide, element, size) {
-    //TODO implement resizing of the element
+    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
+    const newElement = {
+        ...element,
+        position: {
+            ...element.position,
+            size: size
+        }
+    }
+    const newElementsList = [
+        ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
+        newElement,
+        ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex+1)
+    ]
+
+    const newSlide = {
+        ...slide,
+        elementsList: newElementsList
+    }
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList: [
+                ...editor.presentation.slidesList.slice(0, slideIndex),
+                newSlide,
+                ...editor.presentation.slidesList.slice(slideIndex+1)
+            ]
+        }
+    }
 }
 
 /**
@@ -141,19 +290,76 @@ function changeElementSize(editor, slide, element, size) {
  * @returns {Editor}
  */
 function changeElementOpacity(editor, slide, element, opacity) {
-    //TODO implement element opacity
+    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
+    const newElement = {
+        ...element,
+        opacity: opacity
+    }
+    const newElementsList = [
+        ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
+        newElement,
+        ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex+1)
+    ]
+    
+    const newSlide = {
+        ...slide,
+        elementsList: newElementsList
+    }
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList: [
+                ...editor.presentation.slidesList.slice(0, slideIndex),
+                newSlide,
+                ...editor.presentation.slidesList.slice(slideIndex+1)
+            ]
+        }
+    }
 }
 
 /**
  * @param {Editor} editor
  * @param {Slide} slide
  * @param {SlideElement} element
- * @param {Figure} figure
+ * @param {FigureElement} figure
  * @param {Color} color
  * @returns {Editor}
  */
 function changeFigureColor(editor, slide, element, figure, color) {
-    //TODO changeFigureColor arguments amount too big
+    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
+    const newContent = {
+        ...content,
+        
+    }
+
+    const newElement = {
+        ...element,
+        content: 
+    }
+    const newElementsList = [
+        ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
+        newElement,
+        ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex+1)
+    ]
+    
+    const newSlide = {
+        ...slide,
+        elementsList: newElementsList
+    }
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList: [
+                ...editor.presentation.slidesList.slice(0, slideIndex),
+                newSlide,
+                ...editor.presentation.slidesList.slice(slideIndex+1)
+            ]
+        }
+    }
 }
 
 /**

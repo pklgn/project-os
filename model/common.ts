@@ -11,12 +11,12 @@ type PresentationMode = "edit" | "show"
 type Editor = {
     mode: PresentationMode,
     presentation: Presentation,
-    selectedSlidesList: Slide[],
 }
 
 type Presentation = {
     name: string,
     slidesList: Slide[],
+    selectedSlideIndexes: Array<number>,
 }
 
 type Slide = {
@@ -27,7 +27,7 @@ type Slide = {
 type Background = {
     //TODO переделать color на строку, чтобы не было непонятных чисел
     src: string
-    color: number,
+    color: string,
 }
 
 type SlideElement = {
