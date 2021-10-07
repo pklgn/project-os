@@ -163,7 +163,7 @@ function addElement(editor, slide, element) {
         ...slide,
         elementsList: newElementsList
     }
-    
+
     return {
         ...editor,
         presentation: {
@@ -379,8 +379,34 @@ function changeFigureColor(editor, slide, element, figure, color) {
  * @param {number} textSize
  * @returns {Editor}
  */
-function changeTextSize(editor, elementId, textSize) {
-    //TODO implement elementId, нужно в процессе создания элемента присваивать ему id
+function changeTextSize(editor, slide, element, fontSize) {
+    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
+
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList: [
+                ...editor.presentation.slidesList.slice(0, slideIndex),
+                {
+                    ...slide,
+                    elementsList: [
+                        ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
+                        {
+                            ...element,             // читать отсюда
+                            content: {
+                                ...element.content,
+                                fontsize
+                            }
+                        },
+                        ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex+1)
+                    ]
+                },
+                ...editor.presentation.slidesList.slice(slideIndex+1)
+            ]
+        }
+    }
 }
 
 /**
@@ -389,7 +415,6 @@ function changeTextSize(editor, elementId, textSize) {
  * @param {Color} color
  * @returns {Editor}
  */
-function changeTextColor(editor, elementId, color) {
+function changeTextColor(editor, slide, element, color) {
     //TODO implement text color type
 }
-
