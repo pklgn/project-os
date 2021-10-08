@@ -18,7 +18,7 @@ function addSlide(editor, slideIndex?) {
         elementsList: [],
     }
 
-    const currSlideList = slideIndex !== 'undefined' 
+    const currSlideList = slideIndex !== undefined
                 ? [...editor.presentation.slidesList.slice(0, slideIndex), newSlide, 
                    ...editor.presentation.slidesList.slice(slideIndex)]
                 : [...editor.presentation.slidesList, newSlide]
@@ -203,18 +203,8 @@ function addElement(editor, slide, element) {
         ...slide,
         elementsList: newElementsList
     }
-    //TODO newEditor
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList: [
-                ...editor.presentation.slidesList.slice(0, slideIndex),
-                newSlide,
-                ...editor.presentation.slidesList.slice(slideIndex+1)
-            ]
-        }
-    }
+
+    return newEditor(editor, newSlide, slideIndex)
 }
 
 /**
@@ -389,7 +379,7 @@ function changeTextSize(editor, slide, element, fontSize) {
                     elementsList: [
                         ...slide.elementsList.slice(0, elementIndex),
                         {
-                            ...element,             // читать отсюда
+                            ...element,
                             content: {
                                 ...element.content,
                                 fontSize
@@ -430,6 +420,7 @@ function changeTextColor(editor, slide, element, color) {
         elementsList: newElementsList
     }
     const slideIndex = editor.presentation.slideList.indexOf(slide)
+
     return newEditor(editor, newSlide, slideIndex)
 }
 
