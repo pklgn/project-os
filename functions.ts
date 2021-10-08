@@ -394,17 +394,7 @@ function changeTextSize(editor, slide, element, fontSize) {
         elementsList: newElementsList
     }
 
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList: [
-                ...editor.presentation.slidesList.slice(0, slideIndex),
-                newSlide,
-                ...editor.presentation.slidesList.slice(slideIndex+1)
-            ]
-        }
-    }
+    return newEditor(editor, newSlide, slideIndex)
 }
 
 /**
