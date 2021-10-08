@@ -37,7 +37,7 @@ function addSlide(editor, slideIndex?) {
  */
  function deleteSlide(editor, slideIndex) {
     const currSlideList = [...editor.presentation.slidesList.slice(0, slideIndex),
-        ...editor.presentation.slidesList.slice(slideIndex+1)]
+        ...editor.presentation.slidesList.slice(slideIndex + 1)]
 
     const updatedPresentation = updatePresentation(editor.presentation, currSlideList)
 
@@ -112,7 +112,7 @@ function selectSlide(editor) {
         return -1
     }
     else {
-        const lastSelectedSlideIndex = editor.presentation.selectedSlideIndexes[-1]
+        const lastSelectedSlideIndex = editor.presentation.selectedSlideIndexes.slice(-1)[0]
         if (lastSelectedSlideIndex < slidesAmount - 1) {
             unselectedSlidesIndexes.forEach((index) => {
                 if (index > lastSelectedSlideIndex) {
@@ -148,9 +148,9 @@ function replaceSlides(editor, position) {
         })
     ]
     const newSlideIndexes = editor.selectedSlideIndexes.map((element, index) => {
-        return position+index
+        return position + index
     })
-    
+    //TODO
     return {
         ...setSelectedSlideIndexes(editor, newSlideIndexes),
         presentation: updatePresentation(editor.presentation, currSlideList)
@@ -169,21 +169,7 @@ function setSelectedSlideIndexes(editor, slidesIndexes) {
     }    
 }
 
-/**
- * @param {Editor} editor
- * @returns {Editor}
- */
-function undo(editor) {
-    //TODO implement undo function
-}
-
-/**
- * @param {Editor} editor
- * @returns {Editor}
- */
-function redo(editor) {
-    //TODO implement redo function
-}
+//TODO or history
 
 /**
  * @param {Editor} editor
