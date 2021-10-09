@@ -3,7 +3,7 @@ import './model/common'
 /**
  * @param {Editor} editor
  * @param {number} [slideIndex]
- * @returns {Editor}
+ * @returns {Presentation}
  */
 function addSlide(editor, slideIndex?) {
     /** @type {Background}*/
@@ -24,16 +24,17 @@ function addSlide(editor, slideIndex?) {
         : [...editor.presentation.slidesList, newSlide]
 
     const updatedPresentation = updatePresentationSlideList(editor.presentation, slideList)
-    return {
-        ...editor,
-        presentation: updatedPresentation,
-    }
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
  * @param {Editor} editor
  * @param {number} slideIndex
- * @returns {Editor}
+ * @returns {Presentation}
  */
 function deleteSlide(editor, slideIndex) {
     const slideList = [...editor.presentation.slidesList.slice(0, slideIndex),
@@ -41,10 +42,10 @@ function deleteSlide(editor, slideIndex) {
 
     const updatedPresentation = updatePresentationSlideList(editor.presentation, slideList)
 
-    return {
-        ...editor,
-        presentation: updatedPresentation,
-    }
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
@@ -56,18 +57,6 @@ function updatePresentationName(presentation, name) {
     return {
         ...presentation,
         name,
-    }
-}
-
-/**
-* @param {Presentation} presentation
-* @param {number[]} selectedSlideIndexes
-* @returns {Presentation}
-*/
-function updatePresentationSelectedSlideIndexes(presentation, selectedSlideIndexes) {
-    return {
-        ...presentation,
-        selectedSlideIndexes,
     }
 }
 
@@ -85,10 +74,10 @@ function updatePresentationSlideList(presentation, slideList) {
 
 /**
  * @param {Editor} editor
- * @returns {Editor}
+ * @returns {Presentation}
  */
 function removeSelectedSlides(editor) {
-    const slidesIndexesToRemove = editor.presentation.selectedSlideIndexes
+    const slidesIndexesToRemove = editor.selectedSlideIndexes
     const slideList = editor.presentation.slidesList.map((element, index) => {
         if (!slidesIndexesToRemove.includes(index)) {
             return element
@@ -97,10 +86,14 @@ function removeSelectedSlides(editor) {
 
     const selectedSlide = selectSlide(editor)
 
-    return {
-        ...setSelectedSlideIndexes(editor, selectedSlide),
-        presentation: updatePresentationSlideList(editor.presentation, slideList)
-    }
+    editor.selectedSlideIndexes = selectSlide
+
+    const updatedPresentation = updatePresentationSlideList(editor.presentation, slideList)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
@@ -115,7 +108,7 @@ function selectSlide(editor) {
     }
 
     const unselectedSlidesIndexes = currSlidesIndexes.map((element) => {
-        if (!editor.presentation.selectedSlideIndexes.includes(element)) {
+        if (!editor.selectedSlideIndexes.includes(element)) {
             return element
         }
     })
@@ -124,7 +117,7 @@ function selectSlide(editor) {
         return -1
     }
     else {
-        const lastSelectedSlideIndex = editor.presentation.selectedSlideIndexes.slice(-1)[0]
+        const lastSelectedSlideIndex = editor.selectedSlideIndexes.slice(-1)[0]
         if (lastSelectedSlideIndex < slidesAmount - 1) {
             unselectedSlidesIndexes.forEach((index) => {
                 if (index > lastSelectedSlideIndex) {
@@ -145,40 +138,32 @@ function selectSlide(editor) {
 /**
  * @param {Editor} editor
  * @param {number} position
- * @returns {Editor}
+ * @returns {Presentation}
  */
 function replaceSlides(editor, position) {
     const slideList = [
         ...editor.presentation.slidesList.slice(0, position).map((element, index) => {
-            if (typeof editor.presentation.selectedSlideIndexes.find(index) === "undefined") return element
+            if (typeof editor.selectedSlideIndexes.find(index) === "undefined") return element
         }),
         ...editor.presentation.slidesList.map((element, index) => {
-            if (typeof editor.presentation.selectedSlideIndexes.find(index) !== "undefined") return element
+            if (typeof editor.selectedSlideIndexes.find(index) !== "undefined") return element
         }),
         ...editor.presentation.slidesList.slice(position).map((element, index) => {
-            if (typeof editor.presentation.selectedSlideIndexes.find(index) === "undefined") return element
+            if (typeof editor.selectedSlideIndexes.find(index) === "undefined") return element
         })
-    ]
+    ] //TODO FIX THAT SHIT
     const newSlideIndexes = editor.selectedSlideIndexes.map((element, index) => {
         return position + index
     })
-    //TODO
-    return {
-        ...setSelectedSlideIndexes(editor, newSlideIndexes),
-        presentation: updatePresentationSlideList(editor.presentation, slideList)
-    }
-}
 
-/**
- * @param {Editor} editor
- * @param {number[]} slidesIndexes
- * @returns {Editor}
- */
-function setSelectedSlideIndexes(editor, slidesIndexes) {
-    return {
-        ...editor,
-        presentation: updatePresentationSelectedSlideIndexes(editor.presentation, slidesIndexes),
-    }
+    editor.selectedSlideIndexes = newSlideIndexes
+
+    const updatedPresentation = updatePresentationSlideList(editor.presentation, slideList)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 //TODO or history
@@ -201,19 +186,22 @@ function addElement(editor, slide, element) {
         ...slide,
         elementsList: newElementsList
     }
-    return newPresentation(editor, newSlide, slideIndex)
+
+    const updatedPresentation = newPresentation(editor, newSlide, slideIndex)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
  * @param {Editor} editor
  * @param {PresentationMode} mode
- * @returns {Editor}
+ * @description Изменяет режим презентации
  */
 function changeMode(editor, mode) {
-    return {
-        ...editor,
-        mode,
-    }
+    editor.mode = mode
 }
 
 /**
@@ -230,7 +218,12 @@ function changeSlideBackground(editor, slide, background) {
 
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
 
-    return newPresentation(editor, newSlide, slideIndex)
+    const updatedPresentation = newPresentation(editor, newSlide, slideIndex)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
@@ -261,7 +254,12 @@ function changeElementLayoutIndex(editor, slide, element, newIndex) {
         elementsList: newElementsList
     }
 
-    return newPresentation(editor, newSlide, slideIndex)
+    const updatedPresentation = newPresentation(editor, newSlide, slideIndex)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
@@ -289,7 +287,12 @@ function changeElementSize(editor, slide, element, size) {
         elementsList: newElementsList
     }
 
-    return newPresentation(editor, newSlide, slideIndex)
+    const updatedPresentation = newPresentation(editor, newSlide, slideIndex)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
@@ -318,7 +321,12 @@ function changeElementOpacity(editor, slide, element, opacity) {
         elementsList: newElementsList
     }
 
-    return newPresentation(editor, newSlide, slideIndex)
+    const updatedPresentation = newPresentation(editor, newSlide, slideIndex)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
@@ -351,7 +359,12 @@ function changeFigureColor(editor, slide, element, color) {
         elementsList: newElementsList
     }
 
-    return newPresentation(editor, newSlide, slideIndex)
+    const updatedPresentation =  newPresentation(editor, newSlide, slideIndex)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
@@ -381,7 +394,12 @@ function changeTextSize(editor, slide, element, fontSize) {
         elementsList: newElementsList
     }
 
-    return newPresentation(editor, newSlide, slideIndex)
+    const updatedPresentation = newPresentation(editor, newSlide, slideIndex)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
@@ -411,7 +429,12 @@ function changeTextColor(editor, slide, element, color) {
     }
     const slideIndex = editor.presentation.slideList.indexOf(slide)
 
-    return newPresentation(editor, newSlide, slideIndex)
+    const updatedPresentation = newPresentation(editor, newSlide, slideIndex)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
 }
 
 /**
