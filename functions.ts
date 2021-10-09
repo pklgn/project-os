@@ -18,11 +18,7 @@ function addSlide(editor, slideIndex?) {
         elementsList: [],
     }
 
-<<<<<<< HEAD
-    const currSlideList = slideIndex !== undefined
-=======
     const slideList = slideIndex !== 'undefined' 
->>>>>>> d99659965c66388e0bcf73660f68a22018aa793c
                 ? [...editor.presentation.slidesList.slice(0, slideIndex), newSlide, 
                    ...editor.presentation.slidesList.slice(slideIndex)]
                 : [...editor.presentation.slidesList, newSlide]
@@ -40,13 +36,8 @@ function addSlide(editor, slideIndex?) {
  * @returns {Editor}
  */
  function deleteSlide(editor, slideIndex) {
-<<<<<<< HEAD
-    const currSlideList = [...editor.presentation.slidesList.slice(0, slideIndex),
-        ...editor.presentation.slidesList.slice(slideIndex + 1)]
-=======
     const slideList = [...editor.presentation.slidesList.slice(0, slideIndex),
         ...editor.presentation.slidesList.slice(slideIndex+1)]
->>>>>>> d99659965c66388e0bcf73660f68a22018aa793c
 
     const updatedPresentation = updatePresentationSlideList(editor.presentation, slideList)
 
@@ -210,10 +201,6 @@ function addElement(editor, slide, element) {
         ...slide,
         elementsList: newElementsList
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> d99659965c66388e0bcf73660f68a22018aa793c
     return newEditor(editor, newSlide, slideIndex)
 }
 
@@ -378,31 +365,6 @@ function changeTextSize(editor, slide, element, fontSize) {
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
     const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
 
-<<<<<<< HEAD
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList: [
-                ...editor.presentation.slidesList.slice(0, slideIndex),
-                {
-                    ...slide,
-                    elementsList: [
-                        ...slide.elementsList.slice(0, elementIndex),
-                        {
-                            ...element,
-                            content: {
-                                ...element.content,
-                                fontSize
-                            }
-                        },
-                        ...slide.elementsList.slice(elementIndex+1)
-                    ]
-                },
-                ...editor.presentation.slidesList.slice(slideIndex+1)
-            ]
-        }
-=======
     const newElement = {
         ...element,
         fontSize,
@@ -417,7 +379,6 @@ function changeTextSize(editor, slide, element, fontSize) {
     const newSlide = {
         ...slide,
         elementsList: newElementsList
->>>>>>> d99659965c66388e0bcf73660f68a22018aa793c
     }
 
     return newEditor(editor, newSlide, slideIndex)
