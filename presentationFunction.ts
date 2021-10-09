@@ -1,5 +1,5 @@
 import {
-    Editor, Presentation, PresentationMode, Slide,
+    Editor, Presentation, Slide,
     Background
 } from "./model/common"
 
@@ -35,8 +35,8 @@ export function addSlide(editor, slideIndex) {
         selectedSlideIndexes: [slideIndex + 1],
     }
 
-    editor.history.push(updatedPresentation)
-    editor.currPresentationState = editor.history.length - 1
+    editor.history.states.push(updatedPresentation)
+    editor.history.currState = editor.history.states.length - 1
 
     return updatedPresentation
 }
@@ -67,8 +67,8 @@ export function changeSlideBackground(editor, slide, background) {
         selectedSlideIndexes: [slideIndex]
     }
 
-    editor.history.push(updatedPresentation)
-    editor.currPresentationState = editor.history.length - 1
+    editor.history.states.push(updatedPresentation)
+    editor.history.currState = editor.history.states.length - 1
 
     return updatedPresentation
 }
@@ -110,8 +110,8 @@ export function replaceSlides(editor, position) {
         selectedSlideIndexes: newSlideIndexes
     }
 
-    editor.history.push(updatedPresentation)
-    editor.currPresentationState = editor.history.length - 1
+    editor.history.states.push(updatedPresentation)
+    editor.history.currState = editor.history.states.length - 1
 
     return updatedPresentation
 }
@@ -132,7 +132,7 @@ export function removeSelectedSlides(editor) {
     })
 
     /** @type {number} */
-    const selectedSlideIndex = getNearestUnselectedSlide(editor)
+    const selectedSlideIndex = getNearestUnselectedSlideIndex(editor)
 
     /** @type {Presentation} */
     const updatedPresentation = {
@@ -141,8 +141,8 @@ export function removeSelectedSlides(editor) {
         selectedSlideIndexes: [selectedSlideIndex],
     }
 
-    editor.history.push(updatedPresentation)
-    editor.currPresentationState = editor.history.length - 1
+    editor.history.states.push(updatedPresentation)
+    editor.history.currState = editor.history.states.length - 1
 
     return updatedPresentation
 }
@@ -151,7 +151,7 @@ export function removeSelectedSlides(editor) {
  * @param {Editor} editor
  * @return {number}
  */
-export function getNearestUnselectedSlide(editor) {
+export function getNearestUnselectedSlideIndex(editor) {
     /** @type {number[]} */
     let currSlidesIndexes = []
 
@@ -210,7 +210,7 @@ export function updatePresentationName(presentation, name) {
  * @returns {Presentation}
  * @description Фиксирует новый список слайдов и список выбранных слайдов
  */
-export function updatePresentationSlideListByInsertSlide(editor, newSlide, newSlideIndex) {
+export function insertSlide(editor, newSlide, newSlideIndex) {
     return {
         ...editor.presentation,
         slidesList: [
