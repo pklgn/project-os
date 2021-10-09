@@ -60,3 +60,10 @@ enum FigureShape {
     Triangle,
     Rectangle,
 }
+
+export {
+    Editor, Presentation, PresentationMode, Slide,
+    Background, SlideElement, Size,
+    TextElement, PictureElement, 
+    FigureElement, Coordinates, FigureShape
+}
