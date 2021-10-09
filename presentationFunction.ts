@@ -4,6 +4,20 @@ import {
 } from "./model/common"
 
 /**
+ * @returns {Presentation}
+ */
+export function initPresentation() {
+    /** @type {Presentation} */
+    var presentation = {
+        name: "Оладушек",
+        slidesList: [],
+        selectedSlideIndexes: [-1]
+    }
+
+    return presentation
+}
+
+/**
  * @param {Editor} editor
  * @param {number} slideIndex
  * @returns {Presentation}
