@@ -4,9 +4,7 @@ import {
     TextElement, PictureElement,
     FigureElement, Coordinates, FigureShape
 } from './model/common'
-import {
-    updatePresentationSlideListByInsertedSlide
-} from './presentationFunction'
+import { updatePresentationSlideListByInsertSlide } from './presentationFunction'
 
 /**
  * @param {Editor} editor
@@ -32,7 +30,7 @@ export function addElement(editor, slide, element) {
     }
 
     /** @type {Presentation}*/
-    const updatedPresentation = updatePresentationSlideListByInsertedSlide(editor, newSlide, slideIndex)
+    const updatedPresentation = updatePresentationSlideListByInsertSlide(editor, newSlide, slideIndex)
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -65,7 +63,7 @@ export function removeElements(editor, slide, elements) {
     }
 
     /** @type {Presentation}*/
-    const updatedPresentation = updatePresentationSlideListByInsertedSlide(editor, newSlide, slideIndex)
+    const updatedPresentation = updatePresentationSlideListByInsertSlide(editor, newSlide, slideIndex)
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -93,29 +91,35 @@ export function changeElementsLayoutIndex(editor, slide, elements, newIndex) {
 
     /** @type {SlideElement[]}*/
     const newElementsList = [
-        editor.presentation.slidesList[slideIndex].elementsList.slice(0, newIndex).map((element, index) => {
+        ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, newIndex).map((element, index) => {
             if (!elementIndexesToReplace.includes(index)) {
                 return element
             }
         }),
         ...elements,
-        editor.presentation.slidesList[slideIndex].elementsList.slice(newIndex).map((element, index) => {
+        ...editor.presentation.slidesList[slideIndex].elementsList.slice(newIndex).map((element, index) => {
             if (!elementIndexesToReplace.includes(index)) {
                 return element
             }
         })
     ]
 
+    /** @type {number[]}*/
+    const newSelectedElementIndexes = newElementsList.map((element, index) => {
+        if (elements.includes(element)) {
+            return index
+        }
+    })
+
     /** @type {Slide}*/
     const newSlide = {
         ...slide,
         elementsList: newElementsList,
-        //TODO
-        selectedElementIndexes: [-9999],
+        selectedElementIndexes: newSelectedElementIndexes,
     }
 
     /** @type {Presentation}*/
-    const updatedPresentation = updatePresentationSlideListByInsertedSlide(editor, newSlide, slideIndex)
+    const updatedPresentation = updatePresentationSlideListByInsertSlide(editor, newSlide, slideIndex)
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -162,7 +166,7 @@ export function changeElementsPosition(editor, slide, elements, newPosition) {
     }
 
     /** @type {Presentation}*/
-    const updatedPresentation = updatePresentationSlideListByInsertedSlide(editor, newSlide, slideIndex)
+    const updatedPresentation = updatePresentationSlideListByInsertSlide(editor, newSlide, slideIndex)
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -212,7 +216,7 @@ export function changeElementsSize(editor, slide, elements, size) {
     }
 
     /** @type {Presentation}*/
-    const updatedPresentation = updatePresentationSlideListByInsertedSlide(editor, newSlide, slideIndex)
+    const updatedPresentation = updatePresentationSlideListByInsertSlide(editor, newSlide, slideIndex)
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -262,7 +266,7 @@ export function changeElementsOpacity(editor, slide, elements, opacities) {
     }
 
     /** @type {Presentation}*/
-    const updatedPresentation = updatePresentationSlideListByInsertedSlide(editor, newSlide, slideIndex)
+    const updatedPresentation = updatePresentationSlideListByInsertSlide(editor, newSlide, slideIndex)
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -312,7 +316,7 @@ export function changeFigureColor(editor, slide, elements, colors) {
     }
 
     /** @type {Presentation}*/
-    const updatedPresentation = updatePresentationSlideListByInsertedSlide(editor, newSlide, slideIndex)
+    const updatedPresentation = updatePresentationSlideListByInsertSlide(editor, newSlide, slideIndex)
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -358,7 +362,7 @@ export function changeTextSize(editor, slide, element, fontSize) {
     }
 
     /** @type {Presentation}*/
-    const updatedPresentation = updatePresentationSlideListByInsertedSlide(editor, newSlide, slideIndex)
+    const updatedPresentation = updatePresentationSlideListByInsertSlide(editor, newSlide, slideIndex)
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -404,7 +408,53 @@ export function changeTextColor(editor, slide, element, color) {
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
 
     /** @type {Presentation}*/
-    const updatedPresentation = updatePresentationSlideListByInsertedSlide(editor, newSlide, slideIndex)
+    const updatedPresentation = updatePresentationSlideListByInsertSlide(editor, newSlide, slideIndex)
+
+    editor.history.push(updatedPresentation)
+    editor.currPresentationState = editor.history.length - 1
+
+    return updatedPresentation
+}
+
+/**
+ * @param {Editor} editor
+ * @param {Slide} slide
+ * @param {SlideElement} element
+ * @param {string} content
+ * @returns {Presentation}
+ */
+export function changeTextContent(editor, slide, element, content) {
+    /** @type {number}*/
+    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+
+    /** @type {number}*/
+    const elementIndex = editor.presentation.slidesList[slideIndex].indexOf(element)
+
+    /** @type {Slide}*/
+    const newElement = {
+        ...element,
+        content: {
+            ...element.content,
+            content,
+        },
+    }
+
+    /** @type {SlideElement[]}*/
+    const newElementsList = [
+        ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
+        newElement,
+        ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex + 1)
+    ]
+
+    /** @type {Slide}*/
+    const newSlide = {
+        ...slide,
+        elementsList: newElementsList,
+        selectedElementIndexes: [elementIndex],
+    }
+
+    /** @type {Presentation}*/
+    const updatedPresentation = updatePresentationSlideListByInsertSlide(editor, newSlide, slideIndex)
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1

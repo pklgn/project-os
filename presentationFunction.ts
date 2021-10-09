@@ -210,7 +210,7 @@ export function updatePresentationName(presentation, name) {
  * @returns {Presentation}
  * @description Фиксирует новый список слайдов и список выбранных слайдов
  */
-export function updatePresentationSlideListByInsertedSlide(editor, newSlide, newSlideIndex) {
+export function updatePresentationSlideListByInsertSlide(editor, newSlide, newSlideIndex) {
     return {
         ...editor.presentation,
         slidesList: [
