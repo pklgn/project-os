@@ -1,11 +1,15 @@
 type Editor = {
     mode: PresentationMode, //mutable
     presentation: Presentation, //immutable
-    history: Presentation[], //mutable
-    currPresentationState: number, //mutable
+    history: History, //mutable
 }
 
 type PresentationMode = "edit" | "show"
+
+type History = {
+    currState: number,
+    states: Presentation[],
+}
 
 type Presentation = {
     name: string,
