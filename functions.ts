@@ -143,15 +143,15 @@ function selectSlide(editor) {
 function replaceSlides(editor, position) {
     const slideList = [
         ...editor.presentation.slidesList.slice(0, position).map((element, index) => {
-            if (typeof editor.selectedSlideIndexes.find(index) === "undefined") return element
+            if (editor.selectedSlideIndexes.find(index) === undefined) return element
         }),
         ...editor.presentation.slidesList.map((element, index) => {
-            if (typeof editor.selectedSlideIndexes.find(index) !== "undefined") return element
+            if (editor.selectedSlideIndexes.find(index) !== undefined) return element
         }),
         ...editor.presentation.slidesList.slice(position).map((element, index) => {
-            if (typeof editor.selectedSlideIndexes.find(index) === "undefined") return element
+            if (editor.selectedSlideIndexes.find(index) === undefined) return element
         })
-    ] //TODO FIX THAT SHIT
+    ]
     const newSlideIndexes = editor.selectedSlideIndexes.map((element, index) => {
         return position + index
     })
@@ -165,8 +165,6 @@ function replaceSlides(editor, position) {
 
     return updatedPresentation
 }
-
-//TODO or history
 
 /**
  * @param {Editor} editor
