@@ -1,20 +1,12 @@
-enum Color {
-    Red,
-    Blue,
-    Green,
-    White,
-    Yellow,
+type Editor = {
+    mode: PresentationMode, //mutable
+    presentation: Presentation, //NOT mutable
+    history: Presentation[], //mutable
+    currPresentationState: number, //mutable
+    selectedSlideIndexes: number[], //mutable
 }
 
 type PresentationMode = "edit" | "show"
-
-type Editor = {
-    mode: PresentationMode,
-    presentation: Presentation,
-    history: Presentation[],
-    currPresentationState: number,
-    selectedSlideIndexes: number[],
-}
 
 type Presentation = {
     name: string,
@@ -43,28 +35,28 @@ type Size = {
     height: number,
 }
 
-type Coordinates = {
-    x: number,
-    y: number,
-}
-
 type TextElement = {
     content: string,
     fontSize: number,
-    fontColor: Color,
+    fontColor: string,
 }
 
 type PictureElement = {
     src: string,
 }
 
+type FigureElement = {
+    type: FigureShape,
+    color: string,
+}
+
+type Coordinates = {
+    x: number,
+    y: number,
+}
+
 enum FigureShape {
     Circle,
     Triangle,
     Rectangle,
-}
-
-type FigureElement = {
-    type: FigureShape,
-    color: Color,
 }
