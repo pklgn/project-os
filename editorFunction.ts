@@ -1,24 +1,22 @@
-import {
-    Editor,
-    PresentationMode
-} from './model/common'
-import { initPresentation } from './presentationFunction'
+import {Editor, PresentationMode} from './model/common'
+import {initPresentation} from './presentationFunction'
 
 /**
  * @returns {Editor} 
  */
 export function initEditor() {
-    /** @type {Editor} */
-    var editor = {
+    return {
         mode: "edit",
-        presintation: initPresentation(),
-        history: {
-            presentationState: [],
-            currPresentationState: -1,
-        }
+        presentation: initPresentation(),
+        history: initHistory()
     }
+}
 
-    return editor
+function initHistory() {
+    return {
+        states: [],
+        currState: -1,
+    }
 }
 
 /**
