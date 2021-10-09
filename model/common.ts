@@ -37,7 +37,6 @@ type Size = {
 }
 
 type TextElement = {
-    //TODO content
     content: string,
     fontSize: number,
     fontColor: string,
