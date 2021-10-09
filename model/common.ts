@@ -1,9 +1,8 @@
 type Editor = {
     mode: PresentationMode, //mutable
-    presentation: Presentation, //NOT mutable
+    presentation: Presentation, //immutable
     history: Presentation[], //mutable
     currPresentationState: number, //mutable
-    selectedSlideIndexes: number[], //mutable
 }
 
 type PresentationMode = "edit" | "show"
@@ -11,11 +10,13 @@ type PresentationMode = "edit" | "show"
 type Presentation = {
     name: string,
     slidesList: Slide[],
+    selectedSlideIndexes: number[],
 }
 
 type Slide = {
     background: Background,
     elementsList: SlideElement[],
+    selectedElementIndexes: number[]
 }
 
 type Background = {
@@ -36,6 +37,7 @@ type Size = {
 }
 
 type TextElement = {
+    //TODO content
     content: string,
     fontSize: number,
     fontColor: string,

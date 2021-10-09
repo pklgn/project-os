@@ -5,10 +5,10 @@ import {
 
 /**
  * @param {Editor} editor
- * @param {number} [slideIndex]
+ * @param {number} slideIndex
  * @returns {Presentation}
  */
-export function addSlide(editor, slideIndex?) {
+export function addSlide(editor, slideIndex) {
     /** @type {Background}*/
     const background = {
         color: 'white',
@@ -22,32 +22,18 @@ export function addSlide(editor, slideIndex?) {
     }
 
     /** @type {Slide[]} */
-    const slideList = slideIndex !== 'undefined'
-        ? [...editor.presentation.slidesList.slice(0, slideIndex), newSlide,
-        ...editor.presentation.slidesList.slice(slideIndex)]
-        : [...editor.presentation.slidesList, newSlide]
+    const slidesList = [
+        ...editor.presentation.slidesList.slice(0, slideIndex),
+        newSlide,
+        ...editor.presentation.slidesList.slice(slideIndex)
+    ]
 
     /** @type {Presentation} */
-    const updatedPresentation = updatePresentationSlideList(editor.presentation, slideList)
-
-    editor.history.push(updatedPresentation)
-    editor.currPresentationState = editor.history.length - 1
-
-    return updatedPresentation
-}
-
-/**
- * @param {Editor} editor
- * @param {number} slideIndex
- * @returns {Presentation}
- */
-export function deleteSlide(editor, slideIndex) {
-    /** @type {Slide[]} */
-    const slideList = [...editor.presentation.slidesList.slice(0, slideIndex),
-    ...editor.presentation.slidesList.slice(slideIndex + 1)]
-
-    /** @type {Presentation} */
-    const updatedPresentation = updatePresentationSlideList(editor.presentation, slideList)
+    const updatedPresentation = {
+        ...editor.presentation,
+        slidesList: slidesList,
+        selectedSlideIndexes: [slideIndex + 1],
+    }
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -72,7 +58,14 @@ export function changeSlideBackground(editor, slide, background) {
     const slideIndex = editor.presentation.slidesList.indexOf(slide)
 
     /** @type {Presentation} */
-    const updatedPresentation = updatePresentationSlideListByInsertedSlide(editor, newSlide, slideIndex)
+    const updatedPresentation = {
+        ...editor.presentation,
+        slidesList:
+            [...editor.presentation.slidesList.slice(0, slideIndex),
+                newSlide,
+            ...editor.presentation.slidesList.slice(slideIndex + 1)],
+        selectedSlideIndexes: [slideIndex]
+    }
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -87,27 +80,35 @@ export function changeSlideBackground(editor, slide, background) {
  */
 export function replaceSlides(editor, position) {
     /** @type {Slide[]} */
-    const slideList = [
+    const slidesList = [
         ...editor.presentation.slidesList.slice(0, position).map((element, index) => {
-            if (editor.selectedSlideIndexes.find(index) === undefined) return element
+            if (editor.presentation.selectedSlideIndexes.find(index) === undefined) {
+                return element
+            }
         }),
         ...editor.presentation.slidesList.map((element, index) => {
-            if (editor.selectedSlideIndexes.find(index) !== undefined) return element
+            if (editor.presentation.selectedSlideIndexes.find(index) !== undefined) {
+                return element
+            }
         }),
         ...editor.presentation.slidesList.slice(position).map((element, index) => {
-            if (editor.selectedSlideIndexes.find(index) === undefined) return element
+            if (editor.presentation.selectedSlideIndexes.find(index) === undefined) {
+                return element
+            }
         })
     ]
 
     /** @type {number[]} */
-    const newSlideIndexes = editor.selectedSlideIndexes.map((element, index) => {
+    const newSlideIndexes = editor.presentation.selectedSlideIndexes.map((element, index) => {
         return position + index
     })
 
-    editor.selectedSlideIndexes = newSlideIndexes
-
     /** @type {Presentation} */
-    const updatedPresentation = updatePresentationSlideList(editor.presentation, slideList)
+    const updatedPresentation = {
+        ...editor.presentation,
+        slidesList: slidesList,
+        selectedSlideIndexes: newSlideIndexes
+    }
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -121,22 +122,24 @@ export function replaceSlides(editor, position) {
  */
 export function removeSelectedSlides(editor) {
     /** @type {number[]} */
-    const slidesIndexesToRemove = editor.selectedSlideIndexes
+    const slidesIndexesToRemove = editor.presentation.selectedSlideIndexes
 
     /** @type {Slide[]} */
-    const slideList = editor.presentation.slidesList.map((element, index) => {
+    const slidesList = editor.presentation.slidesList.map((element, index) => {
         if (!slidesIndexesToRemove.includes(index)) {
             return element
         }
     })
 
-    /** @type {Slide} */
-    const selectedSlide = getNearestUnselectedSlide(editor)
-
-    editor.selectedSlideIndexes = selectedSlide
+    /** @type {number} */
+    const selectedSlideIndex = getNearestUnselectedSlide(editor)
 
     /** @type {Presentation} */
-    const updatedPresentation = updatePresentationSlideList(editor.presentation, slideList)
+    const updatedPresentation = {
+        ...editor.presentation,
+        slidesList: slidesList,
+        selectedSlideIndexes: [selectedSlideIndex],
+    }
 
     editor.history.push(updatedPresentation)
     editor.currPresentationState = editor.history.length - 1
@@ -160,7 +163,7 @@ export function getNearestUnselectedSlide(editor) {
 
     /** @type {number[]} */
     const unselectedSlidesIndexes = currSlidesIndexes.map((element) => {
-        if (!editor.selectedSlideIndexes.includes(element)) {
+        if (!editor.presentation.selectedSlideIndexes.includes(element)) {
             return element
         }
     })
@@ -170,7 +173,7 @@ export function getNearestUnselectedSlide(editor) {
     }
     else {
         /** @type {number} */
-        const lastSelectedSlideIndex = editor.selectedSlideIndexes.slice(-1)[0]
+        const lastSelectedSlideIndex = editor.presentation.selectedSlideIndexes.slice(-1)[0]
         if (lastSelectedSlideIndex < slidesAmount - 1) {
             unselectedSlidesIndexes.forEach((index) => {
                 if (index > lastSelectedSlideIndex) {
@@ -201,29 +204,20 @@ export function updatePresentationName(presentation, name) {
 }
 
 /**
-* @param {Presentation} presentation
-* @param {Slide[]} slideList
-* @returns {Presentation}
-*/
-export function updatePresentationSlideList(presentation, slideList) {
-    return {
-        ...presentation,
-        slideList,
-    }
-}
-
-/**
  * @param {Editor} editor
  * @param {Slide} newSlide
  * @param {number} newSlideIndex
  * @returns {Presentation}
+ * @description Фиксирует новый список слайдов и список выбранных слайдов
  */
 export function updatePresentationSlideListByInsertedSlide(editor, newSlide, newSlideIndex) {
     return {
         ...editor.presentation,
-        slidesList:
-            [...editor.presentation.slidesList.slice(0, newSlideIndex),
-                newSlide,
-            ...editor.presentation.slidesList.slice(newSlideIndex + 1)]
+        slidesList: [
+            ...editor.presentation.slidesList.slice(0, newSlideIndex),
+            newSlide,
+            ...editor.presentation.slidesList.slice(newSlideIndex + 1),
+        ],
+        selectedSlideIndexes: [newSlideIndex]
     }
 }
