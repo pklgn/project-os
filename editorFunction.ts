@@ -1,10 +1,7 @@
-import {Editor, PresentationMode} from './model/common'
+import {Editor, PresentationMode, History} from './model/common'
 import {initPresentation} from './presentationFunction'
 
-/**
- * @returns {Editor} 
- */
-export function initEditor() {
+export function initEditor(): Editor {
     return {
         mode: "edit",
         presentation: initPresentation(),
@@ -12,18 +9,13 @@ export function initEditor() {
     }
 }
 
-function initHistory() {
+function initHistory(): History {
     return {
         states: [],
         currState: -1,
     }
 }
 
-/**
- * @param {Editor} editor
- * @param {PresentationMode} mode
- * @description Изменяет режим презентации
- */
-function changeMode(editor, mode) {
+function changeMode(editor: Editor, mode: PresentationMode): void {
     editor.mode = mode
 }

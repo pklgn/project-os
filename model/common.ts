@@ -67,8 +67,8 @@ enum FigureShape {
 }
 
 export {
-    Editor, Presentation, PresentationMode, Slide,
-    Background, SlideElement, Size,
-    TextElement, PictureElement, 
+    Editor, Presentation, PresentationMode, History,
+    Slide, Background, SlideElement, Size,
+    TextElement, PictureElement,
     FigureElement, Coordinates, FigureShape
 }

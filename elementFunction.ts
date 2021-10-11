@@ -6,31 +6,41 @@ import {
 } from './model/common'
 import { insertSlide } from './presentationFunction'
 
-/**
- * @param {Editor} editor
- * @param {Slide} slide
- * @param {TextElement|PictureElement|FigureElement} element
- * @returns {Presentation}
- */
-export function addElement(editor, slide, element) {
-    /** @type {number}*/
-    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+const defaultParams = {
+    //TODO реализовать типы полей
+    SIZE: {
+        //TODO подставлять нормальные значения
+        width: 1,
+        height: 1,
+    },
+    OPACITY: 1,
+    START_POINT: {
+        //TODO подставлять нормальные значения
+        x: 1,
+        y: 1,
+    }
+}
 
-    /** @type {SlideElement[]}*/
-    const newElementsList = [
+export function addElement(editor: Editor, slide: Slide, content: TextElement | PictureElement | FigureElement): Presentation {
+    const slideIndex: number = editor.presentation.slidesList.indexOf(slide)
+
+    const newElementsList: SlideElement[] = [
         ...slide.elementsList,
-        element
+        {
+            size: defaultParams.SIZE,
+            opacity: defaultParams.OPACITY,
+            content,
+            startPoint: defaultParams.START_POINT,
+        },
     ]
 
-    /** @type {Slide}*/
-    const newSlide = {
+    const newSlide: Slide = {
         ...slide,
         elementsList: newElementsList,
-        selectedElementIndexes: slide.elementsList.length,
+        selectedElementIndexes: [slide.elementsList.length],
     }
 
-    /** @type {Presentation}*/
-    const updatedPresentation = insertSlide(editor, newSlide, slideIndex)
+    const updatedPresentation: Presentation = insertSlide(editor, newSlide, slideIndex)
 
     editor.history.states.push(updatedPresentation)
     editor.history.currState = editor.history.states.length - 1

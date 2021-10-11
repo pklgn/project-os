@@ -1,9 +1,6 @@
 import {Background, Editor, Presentation, Slide} from "./model/common"
 
-/**
- * @returns {Presentation}
- */
-export function initPresentation() {
+export function initPresentation(): Presentation {
     return {
         name: "Оладушек",
         slidesList: [],
@@ -11,33 +8,25 @@ export function initPresentation() {
     }
 }
 
-/**
- * @param {Editor} editor
- * @param {number} slideIndex
- * @returns {Presentation}
- */
-export function addSlide(editor, slideIndex) {
-    /** @type {Background}*/
-    const background = {
+export function addSlide(editor: Editor, slideIndex: number): Presentation {
+    const background: Background = {
         color: 'white',
         src: '',
     }
 
-    /** @type {Slide} */
-    const newSlide = {
+    const newSlide: Slide = {
         background,
         elementsList: [],
+        selectedElementIndexes: [],
     }
 
-    /** @type {Slide[]} */
-    const slidesList = [
+    const slidesList: Slide[] = [
         ...editor.presentation.slidesList.slice(0, slideIndex),
         newSlide,
         ...editor.presentation.slidesList.slice(slideIndex)
     ]
 
-    /** @type {Presentation} */
-    const updatedPresentation = {
+    const updatedPresentation: Presentation = {
         ...editor.presentation,
         slidesList: slidesList,
         selectedSlideIndexes: [slideIndex + 1],
@@ -49,29 +38,20 @@ export function addSlide(editor, slideIndex) {
     return updatedPresentation
 }
 
-/**
- * @param {Editor} editor
- * @param {Slide} slide
- * @param {Background} background
- * @returns {Presentation}
- */
-export function changeSlideBackground(editor, slide, background) {
-    /** @type {Slide} */
-    const newSlide = {
+export function changeSlideBackground(editor: Editor, slide: Slide, background: Background): Presentation {
+    const newSlide: Slide = {
         ...slide,
         background,
     }
 
-    /** @type {number} */
-    const slideIndex = editor.presentation.slidesList.indexOf(slide)
+    const slideIndex: number = editor.presentation.slidesList.indexOf(slide)
 
-    /** @type {Presentation} */
-    const updatedPresentation = {
+    const updatedPresentation: Presentation = {
         ...editor.presentation,
         slidesList:
             [...editor.presentation.slidesList.slice(0, slideIndex),
                 newSlide,
-            ...editor.presentation.slidesList.slice(slideIndex + 1)],
+                ...editor.presentation.slidesList.slice(slideIndex + 1)],
         selectedSlideIndexes: [slideIndex]
     }
 
@@ -81,38 +61,30 @@ export function changeSlideBackground(editor, slide, background) {
     return updatedPresentation
 }
 
-/**
- * @param {Editor} editor
- * @param {number} position
- * @returns {Presentation}
- */
-export function replaceSlides(editor, position) {
-    /** @type {Slide[]} */
-    const slidesList = [
-        ...editor.presentation.slidesList.slice(0, position).map((element, index) => {
-            if (editor.presentation.selectedSlideIndexes.find(index) === undefined) {
+export function replaceSlides(editor: Editor, position: number): Presentation {
+    const slidesList: Slide[] = [
+        ...editor.presentation.slidesList.slice(0, position).map((element: Slide, index: number) => {
+            if (editor.presentation.selectedSlideIndexes.indexOf(index) === undefined) {
                 return element
             }
         }),
         ...editor.presentation.slidesList.map((element, index) => {
-            if (editor.presentation.selectedSlideIndexes.find(index) !== undefined) {
+            if (editor.presentation.selectedSlideIndexes.indexOf(index) !== undefined) {
                 return element
             }
         }),
         ...editor.presentation.slidesList.slice(position).map((element, index) => {
-            if (editor.presentation.selectedSlideIndexes.find(index) === undefined) {
+            if (editor.presentation.selectedSlideIndexes.indexOf(index) === undefined) {
                 return element
             }
         })
     ]
 
-    /** @type {number[]} */
-    const newSlideIndexes = editor.presentation.selectedSlideIndexes.map((element, index) => {
+    const newSlideIndexes: number[] = editor.presentation.selectedSlideIndexes.map((element, index) => {
         return position + index
     })
 
-    /** @type {Presentation} */
-    const updatedPresentation = {
+    const updatedPresentation: Presentation = {
         ...editor.presentation,
         slidesList: slidesList,
         selectedSlideIndexes: newSlideIndexes
@@ -124,26 +96,18 @@ export function replaceSlides(editor, position) {
     return updatedPresentation
 }
 
-/**
- * @param {Editor} editor
- * @returns {Presentation}
- */
-export function removeSelectedSlides(editor) {
-    /** @type {number[]} */
-    const slidesIndexesToRemove = editor.presentation.selectedSlideIndexes
+export function removeSelectedSlides(editor: Editor): Presentation {
+    const slidesIndexesToRemove: number[] = editor.presentation.selectedSlideIndexes
 
-    /** @type {Slide[]} */
-    const slidesList = editor.presentation.slidesList.map((element, index) => {
+    const slidesList: Slide[] = editor.presentation.slidesList.map((element: Slide, index: number) => {
         if (!slidesIndexesToRemove.includes(index)) {
             return element
         }
     })
 
-    /** @type {number} */
-    const selectedSlideIndex = getNearestUnselectedSlideIndex(editor)
+    const selectedSlideIndex: number = getNearestUnselectedSlideIndex(editor)
 
-    /** @type {Presentation} */
-    const updatedPresentation = {
+    const updatedPresentation: Presentation = {
         ...editor.presentation,
         slidesList: slidesList,
         selectedSlideIndexes: [selectedSlideIndex],
@@ -160,17 +124,14 @@ export function removeSelectedSlides(editor) {
  * @return {number}
  */
 export function getNearestUnselectedSlideIndex(editor) {
-    /** @type {number[]} */
-    let currSlidesIndexes = []
+    let currSlidesIndexes: number[] = []
 
-    /** @type {number} */
-    const slidesAmount = editor.presentation.slidesList.length
+    const slidesAmount: number = editor.presentation.slidesList.length
     for (let i = 0; i < slidesAmount; i++) {
         currSlidesIndexes.push(i)
     }
 
-    /** @type {number[]} */
-    const unselectedSlidesIndexes = currSlidesIndexes.map((element) => {
+    const unselectedSlidesIndexes: number[] = currSlidesIndexes.map((element: number) => {
         if (!editor.presentation.selectedSlideIndexes.includes(element)) {
             return element
         }
@@ -180,8 +141,7 @@ export function getNearestUnselectedSlideIndex(editor) {
         return -1
     }
     else {
-        /** @type {number} */
-        const lastSelectedSlideIndex = editor.presentation.selectedSlideIndexes.slice(-1)[0]
+        const lastSelectedSlideIndex: number = editor.presentation.selectedSlideIndexes.slice(-1)[0]
         if (lastSelectedSlideIndex < slidesAmount - 1) {
             unselectedSlidesIndexes.forEach((index) => {
                 if (index > lastSelectedSlideIndex) {
@@ -199,26 +159,14 @@ export function getNearestUnselectedSlideIndex(editor) {
     }
 }
 
-/**
- * @param {Presentation} presentation
- * @param {string} name
- * @returns {Presentation}
- */
-export function updatePresentationName(presentation, name) {
+export function updatePresentationName(presentation: Presentation, name: string): Presentation {
     return {
         ...presentation,
         name,
     }
 }
 
-/**
- * @param {Editor} editor
- * @param {Slide} newSlide
- * @param {number} newSlideIndex
- * @returns {Presentation}
- * @description Фиксирует новый список слайдов и список выбранных слайдов
- */
-export function insertSlide(editor, newSlide, newSlideIndex) {
+export function insertSlide(editor: Editor, newSlide: Slide, newSlideIndex: number): Presentation {
     return {
         ...editor.presentation,
         slidesList: [
