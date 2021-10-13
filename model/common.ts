@@ -1,69 +1,67 @@
-enum Color {
-    Red,
-    Blue,
-    Green,
-    White,
-    Yellow,
+export type Editor = {
+    mode: PresentationMode, //mutable
+    presentation: Presentation, //immutable
+    history: History, //mutable
 }
 
-type PresentationMode = "edit" | "show"
+export type PresentationMode = "edit" | "show"
 
-type Editor = {
-    mode: PresentationMode,
-    presentation: Presentation,
+export type History = {
+    currState: number,
+    states: Presentation[],
 }
 
-type Presentation = {
+export type Presentation = {
     name: string,
     slidesList: Slide[],
     selectedSlideIndexes: number[],
 }
 
-type Slide = {
+export type Slide = {
     background: Background,
     elementsList: SlideElement[],
+    selectedElementIndexes: number[]
 }
 
-type Background = {
-    //TODO переделать color на строку, чтобы не было непонятных чисел
+export type Background = {
     src: string
     color: string,
 }
 
-type SlideElement = {
+export type SlideElement = {
     size: Size,
     opacity: number,
     content: TextElement | PictureElement | FigureElement,
     startPoint: Coordinates,
 }
 
-type Size = {
+export type Size = {
     width: number,
     height: number,
 }
 
-type Coordinates = {
+export type TextElement = {
+    content: string,
+    fontSize: number,
+    fontColor: string,
+}
+
+export type PictureElement = {
+    src: string,
+}
+
+export type FigureElement = {
+    type: FigureShape,
+    color: string,
+}
+
+export type Coordinates = {
     x: number,
     y: number,
 }
 
-type TextElement = {
-    content: string,
-    fontSize: number,
-    fontColor: Color,
-}
-
-type PictureElement = {
-    src: string,
-}
-
-enum FigureShape {
+export enum FigureShape {
     Circle,
     Triangle,
     Rectangle,
-}
-
-type FigureElement = {
-    type: FigureShape,
-    color: Color,
 }
