@@ -1,6 +1,6 @@
-import {Background, Editor, Presentation, Slide} from "./model/common"
+import {Background, Editor, Presentation, Slide} from "./model/types"
 
-export function initPresentation(): Presentation {
+function initPresentation(): Presentation {
     return {
         name: "Оладушек",
         slidesList: [],
@@ -8,7 +8,7 @@ export function initPresentation(): Presentation {
     }
 }
 
-export function addSlide(editor: Editor, slideIndex: number): Presentation {
+function addSlide(editor: Editor, slideIndex: number): Presentation {
     const background: Background = {
         color: 'white',
         src: '',
@@ -38,7 +38,7 @@ export function addSlide(editor: Editor, slideIndex: number): Presentation {
     return updatedPresentation
 }
 
-export function changeSlideBackground(editor: Editor, slide: Slide, background: Background): Presentation {
+function changeSlideBackground(editor: Editor, slide: Slide, background: Background): Presentation {
     const newSlide: Slide = {
         ...slide,
         background,
@@ -61,7 +61,7 @@ export function changeSlideBackground(editor: Editor, slide: Slide, background: 
     return updatedPresentation
 }
 
-export function replaceSlides(editor: Editor, position: number): Presentation {
+function replaceSlides(editor: Editor, position: number): Presentation {
     const slidesList: Slide[] = [
         ...editor.presentation.slidesList.slice(0, position).map((element: Slide, index: number) => {
             if (editor.presentation.selectedSlideIndexes.indexOf(index) === undefined) {
@@ -96,7 +96,7 @@ export function replaceSlides(editor: Editor, position: number): Presentation {
     return updatedPresentation
 }
 
-export function removeSelectedSlides(editor: Editor): Presentation {
+function removeSelectedSlides(editor: Editor): Presentation {
     const slidesIndexesToRemove: number[] = editor.presentation.selectedSlideIndexes
 
     const slidesList: Slide[] = editor.presentation.slidesList.map((element: Slide, index: number) => {
@@ -123,7 +123,7 @@ export function removeSelectedSlides(editor: Editor): Presentation {
  * @param {Editor} editor
  * @return {number}
  */
-export function getNearestUnselectedSlideIndex(editor) {
+function getNearestUnselectedSlideIndex(editor) {
     let currSlidesIndexes: number[] = []
 
     const slidesAmount: number = editor.presentation.slidesList.length
@@ -159,14 +159,14 @@ export function getNearestUnselectedSlideIndex(editor) {
     }
 }
 
-export function updatePresentationName(presentation: Presentation, name: string): Presentation {
+function updatePresentationName(presentation: Presentation, name: string): Presentation {
     return {
         ...presentation,
         name,
     }
 }
 
-export function insertSlide(editor: Editor, newSlide: Slide, newSlideIndex: number): Presentation {
+function insertSlide(editor: Editor, newSlide: Slide, newSlideIndex: number): Presentation {
     return {
         ...editor.presentation,
         slidesList: [

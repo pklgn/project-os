@@ -1,11 +1,13 @@
-import {Editor, PresentationMode, History} from './model/common'
+import {Editor, PresentationMode, History} from './model/types'
 import {initPresentation} from './presentationFunction'
 
 export function initEditor(): Editor {
     return {
         mode: "edit",
         presentation: initPresentation(),
-        history: initHistory()
+        history: initHistory(),
+        selectedSlideIndexes: [-1],
+        selectedElementIndexes: []
     }
 }
 
