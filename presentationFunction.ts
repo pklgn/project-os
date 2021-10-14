@@ -1,10 +1,9 @@
-import {Background, Editor, Presentation, Slide} from "./model/common"
+import {Background, Editor, Presentation, Slide} from "./model/types"
 
 export function initPresentation(): Presentation {
     return {
         name: "Оладушек",
         slidesList: [],
-        selectedSlideIndexes: [-1]
     }
 }
 

@@ -1,7 +1,9 @@
 type Editor = {
-    mode: PresentationMode, //mutable
-    presentation: Presentation, //immutable
-    history: History, //mutable
+    mode: PresentationMode,
+    presentation: Presentation,
+    history: History,
+    selectedSlidesIndexes: number[],
+    selectedSlideElementsIndexes: number[],
 }
 
 type PresentationMode = "edit" | "show"
@@ -14,13 +16,11 @@ type History = {
 type Presentation = {
     name: string,
     slidesList: Slide[],
-    selectedSlideIndexes: number[],
 }
 
 type Slide = {
     background: Background,
     elementsList: SlideElement[],
-    selectedElementIndexes: number[]
 }
 
 type Background = {
@@ -29,6 +29,7 @@ type Background = {
 }
 
 type SlideElement = {
+    id: string,
     size: Size,
     opacity: number,
     content: TextElement | PictureElement | FigureElement,
