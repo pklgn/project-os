@@ -37,7 +37,6 @@ export function addElement(editor: Editor, slide: Slide, content: TextElement | 
     const newSlide: Slide = {
         ...slide,
         elementsList: newElementsList,
-        selectedElementIndexes: [slide.elementsList.length],
     }
 
     const updatedPresentation: Presentation = insertSlide(editor, newSlide, slideIndex)
@@ -60,7 +59,6 @@ export function removeElements(editor: Editor, slide: Slide, elements: SlideElem
     const newSlide: Slide = {
         ...slide,
         elementsList: newElementsList,
-        selectedElementIndexes: [-1]
     }
 
     const updatedPresentation: Presentation = insertSlide(editor, newSlide, slideIndex)
@@ -104,7 +102,6 @@ export function changeElementsLayoutIndex(editor: Editor, slide: Slide, elements
     const newSlide: Slide = {
         ...slide,
         elementsList: newElementsList,
-        selectedElementIndexes: newSelectedElementIndexes,
     }
 
     const updatedPresentation: Presentation = insertSlide(editor, newSlide, slideIndex)
@@ -139,7 +136,6 @@ export function changeElementsPosition(editor: Editor, slide: Slide, elements: S
     const newSlide: Slide = {
         ...slide,
         elementsList: newElementsList,
-        selectedElementIndexes: newSelectedElementIndexes,
     }
 
     const updatedPresentation: Presentation = insertSlide(editor, newSlide, slideIndex)
@@ -183,7 +179,6 @@ export function changeElementsSize(editor: Editor, slide: Slide, elements: Slide
     const newSlide: Slide = {
         ...slide,
         elementsList: newElementsList,
-        selectedElementIndexes: newSelectedElementIndexes,
     }
 
     const updatedPresentation: Presentation = insertSlide(editor, newSlide, slideIndex)
@@ -220,7 +215,6 @@ export function changeElementsOpacity(editor: Editor, slide: Slide, elements: Sl
     const newSlide: Slide = {
         ...slide,
         elementsList: newElementsList,
-        selectedElementIndexes: newSelectedElementIndexes,
     }
 
     const updatedPresentation: Presentation = insertSlide(editor, newSlide, slideIndex)
@@ -257,7 +251,6 @@ export function changeFigureColor(editor: Editor, slide: Slide, elements: SlideE
     const newSlide: Slide = {
         ...slide,
         elementsList: newElementsList,
-        selectedElementIndexes: newSelectedElementIndexes,
     }
 
     const updatedPresentation: Presentation = insertSlide(editor, newSlide, slideIndex)
@@ -289,7 +282,6 @@ export function changeTextColor(editor: Editor, slide: Slide, element: SlideElem
     const newSlide: Slide = {
         ...slide,
         elementsList: newElementsList,
-        selectedElementIndexes: [elementIndex],
     }
 
     const slideIndex: number = editor.presentation.slidesList.indexOf(slide)
@@ -313,8 +305,8 @@ export function changeTextElementsSize(editor: Editor, fontSize: number): Editor
             ? {
                 ...element,
                 content: {
-                    ...element.content,
-                    fontSize
+                    ...(<TextElement>element.content),
+                    fontSize,
                 }
             }
             : element
@@ -338,35 +330,30 @@ export function changeTextElementsSize(editor: Editor, fontSize: number): Editor
 
 /**
  * @param {Editor} editor
- * @param {Slide} slide
- * @param {SlideElement} element
  * @param {string} content
  * @returns {Presentation}
  */
-export function changeTextContent(editor: Editor, slide: Slide, element: SlideElement, content: string) {
-    const slideIndex: number = editor.presentation.slidesList.indexOf(slide)
+export function changeTextContent(editor: Editor, content: string) {
+    const selectedSlideElementsIndexes: number[] = editor.selectedSlideElementsIndexes
+    const slideIndex: number = editor.selectedSlidesIndexes[editor.selectedSlidesIndexes.length - 1]
+    const slide: Slide = editor.presentation.slidesList[slideIndex]
+    const slideElements: SlideElement[] = slide.elementsList
 
-    const elementIndex: number = editor.presentation.slidesList[slideIndex].elementsList.indexOf(element)
-
-    //TODO продолжение проблемы c типами
-    const newElement: SlideElement = {
-        ...element,
-        content: {
-            ...element.content,
-            content,
-        },
-    }
-
-    const newElementsList: SlideElement[] = [
-        ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
-        newElement,
-        ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex + 1)
-    ]
+    const newSlideElements: SlideElement[] = slideElements.map((element, index) => {
+        return selectedSlideElementsIndexes.includes(index)
+            ? {
+                ...element,
+                content: {
+                    ...(<TextElement>element.content),
+                    content,
+                }
+            }
+            : element
+    })
 
     const newSlide: Slide = {
         ...slide,
-        elementsList: newElementsList,
-        selectedElementIndexes: [elementIndex],
+        elementsList: newSlideElements,
     }
 
     const updatedPresentation: Presentation = insertSlide(editor, newSlide, slideIndex)
@@ -374,5 +361,8 @@ export function changeTextContent(editor: Editor, slide: Slide, element: SlideEl
     editor.history.states.push(updatedPresentation)
     editor.history.currState = editor.history.states.length - 1
 
-    return updatedPresentation
+    return {
+        ...editor,
+        presentation: updatedPresentation,
+    }
 }
