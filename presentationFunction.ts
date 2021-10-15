@@ -4,7 +4,6 @@ function initPresentation(): Presentation {
     return {
         name: "Оладушек",
         slidesList: [],
-        selectedSlideIndexes: [-1]
     }
 }
 

@@ -3,7 +3,7 @@ import {
     SlideElement, Size,
     TextElement, PictureElement,
     FigureElement, Coordinates,
-} from './model/common'
+} from './model/types'
 import { insertSlide } from './presentationFunction'
 
 const defaultParams = {
@@ -302,33 +302,27 @@ export function changeTextColor(editor: Editor, slide: Slide, element: SlideElem
     return updatedPresentation
 }
 
-export function changeTextSize(editor: Editor, slide: Slide, element: SlideElement, fontSize: number): Presentation {
-    const slideIndex: number = editor.presentation.slidesList.indexOf(slide)
+export function changeTextElementsSize(editor: Editor, fontSize: number): Editor {
+    const selectedSlideElementsIndexes: number[] = editor.selectedSlideElementsIndexes
+    const slideIndex: number = editor.selectedSlidesIndexes[editor.selectedSlidesIndexes.length - 1]
+    const slide: Slide = editor.presentation.slidesList[slideIndex]
+    const slideElements: SlideElement[] = slide.elementsList
 
-    const elementIndex: number = editor.presentation.slidesList[slideIndex].elementsList.indexOf(element)
-
-    //TODO решить проблему с типами
-    /** здесь проблема в том, что контентом элемента может быть не только текст, но и картинка, например
-     * у которой не будет поля fontSize
-     */
-    const newElement: SlideElement = {
-        ...element,
-        content: {
-            ...element.content,
-            fontSize,
-        },
-    }
-
-    const newElementsList: SlideElement[] = [
-        ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, elementIndex),
-        newElement,
-        ...editor.presentation.slidesList[slideIndex].elementsList.slice(elementIndex + 1)
-    ]
+    const newSlideElements: SlideElement[] = slideElements.map((element, index) => {
+        return selectedSlideElementsIndexes.includes(index)
+            ? {
+                ...element,
+                content: {
+                    ...element.content,
+                    fontSize
+                }
+            }
+            : element
+    })
 
     const newSlide: Slide = {
         ...slide,
-        elementsList: newElementsList,
-        selectedElementIndexes: [elementIndex],
+        elementsList: newSlideElements,
     }
 
     const updatedPresentation: Presentation = insertSlide(editor, newSlide, slideIndex)
@@ -336,7 +330,10 @@ export function changeTextSize(editor: Editor, slide: Slide, element: SlideEleme
     editor.history.states.push(updatedPresentation)
     editor.history.currState = editor.history.states.length - 1
 
-    return updatedPresentation
+    return {
+        ...editor,
+        presentation: updatedPresentation,
+    }
 }
 
 /**

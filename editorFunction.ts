@@ -6,8 +6,8 @@ export function initEditor(): Editor {
         mode: "edit",
         presentation: initPresentation(),
         history: initHistory(),
-        selectedSlideIndexes: [-1],
-        selectedElementIndexes: []
+        selectedSlidesList: [],
+        selectedElementsList: [],
     }
 }
 
@@ -18,6 +18,9 @@ function initHistory(): History {
     }
 }
 
-function changeMode(editor: Editor, mode: PresentationMode): void {
-    editor.mode = mode
+function changeMode(editor: Editor, mode: PresentationMode): Editor {
+    return {
+        ...editor,
+        mode,
+    }
 }
