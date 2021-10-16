@@ -44,6 +44,7 @@ type TextElement = {
     content: string,
     fontSize: number,
     fontColor: string,
+    fontStyle: string
 }
 
 type PictureElement = {
@@ -51,8 +52,10 @@ type PictureElement = {
 }
 
 type FigureElement = {
-    type: FigureShape,
-    color: string,
+    figureType: FigureShape,
+    figureColor: string,
+    borderWidth: number,
+    borderColor: string
 }
 
 type Coordinates = {

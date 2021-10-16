@@ -328,6 +328,35 @@ export function changeTextElementsSize(editor: Editor, fontSize: number): Editor
     }
 }
 
+// function isText(element ): is TextElement {
+//
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+
 /**
  * @param {Editor} editor
  * @param {string} content

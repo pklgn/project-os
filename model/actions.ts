@@ -1,4 +1,4 @@
-import {Editor, FigureElement, PictureElement, SlideElement} from './types'
+import {Editor, FigureElement, PictureElement, SlideElement, TextElement} from './types'
 import {Presentation} from './types'
 import {PresentationMode} from './types'
 import {History} from './types'
@@ -14,6 +14,8 @@ function redo(editor: Editor): void{
 function keep(editor: Editor): void{
     
 }
+
+//const s = JSON.parse(JSON.stringify(state))
 
 function initHistory(): History {
     return {
@@ -424,18 +426,20 @@ function changeTextsColor(editor: Editor, fontColor: string): Editor {
         elementsList: newElementsList
     }
 
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList:
-                [...editor.presentation.slidesList.slice(0, slideIndex),
-                newSlide,
-                ...editor.presentation.slidesList.slice(slideIndex + 1)]
-        }
-    }
+    return newEditor(editor, newSlide, slideIndex)
 }
 
+// function isText(element: TextElement | PictureElement | FigureElement): element is TextElement {
+//
+// }
+// TODO
+// function isFigure(element): is TextElement {
+//
+// }
+// TODO
+// function isPicture(element): is TextElement {
+//
+// }
 
 function newEditor(editor: Editor, newSlide: Slide, newSlideIndex: number): Editor {
     return {
