@@ -78,7 +78,6 @@ export function changeElementsLayoutIndex(editor: Editor, slide: Slide, elements
         }
     })
 
-    /** @type {SlideElement[]}*/
     const newElementsList: SlideElement[] = [
         ...editor.presentation.slidesList[slideIndex].elementsList.slice(0, newIndex).map((element, index) => {
             if (!elementIndexesToReplace.includes(index)) {
@@ -327,11 +326,6 @@ export function changeTextElementsSize(editor: Editor, fontSize: number): Editor
         presentation: updatedPresentation,
     }
 }
-
-// function isText(element ): is TextElement {
-//
-// }
-
 
 
 

@@ -358,11 +358,11 @@ function changeFiguresColor(editor: Editor, color: string): Editor {
     const slide = editor.presentation.slidesList[slideIndex]
 
     const newElementsList: SlideElement[] = slide.elementsList.map((element, index) => {
-        if (editor.selectedSlideElementsIndexes.includes(index)) {
+        if (editor.selectedSlideElementsIndexes.includes(index) && isFigure(element.content)) {
             return {
                 ...element,
                 content: {
-                    ...(<FigureElement>element.content),
+                    ...(element.content),
                     color,
                 }
             }
@@ -384,10 +384,13 @@ function changeTextsSize(editor: Editor, fontSize: number) {
 
     const newElementsList = [
         ...slide.elementsList.map((element, index) => {
-            if (editor.selectedSlideElementsIndexes.includes(index)) {
+            if (editor.selectedSlideElementsIndexes.includes(index) && isText(element.content)) {
                 return {
                     ...element,
-                    content:  
+                    content: {
+                        ...element.content,
+                        fontSize
+                    }
                 }
             }
             return element
@@ -408,7 +411,7 @@ function changeTextsColor(editor: Editor, fontColor: string): Editor {
 
     const newElementsList = [
         ...slide.elementsList.map((element, index) => {
-            if (editor.selectedSlidesIndexes.includes(index)) {
+            if (editor.selectedSlidesIndexes.includes(index) && isText(element.content)) {
                 return {
                     ...element,
                     content: {
@@ -429,18 +432,6 @@ function changeTextsColor(editor: Editor, fontColor: string): Editor {
     return newEditor(editor, newSlide, slideIndex)
 }
 
-// function isText(element: TextElement | PictureElement | FigureElement): element is TextElement {
-//
-// }
-// TODO
-// function isFigure(element): is TextElement {
-//
-// }
-// TODO
-// function isPicture(element): is TextElement {
-//
-// }
-
 function newEditor(editor: Editor, newSlide: Slide, newSlideIndex: number): Editor {
     return {
         ...editor,
@@ -452,4 +443,16 @@ function newEditor(editor: Editor, newSlide: Slide, newSlideIndex: number): Edit
                 ...editor.presentation.slidesList.slice(newSlideIndex + 1)]
         }
     }
+}
+
+function isText(element): element is TextElement {
+    return element.fontSize !== undefined
+}
+
+function isFigure(element): element is FigureElement {
+    return element.figureType !== undefined
+}
+
+function isPicture(element): element is PictureElement {
+    return element.src !== undefined
 }
