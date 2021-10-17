@@ -521,6 +521,33 @@ export function removeSelectedElements(editor: Editor): Editor {
     return applySlideChanges(editor, newSlide, slideIndex)
 }
 
+function changePicture(editor: Editor, src: string): Editor {
+    const slideIndex = editor.selectedSlidesIndexes.slice(-1)[0]
+    const slide = editor.presentation.slidesList[slideIndex]
+
+    const newElementsList = [
+        ...slide.elementsList.map((element, index) => {
+            if (editor.selectedSlidesIndexes.includes(index) && isPicture(element.content)) {
+                return {
+                    ...element,
+                    content: {
+                        ...element.content,
+                        src,
+                    }
+                }
+            }
+            return element
+        })
+    ]
+
+    const newSlide = {
+        ...slide,
+        elementsList: newElementsList
+    }
+
+    return applySlideChanges(editor, newSlide, slideIndex)
+}
+
 function applySlideChanges(editor: Editor, newSlide: Slide, newSlideIndex: number): Editor {
     return {
         ...editor,
