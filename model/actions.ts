@@ -5,14 +5,22 @@ import {History} from './types'
 import {Slide} from './types'
 import {Background} from './types'
 
-function undo(editor: Editor): void {
+function undo(editor: Editor): void{
+    if (editor.history.currState > 0) {
+        editor.history.currState -= 1
+    }
 }
 
-function redo(editor: Editor): void {
+function redo(editor: Editor): void{
+    if (0 <= editor.history.currState && editor.history.currState < editor.history.states.length - 1) {
+        editor.history.currState += 1
+    }
 }
 
-function keep(editor: Editor): void {
-
+function keep(editor: Editor): void{
+    editor.history.states.splice(0, editor.history.currState + 1)
+    editor.history.states.push(editor.presentation)
+    editor.history.currState = editor.history.states.length - 1
 }
 
 function initHistory(): History {
