@@ -433,7 +433,7 @@ function changeFiguresColor(editor: Editor, color: string): Editor {
             return {
                 ...element,
                 content: {
-                    ...(element.content),
+                    ...element.content,
                     color,
                 }
             }
