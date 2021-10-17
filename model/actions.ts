@@ -501,6 +501,23 @@ function changeTextsColor(editor: Editor, fontColor: string): Editor {
     }
 }
 
+export function removeSelectedElements(editor: Editor): Editor {
+    const slideIndex: number = editor.selectedSlidesIndexes.slice(-1)[0]
+    const slide: Slide = editor.presentation.slidesList[slideIndex]
+
+    const newElementsList: SlideElement[] = slide.elementsList.map((element, index) => {
+        if (!editor.selectedSlideElementsIndexes.includes(index)) {
+            return element
+        }
+    })
+
+    const newSlide: Slide = {
+        ...slide,
+        elementsList: newElementsList,
+    }
+
+    return applySlideChanges(editor, newSlide, slideIndex)
+}
 
 function applySlideChanges(editor: Editor, newSlide: Slide, newSlideIndex: number): Editor {
     return {
