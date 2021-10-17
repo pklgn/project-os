@@ -6,16 +6,22 @@ import {Slide} from './types'
 import {Background} from './types'
 
 function undo(editor: Editor): void{
+    if (editor.history.currState > 0) {
+        editor.history.currState -= 1
+    }
 }
 
 function redo(editor: Editor): void{
+    if (0 <= editor.history.currState && editor.history.currState < editor.history.states.length - 1) {
+        editor.history.currState += 1
+    }
 }
 
 function keep(editor: Editor): void{
-    
+    editor.history.states.splice(0, editor.history.currState + 1)
+    editor.history.states.push(editor.presentation)
+    editor.history.currState = editor.history.states.length - 1
 }
-
-//const s = JSON.parse(JSON.stringify(state))
 
 function initHistory(): History {
     return {
@@ -451,8 +457,4 @@ function isText(element): element is TextElement {
 
 function isFigure(element): element is FigureElement {
     return element.figureType !== undefined
-}
-
-function isPicture(element): element is PictureElement {
-    return element.src !== undefined
 }
