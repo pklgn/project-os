@@ -438,6 +438,33 @@ function changeTextsColor(editor: Editor, fontColor: string): Editor {
     return newEditor(editor, newSlide, slideIndex)
 }
 
+function changePicture(editor: Editor, src: string): Editor {
+    const slideIndex = editor.selectedSlidesIndexes.slice(-1)[0]
+    const slide = editor.presentation.slidesList[slideIndex]
+
+    const newElementsList = [
+        ...slide.elementsList.map((element, index) => {
+            if (editor.selectedSlidesIndexes.includes(index) && isPicture(element.content)) {
+                return {
+                    ...element,
+                    content: {
+                        ...element.content,
+                        src,
+                    }
+                }
+            }
+            return element
+        })
+    ]
+    
+    const newSlide = {
+        ...slide,
+        elementsList: newElementsList
+    }
+
+    return newEditor(editor, newSlide, slideIndex)
+}
+
 function newEditor(editor: Editor, newSlide: Slide, newSlideIndex: number): Editor {
     return {
         ...editor,
@@ -457,4 +484,8 @@ function isText(element): element is TextElement {
 
 function isFigure(element): element is FigureElement {
     return element.figureType !== undefined
+}
+
+function isPicture(element): element is PictureElement {
+    return element.src !== undefined
 }
