@@ -131,6 +131,7 @@ export function addTextElement(editor: Editor): Editor {
         content: 'Введите текст',
         fontSize: 1,
         fontColor: '#ffffff',
+        fontStyle: 'italic'
     }
     const element: SlideElement = {
         size: {
@@ -212,12 +213,14 @@ export function addPictureElement(editor: Editor): Editor {
     }
 }
 
-export function addFigureElement(editor: Editor, type: FigureShape): Editor {
+export function addFigureElement(editor: Editor, figureType: FigureShape): Editor {
     const slideIndex: number = editor.selectedSlidesIndexes.slice(-1)[0]
     const slide: Slide = editor.presentation.slidesList[slideIndex]
     const figureElement: FigureElement = {
-        type,
-        color: '#ffffff'
+        figureType,
+        figureColor: '#ffffff',
+        borderWidth: 1,
+        borderColor: '#000000',
     }
     const element: SlideElement = {
         size: {
