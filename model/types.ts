@@ -2,15 +2,19 @@ type Editor = {
     mode: PresentationMode,
     presentation: Presentation,
     history: History,
-    selectedSlidesIndexes: number[],
-    selectedSlideElementsIndexes: number[],
+    selectedSlidesId: number[],
+    selectedSlideElementsId: number[],
 }
 
 type PresentationMode = "edit" | "show"
 
 type History = {
-    currState: number,
-    states: Presentation[],
+    currPresentationState: number,
+    presentationStates: Presentation[],
+    selectedSlidesIdStates: number[][],
+    currSelectedSlidesState: number,
+    selectedSlideElementsIdStates: number[][],
+    currSelectedSlideElementsState: number,
 }
 
 type Presentation = {
@@ -19,6 +23,7 @@ type Presentation = {
 }
 
 type Slide = {
+    id: number,
     background: Background,
     elementsList: SlideElement[],
 }
@@ -29,6 +34,7 @@ type Background = {
 }
 
 type SlideElement = {
+    id: number
     size: Size,
     opacity: number,
     content: TextElement | PictureElement | FigureElement,
