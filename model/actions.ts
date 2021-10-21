@@ -389,7 +389,7 @@ function initHistory(): History {
     }
 }
 
-export function changeSlideBackground(editor: Editor, slideIndex: number, background: Background): Editor {
+export function changeSlideBackground(editor: Editor, background: Background): Editor {
     const slideIndex: number = editor.selectedSlidesIndexes.slice(-1)[0]
     if (slideIndex === -1) {
         return
