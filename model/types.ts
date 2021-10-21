@@ -21,6 +21,7 @@ type Presentation = {
 }
 
 type Slide = {
+    id: any,
     background: Background,
     elementsList: SlideElement[],
 }
@@ -31,6 +32,7 @@ type Background = {
 }
 
 type SlideElement = {
+    id: any,
     size: Size,
     opacity: number,
     content: TextElement | PictureElement | FigureElement,

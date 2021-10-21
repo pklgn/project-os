@@ -63,13 +63,13 @@ export function redo(editor: Editor): void {
 export function keep(editor: Editor, selectedSlidesIndexes: number[], selectedSlideElementsIndexes: number[]): void {
     const spliceRange: number = editor.history.currState + 1
 
-    editor.history.presentationStates.splice(0, spliceRange)
+    editor.history.presentationStates.splice(spliceRange)
     editor.history.presentationStates.push(editor.presentation)
 
-    editor.history.selectedSlidesIndexesStates.splice(0, spliceRange)
+    editor.history.selectedSlidesIndexesStates.splice(spliceRange)
     editor.history.selectedSlidesIndexesStates.push(selectedSlidesIndexes)
 
-    editor.history.selectedSlideElementsIndexesStates.splice(0, spliceRange)
+    editor.history.selectedSlideElementsIndexesStates.splice(spliceRange)
     editor.history.selectedSlideElementsIndexesStates.push(selectedSlideElementsIndexes)
 
     editor.history.currState = editor.history.presentationStates.length - 1
