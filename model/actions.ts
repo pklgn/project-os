@@ -111,7 +111,7 @@ export function insertSelectedSlides(editor: Editor, selectedSlidesIndexes: numb
     const slidesList: Slide[] = editor.presentation.slidesList
 
     if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return
+        return editor
     }
 
     const selectedSlides: Slide[] = slidesList.map((slide, index) => {
@@ -121,7 +121,7 @@ export function insertSelectedSlides(editor: Editor, selectedSlidesIndexes: numb
     })
 
     if (!(Array.isArray(selectedSlides) && selectedSlides.length)) {
-        return
+        return editor
     }
 
     const slidesBeforeInsertPosition: Slide[] = slidesList.slice(0, insertIndex)
@@ -157,7 +157,7 @@ export function insertSelectedSlides(editor: Editor, selectedSlidesIndexes: numb
 export function deleteSelectedSlides(editor: Editor, selectedSlidesIndexes: number[]): Editor {
     const slideList: Slide[] = editor.presentation.slidesList
     if (!(Array.isArray(slideList) && slideList.length)) {
-        return
+        return editor
     }
 
     const lastSelectedSlideIndex: number = selectedSlidesIndexes[selectedSlidesIndexes.length - 1]
@@ -201,7 +201,7 @@ function getNextUnselectedSlideIndex(lastSelectedSlideIndex: number, selectedSli
 export function addTextElement(editor: Editor, slideIndex: number): Editor {
     const slideList = editor.presentation.slidesList
     if (!(Array.isArray(slideList) && slideList.length)) {
-        return
+        return editor
     }
 
     const slide: Slide = editor.presentation.slidesList[slideIndex]
@@ -257,7 +257,7 @@ export function addTextElement(editor: Editor, slideIndex: number): Editor {
 export function addPictureElement(editor: Editor, slideIndex: number): Editor {
     const slideList: Slide[] = editor.presentation.slidesList
     if (!(Array.isArray(slideList) && slideList.length)) {
-        return
+        return editor
     }
 
     const slide: Slide = slideList[slideIndex]
@@ -310,7 +310,7 @@ export function addPictureElement(editor: Editor, slideIndex: number): Editor {
 export function addFigureElement(editor: Editor, slideIndex: number, figureType: FigureShape): Editor {
     const slideList: Slide[] = editor.presentation.slidesList
     if (!(Array.isArray(slideList) && slideList.length)) {
-        return
+        return editor
     }
 
     const slide: Slide = slideList[slideIndex]
@@ -392,7 +392,7 @@ function initHistory(): History {
 export function changeSlideBackground(editor: Editor, background: Background): Editor {
     const slideIndex: number = editor.selectedSlidesIndexes.slice(-1)[0]
     if (slideIndex === -1) {
-        return
+        return editor
     }
 
     const slide: Slide = editor.presentation.slidesList[slideIndex]
@@ -418,18 +418,18 @@ export function changePresentationName(editor: Editor, name: string): Editor {
 export function moveElementsToBackground(editor: Editor): Editor {
     const slideIndex: number = editor.selectedSlidesIndexes.slice(-1)[0]
     if (slideIndex === -1) {
-        return
+        return editor
     }
 
     const slidesList: Slide[] = editor.presentation.slidesList
     if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return
+        return editor
     }
 
     const slide: Slide = slidesList[slideIndex]
     const elementsList: SlideElement[] = slide.elementsList
     if (!(Array.isArray(elementsList) && elementsList.length)) {
-        return
+        return editor
     }
 
     const newElementsList: SlideElement[] = [
@@ -456,18 +456,18 @@ export function moveElementsToBackground(editor: Editor): Editor {
 export function moveElementsToForeground(editor: Editor): Editor {
     const slideIndex: number = editor.selectedSlidesIndexes.slice(-1)[0]
     if (slideIndex === -1) {
-        return
+        return editor
     }
 
     const slidesList: Slide[] = editor.presentation.slidesList
     if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return
+        return editor
     }
 
     const slide = slidesList[slideIndex]
     const elementsList: SlideElement[] = slide.elementsList
     if (!(Array.isArray(elementsList) && elementsList.length)) {
-        return
+        return editor
     }
 
     const newElementsList = [
@@ -494,23 +494,23 @@ export function moveElementsToForeground(editor: Editor): Editor {
 export function moveElementsToPosition(editor: Editor, elementsLayoutPosition: number) {
     const slideIndex: number = editor.selectedSlidesIndexes.slice(-1)[0]
     if (slideIndex === -1) {
-        return
+        return editor
     }
 
     const slidesList: Slide[] = editor.presentation.slidesList
     if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return
+        return editor
     }
 
     const slide = slidesList[slideIndex]
     const elementsList: SlideElement[] = slide.elementsList
     if (!(Array.isArray(elementsList) && elementsList.length)) {
-        return
+        return editor
     }
 
     const selectedSlideElementsIndexes: number[] = editor.selectedSlideElementsIndexes
     if (!(Array.isArray(selectedSlideElementsIndexes) && selectedSlideElementsIndexes.length)) {
-        return
+        return editor
     }
 
     const elementsBeforeInsertPosition: SlideElement[] = elementsList.slice(0, elementsLayoutPosition)
@@ -538,18 +538,18 @@ export function moveElementsToPosition(editor: Editor, elementsLayoutPosition: n
 export function changeElementsSize(editor: Editor, scale: Size): Editor {
     const slideIndex: number = editor.selectedSlidesIndexes.slice(-1)[0]
     if (slideIndex === -1) {
-        return
+        return editor
     }
 
     const slidesList: Slide[] = editor.presentation.slidesList
     if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return
+        return editor
     }
 
     const slide: Slide = slidesList[slideIndex]
     const elementsList: SlideElement[] = slide.elementsList
     if (!(Array.isArray(elementsList) && elementsList.length)) {
-        return
+        return editor
     }
 
     const newElementsList: SlideElement[] = elementsList.map((element, index) => {
@@ -578,18 +578,18 @@ export function changeElementsSize(editor: Editor, scale: Size): Editor {
 export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
     const slideIndex: number = editor.selectedSlideElementsIndexes.slice(-1)[0]
     if (slideIndex === -1) {
-        return
+        return editor
     }
 
     const slidesList: Slide[] = editor.presentation.slidesList
     if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return
+        return editor
     }
 
     const slide: Slide = slidesList[slideIndex]
     const elementsList: SlideElement[] = slide.elementsList
     if (!(Array.isArray(elementsList) && elementsList.length)) {
-        return
+        return editor
     }
 
     const newElementsList: SlideElement[] = elementsList.map((element, index) => {
@@ -610,21 +610,21 @@ export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
     return applySlideChanges(editor, newSlide, slideIndex)
 }
 
-export function changeFiguresColor(editor: Editor, color: string): Editor {
+export function changeFiguresColor(editor: Editor, figureColor: string): Editor {
     const slideIndex: number = editor.selectedSlidesIndexes.slice(-1)[0]
     if (slideIndex === -1) {
-        return
+        return editor
     }
 
     const slidesList: Slide[] = editor.presentation.slidesList
     if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return
+        return editor
     }
 
     const slide: Slide = slidesList[slideIndex]
     const elementsList: SlideElement[] = slide.elementsList
     if (!(Array.isArray(elementsList) && elementsList.length)) {
-        return
+        return editor
     }
 
     const newElementsList: SlideElement[] = elementsList.map((element, index) => {
@@ -633,7 +633,7 @@ export function changeFiguresColor(editor: Editor, color: string): Editor {
                 ...element,
                 content: {
                     ...element.content,
-                    color,
+                    figureColor,
                 }
             }
         }
