@@ -5,6 +5,7 @@ import { initEditor } from './ts_model/model/initModelFunctions';
 import { setSelectedIdInEditor, togglePresentationMode } from './ts_model/model/editorActions';
 import { addSlide, deleteSelectedSlides } from './ts_model/model/slidesActions';
 import { undo, redo, keep } from './ts_model/model/historyActions';
+import { Slide } from './ts_model/model/types';
 
 function App() {
   const [editor, setEditor] = useState(initEditor());
@@ -26,7 +27,7 @@ function App() {
   }
 
   function toggleEditorState() {
-    setEditor(togglePresentationMode(editor));    
+    setEditor(togglePresentationMode(editor));
   }
 
   function addSlideState() {
@@ -37,7 +38,12 @@ function App() {
     setEditor(deleteSelectedSlides(editor));
   }
 
-  
+  var slideAmount: number = -1;
+
+  var listItems: any = editor.presentation.slidesList.map((slide: Slide) => {
+    slideAmount++;
+    return <li>slideIndex: {slideAmount} | slideId: {slide.id}</li> }
+  );
 
   return (
     <div className="App">
@@ -54,7 +60,10 @@ function App() {
         <button className="button-53" onClick={keepState}>keepState</button>
         <button className="button-53" onClick={setSelectedIdState}>setSelectedIdState</button>
         <button className="button-53" onClick={() => console.log(editor)}>seeEditor</button>
-        <div>{editor.mode}</div>
+        <div>мод презентации: {editor.mode}</div>
+        <div>кол-во слайдов: {editor.presentation.slidesList.length}</div>
+        {listItems}
+        <div></div>
         <a
           className="App-link"
           href="https://reactjs.org"
