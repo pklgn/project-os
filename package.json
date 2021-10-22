@@ -1,6 +1,6 @@
 {
-  "name": "opi_project",
-  "version": "0.1.0",
+  "name": "os",
+  "version": "0.0.1",
   "private": true,
   "devDependencies": {
     "@types/uuid": "^8.3.1",
