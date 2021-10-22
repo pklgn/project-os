@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
   }
 }
