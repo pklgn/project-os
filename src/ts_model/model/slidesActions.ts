@@ -6,7 +6,7 @@ export function addSlide(editor: Editor): Editor {
 
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
 
-    var insertIndex: number = 0;
+    let insertIndex: number = 0;
     slideList.forEach((slide) => {
         insertIndex++;
         if (slide.id === activeSlideId) {
@@ -53,19 +53,25 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     const selectedSlidesIds: string[] = editor.selectedSlidesIds;
 
     const lastSelectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const nextSelectedSlideId: string = getNextUnselectedSlideId(slideList, selectedSlidesIds, lastSelectedSlideId)
+    const nextSelectedSlideId: string = getNextUnselectedSlideId(slideList, selectedSlidesIds, lastSelectedSlideId);
+
+    const newSelectedSlidesId: string[] = [];
+
+    if (nextSelectedSlideId !== "") {
+        newSelectedSlidesId.push(nextSelectedSlideId);
+    }
 
 
     function getNextUnselectedSlideId(slideList: Slide[], selectedSlidesIds: string[], lastSelectedSlideId: string): string {
         //TODO оптимизировать? i want to sleep
-        var result: string = "";
+        let result: string = "";
         if (slideList.length === 1) {
-            return "-1";
+            return "";
         }
 
         const lastSelectedSlideIndex: number = slideList.findIndex((slide) => slide.id === lastSelectedSlideId);
 
-        var slideId: string = '';
+        let slideId: string = '';
         for (let index = lastSelectedSlideIndex; index < slideList.length; index++) {
             slideId = slideList[index].id;
             if (!selectedSlidesIds.includes(slideId)) {
@@ -96,7 +102,7 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     return {
         ...editor,
         presentation: updatedPresentation,
-        selectedSlidesIds: [nextSelectedSlideId],
+        selectedSlidesIds: newSelectedSlidesId,
         selectedSlideElementsIds: [],
     }
 }

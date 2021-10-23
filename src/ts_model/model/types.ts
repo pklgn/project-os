@@ -12,6 +12,7 @@ type Editor = {
     history: History,
     selectedSlidesIds: string[],
     selectedSlideElementsIds: string[],
+    insertElementPositionAtSlide: Coordinates
 }
 
 type PresentationMode = "edit" | "show"
@@ -41,10 +42,11 @@ type Background = {
 
 type SlideElement = {
     id: string,
+    centerPoint: Coordinates,
     size: Size,
+    angle: number,
     opacity: number,
     content: TextElement | PictureElement | FigureElement,
-    startPoint: Coordinates,
 }
 
 type Size = {

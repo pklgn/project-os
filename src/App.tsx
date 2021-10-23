@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import logo from './assets/logos/logoMari.svg';
 import './App.css';
 import { initEditor } from './ts_model/model/initModelFunctions';
@@ -23,6 +23,7 @@ function App() {
   }
 
   function setSelectedIdState() {
+    const selectedSlides: Slide[] = editor.presentation.slidesList.filter((slide, index) => index%3===0);
     setEditor(setSelectedIdInEditor(editor, [], []));
   }
 
@@ -42,7 +43,7 @@ function App() {
 
   var listItems: any = editor.presentation.slidesList.map((slide: Slide) => {
     slideAmount++;
-    return <li>slideIndex: {slideAmount} | slideId: {slide.id}</li> }
+    return <div><li className="li_some" key={slide.id}>slideIndex: {slideAmount} | slideId: {slide.id}</li></div> }
   );
 
   return (
