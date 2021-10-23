@@ -119,14 +119,14 @@ export function addSlide(editor: Editor): Editor {
 
 export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
     const slidesList: Slide[] = editor.presentation.slidesList
-
+    const selectedSlidesIds = editor.selectedSlidesIds
     if (!(Array.isArray(slidesList) && slidesList.length)) {
         return
     }
 
-    const selectedSlides: Slide[] = slidesList.map((slide, index) => {
-        if (selectedSlidesIds.includes(index)) {
-            return slide
+    const selectedSlides: Slide[] = slidesList.filter(item => {
+        if (selectedSlidesIds.includes(item.id)) {
+            return item
         }
     })
 
@@ -138,12 +138,14 @@ export function insertSelectedSlides(editor: Editor, insertIndex: number): Edito
     const slidesAfterInsertPosition: Slide[] = slidesList.slice(insertIndex)
 
     const newSlideList: Slide[] = [
-        ...slidesBeforeInsertPosition.filter((slide, index) => {
-            return selectedSlidesIds.includes(index)
+        ...slidesBeforeInsertPosition.filter(item => {
+            if (selectedSlidesIds.includes(item.id)) return item
+            return 0
         }),
         ...selectedSlides,
-        ...slidesAfterInsertPosition.filter((slide, index) => {
-            return !selectedSlidesIds.includes(index + insertIndex)
+        ...slidesAfterInsertPosition.filter(item => {
+            if (selectedSlidesIds.includes(item.id)) return item
+            return 0
         })
     ]
 
