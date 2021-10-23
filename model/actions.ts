@@ -180,16 +180,15 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     const selectedSlidesIds = editor.selectedSlidesIds
     const activeSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1]
 
-    const newSlideList: Slide[] = slideList.filter((item,index) => {
+    const newSlideList: Slide[] = slideList.filter(item => {
         if (item.id === activeSlideId) { 
-            const newActiveSlideIndex = index
+            const newActiveSlideIndex = 0
         }
         if (selectedSlidesIds.includes(item.id)) {
             return 0
         }
         return 1
     })
-
     
     const updatedPresentation: Presentation = {
         ...editor.presentation,
@@ -518,51 +517,6 @@ export function moveElementsToForeground(editor: Editor): Editor {
 
     return applySlideChanges(editor, newSlide, slideIndex)
 }
-
-// Я, как пользователь, не понял, для чего она ??
-// export function moveElementsToPosition(editor: Editor, elementsLayoutPosition: number) {
-//     const slideIndex: number = editor.selectedSlidesIds.slice(-1)[0]
-//     if (slideIndex === -1) {
-//         return
-//     }
-
-//     const slidesList: Slide[] = editor.presentation.slidesList
-//     if (!(Array.isArray(slidesList) && slidesList.length)) {
-//         return
-//     }
-
-//     const slide = slidesList[slideIndex]
-//     const elementsList: SlideElement[] = slide.elementsList
-//     if (!(Array.isArray(elementsList) && elementsList.length)) {
-//         return
-//     }
-
-//     const selectedSlideElementsIds: number[] = editor.selectedSlideElementsIds
-//     if (!(Array.isArray(selectedSlideElementsIds) && selectedSlideElementsIds.length)) {
-//         return
-//     }
-
-//     const elementsBeforeInsertPosition: SlideElement[] = elementsList.slice(0, elementsLayoutPosition)
-//     const elementsAfterInsertPosition: SlideElement[] = elementsList.slice(elementsLayoutPosition)
-//     const elementsNeedToBeMoved: SlideElement[] = elementsList.map((element, index) => {
-//         if (selectedSlideElementsIds.includes(index)) {
-//             return element
-//         }
-//     })
-
-//     const newElementsList: SlideElement[] = [
-//         ...elementsBeforeInsertPosition.filter((_, index) => !selectedSlideElementsIds.includes(index)),
-//         ...elementsNeedToBeMoved,
-//         ...elementsAfterInsertPosition.filter((_, index) => !selectedSlideElementsIds.includes(index + elementsLayoutPosition))
-//     ]
-
-//     const newSlide: Slide = {
-//         ...slide,
-//         elementsList: newElementsList
-//     }
-
-//     return applySlideChanges(editor, newSlide, slideIndex)
-// }
 
 export function changeElementsSize(editor: Editor, scale: Size): Editor {
     const selectedSlidesIds = editor.selectedSlidesIds
