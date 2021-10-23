@@ -7,7 +7,7 @@ export function generateUUId(): string {
 		}
 		const currHalfByte = symbol === 'x'
 			? Math.floor(value)
-			: value & 0x3 | 0x8
+			: (value & 0x3) | 0x8
 
 		return currHalfByte.toString(16)
 	})
