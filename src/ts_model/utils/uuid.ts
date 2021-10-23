@@ -1,6 +1,16 @@
-import {v4} from "uuid";
-import {Buffer} from "../../../node_modules/buffer/index";
+export function generateUUID(): string {
+	const template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.split('')
+	const rawUUID = template.map((symbol) => {
+		const value = Math.random() * 16
+		if (symbol !== 'x' && symbol !== 'y') {
+			return symbol
+		}
+		const currHalfByte = symbol === 'x'
+			? Math.floor(value)
+			: value & 0x3 | 0x8
 
-export function generateUUId(): string {
-	return Buffer.from(v4().replace(/-/g, ''), 'hex').toString();
+		return currHalfByte.toString(16)
+	})
+
+	return rawUUID.join('').toString()
 }
