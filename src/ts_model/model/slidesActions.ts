@@ -106,3 +106,35 @@ export function deleteSelectedSlides(editor: Editor): Editor {
         selectedSlideElementsIds: [],
     }
 }
+
+export function changeSlideBackground(editor: Editor, src = '', color = 'white'): Editor {
+
+    const selectedSlidesIds = editor.selectedSlidesIds;
+    if (!selectedSlidesIds) {
+        return editor;
+    }
+
+    const activeSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
+    const slideIndex = editor.presentation.slidesList.findIndex(item => item.id === activeSlideId);
+    const slide: Slide = editor.presentation.slidesList[slideIndex];
+
+    const newSlide: Slide = {
+        ...slide,
+        background: {
+            src,
+            color
+        },
+    }
+
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList:
+                [...editor.presentation.slidesList.slice(0, slideIndex),
+                    newSlide,
+                ...editor.presentation.slidesList.slice(slideIndex + 1)
+                ]
+        }
+    }
+}

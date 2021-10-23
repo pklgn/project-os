@@ -79,7 +79,7 @@ export function addTextElement(editor: Editor): Editor {
     const element: SlideElement = {
         id: generateUUId(),
         //TODO получать параметры centerPoint size
-        startPoint: {
+        centerPoint: {
             x: 1,
             y: 1,
         },
@@ -142,7 +142,7 @@ export function addPictureElement(editor: Editor): Editor {
     const element: SlideElement = {
         id: generateUUId(),
         //TODO получать параметры centerPoint size src
-        startPoint: {
+        centerPoint: {
             x: 1,
             y: 1,
         },
@@ -206,7 +206,7 @@ export function addFigureElement(editor: Editor, figureType: FigureShape): Edito
     const element: SlideElement = {
         id: generateUUId(),
         //TODO получать параметры centerPoint size
-        startPoint: {
+        centerPoint: {
             x: 1,
             y: 1,
         },
@@ -246,27 +246,6 @@ export function addFigureElement(editor: Editor, figureType: FigureShape): Edito
         selectedSlidesIds: selectedSlidesIds,
         selectedSlideElementsIds: [element.id],
     }
-}
-
-export function changeSlideBackground(editor: Editor, background: Background): Editor {
-    //TODO Раф
-    const selectedSlidesIds = editor.selectedSlidesIds;
-    if (!selectedSlidesIds) {
-        return editor;
-    }
-
-    const activeSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex = editor.presentation.slidesList.findIndex(item => {
-        item.id === activeSlideId
-    })
-    const slide: Slide = editor.presentation.slidesList[slideIndex];
-
-    const newSlide: Slide = {
-        ...slide,
-        background,
-    }
-
-    return applySlideChanges(editor, newSlide, slideIndex);
 }
 
 export function changePresentationName(editor: Editor, name: string): Editor {

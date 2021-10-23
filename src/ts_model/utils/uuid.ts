@@ -1,4 +1,4 @@
-export function generateUUID(): string {
+export function generateUUId(): string {
 	const template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.split('')
 	const rawUUID = template.map((symbol) => {
 		const value = Math.random() * 16
