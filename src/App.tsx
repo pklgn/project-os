@@ -3,7 +3,7 @@ import logo from './assets/logos/logoMari.svg';
 import './App.css';
 import { initEditor } from './ts_model/model/initModelFunctions';
 import { setSelectedIdInEditor, togglePresentationMode } from './ts_model/model/editorActions';
-import { addSlide, changeSelectedSlideBackground, deleteSelectedSlides } from './ts_model/model/slidesActions';
+import { addSlide, changeSelectedSlidesBackground, deleteSelectedSlides } from './ts_model/model/slidesActions';
 import { undo, redo, keep } from './ts_model/model/historyActions';
 import { Slide } from './ts_model/model/types';
 
@@ -65,7 +65,7 @@ function App() {
   function setSlideBackgroundState() {
     const imageSrc: string = thirdInput;
     const color: string = fourthInput;
-    setEditor(changeSelectedSlideBackground(editor, imageSrc, color));    
+    setEditor(changeSelectedSlidesBackground(editor, imageSrc, color));    
   }
 
   var slideAmount: number = -1;
