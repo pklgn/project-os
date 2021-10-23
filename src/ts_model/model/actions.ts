@@ -7,6 +7,7 @@ import { Background } from './types'
 import { generateUUId } from '../utils/uuid'
 
 /*export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
+    //TODO Лёня
     const slidesList: Slide[] = editor.presentation.slidesList
 
     if (!(Array.isArray(slidesList) && slidesList.length)) {
@@ -53,59 +54,8 @@ import { generateUUId } from '../utils/uuid'
     }
 }*/
 
-/*export function deleteSelectedSlides(editor: Editor): Editor {
-    const slideList: Slide[] = editor.presentation.slidesList
-    if (!(Array.isArray(slideList) && slideList.length)) {
-        return editor
-    }
-
-    const selectedSlidesIds = editor.selectedSlidesIds
-    const activeSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1]
-
-    // const maxIndex: number = editor.presentation.slidesList.length
-    // const selectedSlideIndex: number = getNextUnselectedSlideIndex(lastSelectedSlideId, selectedSlidesIds, maxIndex)
-
-    // const newSlideList: Slide[] = slideList.map((slide, index) => {
-    //     if (!selectedSlidesIds.includes(index)) {
-    //         return slide
-    //     }
-    // })
-
-    const newActiveSlideIndex = -1
-    const newSlideList: Slide[] = slideList.map(item => {
-        if (item.id === activeSlideId) { // TODO}
-            if (!selectedSlidesIds.includes(item.id)) return item
-        });
-
-    const updatedPresentation: Presentation = {
-        ...editor.presentation,
-        slidesList: newSlideList,
-    }
-
-    return {
-        ...editor,
-        presentation: updatedPresentation,
-        selectedSlidesIds: newSelectedSlideId,
-        selectedSlideElementsIds: [],
-    }
-}*/
-
-// function getNextUnselectedSlideIndex(lastSelectedSlideId: number, selectedSlideIndexes: number[], maxIndex: number, ascending: boolean = true): number {
-//     if (lastSelectedSlideId === 0 && !ascending) {
-//         return -1
-//     }
-//     if (lastSelectedSlideId < maxIndex && ascending) {
-//         return selectedSlideIndexes.includes(lastSelectedSlideId + 1)
-//             ? getNextUnselectedSlideIndex(lastSelectedSlideId + 1, selectedSlideIndexes, maxIndex)
-//             : lastSelectedSlideId + 1
-//     } else {
-//         return selectedSlideIndexes.includes(lastSelectedSlideId - 1)
-//             ? getNextUnselectedSlideIndex(lastSelectedSlideId + 1, selectedSlideIndexes, maxIndex, false)
-//             : lastSelectedSlideId - 1
-//     }
-// }
-
 export function addTextElement(editor: Editor): Editor {
+    //TODO Паша
     const selectedSlidesIds = editor.selectedSlidesIds;
     const slideList = editor.presentation.slidesList;
 
@@ -128,16 +78,18 @@ export function addTextElement(editor: Editor): Editor {
 
     const element: SlideElement = {
         id: generateUUId(),
+        //TODO получать параметры centerPoint size
+        startPoint: {
+            x: 1,
+            y: 1,
+        },
+        angle: 0,
         size: {
             width: 30,
             height: 25,
         },
         opacity: 1,
         content: textElement,
-        startPoint: {
-            x: 1,
-            y: 1,
-        }
     }
 
     const newSlide: Slide = {
@@ -155,6 +107,8 @@ export function addTextElement(editor: Editor): Editor {
         return slide;
     })
 
+
+
     return {
         ...editor,
         presentation: {
@@ -167,6 +121,7 @@ export function addTextElement(editor: Editor): Editor {
 }
 
 export function addPictureElement(editor: Editor): Editor {
+    //TODO Паша
     const slideList: Slide[] = editor.presentation.slidesList;
     const selectedSlidesIds = editor.selectedSlidesIds;
 
@@ -186,16 +141,18 @@ export function addPictureElement(editor: Editor): Editor {
 
     const element: SlideElement = {
         id: generateUUId(),
+        //TODO получать параметры centerPoint size src
+        startPoint: {
+            x: 1,
+            y: 1,
+        },
         size: {
             width: 1,
             height: 1,
         },
+        angle: 0,
         opacity: 1,
         content: pictureElement,
-        startPoint: {
-            x: 1,
-            y: 1,
-        }
     }
 
     const newSlide: Slide = {
@@ -225,6 +182,7 @@ export function addPictureElement(editor: Editor): Editor {
 }
 
 export function addFigureElement(editor: Editor, figureType: FigureShape): Editor {
+    //TODO Паша
     const slideList: Slide[] = editor.presentation.slidesList;
     const selectedSlidesIds = editor.selectedSlidesIds;
 
@@ -247,16 +205,19 @@ export function addFigureElement(editor: Editor, figureType: FigureShape): Edito
 
     const element: SlideElement = {
         id: generateUUId(),
+        //TODO получать параметры centerPoint size
+        startPoint: {
+            x: 1,
+            y: 1,
+        },
         size: {
             width: 1,
             height: 1,
         },
+        angle: 0,
         opacity: 1,
         content: figureElement,
-        startPoint: {
-            x: 1,
-            y: 1,
-        }
+
     }
 
     const newSlide: Slide = {
@@ -274,6 +235,8 @@ export function addFigureElement(editor: Editor, figureType: FigureShape): Edito
         return slide;
     })
 
+
+
     return {
         ...editor,
         presentation: {
@@ -285,33 +248,8 @@ export function addFigureElement(editor: Editor, figureType: FigureShape): Edito
     }
 }
 
-export function initEditor(): Editor {
-    return {
-        mode: "edit",
-        presentation: initPresentation(),
-        history: initHistory(),
-        selectedSlidesIds: [],
-        selectedSlideElementsIds: [],
-    }
-}
-
-function initPresentation(): Presentation {
-    return {
-        name: "Оладушек",
-        slidesList: [],
-    }
-}
-
-function initHistory(): History {
-    return {
-        presentationStates: [],
-        currState: -1,
-        selectedSlidesIdsStates: [[]],
-        selectedSlideElementsIdsStates: [[]],
-    }
-}
-
 export function changeSlideBackground(editor: Editor, background: Background): Editor {
+    //TODO Раф
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -332,6 +270,7 @@ export function changeSlideBackground(editor: Editor, background: Background): E
 }
 
 export function changePresentationName(editor: Editor, name: string): Editor {
+    //TODO Раф
     return {
         ...editor,
         presentation: {
@@ -342,6 +281,7 @@ export function changePresentationName(editor: Editor, name: string): Editor {
 }
 
 export function moveElementsToBackground(editor: Editor): Editor {
+    //TODO Раф
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -363,17 +303,9 @@ export function moveElementsToBackground(editor: Editor): Editor {
     }
 
     const newElementsList = [
-        ...elementsList.map(element => {
-            if (editor.selectedSlideElementsIds.includes(element.id)) {
-                return element;
-            }
-        }),
-        ...elementsList.map(element => {
-            if (!editor.selectedSlideElementsIds.includes(element.id)) {
-                return element;
-            }
-        })
-    ] as SlideElement[];
+        ...elementsList.filter(element => editor.selectedSlideElementsIds.includes(element.id)),
+        ...elementsList.filter(element => !editor.selectedSlideElementsIds.includes(element.id))
+    ];
 
     const newSlide: Slide = {
         ...slide,
@@ -384,6 +316,7 @@ export function moveElementsToBackground(editor: Editor): Editor {
 }
 
 export function moveElementsToForeground(editor: Editor): Editor {
+    //TODO Раф
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -428,6 +361,8 @@ export function moveElementsToForeground(editor: Editor): Editor {
 
 // Я, как пользователь, не понял, для чего она ??
 // export function moveElementsToPosition(editor: Editor, elementsLayoutPosition: number) {
+    //TODO Раф
+    //индекс смещения
 //     const slideIndex: number = editor.selectedSlidesIds.slice(-1)[0]
 //     if (slideIndex === -1) {
 //         return
@@ -472,6 +407,7 @@ export function moveElementsToForeground(editor: Editor): Editor {
 // }
 
 export function changeElementsSize(editor: Editor, scale: Size): Editor {
+    //TODO Лёня
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -516,6 +452,7 @@ export function changeElementsSize(editor: Editor, scale: Size): Editor {
 }
 
 export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
+    //TODO Лёня
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -555,6 +492,7 @@ export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
 }
 
 export function changeFiguresColor(editor: Editor, figureColor: string): Editor {
+    //TODO Паша
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -597,6 +535,7 @@ export function changeFiguresColor(editor: Editor, figureColor: string): Editor 
 }
 
 export function changeTextsSize(editor: Editor, fontSize: number): Editor {
+    //TODO Паша
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -639,6 +578,7 @@ export function changeTextsSize(editor: Editor, fontSize: number): Editor {
 }
 
 export function changeTextsColor(editor: Editor, fontColor: string): Editor {
+    //TODO Раф
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -681,6 +621,7 @@ export function changeTextsColor(editor: Editor, fontColor: string): Editor {
 }
 
 export function removeSelectedElements(editor: Editor): Editor {
+    //TODO Паша
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -716,6 +657,7 @@ export function removeSelectedElements(editor: Editor): Editor {
 }
 
 export function changePicture(editor: Editor, src: string): Editor {
+    //TODO Раф
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -782,3 +724,12 @@ function isFigure(element: TextElement | FigureElement | PictureElement): elemen
 function isPicture(element: TextElement | FigureElement | PictureElement): element is PictureElement {
     return (element as PictureElement).src !== undefined;
 }
+
+//TODO Раф
+// rotateElement(editor: Editor, angle: number)
+
+//TODO Паша
+// changeElementPosition(editor: Editor, t: Coordinates)
+
+//TODO Лёня
+// save centerPoint func(t: Coordinates)

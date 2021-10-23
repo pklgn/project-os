@@ -5,8 +5,12 @@ export function initEditor(): Editor {
         mode: "edit",
         presentation: initPresentation(),
         history: initHistory(),
-        selectedSlidesIds: ["-1"],
+        selectedSlidesIds: [],
         selectedSlideElementsIds: [],
+        insertElementPositionAtSlide: {
+            x: 0,
+            y: 0,
+        }
     }
 }
 

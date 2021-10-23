@@ -1,7 +1,7 @@
 import { Editor, PresentationMode } from "./types";
 
 export function togglePresentationMode(editor: Editor): Editor {
-    var mode: PresentationMode;
+    let mode: PresentationMode;
     if (editor.mode === "edit") {
         mode = "show";
     } else {
