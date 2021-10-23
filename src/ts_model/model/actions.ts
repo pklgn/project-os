@@ -248,17 +248,6 @@ export function addFigureElement(editor: Editor, figureType: FigureShape): Edito
     }
 }
 
-export function changePresentationName(editor: Editor, name: string): Editor {
-    //TODO Раф
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            name,
-        }
-    }
-}
-
 export function moveElementsToBackground(editor: Editor): Editor {
     //TODO Раф
     const selectedSlidesIds = editor.selectedSlidesIds;

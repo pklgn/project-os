@@ -9,7 +9,17 @@ export function togglePresentationMode(editor: Editor): Editor {
     }
     return {
         ...editor,
-        mode
+        mode,
+    }
+}
+
+export function changePresentationName(editor: Editor, name: string): Editor {
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            name,
+        }
     }
 }
 
