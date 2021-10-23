@@ -3,15 +3,18 @@ import logo from './assets/logos/logoMari.svg';
 import './App.css';
 import { initEditor } from './ts_model/model/initModelFunctions';
 import { setSelectedIdInEditor, togglePresentationMode } from './ts_model/model/editorActions';
-import { addSlide, deleteSelectedSlides } from './ts_model/model/slidesActions';
+import { addSlide, changeSelectedSlideBackground, deleteSelectedSlides } from './ts_model/model/slidesActions';
 import { undo, redo, keep } from './ts_model/model/historyActions';
 import { Slide } from './ts_model/model/types';
 
 function App() {
   const [editor, setEditor] = useState(initEditor());
 
-  const [selectedSlidesId, setSelectedSlidesId] = useState('');
-  const [selectedElementsId, setSelectedElementsId] = useState('');
+  const [firstInput, setSelectedSlidesId] = useState('');
+  const [secondInput, setSelectedElementsId] = useState('');
+
+  const [thirdInput, setSelectedSlidesImgSrc] = useState('');
+  const [fourthInput, setSelectedSlidesBackgroundColor] = useState('');
 
   const handleInputFirst = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSelectedSlidesId(event.target.value);
@@ -19,6 +22,14 @@ function App() {
 
   const handleInputSecond = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSelectedElementsId(event.target.value);
+  };
+
+  const handleInputThird = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setSelectedSlidesImgSrc(event.target.value);
+  };
+
+  const handleInputFourth = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setSelectedSlidesBackgroundColor(event.target.value);
   };
 
   function undoState() {
@@ -34,12 +45,8 @@ function App() {
   }
 
   function setSelectedIdState() {
-    const selectedSlidesIds: string[] = selectedSlidesId.split(';');
-
-    const selectedElementsIds: string[] = selectedElementsId.split(';');
-    console.log(selectedSlidesIds);
-    console.log(selectedElementsIds);
-
+    const selectedSlidesIds: string[] = firstInput.split(';');
+    const selectedElementsIds: string[] = secondInput.split(';');
     setEditor(setSelectedIdInEditor(editor, selectedSlidesIds, selectedElementsIds));
   }
 
@@ -55,11 +62,20 @@ function App() {
     setEditor(deleteSelectedSlides(editor));
   }
 
+  function setSlideBackgroundState() {
+    const imageSrc: string = thirdInput;
+    const color: string = fourthInput;
+    setEditor(changeSelectedSlideBackground(editor, imageSrc, color));    
+  }
+
   var slideAmount: number = -1;
 
   var listItems: any = editor.presentation.slidesList.map((slide: Slide) => {
     slideAmount++;
-    return <li className="li_some" key={slide.id}>slideIndex: {slideAmount} | slideId: {slide.id}</li>
+    const slideSrc: string = (slide.background.src)
+    ? slide.background.src
+    : slide.background.color;
+    return <li className="li_some" key={slide.id}>slideIndex: {slideAmount} | slideId: {slide.id} | slideBackround: {slideSrc}</li>
   }
   );
 
@@ -86,6 +102,9 @@ function App() {
 
         <button className="button-53" onClick={addSlideState}>addSlide</button>
         <button className="button-53" onClick={rmSlideState}>removeSelectedSlides</button>
+        <input className="type-2" type="text" placeholder="Input background image's src here" onChange={handleInputThird} />
+        <input className="type-2" type="text" placeholder="Input background color here" onChange={handleInputFourth} />
+        <button className="button-53" onClick={setSlideBackgroundState}>changeSelectedSlidesBackground</button>
 
         <div className="functiton-block">Dump your editor here</div>
 
