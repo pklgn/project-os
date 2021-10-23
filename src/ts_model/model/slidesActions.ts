@@ -107,7 +107,7 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     }
 }
 
-export function changeSelectedSlideBackground(editor: Editor, src = '', color = 'white'): Editor {
+export function changeSelectedSlideBackground(editor: Editor, src = '', color = '#ffffff'): Editor {
 
     const selectedSlidesIds: string[] = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
