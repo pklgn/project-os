@@ -6,35 +6,35 @@ import { Slide } from './types'
 import { Background } from './types'
 import { generateUUId } from '../utils/uuid'
 import { Text, Figure, Picture } from '../constatns/elementConstants'
-/*export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
-    //TODO Лёня
+export function insertSelectedSlides(editor: Editor, insertId: string): Editor {
     const slidesList: Slide[] = editor.presentation.slidesList
-
+    const insertIndex = slidesList.findIndex(item => 
+        item.id == insertId
+    )
+    const selectedSlidesIds = editor.selectedSlidesIds
     if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return editor
+        return
     }
 
-    const selectedSlides: Slide[] = slidesList.map((slide, index) => {
-        if (selectedSlidesIds.includes(index)) {
-            return slide
-        }
-    })
+    const selectedSlides: Slide[] = slidesList.filter(
+        item => selectedSlidesIds.includes(item.id)
+    )
 
     if (!(Array.isArray(selectedSlides) && selectedSlides.length)) {
-        return editor
+        return
     }
 
     const slidesBeforeInsertPosition: Slide[] = slidesList.slice(0, insertIndex)
     const slidesAfterInsertPosition: Slide[] = slidesList.slice(insertIndex)
 
     const newSlideList: Slide[] = [
-        ...slidesBeforeInsertPosition.filter((slide, index) => {
-            return selectedSlidesIds.includes(index)
-        }),
+        ...slidesBeforeInsertPosition.filter(item => 
+            selectedSlidesIds.includes(item.id)
+        ),
         ...selectedSlides,
-        ...slidesAfterInsertPosition.filter((slide, index) => {
-            return !selectedSlidesIds.includes(index + insertIndex)
-        })
+        ...slidesAfterInsertPosition.filter(item => 
+            selectedSlidesIds.includes(item.id)
+        )
     ]
 
     const updatedPresentation: Presentation = {
@@ -42,17 +42,12 @@ import { Text, Figure, Picture } from '../constatns/elementConstants'
         slidesList: newSlideList,
     }
 
-    const newselectedSlidesIds: string[] = selectedSlidesIds.map((element, elementIndex) => {
-        return insertIndex + elementIndex
-    })
-
     return {
         ...editor,
         presentation: updatedPresentation,
-        selectedSlidesIds: newselectedSlidesIds,
         selectedSlideElementsIds: []
     }
-}*/
+}
 
 export function addTextElement(editor: Editor): Editor {
     //TODO Паша
@@ -374,17 +369,20 @@ export function moveElementsToForeground(editor: Editor): Editor {
 //     return applySlideChanges(editor, newSlide, slideIndex)
 // }
 
-export function changeElementsSize(editor: Editor, scale: Size): Editor {
-    //TODO Лёня
+export function changeElementsSize(editor: Editor, scaleX: number, scaleY: number): Editor {
+    const scale = {
+        width: scaleX,
+        height: scaleY
+    }
     const selectedSlidesIds = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
     }
 
     const activeSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+    const slideIndex = editor.presentation.slidesList.findIndex(item => 
         item.id === activeSlideId
-    })
+    )
     const slidesList: Slide[] = editor.presentation.slidesList;
     if (!(Array.isArray(slidesList) && slidesList.length)) {
         return editor;
