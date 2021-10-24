@@ -1,11 +1,11 @@
-import { Editor, FigureElement, FigureShape, PictureElement, Size, SlideElement, TextElement } from './types'
+import { Editor, FigureElement, FigureShape, PictureElement, Size, SlideElement, TextElement, Coordinates } from './types'
 import { Presentation } from './types'
 import { PresentationMode } from './types'
 import { History } from './types'
 import { Slide } from './types'
 import { Background } from './types'
 import { generateUUId } from '../utils/uuid'
-
+import { Text, Figure, Picture } from '../constatns/elementConstants'
 /*export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
     //TODO Лёня
     const slidesList: Slide[] = editor.presentation.slidesList
@@ -699,5 +699,17 @@ function isPicture(element: TextElement | FigureElement | PictureElement): eleme
 //TODO Паша
 // changeElementPosition(editor: Editor, t: Coordinates)
 
-//TODO Лёня
-// save centerPoint func(t: Coordinates)
+
+export function saveCenterPoint(editor: Editor, x1: number, y1: number, x2?: number, y2?: number): Coordinates {
+    const centerPoint = (x2 !== undefined && y2 !== undefined)
+    ? {
+        x: (x1 + x2) / 2,
+        y: (y1 + y2) / 2
+    }
+    : {
+        x: (x1 + Text.DEFAULT_WIDTH) / 2,
+        y: (y1 + Text.DEFAULT_HEIGHT) / 2
+    }
+    
+    return centerPoint
+}
