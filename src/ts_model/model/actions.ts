@@ -6,6 +6,7 @@ import { Slide } from './types'
 import { Background } from './types'
 import { generateUUId } from '../utils/uuid'
 import { Text, Figure, Picture } from '../constatns/elementConstants'
+
 export function insertSelectedSlides(editor: Editor, insertId: string): Editor {
     const slidesList: Slide[] = editor.presentation.slidesList
     const insertIndex = slidesList.findIndex(item => 
@@ -13,7 +14,7 @@ export function insertSelectedSlides(editor: Editor, insertId: string): Editor {
     )
     const selectedSlidesIds = editor.selectedSlidesIds
     if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return
+        return editor
     }
 
     const selectedSlides: Slide[] = slidesList.filter(
@@ -21,7 +22,7 @@ export function insertSelectedSlides(editor: Editor, insertId: string): Editor {
     )
 
     if (!(Array.isArray(selectedSlides) && selectedSlides.length)) {
-        return
+        return editor
     }
 
     const slidesBeforeInsertPosition: Slide[] = slidesList.slice(0, insertIndex)
