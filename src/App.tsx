@@ -1,11 +1,12 @@
-import { SetStateAction, useState } from 'react';
+import {SetStateAction, useState} from 'react';
 import logo from './assets/logos/logoMari.svg';
 import './App.css';
-import { initEditor } from './ts_model/model/initModelFunctions';
-import { changePresentationName, setSelectedIdInEditor, togglePresentationMode } from './ts_model/model/editorActions';
-import { addSlide, changeSelectedSlidesBackground, deleteSelectedSlides } from './ts_model/model/slidesActions';
-import { undo, redo, keep } from './ts_model/model/historyActions';
-import { Slide } from './ts_model/model/types';
+import {initEditor} from './ts_model/model/initModelFunctions';
+import {changePresentationName, setSelectedIdInEditor, togglePresentationMode} from './ts_model/model/editorActions';
+import {addSlide, changeSelectedSlidesBackground, deleteSelectedSlides} from './ts_model/model/slidesActions';
+import {keep, redo, undo} from './ts_model/model/historyActions';
+import {addFigureElement, addPictureElement, addTextElement} from "./ts_model/model/actions";
+import {Slide} from './ts_model/model/types';
 
 function App() {
   const [editor, setEditor] = useState(initEditor());
@@ -78,9 +79,20 @@ function App() {
     setEditor(changePresentationName(editor, fifthInput));    
   }
 
-  var slideAmount: number = -1;
+  function addNewTextElement() {
+    setEditor(addTextElement(editor, 200, 100));
+  }
 
-  var listItems: any = editor.presentation.slidesList.map((slide: Slide) => {
+  function addNewPictureElement() {
+    setEditor(addPictureElement(editor, 200, 100, 400, 600, 'path/to/picture'));
+  }
+
+  function addNewFigureElement() {
+    setEditor(addFigureElement(editor, 0, 100, 200));
+  }
+  let slideAmount: number = -1;
+
+  let listItems: any = editor.presentation.slidesList.map((slide: Slide) => {
     slideAmount++;
     const slideSrc: string = (slide.background.src)
     ? slide.background.src
@@ -108,6 +120,10 @@ function App() {
         <button className="button-53" onClick={setSelectedIdState}>setSelectedIdState</button>
         <input className="type-2" type="text" placeholder="Input Presentation name here" onChange={handleInputFifth} />
         <button className="button-53" onClick={setNewPresentationName}>setPresentationName</button>
+        <button className="button-53" onClick={addNewTextElement}>addNewTextElement</button>
+        <button className="button-53" onClick={addNewPictureElement}>addNewPictureElement</button>
+        <button className="button-53" onClick={addNewFigureElement}>addNewFigureElement</button>
+
 
 
         <div className="functiton-block">Slide Functions</div>
