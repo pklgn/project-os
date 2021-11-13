@@ -1,9 +1,13 @@
-import { Editor, FigureElement, FigureShape, PictureElement, Size, SlideElement, TextElement, Coordinates } from './types'
-import { Presentation } from './types'
-import { PresentationMode } from './types'
-import { History } from './types'
+import {
+    Editor,
+    FigureElement,
+    FigureShape,
+    PictureElement,
+    Size,
+    SlideElement,
+    TextElement,
+} from './types'
 import { Slide } from './types'
-import { Background } from './types'
 import { generateUUId } from '../utils/uuid'
 
 /*export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
@@ -54,32 +58,28 @@ import { generateUUId } from '../utils/uuid'
     }
 }*/
 
-export function addTextElement(editor: Editor, x: number, y: number): Editor {
-    //TODO Паша
-    const selectedSlidesIds: string[] = editor.selectedSlidesIds;
+export function addTextElement(editor: Editor, x: number = 1, y: number = 1): Editor {
+    const selectedSlidesIds = editor.selectedSlidesIds;
     const slideList: Slide[] = editor.presentation.slidesList;
 
-    const slideIndex: number = slideList.findIndex((slide) => {
-        return slide.id === selectedSlidesIds[selectedSlidesIds.length - 1]
-    });
-
-    if (!(Array.isArray(slideList) && slideList.length)) {
+    if (!(slideList.length && selectedSlidesIds.length)) {
         return editor;
     }
 
-    const slide: Slide = slideList[slideIndex];
+    const selectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
+    const slideIndex: number = slideList.findIndex((slide) => {
+        return slide.id === selectedSlideId
+    });
 
+    const slide: Slide = slideList[slideIndex];
     const textElement: TextElement = {
         content: 'Введите текст',
         fontSize: 10,
         fontColor: '#ffffff',
         fontStyle: 'italic'
     }
-
     const element: SlideElement = {
         id: generateUUId(),
-        //TODO получать параметры centerPoint size
-        //done
         centerPoint: {
             x,
             y,
@@ -93,7 +93,7 @@ export function addTextElement(editor: Editor, x: number, y: number): Editor {
         content: textElement,
     }
 
-    const newSlide: Slide = {
+    const updatedSlide: Slide = {
         ...slide,
         elementsList: [
             ...slide.elementsList,
@@ -101,48 +101,51 @@ export function addTextElement(editor: Editor, x: number, y: number): Editor {
         ]
     }
 
-    const newSlideList: Slide[] = editor.presentation.slidesList.map((slide, index) => {
+    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide, index) => {
         if (index === slideIndex) {
-            return newSlide;
+            return updatedSlide;
         }
         return slide;
     })
-
-
 
     return {
         ...editor,
         presentation: {
             ...editor.presentation,
-            slidesList: newSlideList,
+            slidesList: updatedSlideList,
         },
-        selectedSlidesIds: [selectedSlidesIds[slideIndex]],
+        selectedSlidesIds: [selectedSlideId],
         selectedSlideElementsIds: [element.id],
     }
 }
 
-export function addPictureElement(editor: Editor, x: number, y: number, width: number, height: number, src: string): Editor {
-    //TODO Паша
+export function addPictureElement(
+    editor: Editor,
+    src: string,
+    x: number = 1,
+    y: number = 1,
+    width: number = 1,
+    height: number = 1,
+): Editor {
+    const selectedSlidesIds = editor.selectedSlidesIds;
     const slideList: Slide[] = editor.presentation.slidesList;
-    const selectedSlidesIds: string[] = editor.selectedSlidesIds;
 
-    const slideIndex = slideList.findIndex(slide => {
-        return slide.id === selectedSlidesIds[selectedSlidesIds.length - 1]
-    });
-
-    if (!(Array.isArray(slideList) && slideList.length)) {
+    if (!(slideList.length && selectedSlidesIds.length)) {
         return editor;
     }
 
-    const slide: Slide = slideList[slideIndex];
+    const selectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
+    const slideIndex: number = slideList.findIndex(slide => {
+        return slide.id === selectedSlideId
+    });
 
+    const slide: Slide = slideList[slideIndex];
     const pictureElement: PictureElement = {
         src
     }
 
     const element: SlideElement = {
         id: generateUUId(),
-        //TODO получать параметры centerPoint size src
         centerPoint: {
             x,
             y,
@@ -156,17 +159,16 @@ export function addPictureElement(editor: Editor, x: number, y: number, width: n
         content: pictureElement,
     }
 
-    const newSlide: Slide = {
+    const updatedSlide: Slide = {
         ...slide,
         elementsList: [
             ...slide.elementsList,
             element,
         ]
     }
-
-    const newSlideList: Slide[] = editor.presentation.slidesList.map((slide, index) => {
+    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide, index) => {
         if (index === slideIndex) {
-            return newSlide;
+            return updatedSlide;
         }
         return slide;
     })
@@ -175,25 +177,30 @@ export function addPictureElement(editor: Editor, x: number, y: number, width: n
         ...editor,
         presentation: {
             ...editor.presentation,
-            slidesList: newSlideList,
+            slidesList: updatedSlideList,
         },
-        selectedSlidesIds: [selectedSlidesIds[slideIndex]],
+        selectedSlidesIds: [selectedSlideId],
         selectedSlideElementsIds: [element.id],
     }
 }
 
-export function addFigureElement(editor: Editor, figureType: FigureShape, x: number, y: number): Editor {
-    //TODO Паша
+export function addFigureElement(
+    editor: Editor,
+    figureType: FigureShape,
+    x: number = 1,
+    y: number = 1,
+): Editor {
     const slideList: Slide[] = editor.presentation.slidesList;
-    const selectedSlidesIds: string[] = editor.selectedSlidesIds;
+    const selectedSlideIds: string[] = editor.selectedSlidesIds;
 
-    const slideIndex: number = slideList.findIndex(slide => {
-        return slide.id === selectedSlidesIds[selectedSlidesIds.length - 1]
-    });
-
-    if (!(Array.isArray(slideList) && slideList.length)) {
+    if (!(slideList.length && selectedSlideIds.length)) {
         return editor;
     }
+
+    const selectedSlideId: string = selectedSlideIds[selectedSlideIds.length - 1];
+    const slideIndex: number = slideList.findIndex(slide => {
+        return slide.id === selectedSlideId
+    });
 
     const slide: Slide = slideList[slideIndex];
 
@@ -206,7 +213,6 @@ export function addFigureElement(editor: Editor, figureType: FigureShape, x: num
 
     const element: SlideElement = {
         id: generateUUId(),
-        //TODO получать параметры centerPoint size
         centerPoint: {
             x,
             y,
@@ -221,7 +227,7 @@ export function addFigureElement(editor: Editor, figureType: FigureShape, x: num
 
     }
 
-    const newSlide: Slide = {
+    const updatedSlide: Slide = {
         ...slide,
         elementsList: [
             ...slide.elementsList,
@@ -229,22 +235,20 @@ export function addFigureElement(editor: Editor, figureType: FigureShape, x: num
         ]
     }
 
-    const newSlideList: Slide[] = editor.presentation.slidesList.map((slide, index) => {
+    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide, index) => {
         if (index === slideIndex) {
-            return newSlide;
+            return updatedSlide;
         }
         return slide;
     })
-
-
 
     return {
         ...editor,
         presentation: {
             ...editor.presentation,
-            slidesList: newSlideList,
+            slidesList: updatedSlideList,
         },
-        selectedSlidesIds: selectedSlidesIds,
+        selectedSlidesIds: [selectedSlideId],
         selectedSlideElementsIds: [element.id],
     }
 }
@@ -376,51 +380,54 @@ export function moveElementsToForeground(editor: Editor): Editor {
 // }
 
 export function changeElementsSize(editor: Editor, scaleX: number, scaleY: number): Editor {
-    const scale = {
+    const scale: Size = {
         width: scaleX,
-        height: scaleY
-    }
-    const selectedSlidesIds = editor.selectedSlidesIds;
-    if (!selectedSlidesIds) {
-        return editor;
-    }
-
-    const activeSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex = editor.presentation.slidesList.findIndex(item =>
-        item.id === activeSlideId
-    )
+        height: scaleY,
+    };
+    const selectedSlidesIds: string[] = editor.selectedSlidesIds
     const slidesList: Slide[] = editor.presentation.slidesList;
-    if (!(Array.isArray(slidesList) && slidesList.length)) {
+
+    if ((slidesList.length === 0) || !selectedSlidesIds.length) {
         return editor;
     }
 
+    const selectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
+    const slideIndex = editor.presentation.slidesList.findIndex(item =>
+        item.id === selectedSlideId
+    )
     const slide: Slide = slidesList[slideIndex];
     const elementsList: SlideElement[] = slide.elementsList;
-    if (!(Array.isArray(elementsList) && elementsList.length)) {
+
+    if (elementsList.length === 0) {
         return editor;
     }
 
-    const newElementsList: SlideElement[] = elementsList.filter(item => {
+    const updatedElementList: SlideElement[] = elementsList.map(item => {
         if (editor.selectedSlideElementsIds.includes(item.id)) {
             const size: Size = {
                 width: item.size.width * scale.width,
                 height: item.size.height * scale.height,
-            }
+            };
 
             return {
                 ...item,
                 size,
-            }
+            };
         }
+
         return item;
     })
 
-    const newSlide: Slide = {
+    const updatedSlide: Slide = {
         ...slide,
-        elementsList: newElementsList,
+        elementsList: updatedElementList,
     }
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
 
-    return applySlideChanges(editor, newSlide, slideIndex);
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [selectedSlideId],
+    }
 }
 
 export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
@@ -464,28 +471,25 @@ export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
 }
 
 export function changeFiguresColor(editor: Editor, figureColor: string): Editor {
-    //TODO Паша
-    const selectedSlidesIds: string[] = editor.selectedSlidesIds;
-    if (!selectedSlidesIds) {
+    const selectedSlideIds: string[] = editor.selectedSlidesIds;
+    const slidesList: Slide[] = editor.presentation.slidesList;
+
+    if (!selectedSlideIds.length || !slidesList.length) {
         return editor;
     }
 
-    const activeSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex = editor.presentation.slidesList.findIndex(item => {
-        return item.id === activeSlideId
+    const selectedSlideId: string = selectedSlideIds[selectedSlideIds.length - 1];
+    const slideIndex: number = slidesList.findIndex(slide => {
+        return slide.id === selectedSlideId
     })
-    const slidesList: Slide[] = editor.presentation.slidesList;
-    if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return editor
-    }
-
     const slide: Slide = slidesList[slideIndex];
     const elementsList: SlideElement[] = slide.elementsList;
-    if (!(Array.isArray(elementsList) && elementsList.length)) {
+
+    if (!elementsList.length) {
         return editor;
     }
 
-    const newElementsList: SlideElement[] = elementsList.filter(item => {
+    const updatedElementsList: SlideElement[] = elementsList.map(item => {
         if (editor.selectedSlideElementsIds.includes(item.id) && isFigure(item.content)) {
             return {
                 ...item,
@@ -495,58 +499,65 @@ export function changeFiguresColor(editor: Editor, figureColor: string): Editor 
                 }
             }
         }
+
         return item;
     })
 
-    const newSlide: Slide = {
+    const updatedSlide: Slide = {
         ...slide,
-        elementsList: newElementsList,
+        elementsList: updatedElementsList,
     }
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
 
-    return applySlideChanges(editor, newSlide, slideIndex);
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [selectedSlideId]
+    }
 }
 
 export function changeTextsSize(editor: Editor, fontSize: number): Editor {
-    //TODO Паша
-    const selectedSlidesIds = editor.selectedSlidesIds;
-    if (!selectedSlidesIds) {
-        return editor;
-    }
-
-    const activeSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex = editor.presentation.slidesList.findIndex(item => {
-        return item.id === activeSlideId
-    })
+    const selectedSlideIds: string[] = editor.selectedSlidesIds;
     const slidesList: Slide[] = editor.presentation.slidesList;
-    if (!(Array.isArray(slidesList) && slidesList.length)) {
+
+    if (!selectedSlideIds.length || !slidesList.length) {
         return editor;
     }
 
+    const selectedSlideId: string = selectedSlideIds[selectedSlideIds.length - 1];
+    const slideIndex: number = slidesList.findIndex(slide => {
+        return slide.id === selectedSlideId
+    })
     const slide: Slide = slidesList[slideIndex];
     const elementsList: SlideElement[] = slide.elementsList;
-    if (!(Array.isArray(elementsList) && elementsList.length)) {
+
+    if (!elementsList.length) {
         return editor;
     }
 
-    const newElementsList: SlideElement[] = elementsList.filter(item => {
-        if (editor.selectedSlideElementsIds.includes(item.id) && isText(item.content)) {
+    const newElementsList: SlideElement[] = elementsList.map(element => {
+        if (editor.selectedSlideElementsIds.includes(element.id) && isText(element.content)) {
             return {
-                ...item,
+                ...element,
                 content: {
-                    ...item.content,
+                    ...element.content,
                     fontSize,
                 }
             }
         }
-        return item;
+        return element;
     })
 
-    const newSlide: Slide = {
+    const updatedSlide: Slide = {
         ...slide,
         elementsList: newElementsList,
     }
 
-    return applySlideChanges(editor, newSlide, slideIndex);
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [selectedSlideId]
+    }
 }
 
 export function changeTextsColor(editor: Editor, fontColor: string): Editor {
@@ -593,39 +604,40 @@ export function changeTextsColor(editor: Editor, fontColor: string): Editor {
 }
 
 export function removeSelectedElements(editor: Editor): Editor {
-    //TODO Паша
-    const selectedSlidesIds = editor.selectedSlidesIds;
-    if (!selectedSlidesIds) {
-        return editor;
-    }
-
-    const activeSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex = editor.presentation.slidesList.findIndex(slide => {
-        return slide.id === activeSlideId
-    })
+    const selectedSlideIds: string[] = editor.selectedSlidesIds;
     const slidesList: Slide[] = editor.presentation.slidesList;
-    if (!(Array.isArray(slidesList) && slidesList.length)) {
+
+    if (!selectedSlideIds.length || !slidesList.length) {
         return editor;
     }
 
+    const selectedSlideId: string = selectedSlideIds[selectedSlideIds.length - 1];
+    const slideIndex: number = slidesList.findIndex(slide => {
+        return slide.id === selectedSlideId
+    })
     const slide: Slide = slidesList[slideIndex];
     const elementsList: SlideElement[] = slide.elementsList;
-    if (!(Array.isArray(elementsList) && elementsList.length)) {
+
+    if (!elementsList.length) {
         return editor;
     }
 
-    const newElementsList: SlideElement[] = elementsList.filter(item => {
-        if (!editor.selectedSlideElementsIds.includes(item.id)) {
-            return item;
-        }
+    const updatedElementsList: SlideElement[] = elementsList.filter(item => {
+        return !editor.selectedSlideElementsIds.includes(item.id)
     })
 
-    const newSlide: Slide = {
+    const updatedSlide: Slide = {
         ...slide,
-        elementsList: newElementsList,
+        elementsList: updatedElementsList,
     }
 
-    return applySlideChanges(editor, newSlide, slideIndex);
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [selectedSlideId],
+        selectedSlideElementsIds: [],
+    }
 }
 
 export function changePicture(editor: Editor, src: string): Editor {
@@ -680,8 +692,8 @@ function applySlideChanges(editor: Editor, newSlide: Slide, newSlideIndex: numbe
                 [...editor.presentation.slidesList.slice(0, newSlideIndex),
                     newSlide,
                     ...editor.presentation.slidesList.slice(newSlideIndex + 1)
-                ]
-        }
+                ],
+        },
     }
 }
 
@@ -700,8 +712,51 @@ function isPicture(element: TextElement | FigureElement | PictureElement): eleme
 //TODO Раф
 // rotateElement(editor: Editor, angle: number)
 
-//TODO Паша
-// changeElementPosition(editor: Editor, t: Coordinates)
-
 //TODO Лёня
 // save centerPoint func(t: Coordinates)
+
+export function changeElementsPosition(editor: Editor, dx: number, dy: number): Editor {
+    const selectedSlideIds: string[] = editor.selectedSlidesIds;
+    const slidesList: Slide[] = editor.presentation.slidesList;
+
+    if (!selectedSlideIds.length || !slidesList.length) {
+        return editor;
+    }
+
+    const selectedSlideId: string = selectedSlideIds[selectedSlideIds.length - 1];
+    const slideIndex: number = slidesList.findIndex(slide => {
+        return slide.id === selectedSlideId
+    })
+    const slide: Slide = slidesList[slideIndex];
+    const elementsList: SlideElement[] = slide.elementsList;
+
+    if (!elementsList.length) {
+        return editor;
+    }
+
+    const updatedElementsList: SlideElement[] = elementsList.map(element => {
+        if (editor.selectedSlideElementsIds.includes(element.id)) {
+            return {
+                ...element,
+                centerPoint: {
+                    x: element.centerPoint.x + dx,
+                    y: element.centerPoint.y + dy,
+                }
+            }
+        }
+
+        return element;
+    })
+
+    const updatedSlide: Slide = {
+        ...slide,
+        elementsList: updatedElementsList,
+    }
+
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [selectedSlideId],
+    }
+}
