@@ -1,37 +1,15 @@
 import { useState, SetStateAction } from 'react';
 import logo from './assets/logos/logoMari.svg';
-import {
-    addPictureElement,
-    addFigureElement,
-    changeElementsPosition,
-    changeElementsSize,
-    changeFiguresColor,
-    removeSelectedElements
-} from './ts_model/model/actions';
-import {
-    addTextElement,
-    changeTextsSize,
-    changeTextsContent,
-    changeTextsColor,
-    changeTextsStyle
-} from './ts_model/model/actions/textActions';
-import {
-    setSelectedIdInEditor,
-    togglePresentationMode,
-    changePresentationName
-} from './ts_model/model/editorActions';
+import "./App.css";
+import { addPictureElement, changeElementsPosition, changeElementsSize, removeSelectedElements } from './ts_model/model/actions';
+import { addFigureElement, changeFiguresBorderColor, changeFiguresColor } from './ts_model/model/actions/figureActions';
+import { addTextElement, changeTextsSize, changeTextsContent, changeTextsColor, changeTextsStyle } from './ts_model/model/actions/textActions';
+import { setSelectedIdInEditor, togglePresentationMode, changePresentationName } from './ts_model/model/editorActions';
 import { undo, redo, keep } from './ts_model/model/historyActions';
 import { initEditor } from './ts_model/model/initModelFunctions';
-import {
-    addSlide,
-    deleteSelectedSlides,
-    changeSelectedSlidesBackground
-} from './ts_model/model/slidesActions';
+import { addSlide, deleteSelectedSlides, changeSelectedSlidesBackground } from './ts_model/model/slidesActions';
 import { FigureShape, Slide, SlideElement } from './ts_model/model/types';
 import { isFigure, isPicture } from './ts_model/utils/tools';
-import "./App.css";
-
-
 
 function App() {
     const [editor, setEditor] = useState(initEditor());
@@ -48,6 +26,8 @@ function App() {
     const [textColorInput, setTextColorInput] = useState('');
     const [textStyleInput, setTextStyleInput] = useState('');
     const [textContentInput, setTextContentInput] = useState('');
+    const [figureColorInput, setFiguresColorInput] = useState('');
+    const [figureBorderColorInput, setFiguresBorderColorInput] = useState('');
 
     const handleSelectedSlidesIdInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setSelectedSlidesId(event.target.value);
@@ -95,6 +75,14 @@ function App() {
 
     const handleTextContentInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setTextContentInput(event.target.value);
+    }
+
+    const handleFigureColorInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setFiguresColorInput(event.target.value);
+    }
+
+    const handleFigureBorderColorInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setFiguresBorderColorInput(event.target.value);
     }
 
     function getXYArr(XYCords: string): number[] {
@@ -178,7 +166,11 @@ function App() {
     }
 
     function setChangeFiguresColor() {
-        setEditor(changeFiguresColor(editor, 'feffef'))
+        setEditor(changeFiguresColor(editor, figureColorInput));
+    }
+
+    function setChangeFiguresBorderColor() {
+        setEditor(changeFiguresBorderColor(editor, figureBorderColorInput));
     }
 
     function setChangeTextsSize() {
@@ -219,20 +211,15 @@ function App() {
                         ? 'Картинка'
                         : 'Текст';
                 const additionalInfo = isPicture(el.content)
-                    ? `src: ${el.content.src}`
+                    ? `src: '${el.content.src}'`
                     : isFigure(el.content)
-                        ? FigureShape[+el.content.figureType]
+                        ? `тип: ${FigureShape[+el.content.figureType]} цвет: ${el.content.figureColor} цветКонтура: ${el.content.borderColor} толщинаКонтура: ${el.content.borderWidth}`
                         : `content: '${el.content.content}' 
                         textSize: ${el.content.fontSize} 
                         fontColor: ${el.content.fontColor} 
                         fontStyle: ${el.content.fontStyle}`;
                 return <div className="slide-element-info" key={el.id}>
-                    |elementId: {el.id} 
-                    width: {el.size.width} 
-                    height: {el.size.height}  
-                    x: {el.centerPoint.x} 
-                    y: {el.centerPoint.y} 
-                    opacity: {el.opacity} |
+                    |elementId: {el.id} width: {el.size.width} height: {el.size.height} x: {el.centerPoint.x} y: {el.centerPoint.y} opacity: {el.opacity}|
                     <div>{'<'}{contentType}{'>'} {additionalInfo}</div>
                 </div>
             });
@@ -261,8 +248,6 @@ function App() {
 
                 <button className="button-53" onClick={toggleEditorState}>toggleEditorMode</button>
                 <input className="type-2" type="text" placeholder="Input;Slides;Ids;here" onChange={handleSelectedSlidesIdInput} />
-                <input className="type-2" type="text" placeholder="Input;Elements;Ids;here"
-                    onChange={handleSelectedElementsIdInput} />
                 <button className="button-53" onClick={setSelectedIdState}>setSelectedIdState</button>
                 <input className="type-2" type="text" placeholder="Input Presentation name here"
                     onChange={handlePresentationNameInput} />
@@ -279,7 +264,13 @@ function App() {
                 <button className="button-53" onClick={setSlideBackgroundState}>changeSelectedSlidesBackground</button>
 
                 <div className="functiton-block">Elements Functions</div>
-                <input className="type-2" type="text" placeholder="Input;X;Y;here" onChange={handleXYElementsCordsInput} />
+                <input className="type-2" type="text" placeholder="Input;Elements;Ids;here"
+                    onChange={handleSelectedElementsIdInput} />
+                <button className="button-53" onClick={setSelectedIdState}>setSelectedIdState</button>
+                <input className="type-2" type="text" placeholder="Input;X;Y;here;for;new;element" onChange={handleXYElementsCordsInput} />
+                <button className="button-53" onClick={setChangeElementsPosition}>setChangeElementsPosition</button>
+                <button className="button-53" onClick={setRemoveSelectedElements}>setRemoveSelectedElements</button>
+                <button className="button-53" onClick={setChangeElementsSize}>setChangeElementsSize</button>
 
                 <div className="functiton-block">Texts Functions</div>
 
@@ -293,14 +284,19 @@ function App() {
                 <input className="type-2" type="text" placeholder="Input text content" onChange={handleTextContentInput} />
                 <button className="button-53" onClick={setChangeTextContent}>setChangeTextContent</button>
 
+                <div className="functiton-block">Pictures Functions</div>
+
                 <input className="type-2" type="text" placeholder="Input picture content" onChange={handlePictureContentInput} />
                 <button className="button-53" onClick={addNewPictureElement}>addNewPictureElement</button>
+
+                <div className="functiton-block">Figures Functions</div>
+
                 <input className="type-2" type="text" placeholder="Input figureshape {Circle|Triangle|Rectangle}" onChange={handleFigureShapeInput} />
                 <button className="button-53" onClick={addNewFigureElement}>addNewFigureElement</button>
-                <button className="button-53" onClick={setChangeElementsSize}>setChangeElementsSize</button>
+                <input className="type-2" type="text" placeholder="Input figure color #ffffff" onChange={handleFigureColorInput} />
                 <button className="button-53" onClick={setChangeFiguresColor}>setChangeFiguresColor</button>
-                <button className="button-53" onClick={setRemoveSelectedElements}>setRemoveSelectedElements</button>
-                <button className="button-53" onClick={setChangeElementsPosition}>setChangeElementsPosition</button>
+                <input className="type-2" type="text" placeholder="Input figure border color #ffffff" onChange={handleFigureBorderColorInput} />
+                <button className="button-53" onClick={setChangeFiguresBorderColor}>setChangeFiguresBorderColor</button>
 
                 <div className="functiton-block">Dump your editor here</div>
 

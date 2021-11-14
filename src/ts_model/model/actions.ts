@@ -104,62 +104,7 @@ export function addPictureElement(
     }
 }
 
-export function addFigureElement(
-    editor: Editor,
-    figureType: FigureShape,
-    x: number = 1,
-    y: number = 1,
-): Editor {
-    const currSlide: Slide = getCurrSlide(editor);
 
-    const figureElement: FigureElement = {
-        figureType,
-        figureColor: '#ffffff',
-        borderWidth: 1,
-        borderColor: '#000000',
-    }
-
-    const element: SlideElement = {
-        id: generateUUId(),
-        centerPoint: {
-            x,
-            y,
-        },
-        size: {
-            width: 1,
-            height: 1,
-        },
-        angle: 0,
-        opacity: 1,
-        content: figureElement,
-
-    }
-
-    const updatedSlide: Slide = {
-        ...currSlide,
-        elementsList: [
-            ...currSlide.elementsList,
-            element,
-        ]
-    }
-
-    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide) => {
-        if (currSlide.id === slide.id) {
-            return updatedSlide;
-        }
-        return slide;
-    })
-
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList: updatedSlideList,
-        },
-        selectedSlidesIds: [currSlide.id],
-        selectedSlideElementsIds: [element.id],
-    }
-}
 
 export function moveElementsToBackground(editor: Editor) {
     //TODO Раф
@@ -178,11 +123,11 @@ export function changeElementsSize(editor: Editor, scaleX: number, scaleY: numbe
     const scale: Size = {
         width: scaleX,
         height: scaleY,
-    };
+    }
 
     const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
-        return item.id === currSlide.id
+        return item.id === currSlide.id;
     })
     const elementsList: SlideElement[] = currSlide.elementsList;
 
@@ -258,50 +203,7 @@ export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
     return applySlideChanges(editor, newSlide, slideIndex);
 }
 
-export function changeFiguresColor(editor: Editor, figureColor: string): Editor {
-    const selectedSlideIds: string[] = editor.selectedSlidesIds;
-    const slidesList: Slide[] = editor.presentation.slidesList;
 
-    if (!selectedSlideIds.length || !slidesList.length) {
-        return editor;
-    }
-
-    const selectedSlideId: string = selectedSlideIds[selectedSlideIds.length - 1];
-    const slideIndex: number = slidesList.findIndex(slide => {
-        return slide.id === selectedSlideId
-    })
-    const slide: Slide = slidesList[slideIndex];
-    const elementsList: SlideElement[] = slide.elementsList;
-
-    if (!elementsList.length) {
-        return editor;
-    }
-
-    const updatedElementsList: SlideElement[] = elementsList.map(item => {
-        if (editor.selectedSlideElementsIds.includes(item.id) && isFigure(item.content)) {
-            return {
-                ...item,
-                content: {
-                    ...item.content,
-                    figureColor
-                }
-            }
-        }
-
-        return item;
-    })
-
-    const updatedSlide: Slide = {
-        ...slide,
-        elementsList: updatedElementsList,
-    }
-    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
-
-    return {
-        ...updatedEditor,
-        selectedSlidesIds: [selectedSlideId]
-    }
-}
 
 export function removeSelectedElements(editor: Editor): Editor {
     const selectedSlideIds: string[] = editor.selectedSlidesIds;
