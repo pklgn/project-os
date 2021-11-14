@@ -28,7 +28,7 @@ import {
     changeSelectedSlidesBackground
 } from './ts_model/model/slidesActions';
 import { FigureShape, Slide, SlideElement } from './ts_model/model/types';
-import { isFigure, isPicture } from './ts_model/utils/utils';
+import { isFigure, isPicture } from './ts_model/utils/tools';
 import "./App.css";
 
 

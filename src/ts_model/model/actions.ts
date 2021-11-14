@@ -1,7 +1,7 @@
 import { generateUUId } from "../utils/uuid";
 import { getCurrSlide, applySlideChanges } from "./slidesActions";
 import { Editor, Slide, PictureElement, SlideElement, FigureShape, FigureElement, Size } from "./types";
-import { isFigure, isPicture } from "../utils/utils";
+import { isFigure, isPicture } from "../utils/tools";
 
 /*export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
     //TODO Лёня

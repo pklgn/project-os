@@ -1,7 +1,7 @@
 import { generateUUId } from "../../utils/uuid";
 import { getCurrSlide, applySlideChanges } from "../slidesActions";
 import { Editor, Slide, TextElement, SlideElement } from "../types";
-import { isText } from "../../utils/utils";
+import { isText } from "../../utils/tools";
 
 export function addTextElement(editor: Editor, x: number = 1, y: number = 1): Editor {
     const currSlide: Slide = getCurrSlide(editor);
