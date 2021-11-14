@@ -42,7 +42,7 @@ type Background = {
 
 type SlideElement = {
     id: string,
-    centerPoint: Coordinates,
+    startPoint: Coordinates,
     size: Size,
     angle: number,
     opacity: number,
