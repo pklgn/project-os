@@ -20,7 +20,7 @@ export function addFigureElement(
 
     const element: SlideElement = {
         id: generateUUId(),
-        centerPoint: {
+        startPoint: {
             x,
             y,
         },

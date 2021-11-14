@@ -14,7 +14,7 @@ export function addTextElement(editor: Editor, x: number = 1, y: number = 1): Ed
     }
     const element: SlideElement = {
         id: generateUUId(),
-        centerPoint: {
+        startPoint: {
             x,
             y,
         },

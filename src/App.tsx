@@ -242,7 +242,7 @@ function App() {
                         fontColor: ${el.content.fontColor} 
                         fontStyle: ${el.content.fontStyle}`;
                 return <div className="slide-element-info" key={el.id}>
-                    |elementId: {el.id} width: {el.size.width} height: {el.size.height} x: {el.centerPoint.x} y: {el.centerPoint.y} opacity: {el.opacity}|
+                    |elementId: {el.id} width: {el.size.width} height: {el.size.height} x: {el.startPoint.x} y: {el.startPoint.y} opacity: {el.opacity}|
                     <div>{'<'}{contentType}{'>'} {additionalInfo}</div>
                 </div>
             });

@@ -184,9 +184,9 @@ export function changeElementsPosition(editor: Editor, dx: number, dy: number): 
         if (editor.selectedSlideElementsIds.includes(element.id)) {
             return {
                 ...element,
-                centerPoint: {
-                    x: element.centerPoint.x + dx,
-                    y: element.centerPoint.y + dy,
+                startPoint: {
+                    x: element.startPoint.x + dx,
+                    y: element.startPoint.y + dy,
                 }
             }
         }

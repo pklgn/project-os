@@ -18,7 +18,7 @@ export function addPictureElement(
 
     const element: SlideElement = {
         id: generateUUId(),
-        centerPoint: {
+        startPoint: {
             x,
             y,
         },
