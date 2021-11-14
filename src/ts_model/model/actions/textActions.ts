@@ -54,10 +54,15 @@ export function addTextElement(editor: Editor, x: number = 1, y: number = 1): Ed
 }
 
 export function changeTextsSize(editor: Editor, fontSize: number): Editor {
+    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+        return editor;
+    }
+
     const currSlide: Slide = getCurrSlide(editor);
-    const slideIndex: number = editor.presentation.slidesList.findIndex(slide => {
-        return slide.id === currSlide.id
-    });
+    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+        return item.id === currSlide.id;
+    })
+
     const elementsList: SlideElement[] = currSlide.elementsList;
 
     if (!elementsList.length) {
@@ -91,13 +96,18 @@ export function changeTextsSize(editor: Editor, fontSize: number): Editor {
 }
 
 export function changeTextsColor(editor: Editor, fontColor: string): Editor {
+    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+        return editor;
+    }
+
     const currSlide: Slide = getCurrSlide(editor);
-    const slideIndex: number = editor.presentation.slidesList.findIndex(slide => {
-        return slide.id === currSlide.id
-    });
+    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+        return item.id === currSlide.id;
+    })
 
     const elementsList: SlideElement[] = currSlide.elementsList;
-    if (!(Array.isArray(elementsList) && elementsList.length)) {
+
+    if (!elementsList.length) {
         return editor;
     }
 
@@ -123,14 +133,18 @@ export function changeTextsColor(editor: Editor, fontColor: string): Editor {
 }
 
 export function changeTextsStyle(editor: Editor, fontStyle: string): Editor {
+    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+        return editor;
+    }
+
     const currSlide: Slide = getCurrSlide(editor);
-    console.log(currSlide.id);
-    const slideIndex: number = editor.presentation.slidesList.findIndex(slide => {
-        return slide.id === currSlide.id
-    });
+    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+        return item.id === currSlide.id;
+    })
 
     const elementsList: SlideElement[] = currSlide.elementsList;
-    if (!(Array.isArray(elementsList) && elementsList.length)) {
+
+    if (!elementsList.length) {
         return editor;
     }
 
@@ -156,14 +170,18 @@ export function changeTextsStyle(editor: Editor, fontStyle: string): Editor {
 }
 
 export function changeTextsContent(editor: Editor, content: string): Editor {
+    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+        return editor;
+    }
+
     const currSlide: Slide = getCurrSlide(editor);
-    console.log(currSlide.id);
-    const slideIndex: number = editor.presentation.slidesList.findIndex(slide => {
-        return slide.id === currSlide.id
-    });
+    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+        return item.id === currSlide.id;
+    })
 
     const elementsList: SlideElement[] = currSlide.elementsList;
-    if (!(Array.isArray(elementsList) && elementsList.length)) {
+
+    if (!elementsList.length) {
         return editor;
     }
 
