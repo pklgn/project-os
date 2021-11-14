@@ -139,3 +139,43 @@ export function changeFiguresBorderColor(editor: Editor, borderColor: string): E
         selectedSlidesIds: [currSlide.id]
     }
 }
+
+export function changeFiguresBorderWidth(editor: Editor, borderWidth: number): Editor {
+    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+        return editor;
+    }
+
+    const currSlide: Slide = getCurrSlide(editor);
+    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+        return item.id === currSlide.id;
+    })
+
+    if (!editor.presentation.slidesList[slideIndex].elementsList.length) {
+        return editor;
+    }
+
+    const updatedElementsList: SlideElement[] = editor.presentation.slidesList[slideIndex].elementsList.map(item => {
+        if (editor.selectedSlideElementsIds.includes(item.id) && isFigure(item.content)) {
+            return {
+                ...item,
+                content: {
+                    ...item.content,
+                    borderWidth
+                }
+            }
+        }
+
+        return item;
+    })
+
+    const updatedSlide: Slide = {
+        ...currSlide,
+        elementsList: updatedElementsList,
+    }
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [currSlide.id]
+    }
+}

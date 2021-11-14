@@ -2,7 +2,7 @@ import { useState, SetStateAction } from 'react';
 import logo from './assets/logos/logoMari.svg';
 import "./App.css";
 import { addPictureElement, changeElementsPosition, changeElementsSize, removeSelectedElements } from './ts_model/model/actions';
-import { addFigureElement, changeFiguresBorderColor, changeFiguresColor } from './ts_model/model/actions/figureActions';
+import { addFigureElement, changeFiguresBorderColor, changeFiguresBorderWidth, changeFiguresColor } from './ts_model/model/actions/figureActions';
 import { addTextElement, changeTextsSize, changeTextsContent, changeTextsColor, changeTextsStyle } from './ts_model/model/actions/textActions';
 import { setSelectedIdInEditor, togglePresentationMode, changePresentationName } from './ts_model/model/editorActions';
 import { undo, redo, keep } from './ts_model/model/historyActions';
@@ -28,6 +28,7 @@ function App() {
     const [textContentInput, setTextContentInput] = useState('');
     const [figureColorInput, setFiguresColorInput] = useState('');
     const [figureBorderColorInput, setFiguresBorderColorInput] = useState('');
+    const [figureBorderWidthInput, setFiguresBorderWidthInput] = useState('1');
 
     const handleSelectedSlidesIdInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setSelectedSlidesId(event.target.value);
@@ -83,6 +84,10 @@ function App() {
 
     const handleFigureBorderColorInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setFiguresBorderColorInput(event.target.value);
+    }
+
+    const handleFigureBorderWidthInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setFiguresBorderWidthInput(event.target.value);
     }
 
     function getXYArr(XYCords: string): number[] {
@@ -171,6 +176,10 @@ function App() {
 
     function setChangeFiguresBorderColor() {
         setEditor(changeFiguresBorderColor(editor, figureBorderColorInput));
+    }
+
+    function setChangeFiguresBorderWidth() {
+        setEditor(changeFiguresBorderWidth(editor, parseInt(figureBorderWidthInput)));        
     }
 
     function setChangeTextsSize() {
@@ -297,6 +306,8 @@ function App() {
                 <button className="button-53" onClick={setChangeFiguresColor}>setChangeFiguresColor</button>
                 <input className="type-2" type="text" placeholder="Input figure border color #ffffff" onChange={handleFigureBorderColorInput} />
                 <button className="button-53" onClick={setChangeFiguresBorderColor}>setChangeFiguresBorderColor</button>
+                <input className="type-2" type="text" placeholder="Input figure border width" onChange={handleFigureBorderWidthInput} />
+                <button className="button-53" onClick={setChangeFiguresBorderWidth}>setChangeFiguresBorderWidth</button>
 
                 <div className="functiton-block">Dump your editor here</div>
 
