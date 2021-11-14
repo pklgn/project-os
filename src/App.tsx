@@ -1,8 +1,9 @@
 import { useState, SetStateAction } from 'react';
 import logo from './assets/logos/logoMari.svg';
 import "./App.css";
-import { addPictureElement, changeElementsPosition, changeElementsSize, removeSelectedElements } from './ts_model/model/actions';
-import { addFigureElement, changeFiguresBorderColor, changeFiguresBorderWidth, changeFiguresColor } from './ts_model/model/actions/figureActions';
+import { addPictureElement } from './ts_model/model/actions/pictureActions';
+import { changeElementsPosition, changeElementsSize, moveElementsToBackgroundOrForeground, removeSelectedElements } from './ts_model/model/elementActions';
+import { addFigureElement, changeFiguresColor, changeFiguresBorderColor, changeFiguresBorderWidth } from './ts_model/model/actions/figureActions';
 import { addTextElement, changeTextsSize, changeTextsContent, changeTextsColor, changeTextsStyle } from './ts_model/model/actions/textActions';
 import { setSelectedIdInEditor, togglePresentationMode, changePresentationName } from './ts_model/model/editorActions';
 import { undo, redo, keep } from './ts_model/model/historyActions';
@@ -29,6 +30,7 @@ function App() {
     const [figureColorInput, setFiguresColorInput] = useState('');
     const [figureBorderColorInput, setFiguresBorderColorInput] = useState('');
     const [figureBorderWidthInput, setFiguresBorderWidthInput] = useState('1');
+    const [wayToMoveElements, setWayToMoveElements] = useState('T');
 
     const handleSelectedSlidesIdInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setSelectedSlidesId(event.target.value);
@@ -88,6 +90,10 @@ function App() {
 
     const handleFigureBorderWidthInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setFiguresBorderWidthInput(event.target.value);
+    }
+
+    const handleWayToMoveInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setWayToMoveElements(event.target.value);
     }
 
     function getXYArr(XYCords: string): number[] {
@@ -162,8 +168,16 @@ function App() {
         setEditor(addFigureElement(editor, figure, XY[0], XY[1]));
     }
 
+    function setMovedElementsLayout() {
+        const way: boolean = (wayToMoveElements.includes('T'))
+            ? true
+            : false;
+        setEditor(moveElementsToBackgroundOrForeground(editor, way));
+    }
+
     function setChangeElementsPosition() {
-        setEditor(changeElementsPosition(editor, 10, 10))
+        const XY: number[] = getXYArr(XYCordsInput);
+        setEditor(changeElementsPosition(editor, XY[0], XY[1]));
     }
 
     function setChangeElementsSize() {
@@ -179,7 +193,7 @@ function App() {
     }
 
     function setChangeFiguresBorderWidth() {
-        setEditor(changeFiguresBorderWidth(editor, parseInt(figureBorderWidthInput)));        
+        setEditor(changeFiguresBorderWidth(editor, parseInt(figureBorderWidthInput)));
     }
 
     function setChangeTextsSize() {
@@ -276,7 +290,10 @@ function App() {
                 <input className="type-2" type="text" placeholder="Input;Elements;Ids;here"
                     onChange={handleSelectedElementsIdInput} />
                 <button className="button-53" onClick={setSelectedIdState}>setSelectedIdState</button>
-                <input className="type-2" type="text" placeholder="Input;X;Y;here;for;new;element" onChange={handleXYElementsCordsInput} />
+                <input className="type-2" type="text" placeholder="Input 'T' or 'F' here - T - elements'll be moved to foreground"
+                    onChange={handleWayToMoveInput} />
+                <button className="button-53" onClick={setMovedElementsLayout}>setMovedElementsLayout</button>
+                <input className="type-2" type="text" placeholder="Input;X;Y;here;for;new;element;or;for;selected" onChange={handleXYElementsCordsInput} />
                 <button className="button-53" onClick={setChangeElementsPosition}>setChangeElementsPosition</button>
                 <button className="button-53" onClick={setRemoveSelectedElements}>setRemoveSelectedElements</button>
                 <button className="button-53" onClick={setChangeElementsSize}>setChangeElementsSize</button>

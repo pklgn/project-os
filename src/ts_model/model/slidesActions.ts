@@ -163,3 +163,51 @@ export function getCurrSlide(editor: Editor): Slide {
 
     return slideList[slideIndex];
 }
+
+/*export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
+    //TODO Лёня
+    const slidesList: Slide[] = editor.presentation.slidesList
+
+    if (!(Array.isArray(slidesList) && slidesList.length)) {
+        return editor
+    }
+
+    const selectedSlides: Slide[] = slidesList.map((slide, index) => {
+        if (selectedSlidesIds.includes(index)) {
+            return slide
+        }
+    })
+
+    if (!(Array.isArray(selectedSlides) && selectedSlides.length)) {
+        return editor
+    }
+
+    const slidesBeforeInsertPosition: Slide[] = slidesList.slice(0, insertIndex)
+    const slidesAfterInsertPosition: Slide[] = slidesList.slice(insertIndex)
+
+    const newSlideList: Slide[] = [
+        ...slidesBeforeInsertPosition.filter((slide, index) => {
+            return selectedSlidesIds.includes(index)
+        }),
+        ...selectedSlides,
+        ...slidesAfterInsertPosition.filter((slide, index) => {
+            return !selectedSlidesIds.includes(index + insertIndex)
+        })
+    ]
+
+    const updatedPresentation: Presentation = {
+        ...editor.presentation,
+        slidesList: newSlideList,
+    }
+
+    const newselectedSlidesIds: string[] = selectedSlidesIds.map((element, elementIndex) => {
+        return insertIndex + elementIndex
+    })
+
+    return {
+        ...editor,
+        presentation: updatedPresentation,
+        selectedSlidesIds: newselectedSlidesIds,
+        selectedSlideElementsIds: []
+    }
+}*/
