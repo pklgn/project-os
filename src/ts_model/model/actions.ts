@@ -1,14 +1,7 @@
-import {
-    Editor,
-    FigureElement,
-    FigureShape,
-    PictureElement,
-    Size,
-    SlideElement,
-    TextElement,
-} from './types'
-import { Slide } from './types'
-import { generateUUId } from '../utils/uuid'
+import { generateUUId } from "../utils/uuid";
+import { getCurrSlide, applySlideChanges } from "./slidesActions";
+import { Editor, Slide, PictureElement, SlideElement, FigureShape, FigureElement, Size } from "./types";
+import { isFigure, isPicture } from "../utils/utils";
 
 /*export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
     //TODO Лёня
@@ -58,67 +51,6 @@ import { generateUUId } from '../utils/uuid'
     }
 }*/
 
-export function addTextElement(editor: Editor, x: number = 1, y: number = 1): Editor {
-    const selectedSlidesIds = editor.selectedSlidesIds;
-    const slideList: Slide[] = editor.presentation.slidesList;
-
-    if (!(slideList.length && selectedSlidesIds.length)) {
-        return editor;
-    }
-
-    const selectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex: number = slideList.findIndex((slide) => {
-        return slide.id === selectedSlideId
-    });
-
-    const slide: Slide = slideList[slideIndex];
-    const textElement: TextElement = {
-        content: 'Введите текст',
-        fontSize: 10,
-        fontColor: '#ffffff',
-        fontStyle: 'italic'
-    }
-    const element: SlideElement = {
-        id: generateUUId(),
-        centerPoint: {
-            x,
-            y,
-        },
-        angle: 0,
-        size: {
-            width: 30,
-            height: 25,
-        },
-        opacity: 1,
-        content: textElement,
-    }
-
-    const updatedSlide: Slide = {
-        ...slide,
-        elementsList: [
-            ...slide.elementsList,
-            element,
-        ]
-    }
-
-    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide, index) => {
-        if (index === slideIndex) {
-            return updatedSlide;
-        }
-        return slide;
-    })
-
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList: updatedSlideList,
-        },
-        selectedSlidesIds: [selectedSlideId],
-        selectedSlideElementsIds: [element.id],
-    }
-}
-
 export function addPictureElement(
     editor: Editor,
     src: string,
@@ -127,19 +59,7 @@ export function addPictureElement(
     width: number = 1,
     height: number = 1,
 ): Editor {
-    const selectedSlidesIds = editor.selectedSlidesIds;
-    const slideList: Slide[] = editor.presentation.slidesList;
-
-    if (!(slideList.length && selectedSlidesIds.length)) {
-        return editor;
-    }
-
-    const selectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex: number = slideList.findIndex(slide => {
-        return slide.id === selectedSlideId
-    });
-
-    const slide: Slide = slideList[slideIndex];
+    const currSlide: Slide = getCurrSlide(editor);
     const pictureElement: PictureElement = {
         src
     }
@@ -160,14 +80,14 @@ export function addPictureElement(
     }
 
     const updatedSlide: Slide = {
-        ...slide,
+        ...currSlide,
         elementsList: [
-            ...slide.elementsList,
+            ...currSlide.elementsList,
             element,
         ]
     }
-    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide, index) => {
-        if (index === slideIndex) {
+    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide) => {
+        if (currSlide.id === slide.id) {
             return updatedSlide;
         }
         return slide;
@@ -179,7 +99,7 @@ export function addPictureElement(
             ...editor.presentation,
             slidesList: updatedSlideList,
         },
-        selectedSlidesIds: [selectedSlideId],
+        selectedSlidesIds: [currSlide.id],
         selectedSlideElementsIds: [element.id],
     }
 }
@@ -190,19 +110,7 @@ export function addFigureElement(
     x: number = 1,
     y: number = 1,
 ): Editor {
-    const slideList: Slide[] = editor.presentation.slidesList;
-    const selectedSlideIds: string[] = editor.selectedSlidesIds;
-
-    if (!(slideList.length && selectedSlideIds.length)) {
-        return editor;
-    }
-
-    const selectedSlideId: string = selectedSlideIds[selectedSlideIds.length - 1];
-    const slideIndex: number = slideList.findIndex(slide => {
-        return slide.id === selectedSlideId
-    });
-
-    const slide: Slide = slideList[slideIndex];
+    const currSlide: Slide = getCurrSlide(editor);
 
     const figureElement: FigureElement = {
         figureType,
@@ -228,15 +136,15 @@ export function addFigureElement(
     }
 
     const updatedSlide: Slide = {
-        ...slide,
+        ...currSlide,
         elementsList: [
-            ...slide.elementsList,
+            ...currSlide.elementsList,
             element,
         ]
     }
 
-    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide, index) => {
-        if (index === slideIndex) {
+    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide) => {
+        if (currSlide.id === slide.id) {
             return updatedSlide;
         }
         return slide;
@@ -248,155 +156,35 @@ export function addFigureElement(
             ...editor.presentation,
             slidesList: updatedSlideList,
         },
-        selectedSlidesIds: [selectedSlideId],
+        selectedSlidesIds: [currSlide.id],
         selectedSlideElementsIds: [element.id],
     }
 }
 
-export function moveElementsToBackground(editor: Editor): Editor {
+export function moveElementsToBackground(editor: Editor) {
     //TODO Раф
-    const selectedSlidesIds = editor.selectedSlidesIds;
-    if (!selectedSlidesIds) {
-        return editor;
-    }
 
-    const activeSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex = editor.presentation.slidesList.findIndex(item => {
-        return item.id === activeSlideId
-    })
-    const slidesList: Slide[] = editor.presentation.slidesList;
-    if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return editor;
-    }
-
-    const slide: Slide = slidesList[slideIndex];
-    const elementsList: SlideElement[] = slide.elementsList;
-    if (!(Array.isArray(elementsList) && elementsList.length)) {
-        return editor;
-    }
-
-    const newElementsList = [
-        ...elementsList.filter(element => editor.selectedSlideElementsIds.includes(element.id)),
-        ...elementsList.filter(element => !editor.selectedSlideElementsIds.includes(element.id))
-    ];
-
-    const newSlide: Slide = {
-        ...slide,
-        elementsList: newElementsList
-    }
-
-    return applySlideChanges(editor, newSlide, slideIndex);
 }
 
-export function moveElementsToForeground(editor: Editor): Editor {
+export function moveElementsToForeground(editor: Editor) {
     //TODO Раф
-    const selectedSlidesIds = editor.selectedSlidesIds;
-    if (!selectedSlidesIds) {
-        return editor;
-    }
-
-    const activeSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex = editor.presentation.slidesList.findIndex(item => {
-        return item.id === activeSlideId
-    })
-
-    const slidesList: Slide[] = editor.presentation.slidesList;
-    if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return editor;
-    }
-
-    const slide = slidesList[slideIndex];
-    const elementsList: SlideElement[] = slide.elementsList;
-    if (!(Array.isArray(elementsList) && elementsList.length)) {
-        return editor;
-    }
-
-    const newElementsList = [
-        ...elementsList.map((element, index) => {
-            if (!editor.selectedSlideElementsIds.includes(element.id)) {
-                return element;
-            }
-        }),
-        ...elementsList.map((element, index) => {
-            if (editor.selectedSlideElementsIds.includes(element.id)) {
-                return element;
-            }
-        })
-    ] as SlideElement[];
-
-    const newSlide: Slide = {
-        ...slide,
-        elementsList: newElementsList
-    }
-
-    return applySlideChanges(editor, newSlide, slideIndex);
 }
 
-// Я, как пользователь, не понял, для чего она ??
-// export function moveElementsToPosition(editor: Editor, elementsLayoutPosition: number) {
-//TODO Раф
-//индекс смещения
-//     const slideIndex: number = editor.selectedSlidesIds.slice(-1)[0]
-//     if (slideIndex === -1) {
-//         return
-//     }
-
-//     const slidesList: Slide[] = editor.presentation.slidesList
-//     if (!(Array.isArray(slidesList) && slidesList.length)) {
-//         return
-//     }
-
-//     const slide = slidesList[slideIndex]
-//     const elementsList: SlideElement[] = slide.elementsList
-//     if (!(Array.isArray(elementsList) && elementsList.length)) {
-//         return
-//     }
-
-//     const selectedSlideElementsIds: number[] = editor.selectedSlideElementsIds
-//     if (!(Array.isArray(selectedSlideElementsIds) && selectedSlideElementsIds.length)) {
-//         return
-//     }
-
-//     const elementsBeforeInsertPosition: SlideElement[] = elementsList.slice(0, elementsLayoutPosition)
-//     const elementsAfterInsertPosition: SlideElement[] = elementsList.slice(elementsLayoutPosition)
-//     const elementsNeedToBeMoved: SlideElement[] = elementsList.map((element, index) => {
-//         if (selectedSlideElementsIds.includes(index)) {
-//             return element
-//         }
-//     })
-
-//     const newElementsList: SlideElement[] = [
-//         ...elementsBeforeInsertPosition.filter((_, index) => !selectedSlideElementsIds.includes(index)),
-//         ...elementsNeedToBeMoved,
-//         ...elementsAfterInsertPosition.filter((_, index) => !selectedSlideElementsIds.includes(index + elementsLayoutPosition))
-//     ]
-
-//     const newSlide: Slide = {
-//         ...slide,
-//         elementsList: newElementsList
-//     }
-
-//     return applySlideChanges(editor, newSlide, slideIndex)
-// }
+export function moveElementsToPosition(editor: Editor, elementsLayoutPosition: number) {
+    //TODO Раф
+}
 
 export function changeElementsSize(editor: Editor, scaleX: number, scaleY: number): Editor {
     const scale: Size = {
         width: scaleX,
         height: scaleY,
     };
-    const selectedSlidesIds: string[] = editor.selectedSlidesIds
-    const slidesList: Slide[] = editor.presentation.slidesList;
 
-    if ((slidesList.length === 0) || !selectedSlidesIds.length) {
-        return editor;
-    }
-
-    const selectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex = editor.presentation.slidesList.findIndex(item =>
-        item.id === selectedSlideId
-    )
-    const slide: Slide = slidesList[slideIndex];
-    const elementsList: SlideElement[] = slide.elementsList;
+    const currSlide: Slide = getCurrSlide(editor);
+    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+        return item.id === currSlide.id
+    })
+    const elementsList: SlideElement[] = currSlide.elementsList;
 
     if (elementsList.length === 0) {
         return editor;
@@ -419,14 +207,14 @@ export function changeElementsSize(editor: Editor, scaleX: number, scaleY: numbe
     })
 
     const updatedSlide: Slide = {
-        ...slide,
+        ...currSlide,
         elementsList: updatedElementList,
     }
     const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
 
     return {
         ...updatedEditor,
-        selectedSlidesIds: [selectedSlideId],
+        selectedSlidesIds: [currSlide.id],
     }
 }
 
@@ -515,94 +303,6 @@ export function changeFiguresColor(editor: Editor, figureColor: string): Editor 
     }
 }
 
-export function changeTextsSize(editor: Editor, fontSize: number): Editor {
-    const selectedSlideIds: string[] = editor.selectedSlidesIds;
-    const slidesList: Slide[] = editor.presentation.slidesList;
-
-    if (!selectedSlideIds.length || !slidesList.length) {
-        return editor;
-    }
-
-    const selectedSlideId: string = selectedSlideIds[selectedSlideIds.length - 1];
-    const slideIndex: number = slidesList.findIndex(slide => {
-        return slide.id === selectedSlideId
-    })
-    const slide: Slide = slidesList[slideIndex];
-    const elementsList: SlideElement[] = slide.elementsList;
-
-    if (!elementsList.length) {
-        return editor;
-    }
-
-    const newElementsList: SlideElement[] = elementsList.map(element => {
-        if (editor.selectedSlideElementsIds.includes(element.id) && isText(element.content)) {
-            return {
-                ...element,
-                content: {
-                    ...element.content,
-                    fontSize,
-                }
-            }
-        }
-        return element;
-    })
-
-    const updatedSlide: Slide = {
-        ...slide,
-        elementsList: newElementsList,
-    }
-
-    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
-
-    return {
-        ...updatedEditor,
-        selectedSlidesIds: [selectedSlideId]
-    }
-}
-
-export function changeTextsColor(editor: Editor, fontColor: string): Editor {
-    //TODO Раф
-    const selectedSlidesIds = editor.selectedSlidesIds;
-    if (!selectedSlidesIds) {
-        return editor;
-    }
-
-    const activeSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const slideIndex = editor.presentation.slidesList.findIndex(item => {
-        return item.id === activeSlideId;
-    })
-    const slidesList: Slide[] = editor.presentation.slidesList;
-    if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return editor;
-    }
-
-    const slide: Slide = slidesList[slideIndex];
-    const elementsList: SlideElement[] = slide.elementsList;
-    if (!(Array.isArray(elementsList) && elementsList.length)) {
-        return editor;
-    }
-
-    const newElementsList: SlideElement[] = elementsList.filter(item => {
-        if (editor.selectedSlideElementsIds.includes(item.id) && isText(item.content)) {
-            return {
-                ...item,
-                content: {
-                    ...item.content,
-                    fontColor
-                }
-            }
-        }
-        return item;
-    })
-
-    const newSlide: Slide = {
-        ...slide,
-        elementsList: newElementsList,
-    }
-
-    return applySlideChanges(editor, newSlide, slideIndex);
-}
-
 export function removeSelectedElements(editor: Editor): Editor {
     const selectedSlideIds: string[] = editor.selectedSlidesIds;
     const slidesList: Slide[] = editor.presentation.slidesList;
@@ -681,32 +381,6 @@ export function changePicture(editor: Editor, src: string): Editor {
     }
 
     return applySlideChanges(editor, newSlide, slideIndex);
-}
-
-function applySlideChanges(editor: Editor, newSlide: Slide, newSlideIndex: number): Editor {
-    return {
-        ...editor,
-        presentation: {
-            ...editor.presentation,
-            slidesList:
-                [...editor.presentation.slidesList.slice(0, newSlideIndex),
-                    newSlide,
-                    ...editor.presentation.slidesList.slice(newSlideIndex + 1)
-                ],
-        },
-    }
-}
-
-function isText(element: TextElement | FigureElement | PictureElement): element is TextElement {
-    return (element as TextElement).fontSize !== undefined;
-}
-
-function isFigure(element: TextElement | FigureElement | PictureElement): element is FigureElement {
-    return (element as FigureElement).figureType !== undefined;
-}
-
-function isPicture(element: TextElement | FigureElement | PictureElement): element is PictureElement {
-    return (element as PictureElement).src !== undefined;
 }
 
 //TODO Раф

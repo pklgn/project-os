@@ -1,49 +1,108 @@
-import {SetStateAction, useState} from 'react';
+import { useState, SetStateAction } from 'react';
 import logo from './assets/logos/logoMari.svg';
-import './App.css';
-import {initEditor} from './ts_model/model/initModelFunctions';
-import {changePresentationName, setSelectedIdInEditor, togglePresentationMode} from './ts_model/model/editorActions';
-import {addSlide, changeSelectedSlidesBackground, deleteSelectedSlides} from './ts_model/model/slidesActions';
-import {keep, redo, undo} from './ts_model/model/historyActions';
 import {
-    addFigureElement,
     addPictureElement,
-    addTextElement,
+    addFigureElement,
     changeElementsPosition,
-    changeElementsSize, changeFiguresColor, changeTextsSize, removeSelectedElements,
-} from "./ts_model/model/actions";
-import {Slide} from './ts_model/model/types';
+    changeElementsSize,
+    changeFiguresColor,
+    removeSelectedElements
+} from './ts_model/model/actions';
+import {
+    addTextElement,
+    changeTextsSize,
+    changeTextsContent,
+    changeTextsColor,
+    changeTextsStyle
+} from './ts_model/model/actions/textActions';
+import {
+    setSelectedIdInEditor,
+    togglePresentationMode,
+    changePresentationName
+} from './ts_model/model/editorActions';
+import { undo, redo, keep } from './ts_model/model/historyActions';
+import { initEditor } from './ts_model/model/initModelFunctions';
+import {
+    addSlide,
+    deleteSelectedSlides,
+    changeSelectedSlidesBackground
+} from './ts_model/model/slidesActions';
+import { FigureShape, Slide, SlideElement } from './ts_model/model/types';
+import { isFigure, isPicture } from './ts_model/utils/utils';
+import "./App.css";
+
+
 
 function App() {
     const [editor, setEditor] = useState(initEditor());
 
-    const [firstInput, setSelectedSlidesId] = useState('');
-    const [secondInput, setSelectedElementsId] = useState('');
+    const [selectedSlidesIdInput, setSelectedSlidesId] = useState('');
+    const [selectedElementsIdInput, setSelectedElementsId] = useState('');
+    const [imageSrcInput, setSelectedSlidesImgSrc] = useState('');
+    const [backgroundCOlorInput, setSelectedSlidesBackgroundColor] = useState('');
+    const [presentationNameInput, setPresentationName] = useState('');
+    const [XYCordsInput, setElementsXY] = useState('');
+    const [figureShapeTypeInput, setFigureShapeInput] = useState('');
+    const [pictureContentInput, setPictureContentInput] = useState('');
+    const [textSizeInput, setTextSizeInput] = useState('');
+    const [textColorInput, setTextColorInput] = useState('');
+    const [textStyleInput, setTextStyleInput] = useState('');
+    const [textContentInput, setTextContentInput] = useState('');
 
-    const [thirdInput, setSelectedSlidesImgSrc] = useState('');
-    const [fourthInput, setSelectedSlidesBackgroundColor] = useState('');
-
-    const [fifthInput, setPresentationName] = useState('');
-
-    const handleInputFirst = (event: { target: { value: SetStateAction<string>; }; }) => {
+    const handleSelectedSlidesIdInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setSelectedSlidesId(event.target.value);
-    };
+    }
 
-    const handleInputSecond = (event: { target: { value: SetStateAction<string>; }; }) => {
+    const handleSelectedElementsIdInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setSelectedElementsId(event.target.value);
-    };
+    }
 
-    const handleInputThird = (event: { target: { value: SetStateAction<string>; }; }) => {
+    const handleBackgroundImgSrcInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setSelectedSlidesImgSrc(event.target.value);
-    };
+    }
 
-    const handleInputFourth = (event: { target: { value: SetStateAction<string>; }; }) => {
+    const handleBackgroundColorInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setSelectedSlidesBackgroundColor(event.target.value);
-    };
+    }
 
-    const handleInputFifth = (event: { target: { value: SetStateAction<string>; }; }) => {
+    const handlePresentationNameInput = (event: { target: { value: SetStateAction<string>; }; }) => {
         setPresentationName(event.target.value);
-    };
+    }
+
+    const handleXYElementsCordsInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setElementsXY(event.target.value);
+    }
+
+    const handleFigureShapeInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setFigureShapeInput(event.target.value);
+    }
+
+    const handlePictureContentInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setPictureContentInput(event.target.value);
+    }
+
+    const handleTextSizeInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setTextSizeInput(event.target.value);
+    }
+
+    const handleTextColorInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setTextColorInput(event.target.value);
+    }
+
+    const handleTextStyleInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setTextStyleInput(event.target.value);
+    }
+
+    const handleTextContentInput = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setTextContentInput(event.target.value);
+    }
+
+    function getXYArr(XYCords: string): number[] {
+        const XY: string[] = (XYCords !== '')
+            ? (XYCords.split(';'))
+            : ['1', '1'];
+        return XY.map(coord => parseInt(coord));
+    }
 
     function undoState() {
         undo(editor);
@@ -58,8 +117,12 @@ function App() {
     }
 
     function setSelectedIdState() {
-        const selectedSlidesIds: string[] = firstInput.split(';');
-        const selectedElementsIds: string[] = secondInput.split(';');
+        const selectedSlidesIds: string[] = (selectedSlidesIdInput)
+            ? selectedSlidesIdInput.split(';')
+            : editor.selectedSlidesIds;
+        const selectedElementsIds: string[] = (selectedElementsIdInput)
+            ? selectedElementsIdInput.split(';')
+            : editor.selectedSlideElementsIds;
         setEditor(setSelectedIdInEditor(editor, selectedSlidesIds, selectedElementsIds));
     }
 
@@ -76,25 +139,34 @@ function App() {
     }
 
     function setSlideBackgroundState() {
-        const imageSrc: string = thirdInput;
-        const color: string = fourthInput;
+        const imageSrc: string = imageSrcInput;
+        const color: string = backgroundCOlorInput;
         setEditor(changeSelectedSlidesBackground(editor, imageSrc, color));
     }
 
     function setNewPresentationName() {
-        setEditor(changePresentationName(editor, fifthInput));
+        setEditor(changePresentationName(editor, presentationNameInput));
     }
 
     function addNewTextElement() {
-        setEditor(addTextElement(editor, 200, 100));
+        const XY: number[] = getXYArr(XYCordsInput);
+        setEditor(addTextElement(editor, XY[0], XY[1]));
     }
 
     function addNewPictureElement() {
-        setEditor(addPictureElement(editor, 'path/to/picture', 200, 100, 400, 600, ));
+        const XY: number[] = getXYArr(XYCordsInput);
+        setEditor(addPictureElement(editor, pictureContentInput, XY[0], XY[1]));
     }
 
     function addNewFigureElement() {
-        setEditor(addFigureElement(editor, 0, 100, 200));
+        const XY: number[] = getXYArr(XYCordsInput);
+        const figureShape: string = figureShapeTypeInput;
+        const figure: number = (figureShape === 'Circle')
+            ? FigureShape.Circle
+            : (figureShape === 'Triangle')
+                ? FigureShape.Triangle
+                : FigureShape.Rectangle;
+        setEditor(addFigureElement(editor, figure, XY[0], XY[1]));
     }
 
     function setChangeElementsPosition() {
@@ -110,7 +182,22 @@ function App() {
     }
 
     function setChangeTextsSize() {
-        setEditor(changeTextsSize(editor, 123))
+        const textSize: number = (textSizeInput.length)
+            ? parseInt(textSizeInput)
+            : 1;
+        setEditor(changeTextsSize(editor, textSize))
+    }
+
+    function setChangeTextContent() {
+        setEditor(changeTextsContent(editor, textContentInput));
+    }
+
+    function setChangeTextColor() {
+        setEditor(changeTextsColor(editor, textColorInput));
+    }
+
+    function setChangeTextStyle() {
+        setEditor(changeTextsStyle(editor, textStyleInput));
     }
 
     function setRemoveSelectedElements() {
@@ -119,20 +206,50 @@ function App() {
 
     let slideAmount: number = -1;
 
-    let listItems: any = editor.presentation.slidesList.map((slide: Slide) => {
+    function slidesInfo(): JSX.Element[] {
+        return editor.presentation.slidesList.map((slide: Slide) => {
             slideAmount++;
             const slideSrc: string = (slide.background.src)
                 ? slide.background.src
                 : slide.background.color;
-            return <li className="li_some" key={slide.id}>slideIndex: {slideAmount} | slideId: {slide.id} |
-                slideBackround: {slideSrc}</li>
-        }
-    );
+            const slideInfo: JSX.Element[] = slide.elementsList.map((el: SlideElement) => {
+                const contentType: string = (isFigure(el.content))
+                    ? 'Фигура'
+                    : (isPicture(el.content))
+                        ? 'Картинка'
+                        : 'Текст';
+                const additionalInfo = isPicture(el.content)
+                    ? `src: ${el.content.src}`
+                    : isFigure(el.content)
+                        ? FigureShape[+el.content.figureType]
+                        : `content: '${el.content.content}' 
+                        textSize: ${el.content.fontSize} 
+                        fontColor: ${el.content.fontColor} 
+                        fontStyle: ${el.content.fontStyle}`;
+                return <div className="slide-element-info" key={el.id}>
+                    |elementId: {el.id} 
+                    width: {el.size.width} 
+                    height: {el.size.height}  
+                    x: {el.centerPoint.x} 
+                    y: {el.centerPoint.y} 
+                    opacity: {el.opacity} |
+                    <div>{'<'}{contentType}{'>'} {additionalInfo}</div>
+                </div>
+            });
+            return <div className="slide-Info" key={slide.id}>slideIndex: {slideAmount} | slideId: {slide.id} |
+                slideBackround: {slideSrc}
+                <div>content: </div>
+                <hr />
+                {slideInfo}
+                <hr />
+            </div>
+        });
+    }
 
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
+                <img src={logo} className="App-logo" alt="logo" />
 
                 <div className="functiton-block">History Functions</div>
 
@@ -143,12 +260,12 @@ function App() {
                 <div className="functiton-block">Editor Functions</div>
 
                 <button className="button-53" onClick={toggleEditorState}>toggleEditorMode</button>
-                <input className="type-2" type="text" placeholder="Input;Slides;Ids;here" onChange={handleInputFirst}/>
+                <input className="type-2" type="text" placeholder="Input;Slides;Ids;here" onChange={handleSelectedSlidesIdInput} />
                 <input className="type-2" type="text" placeholder="Input;Elements;Ids;here"
-                       onChange={handleInputSecond}/>
+                    onChange={handleSelectedElementsIdInput} />
                 <button className="button-53" onClick={setSelectedIdState}>setSelectedIdState</button>
                 <input className="type-2" type="text" placeholder="Input Presentation name here"
-                       onChange={handleInputFifth}/>
+                    onChange={handlePresentationNameInput} />
                 <button className="button-53" onClick={setNewPresentationName}>setPresentationName</button>
 
                 <div className="functiton-block">Slide Functions</div>
@@ -156,17 +273,32 @@ function App() {
                 <button className="button-53" onClick={addSlideState}>addSlide</button>
                 <button className="button-53" onClick={rmSlideState}>removeSelectedSlides</button>
                 <input className="type-2" type="text" placeholder="Input background image's src here"
-                       onChange={handleInputThird}/>
+                    onChange={handleBackgroundImgSrcInput} />
                 <input className="type-2" type="text" placeholder="Input background color here"
-                       onChange={handleInputFourth}/>
+                    onChange={handleBackgroundColorInput} />
                 <button className="button-53" onClick={setSlideBackgroundState}>changeSelectedSlidesBackground</button>
 
+                <div className="functiton-block">Elements Functions</div>
+                <input className="type-2" type="text" placeholder="Input;X;Y;here" onChange={handleXYElementsCordsInput} />
+
+                <div className="functiton-block">Texts Functions</div>
+
                 <button className="button-53" onClick={addNewTextElement}>addNewTextElement</button>
+                <input className="type-2" type="text" placeholder="Input text size" onChange={handleTextSizeInput} />
+                <button className="button-53" onClick={setChangeTextsSize}>setChangeTextsSize</button>
+                <input className="type-2" type="text" placeholder="Input text color #ffffff" onChange={handleTextColorInput} />
+                <button className="button-53" onClick={setChangeTextColor}>setChangeTextColor</button>
+                <input className="type-2" type="text" placeholder="Input text style italic" onChange={handleTextStyleInput} />
+                <button className="button-53" onClick={setChangeTextStyle}>setChangeTextStyle</button>
+                <input className="type-2" type="text" placeholder="Input text content" onChange={handleTextContentInput} />
+                <button className="button-53" onClick={setChangeTextContent}>setChangeTextContent</button>
+
+                <input className="type-2" type="text" placeholder="Input picture content" onChange={handlePictureContentInput} />
                 <button className="button-53" onClick={addNewPictureElement}>addNewPictureElement</button>
+                <input className="type-2" type="text" placeholder="Input figureshape {Circle|Triangle|Rectangle}" onChange={handleFigureShapeInput} />
                 <button className="button-53" onClick={addNewFigureElement}>addNewFigureElement</button>
                 <button className="button-53" onClick={setChangeElementsSize}>setChangeElementsSize</button>
                 <button className="button-53" onClick={setChangeFiguresColor}>setChangeFiguresColor</button>
-                <button className="button-53" onClick={setChangeTextsSize}>setChangeTextsSize</button>
                 <button className="button-53" onClick={setRemoveSelectedElements}>setRemoveSelectedElements</button>
                 <button className="button-53" onClick={setChangeElementsPosition}>setChangeElementsPosition</button>
 
@@ -176,7 +308,7 @@ function App() {
                 <div>название презентации: {editor.presentation.name}</div>
                 <div>мод презентации: {editor.mode}</div>
                 <div>кол-во слайдов: {editor.presentation.slidesList.length}</div>
-                <div className="editor-info">{listItems}</div>
+                <div className="editor-info">{slidesInfo()}</div>
                 <div></div>
             </header>
         </div>

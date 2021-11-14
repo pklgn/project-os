@@ -1,5 +1,5 @@
 import { generateUUId } from "../utils/uuid";
-import { Editor, Background, Slide, Presentation } from "./types";
+import { Editor, Slide, Background, Presentation } from "./types";
 
 export function addSlide(editor: Editor): Editor {
     const slideList: Slide[] = editor.presentation.slidesList;
@@ -136,4 +136,30 @@ export function changeSelectedSlidesBackground(editor: Editor, src = '', color =
             slidesList,
         }
     }
+}
+
+export function applySlideChanges(editor: Editor, newSlide: Slide, newSlideIndex: number): Editor {
+    return {
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slidesList:
+                [...editor.presentation.slidesList.slice(0, newSlideIndex),
+                    newSlide,
+                ...editor.presentation.slidesList.slice(newSlideIndex + 1)
+                ],
+        },
+    }
+}
+
+export function getCurrSlide(editor: Editor): Slide {
+    const selectedSlidesIds = editor.selectedSlidesIds;
+    const slideList: Slide[] = editor.presentation.slidesList;
+
+    const selectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
+    const slideIndex: number = slideList.findIndex((slide) => {
+        return slide.id === selectedSlideId
+    });
+
+    return slideList[slideIndex];
 }
