@@ -1,6 +1,6 @@
-import { isFigure } from "../../utils/tools";
-import { generateUUId } from "../../utils/uuid";
-import { getCurrSlide, applySlideChanges } from "../slidesActions";
+import { isFigure } from "../utils/tools";
+import { generateUUId } from "../utils/uuid";
+import { getCurrentSlide, applySlideChanges } from "../slidesActions";
 import { Editor, FigureShape, Slide, FigureElement, SlideElement } from "../types";
 
 export function addFigureElement(
@@ -9,7 +9,11 @@ export function addFigureElement(
     x: number = 1,
     y: number = 1,
 ): Editor {
-    const currSlide: Slide = getCurrSlide(editor);
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
 
     const figureElement: FigureElement = {
         figureType,
@@ -61,11 +65,12 @@ export function addFigureElement(
 }
 
 export function changeFiguresColor(editor: Editor, figureColor: string): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     })
@@ -101,11 +106,12 @@ export function changeFiguresColor(editor: Editor, figureColor: string): Editor 
 }
 
 export function changeFiguresBorderColor(editor: Editor, borderColor: string): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     })
@@ -141,11 +147,12 @@ export function changeFiguresBorderColor(editor: Editor, borderColor: string): E
 }
 
 export function changeFiguresBorderWidth(editor: Editor, borderWidth: number): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     })

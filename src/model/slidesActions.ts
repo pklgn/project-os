@@ -1,4 +1,4 @@
-import { generateUUId } from "../utils/uuid";
+import { generateUUId } from "./utils/uuid";
 import { Editor, Slide, Background, Presentation } from "./types";
 
 export function addSlide(editor: Editor): Editor {
@@ -17,13 +17,13 @@ export function addSlide(editor: Editor): Editor {
     const background: Background = {
         color: '#ffffff',
         src: ''
-    }
+    };
 
     const newSlide: Slide = {
         id: generateUUId(),
         background,
         elementsList: []
-    }
+    };
 
     const slidesList: Slide[] = [
         ...editor.presentation.slidesList.slice(0, insertIndex),
@@ -34,19 +34,19 @@ export function addSlide(editor: Editor): Editor {
     const updatedPresentation: Presentation = {
         ...editor.presentation,
         slidesList: slidesList
-    }
+    };
 
     return {
         ...editor,
         presentation: updatedPresentation,
         selectedSlidesIds: [newSlide.id],
         selectedSlideElementsIds: []
-    }
+    };
 }
 
 export function deleteSelectedSlides(editor: Editor): Editor {
     const slideList: Slide[] = editor.presentation.slidesList
-    if (!(Array.isArray(slideList) && slideList.length)) {
+    if (!slideList.length) {
         return editor;
     }
 
@@ -62,8 +62,10 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     }
 
 
-    function getNextUnselectedSlideId(slideList: Slide[], selectedSlidesIds: string[], lastSelectedSlideId: string): string {
-        //TODO оптимизировать? i want to sleep
+    function getNextUnselectedSlideId(slideList: Slide[],
+                                      selectedSlidesIds: string[],
+                                      lastSelectedSlideId: string
+    ): string {
         let result: string = "";
         if (slideList.length === 1) {
             return "";
@@ -97,18 +99,17 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     const updatedPresentation: Presentation = {
         ...editor.presentation,
         slidesList: newSlideList,
-    }
+    };
 
     return {
         ...editor,
         presentation: updatedPresentation,
         selectedSlidesIds: newSelectedSlidesId,
         selectedSlideElementsIds: [],
-    }
+    };
 }
 
 export function changeSelectedSlidesBackground(editor: Editor, src = '', color = '#ffffff'): Editor {
-
     const selectedSlidesIds: string[] = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -135,79 +136,71 @@ export function changeSelectedSlidesBackground(editor: Editor, src = '', color =
             ...editor.presentation,
             slidesList,
         }
-    }
+    };
 }
 
-export function applySlideChanges(editor: Editor, newSlide: Slide, newSlideIndex: number): Editor {
+export function applySlideChanges(editor: Editor, updatedSlide: Slide, updatedSlideIndex: number): Editor {
     return {
         ...editor,
         presentation: {
             ...editor.presentation,
             slidesList:
-                [...editor.presentation.slidesList.slice(0, newSlideIndex),
-                    newSlide,
-                ...editor.presentation.slidesList.slice(newSlideIndex + 1)
+                [...editor.presentation.slidesList.slice(0, updatedSlideIndex),
+                    updatedSlide,
+                ...editor.presentation.slidesList.slice(updatedSlideIndex + 1)
                 ],
         },
-    }
+    };
 }
 
-export function getCurrSlide(editor: Editor): Slide {
+export function getCurrentSlide(editor: Editor): Slide|undefined {
     const selectedSlidesIds = editor.selectedSlidesIds;
     const slideList: Slide[] = editor.presentation.slidesList;
+    const selectedSlideId: string|undefined = selectedSlidesIds[selectedSlidesIds.length - 1];
 
-    const selectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
+    if(!selectedSlideId) {
+        return undefined;
+    }
+
     const slideIndex: number = slideList.findIndex((slide) => {
-        return slide.id === selectedSlideId
+        return slide.id === selectedSlideId;
     });
 
     return slideList[slideIndex];
 }
 
-/*export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
-    //TODO Лёня
-    const slidesList: Slide[] = editor.presentation.slidesList
+export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
+    const slidesList: Slide[] = editor.presentation.slidesList;
+    const selectedSlides: Slide[] = slidesList.filter((slide) => {
+        return editor.selectedSlidesIds.includes(slide.id);
+    });
+    const selectedSlidesIds: string[] = editor.selectedSlidesIds;
 
-    if (!(Array.isArray(slidesList) && slidesList.length)) {
-        return editor
+    if (!(slidesList.length && selectedSlides.length)) {
+        return editor;
     }
 
-    const selectedSlides: Slide[] = slidesList.map((slide, index) => {
-        if (selectedSlidesIds.includes(index)) {
-            return slide
-        }
-    })
+    const slidesBeforeInsertPosition: Slide[] = slidesList.slice(0, insertIndex);
+    const slidesAfterInsertPosition: Slide[] = slidesList.slice(insertIndex);
 
-    if (!(Array.isArray(selectedSlides) && selectedSlides.length)) {
-        return editor
-    }
-
-    const slidesBeforeInsertPosition: Slide[] = slidesList.slice(0, insertIndex)
-    const slidesAfterInsertPosition: Slide[] = slidesList.slice(insertIndex)
-
-    const newSlideList: Slide[] = [
-        ...slidesBeforeInsertPosition.filter((slide, index) => {
-            return selectedSlidesIds.includes(index)
+    const updatedSlideList: Slide[] = [
+        ...slidesBeforeInsertPosition.filter((slide) => {
+            return !selectedSlidesIds.includes(slide.id)
         }),
         ...selectedSlides,
-        ...slidesAfterInsertPosition.filter((slide, index) => {
-            return !selectedSlidesIds.includes(index + insertIndex)
+        ...slidesAfterInsertPosition.filter((slide) => {
+            return !selectedSlidesIds.includes(slide.id)
         })
-    ]
+    ];
 
     const updatedPresentation: Presentation = {
         ...editor.presentation,
-        slidesList: newSlideList,
-    }
-
-    const newselectedSlidesIds: string[] = selectedSlidesIds.map((element, elementIndex) => {
-        return insertIndex + elementIndex
-    })
+        slidesList: updatedSlideList,
+    };
 
     return {
         ...editor,
         presentation: updatedPresentation,
-        selectedSlidesIds: newselectedSlidesIds,
         selectedSlideElementsIds: []
-    }
-}*/
+    };
+}

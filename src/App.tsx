@@ -1,16 +1,16 @@
 import { useState, SetStateAction } from 'react';
 import logo from './assets/logos/logoMari.svg';
 import "./App.css";
-import { addPictureElement } from './ts_model/model/actions/pictureActions';
-import { changeElementsPosition, changeElementsSize, moveElementsToBackgroundOrForeground, removeSelectedElements } from './ts_model/model/elementActions';
-import { addFigureElement, changeFiguresColor, changeFiguresBorderColor, changeFiguresBorderWidth } from './ts_model/model/actions/figureActions';
-import { addTextElement, changeTextsSize, changeTextsContent, changeTextsColor, changeTextsStyle } from './ts_model/model/actions/textActions';
-import { setSelectedIdInEditor, togglePresentationMode, changePresentationName } from './ts_model/model/editorActions';
-import { undo, redo, keep } from './ts_model/model/historyActions';
-import { initEditor } from './ts_model/model/initModelFunctions';
-import { addSlide, deleteSelectedSlides, changeSelectedSlidesBackground } from './ts_model/model/slidesActions';
-import { FigureShape, Slide, SlideElement } from './ts_model/model/types';
-import { isFigure, isPicture } from './ts_model/utils/tools';
+import { addPictureElement } from './model/actions/pictureActions';
+import { changeElementsPosition, changeElementsSize, moveElementsToBackgroundOrForeground, removeSelectedElements } from './model/elementActions';
+import { addFigureElement, changeFiguresColor, changeFiguresBorderColor, changeFiguresBorderWidth } from './model/actions/figureActions';
+import { addTextElement, changeTextsSize, changeTextsContent, changeTextsColor, changeTextsStyle } from './model/actions/textActions';
+import { togglePresentationMode, changePresentationName, selectSlide } from './model/presentationActions';
+import { undo, redo, keep } from './model/historyActions';
+import { initEditor } from './model/initModelFunctions';
+import { addSlide, deleteSelectedSlides, changeSelectedSlidesBackground } from './model/slidesActions';
+import { FigureShape, Slide, SlideElement } from './model/types';
+import { isFigure, isPicture } from './model/utils/tools';
 
 function App() {
     const [editor, setEditor] = useState(initEditor());
@@ -115,14 +115,11 @@ function App() {
         keep(editor);
     }
 
-    function setSelectedIdState() {
-        const selectedSlidesIds: string[] = (selectedSlidesIdInput)
-            ? selectedSlidesIdInput.split(';')
-            : editor.selectedSlidesIds;
-        const selectedElementsIds: string[] = (selectedElementsIdInput)
-            ? selectedElementsIdInput.split(';')
-            : editor.selectedSlideElementsIds;
-        setEditor(setSelectedIdInEditor(editor, selectedSlidesIds, selectedElementsIds));
+    function setSelectedSlideIdState() {
+        const selectedSlidesId: string = selectedSlidesIdInput.split(';')[0]
+        if (selectedSlidesId) {
+            setEditor(selectSlide(editor, selectedSlidesId));
+        }
     }
 
     function toggleEditorState() {
@@ -271,7 +268,7 @@ function App() {
 
                 <button className="button-53" onClick={toggleEditorState}>toggleEditorMode</button>
                 <input className="type-2" type="text" placeholder="Input;Slides;Ids;here" onChange={handleSelectedSlidesIdInput} />
-                <button className="button-53" onClick={setSelectedIdState}>setSelectedIdState</button>
+                <button className="button-53" onClick={setSelectedSlideIdState}>setSelectedIdState</button>
                 <input className="type-2" type="text" placeholder="Input Presentation name here"
                     onChange={handlePresentationNameInput} />
                 <button className="button-53" onClick={setNewPresentationName}>setPresentationName</button>
@@ -289,7 +286,7 @@ function App() {
                 <div className="functiton-block">Elements Functions</div>
                 <input className="type-2" type="text" placeholder="Input;Elements;Ids;here"
                     onChange={handleSelectedElementsIdInput} />
-                <button className="button-53" onClick={setSelectedIdState}>setSelectedIdState</button>
+                <button className="button-53" onClick={setSelectedSlideIdState}>setSelectedIdState</button>
                 <input className="type-2" type="text" placeholder="Input 'T' or 'F' here - T - elements'll be moved to foreground"
                     onChange={handleWayToMoveInput} />
                 <button className="button-53" onClick={setMovedElementsLayout}>setMovedElementsLayout</button>
@@ -333,7 +330,6 @@ function App() {
                 <div>мод презентации: {editor.mode}</div>
                 <div>кол-во слайдов: {editor.presentation.slidesList.length}</div>
                 <div className="editor-info">{slidesInfo()}</div>
-                <div></div>
             </header>
         </div>
     );

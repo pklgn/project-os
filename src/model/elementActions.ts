@@ -1,12 +1,13 @@
-import { getCurrSlide, applySlideChanges } from "./slidesActions";
+import { getCurrentSlide, applySlideChanges } from "./slidesActions";
 import { Editor, Size, Slide, SlideElement } from "./types";
 
 export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolean): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     });
@@ -39,21 +40,18 @@ export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolea
     }
 }
 
-export function moveElementsBackOrForward(editor: Editor, way: boolean) {
-    //TODO Раф
-}
-
 export function changeElementsSize(editor: Editor, scaleX: number, scaleY: number): Editor {
     const scale: Size = {
         width: scaleX,
         height: scaleY,
-    }
+    };
 
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     });
@@ -81,22 +79,22 @@ export function changeElementsSize(editor: Editor, scaleX: number, scaleY: numbe
     const updatedSlide: Slide = {
         ...currSlide,
         elementsList: updatedElementList,
-    }
+    };
     const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
 
     return {
         ...updatedEditor,
         selectedSlidesIds: [currSlide.id],
-    }
+    };
 }
 
 export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
-    //TODO Лёня
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     });
@@ -104,7 +102,6 @@ export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
     if (!currSlide.elementsList.length) {
         return editor;
     }
-
 
     const newElementsList: SlideElement[] = currSlide.elementsList.filter(item => {
         if (editor.selectedSlideElementsIds.includes(item.id)) {
@@ -126,16 +123,16 @@ export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
     return {
         ...updatedEditor,
         selectedSlidesIds: [currSlide.id],
-        selectedSlideElementsIds: [],
     }
 }
 
 export function removeSelectedElements(editor: Editor): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     });
@@ -162,15 +159,13 @@ export function removeSelectedElements(editor: Editor): Editor {
     }
 }
 
-//TODO Лёня
-// save centerPoint func(t: Coordinates)
-
 export function changeElementsPosition(editor: Editor, dx: number, dy: number): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     });
@@ -178,7 +173,6 @@ export function changeElementsPosition(editor: Editor, dx: number, dy: number): 
     if (!currSlide.elementsList.length) {
         return editor;
     }
-
 
     const updatedElementsList: SlideElement[] = currSlide.elementsList.map(element => {
         if (editor.selectedSlideElementsIds.includes(element.id)) {

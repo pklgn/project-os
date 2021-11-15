@@ -7,10 +7,6 @@ export function initEditor(): Editor {
         history: initHistory(),
         selectedSlidesIds: [],
         selectedSlideElementsIds: [],
-        insertElementPositionAtSlide: {
-            x: 0,
-            y: 0,
-        }
     }
 }
 
