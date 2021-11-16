@@ -32,7 +32,6 @@ export function addFigureElement(
             width: 1,
             height: 1,
         },
-        angle: 0,
         opacity: 1,
         content: figureElement,
 

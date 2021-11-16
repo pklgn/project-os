@@ -1,13 +1,13 @@
 import { useState, SetStateAction } from 'react';
 import logo from './assets/logos/logoMari.svg';
 import "./App.css";
-import { addPictureElement } from './model/actions/pictureActions';
+import { addPictureElement } from './model/specifiedActions/pictureActions';
 import { changeElementsPosition, changeElementsSize, moveElementsToBackgroundOrForeground, removeSelectedElements } from './model/elementActions';
-import { addFigureElement, changeFiguresColor, changeFiguresBorderColor, changeFiguresBorderWidth } from './model/actions/figureActions';
-import { addTextElement, changeTextsSize, changeTextsContent, changeTextsColor, changeTextsStyle } from './model/actions/textActions';
+import { addFigureElement, changeFiguresColor, changeFiguresBorderColor, changeFiguresBorderWidth } from './model/specifiedActions/figureActions';
+import { addTextElement, changeTextsSize, changeTextsContent, changeTextsColor, changeTextsStyle } from './model/specifiedActions/textActions';
 import { togglePresentationMode, changePresentationName, selectSlide } from './model/presentationActions';
 import { undo, redo, keep } from './model/historyActions';
-import { initEditor } from './model/initModelFunctions';
+import { initEditor } from './model/initModelActions';
 import { addSlide, deleteSelectedSlides, changeSelectedSlidesBackground } from './model/slidesActions';
 import { FigureShape, Slide, SlideElement } from './model/types';
 import { isFigure, isPicture } from './model/utils/tools';
@@ -287,7 +287,7 @@ function App() {
                 <input className="type-2" type="text" placeholder="Input;Elements;Ids;here"
                     onChange={handleSelectedElementsIdInput} />
                 <button className="button-53" onClick={setSelectedSlideIdState}>setSelectedIdState</button>
-                <input className="type-2" type="text" placeholder="Input 'T' or 'F' here - T - elements'll be moved to foreground"
+                <input className="type-2" type="text" placeholder="Input 'T' or 'F' T - elements'll be moved to foreground 'F' - to background"
                     onChange={handleWayToMoveInput} />
                 <button className="button-53" onClick={setMovedElementsLayout}>setMovedElementsLayout</button>
                 <input className="type-2" type="text" placeholder="Input;X;Y;here;for;new;element;or;for;selected" onChange={handleXYElementsCordsInput} />

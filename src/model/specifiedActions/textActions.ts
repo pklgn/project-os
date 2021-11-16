@@ -22,7 +22,6 @@ export function addTextElement(editor: Editor, x: number = 1, y: number = 1): Ed
             x,
             y,
         },
-        angle: 0,
         size: {
             width: 30,
             height: 25,

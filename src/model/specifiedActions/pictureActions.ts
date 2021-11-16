@@ -31,7 +31,6 @@ export function addPictureElement(
             width,
             height,
         },
-        angle: 0,
         opacity: 1,
         content: pictureElement,
     }
