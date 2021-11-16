@@ -1,6 +1,6 @@
-import { isPicture } from "../../utils/tools";
-import { generateUUId } from "../../utils/uuid";
-import { getCurrSlide, applySlideChanges } from "../slidesActions";
+import { isPicture } from "../utils/tools";
+import { generateUUId } from "../utils/uuid";
+import { getCurrentSlide, applySlideChanges } from "../slidesActions";
 import { Editor, Slide, PictureElement, SlideElement } from "../types";
 
 export function addPictureElement(
@@ -11,7 +11,12 @@ export function addPictureElement(
     width: number = 1,
     height: number = 1,
 ): Editor {
-    const currSlide: Slide = getCurrSlide(editor);
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+
     const pictureElement: PictureElement = {
         src
     }
@@ -57,11 +62,12 @@ export function addPictureElement(
 }
 
 export function changePicture(editor: Editor, src: string): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     })

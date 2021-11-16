@@ -1,4 +1,4 @@
-import { TextElement, FigureElement, PictureElement } from "../model/types";
+import { TextElement, FigureElement, PictureElement } from "../types";
 
 export function isText(element: TextElement | FigureElement | PictureElement): element is TextElement {
     return (element as TextElement).fontSize !== undefined;

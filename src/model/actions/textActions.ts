@@ -1,11 +1,15 @@
-import { generateUUId } from "../../utils/uuid";
-import { getCurrSlide, applySlideChanges } from "../slidesActions";
+import { generateUUId } from "../utils/uuid";
+import { getCurrentSlide, applySlideChanges } from "../slidesActions";
 import { Editor, Slide, TextElement, SlideElement } from "../types";
-import { isText } from "../../utils/tools";
+import { isText } from "../utils/tools";
 
 export function addTextElement(editor: Editor, x: number = 1, y: number = 1): Editor {
-    const currSlide: Slide = getCurrSlide(editor);
-    console.log(currSlide.id);
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+
     const textElement: TextElement = {
         content: 'Введите текст',
         fontSize: 10,
@@ -54,11 +58,12 @@ export function addTextElement(editor: Editor, x: number = 1, y: number = 1): Ed
 }
 
 export function changeTextsSize(editor: Editor, fontSize: number): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     })
@@ -96,11 +101,12 @@ export function changeTextsSize(editor: Editor, fontSize: number): Editor {
 }
 
 export function changeTextsColor(editor: Editor, fontColor: string): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     })
@@ -133,11 +139,12 @@ export function changeTextsColor(editor: Editor, fontColor: string): Editor {
 }
 
 export function changeTextsStyle(editor: Editor, fontStyle: string): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     })
@@ -170,11 +177,12 @@ export function changeTextsStyle(editor: Editor, fontStyle: string): Editor {
 }
 
 export function changeTextsContent(editor: Editor, content: string): Editor {
-    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+    const currSlide: Slide|undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
         return editor;
     }
 
-    const currSlide: Slide = getCurrSlide(editor);
     const slideIndex = editor.presentation.slidesList.findIndex(item => {
         return item.id === currSlide.id;
     })
