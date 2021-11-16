@@ -5,7 +5,7 @@ import { addPictureElement } from './model/specifiedActions/pictureActions';
 import { changeElementsPosition, changeElementsSize, moveElementsToBackgroundOrForeground, removeSelectedElements } from './model/elementActions';
 import { addFigureElement, changeFiguresColor, changeFiguresBorderColor, changeFiguresBorderWidth } from './model/specifiedActions/figureActions';
 import { addTextElement, changeTextsSize, changeTextsContent, changeTextsColor, changeTextsStyle } from './model/specifiedActions/textActions';
-import { togglePresentationMode, changePresentationName, selectSlide } from './model/presentationActions';
+import { togglePresentationMode, changePresentationName, setSelectedIdInEditor } from './model/presentationActions';
 import { undo, redo, keep } from './model/historyActions';
 import { initEditor } from './model/initModelActions';
 import { addSlide, deleteSelectedSlides, changeSelectedSlidesBackground } from './model/slidesActions';
@@ -115,13 +115,15 @@ function App() {
         keep(editor);
     }
 
-    function setSelectedSlideIdState() {
-        const selectedSlidesId: string = selectedSlidesIdInput.split(';')[0]
-        if (selectedSlidesId) {
-            setEditor(selectSlide(editor, selectedSlidesId));
-        }
+    function setSelectedIdState() {
+        const selectedSlidesIds: string[] = (selectedSlidesIdInput)
+            ? selectedSlidesIdInput.split(';')
+            : editor.selectedSlidesIds;
+        const selectedElementsIds: string[] = (selectedElementsIdInput)
+            ? selectedElementsIdInput.split(';')
+            : editor.selectedSlideElementsIds;
+        setEditor(setSelectedIdInEditor(editor, selectedSlidesIds, selectedElementsIds));
     }
-
     function toggleEditorState() {
         setEditor(togglePresentationMode(editor));
     }
@@ -169,6 +171,7 @@ function App() {
         const way: boolean = (wayToMoveElements.includes('T'))
             ? true
             : false;
+        console.log(way);
         setEditor(moveElementsToBackgroundOrForeground(editor, way));
     }
 
@@ -268,7 +271,9 @@ function App() {
 
                 <button className="button-53" onClick={toggleEditorState}>toggleEditorMode</button>
                 <input className="type-2" type="text" placeholder="Input;Slides;Ids;here" onChange={handleSelectedSlidesIdInput} />
-                <button className="button-53" onClick={setSelectedSlideIdState}>setSelectedIdState</button>
+                <input className="type-2" type="text" placeholder="Input;Elements;Ids;here"
+                    onChange={handleSelectedElementsIdInput} />
+                <button className="button-53" onClick={setSelectedIdState}>setSelectedIdState</button>
                 <input className="type-2" type="text" placeholder="Input Presentation name here"
                     onChange={handlePresentationNameInput} />
                 <button className="button-53" onClick={setNewPresentationName}>setPresentationName</button>
@@ -284,9 +289,7 @@ function App() {
                 <button className="button-53" onClick={setSlideBackgroundState}>changeSelectedSlidesBackground</button>
 
                 <div className="functiton-block">Elements Functions</div>
-                <input className="type-2" type="text" placeholder="Input;Elements;Ids;here"
-                    onChange={handleSelectedElementsIdInput} />
-                <button className="button-53" onClick={setSelectedSlideIdState}>setSelectedIdState</button>
+                
                 <input className="type-2" type="text" placeholder="Input 'T' or 'F' T - elements'll be moved to foreground 'F' - to background"
                     onChange={handleWayToMoveInput} />
                 <button className="button-53" onClick={setMovedElementsLayout}>setMovedElementsLayout</button>

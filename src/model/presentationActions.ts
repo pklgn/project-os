@@ -23,12 +23,16 @@ export function changePresentationName(editor: Editor, name: string): Editor {
     }
 }
 
-export function selectSlide(editor: Editor, slideId: string): Editor {
+export function setSelectedIdInEditor(editor: Editor, selectedSlidesIds: string[] = [], selectedSlideElementsIds: string[] = []): Editor {
+    const nextSelectedSlidesIds: string[] = (selectedSlidesIds.length)
+        ? selectedSlidesIds
+        : editor.selectedSlidesIds;
+    const nextSelectedElementsIds: string[] = (selectedSlideElementsIds.length)
+        ? selectedSlideElementsIds
+        : editor.selectedSlideElementsIds;
     return {
         ...editor,
-        selectedSlidesIds: [
-            ...editor.selectedSlidesIds,
-            slideId,
-        ]
+        selectedSlidesIds: nextSelectedSlidesIds,
+        selectedSlideElementsIds: nextSelectedElementsIds,
     }
 }
