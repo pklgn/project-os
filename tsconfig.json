@@ -1,10 +1,26 @@
 {
-  // extends позволяет обогатить опции другими опциями из указанного файла
-  // файлом tsconfig-checks.json займёмся во второй части статьи
-  //"extends": "./tsconfig-checks.json",
-  // в корне конфига находятся project-specific опции
   "compilerOptions": {
-    // здесь все настройки, связанные с компилятором
-    "target": "ES2020",
-  }
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
+  ]
 }
