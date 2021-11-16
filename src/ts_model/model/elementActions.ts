@@ -39,8 +39,92 @@ export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolea
     }
 }
 
+export function moveElementsForeward(editor: Editor): Editor {
+    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+        return editor;
+    }
+
+    const currSlide: Slide = getCurrSlide(editor);
+    const currElementsList = currSlide.elementsList
+    if (!currElementsList.length) {
+        return editor
+    }
+
+    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+        return item.id === currSlide.id;
+    });
+
+    function nextUnselectedIndex(index: number, elementsList: SlideElement[], selectedElements: string[]): number{
+        const res = elementsList.slice(index).findIndex(item => 
+            selectedElements.some(selId => 
+                item.id === selId
+            )
+        )
+        return (res === -1)
+            ? res
+            : res + index
+    }
+
+    let updatedElementList: SlideElement[] = []
+    let first: number = 0
+    let second: number = 0
+    while (first !== -1) {
+        if (editor.selectedSlideElementsIds.some(item => 
+            item === currElementsList[first].id)) {
+                second = nextUnselectedIndex(first, currElementsList, editor.selectedSlideElementsIds)
+                second === -1
+                ? updatedElementList.concat(currElementsList.slice(first))
+                : updatedElementList
+                  .concat(currElementsList.slice(second + 1, second + 2))
+                  .concat(currElementsList.slice(first, second))
+                first = second              
+            }
+        else {
+            updatedElementList.push(currElementsList[first])
+        }
+        ++first
+    }
+    
+    const updatedSlide: Slide = {
+        ...currSlide,
+        elementsList: updatedElementList,
+    }
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [currSlide.id],
+    }
+}
+
 export function moveElementsBackOrForward(editor: Editor, way: boolean) {
-    //TODO Раф
+    if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
+        return editor;
+    }
+
+    const currSlide: Slide = getCurrSlide(editor);
+    const currElementsList = currSlide.elementsList
+    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+        return item.id === currSlide.id;
+    });
+
+    if (!currSlide.elementsList.length) {
+        return editor;
+    }
+
+
+    const updatedElementList: SlideElement[] = []
+
+    const updatedSlide: Slide = {
+        ...currSlide,
+        elementsList: updatedElementList,
+    }
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [currSlide.id],
+    }
 }
 
 export function changeElementsSize(editor: Editor, scaleX: number, scaleY: number): Editor {
@@ -91,7 +175,6 @@ export function changeElementsSize(editor: Editor, scaleX: number, scaleY: numbe
 }
 
 export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
-    //TODO Лёня
     if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
         return editor;
     }
@@ -126,7 +209,6 @@ export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
     return {
         ...updatedEditor,
         selectedSlidesIds: [currSlide.id],
-        selectedSlideElementsIds: [],
     }
 }
 
@@ -162,9 +244,6 @@ export function removeSelectedElements(editor: Editor): Editor {
     }
 }
 
-//TODO Лёня
-// save centerPoint func(t: Coordinates)
-
 export function changeElementsPosition(editor: Editor, dx: number, dy: number): Editor {
     if (!editor.selectedSlidesIds.length || !editor.presentation.slidesList.length) {
         return editor;
@@ -192,7 +271,7 @@ export function changeElementsPosition(editor: Editor, dx: number, dy: number): 
         }
 
         return element;
-    })
+    });
 
     const updatedSlide: Slide = {
         ...currSlide,
