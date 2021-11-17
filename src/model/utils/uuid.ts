@@ -1,4 +1,4 @@
-export function generateUUID(): string {
+export function generateUUId(): string {
 	const template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.split('')
 	const rawUUID = template.map((symbol) => {
 		const value = Math.random() * 16
@@ -7,7 +7,7 @@ export function generateUUID(): string {
 		}
 		const currHalfByte = symbol === 'x'
 			? Math.floor(value)
-			: value & 0x3 | 0x8
+			: (value & 0x3) | 0x8
 
 		return currHalfByte.toString(16)
 	})

@@ -1,81 +1,73 @@
-export { FigureShape }
-export type {
-    Editor, Presentation, PresentationMode, History,
-    Slide, Background, SlideElement, Size,
-    TextElement, PictureElement,
-    FigureElement, Coordinates
-}
-
-type Editor = {
+export type Editor = {
     mode: PresentationMode,
     presentation: Presentation,
     history: History,
     selectedSlidesIds: string[],
     selectedSlideElementsIds: string[],
-}
+};
 
-type PresentationMode = "edit" | "show"
+export type PresentationMode = "edit" | "show";
 
-type History = {
+export type History = {
     currState: number,
     presentationStates: Presentation[],
     selectedSlidesIdsStates: string[][],
     selectedSlideElementsIdsStates: string[][],
-}
+};
 
-type Presentation = {
+export type Presentation = {
     name: string,
     slidesList: Slide[],
-}
+};
 
-type Slide = {
+export type Slide = {
     id: string,
     background: Background,
     elementsList: SlideElement[],
-}
+};
 
-type Background = {
+export type Background = {
     src: string
     color: string,
-}
+};
 
-type SlideElement = {
+export type SlideElement = {
     id: string,
+    startPoint: Coordinates,
     size: Size,
     opacity: number,
     content: TextElement | PictureElement | FigureElement,
-    startPoint: Coordinates,
-}
+};
 
-type Size = {
+export type Size = {
     width: number,
     height: number,
-}
+};
 
-type TextElement = {
+export type TextElement = {
     content: string,
     fontSize: number,
     fontColor: string,
     fontStyle: string
-}
+};
 
-type PictureElement = {
+export type PictureElement = {
     src: string,
-}
+};
 
-type FigureElement = {
+export type FigureElement = {
     figureType: FigureShape,
     figureColor: string,
     borderWidth: number,
     borderColor: string
-}
+};
 
-type Coordinates = {
+export type Coordinates = {
     x: number,
     y: number,
-}
+};
 
-enum FigureShape {
+export enum FigureShape {
     Circle,
     Triangle,
     Rectangle,
