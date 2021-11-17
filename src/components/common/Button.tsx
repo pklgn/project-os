@@ -1,5 +1,6 @@
 import {withMods} from '../utils/withMods'
 import {useState} from "react";
+import './Button.css'
 
 function Button(props: {
     text: string;
