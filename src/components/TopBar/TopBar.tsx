@@ -1,8 +1,6 @@
 import {Button} from "../common/Button";
-import './TopBar.module.css'
-
 import styles from './TopBar.module.css'
-console.log(styles)
+
 function TopBar() {
     const mockData = [
         'Файл',
