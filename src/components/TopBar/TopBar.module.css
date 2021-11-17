@@ -1,0 +1,17 @@
+.top-bar {
+  width: 90%;
+  padding: 0 10px;
+  background-color: rgba(190, 189, 189, 0.75);
+  border-radius: 0.2rem;
+  line-height: 2;
+  display: flex;
+}
+
+.top-bar__button-list {
+  justify-self: center;
+  border-radius: 2px;
+}
+
+.top-bar__text {
+  text-align: center;
+}
