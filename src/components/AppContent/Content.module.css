@@ -1,6 +1,5 @@
-.bottom {
-    margin: 1%;
-    margin-top: 10px;
+.content {
+    margin: 10px 10px 0;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
