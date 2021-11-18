@@ -1,44 +1,98 @@
+import { BaseSyntheticEvent, useState } from "react";
+import { withMods } from "../../utils/withMods";
 import styles from "./DropdownButton.module.css";
 
 export function DropdownButton(props: {
     title: string;
-    state: 'disabled' | 'default';
     menu: Map<string, boolean[]>;
-    onClick: () => void;
 }): JSX.Element {
     const {
         title,
-        state,
         menu,
-        onClick
     } = props;
 
+    const [triangleState, setTrianglesStyle] = useState(['']);
+    const [dropdownMenuStyle, setDropdownMenuStyle] = useState(styles["dropdown-menu-hidden"]);
+
+    const trianglesStyle: string[] = [];
+    const handlerOnMouseEnter = (event: BaseSyntheticEvent) => {
+        const targetId: number = parseInt(event.target.getAttribute("id"));
+        console.log(targetId);
+        trianglesStyle[targetId] = styles["triangle-hovered"];
+        setTrianglesStyle(trianglesStyle);
+        //newTriangleState[targetId] = styles["triangle-hovered"];\
+        console.log('entered');
+    }
+
+    const handlerOnMouseLeave = (event: BaseSyntheticEvent) => {
+        const targetId: number = parseInt(event.target.getAttribute("id"));
+        console.log(targetId);
+        trianglesStyle[targetId] = styles.triangle;
+        setTrianglesStyle(trianglesStyle);
+        //newTriangleState[targetId] = styles.triangle;
+        console.log('leave');
+    }
+
+    const handlerFocus = () => {
+        setDropdownMenuStyle(styles["dropdown-menu"]);
+    }
+
+    const handleBlur = () => {
+        setDropdownMenuStyle(styles["dropdown-menu-hidden"]);
+    }
+
     const menuElements: JSX.Element[] = [];
+    let key: number = 0;
     menu.forEach((info, title) => {
         const hasSubMenu: boolean = info[0];
         const isBlockEnd: boolean = info[1];
-        const element: JSX.Element = (hasSubMenu) 
-            ? <div className={styles.subbuton}>{title}</div>
-            : <div className={styles.subbuton}>
+        if (hasSubMenu) {
+            trianglesStyle.push(styles.triangle);
+        } else {
+            trianglesStyle.push('');
+        }
+
+        const element: JSX.Element = (hasSubMenu)
+            ? <button
+                className={styles.subbuton}
+                onMouseEnter={handlerOnMouseEnter}
+                onMouseLeave={handlerOnMouseLeave}
+                id={key.toString()}
+            >
                 {title}
-                <div className={styles.triangle}></div>
-            </div>;
+                <div className={trianglesStyle[key]} id={key.toString()}></div>
+            </button>
+            : <button
+                className={styles.subbuton}
+                onMouseEnter={handlerOnMouseEnter}
+                onMouseLeave={handlerOnMouseLeave}
+                id={key.toString()}
+            >
+                {title}
+            </button>
+
         const finElement: JSX.Element = (isBlockEnd)
             ? <div className={styles["block-end"]}>
                 {element}
                 <div className={styles["block-end-line"]}></div>
-              </div>
-            : element;    
+            </div>
+            : element;
+
+        key++;
         menuElements.push(finElement);
     });
 
     return (
         <div className={styles.dropdown}>
-            <button className={styles.button}>
+            <button 
+              className={styles.button}
+              onFocus={handlerFocus}
+              onBlur={handleBlur}
+            >
                 {title}
             </button>
-            <div className={styles["dropdown-menu"]}>
-              {menuElements}
+            <div className={dropdownMenuStyle}>
+                {menuElements}
             </div>
         </div>
     );
