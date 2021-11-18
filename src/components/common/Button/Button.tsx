@@ -11,7 +11,7 @@ function Button(props: {
         text,
         state,
         onClick
-    } = props
+    } = props;
 
     const disabled = state === 'loading' || state === 'disabled'
 

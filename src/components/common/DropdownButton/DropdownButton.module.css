@@ -5,6 +5,49 @@
   display: inline-block;
   cursor: pointer;
   background-color: transparent;
-  transition: all ease-out 0.2s;
   padding: 4px 6px;
+}
+
+.button:hover {
+  background-color: rgba(190, 189, 189, 0.75);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  left: 0;
+  top: 90%;
+  padding: 4px 6px;
+  background-color: white;
+  border-width: 1px;
+  border-color: rgba(173, 174, 136, 1);
+  border-radius: 0 .25rem .25rem .25rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
+}
+
+.subbuton {
+  display: flex;
+  min-width: 11vw;
+  justify-content: space-between;
+  padding-left: 30px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-left: 10px solid rgb(196 196 196);
+  border-bottom: 5px solid transparent;
+  margin: 7px;
+}
+
+.block-end-line {
+  height: 0.1px;
+  background-color: rgba(0, 0, 0, .2);
 }
