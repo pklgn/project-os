@@ -8,3 +8,33 @@
   transition: all ease-out 0.2s;
   padding: 4px 6px;
 }
+
+.button:hover {
+  transition: all ease-out 0.2s;
+  background-color: rgba(190, 189, 189, 0.75);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  left: 0;
+  top: 90%;
+  padding: 4px 6px;
+  background-color: white;
+  border-width: 1px;
+  border-color: rgba(173, 174, 136, 1);
+  border-radius: 0 .25rem .25rem .25rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
+}
+
+.subbuton {
+
+}
+
+.clickable-subbuton {
+  
+}
