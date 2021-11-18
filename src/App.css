@@ -2,3 +2,23 @@
   text-align: center;
   font-size: 62.5%;
 }
+
+.editor {
+  display: flex;
+  flex-direction: column;
+}
+
+.slides-list {
+  background-color: rgba(190, 189, 189, 0.75);
+  min-width: 255 px;
+  min-height: 500 px;
+  border-radius: 0.2 rem;
+}
+
+.center, .bottom {
+  margin: 1%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+}
