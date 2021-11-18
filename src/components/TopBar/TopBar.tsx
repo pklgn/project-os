@@ -13,9 +13,9 @@ function TopBar() {
         return <Button text={text} state={"default"} onClick={() => console.log('hello')} />
     });
 
-    const dropDownMenu: Map<string, boolean> = new Map();
-    dropDownMenu.set("Open", false);
-    dropDownMenu.set("Fuck", true);
+    const dropDownMenu: Map<string, boolean[]> = new Map();
+    dropDownMenu.set("Open", [false, true]);
+    dropDownMenu.set("Fuck", [true, false]);
 
     return (
         <div className={styles['top-bar']}>

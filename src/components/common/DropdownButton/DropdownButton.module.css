@@ -5,12 +5,10 @@
   display: inline-block;
   cursor: pointer;
   background-color: transparent;
-  transition: all ease-out 0.2s;
   padding: 4px 6px;
 }
 
 .button:hover {
-  transition: all ease-out 0.2s;
   background-color: rgba(190, 189, 189, 0.75);
 }
 
@@ -32,9 +30,24 @@
 }
 
 .subbuton {
-
+  display: flex;
+  min-width: 11vw;
+  justify-content: space-between;
+  padding-left: 30px;
+  padding-top: 10px;
+  margin-bottom: 10px;
 }
 
-.clickable-subbuton {
-  
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-left: 10px solid rgb(196 196 196);
+  border-bottom: 5px solid transparent;
+  margin: 7px;
+}
+
+.block-end-line {
+  height: 0.1px;
+  background-color: rgba(0, 0, 0, .2);
 }
