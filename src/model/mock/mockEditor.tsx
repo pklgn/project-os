@@ -1,3 +1,5 @@
+import {SlideElement} from "../types";
+
 const mockEditor = {
     mode: 'edit',
     presentation: {
@@ -501,6 +503,26 @@ const Slide = {
     ]
 }
 
+const mockText: SlideElement = {
+    id: '1',
+    startPoint: {
+        x: 100,
+        y: 100,
+    },
+    size: {
+        width: 50,
+        height: 50,
+    },
+    opacity: 1,
+    content: {
+        content: 'Привет, мир',
+        fontSize: 20,
+        fontColor: '#ff0000',
+        fontStyle: 'italic'
+    }
+}
+
 export {
     mockEditor,
+    mockText,
 }
