@@ -5,7 +5,6 @@ import { SlideListTool } from "./SlideListTool/SlideListTool";
 export function Bottom(): JSX.Element {
     return (
         <div className={styles.bottom}>
-            <SlideListTool />
             <SlideInfo />
         </div>
     );

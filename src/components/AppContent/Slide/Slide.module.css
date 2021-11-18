@@ -1,6 +1,6 @@
-.slides-list-tools {
+.slide {
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
-    min-width: 255px;
-    margin-top: -10px;
+    grid-area: content;
+    height: 100%;
 }

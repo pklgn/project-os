@@ -1,8 +1,0 @@
-.center {
-    margin: 1%;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-}
