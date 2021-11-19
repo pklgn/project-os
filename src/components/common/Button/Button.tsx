@@ -23,7 +23,7 @@ export function Button(props: ButtonProps = {
     const icon: JSX.Element | undefined = elements.icon;
     const hotkeyInfo: string = elements.hotkeyInfo;
 
-    const [buttonStyle, setButtonStyle] = useState(styles["button-default"]);
+    const [buttonStyle, setButtonStyle] = useState(styles["button"]);
 
     const handlerMouseDown = (_: BaseSyntheticEvent) => {
         setButtonStyle(styles["button-on"]);
@@ -39,7 +39,7 @@ export function Button(props: ButtonProps = {
     const handlerBlur = (_: BaseSyntheticEvent) => {
     }
 
-    const button: JSX.Element = (triangle === undefined && icon === undefined)
+    const button: JSX.Element = (triangle === undefined && icon === undefined && hotkeyInfo === "")
         ? <button
             className={buttonStyle}
             onMouseDown={handlerMouseDown}
@@ -62,12 +62,16 @@ export function Button(props: ButtonProps = {
                 className={styles["dropdown-button-content"]}
             >
                 {(triangle === undefined)
-                  ? icon
-                  : ''
+                    ? icon
+                    : ''
                 }
                 {title}
                 {(icon === undefined)
                     ? triangle
+                    : ''
+                }
+                {(icon === undefined && triangle === undefined)
+                    ? <div className="hotkeyInfo">{hotkeyInfo}</div>
                     : ''
                 }
             </div>
