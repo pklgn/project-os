@@ -31,7 +31,6 @@ export function Slide() {
                 ry="0.4rem"
             />
             <TextElementComponent key={mockText.id} element={mockText}/>
-
         </svg>
     </div>;
 }
