@@ -1,35 +1,88 @@
-import {withMods} from '../../utils/withMods'
-import {useState} from "react";
-import './Button.css'
+import { BaseSyntheticEvent, useState } from "react";
+import styles from "./Button.module.css";
 
-function Button(props: {
-    text: string;
-    state: 'loading'|'disabled'|'default';
-    onClick: () => void;
-}): JSX.Element {
-    const {
-        text,
-        state,
-        onClick
-    } = props;
-
-    const disabled = state === 'loading' || state === 'disabled'
-
-    const [hover, setHover] = useState(false)
-
-    return <button
-        className={withMods('button', {
-            'hover': hover && !disabled
-        })}
-        disabled={disabled}
-        onClick={onClick}
-        onMouseOver={() => setHover(true)}
-        onMouseOut={() => setHover(false)}
-    >
-        <span>{text}</span>
-    </button>
+type ButtonProps = {
+    title: string;
+    isInDropDown: boolean;
+    atDropDownMenuProps: {
+        hasTriangleAndSubMenu: boolean;
+        isBlockEnd: boolean;
+    };
+    hotkeyInfo: string;
 }
 
-export {
-    Button,
+export function Button(props: ButtonProps = {
+    title: "",
+    isInDropDown: false,
+    atDropDownMenuProps: {
+        hasTriangleAndSubMenu: false,
+        isBlockEnd: false
+    },
+    hotkeyInfo: "",
+}): JSX.Element {
+    const { title, isInDropDown } = props;
+    const hasTriangleAndSubMenu: boolean = props.atDropDownMenuProps.hasTriangleAndSubMenu;
+    const isBlockEnd: boolean = props.atDropDownMenuProps.isBlockEnd;
+    const hotkeyInfo: string = props.hotkeyInfo;
+
+    const [buttonStyle, setButtonStyle] = useState(styles["button-default"]);
+    const [buttonInDropDownMenuStyle, setbuttonInDropDownMenuStyle] = useState(styles["dropdown-button-content"]);
+
+    const handlerMouseDown = (_: BaseSyntheticEvent) => {
+        setButtonStyle(styles["button-on"]);
+    }
+
+    const handlerMouseUp = (_: BaseSyntheticEvent) => {
+        setButtonStyle(styles.button);
+    }
+
+    const handlerMouseFocus = (_: BaseSyntheticEvent) => {
+    }
+
+    const handlerBlur = (_: BaseSyntheticEvent) => {
+    }
+
+    const button: JSX.Element = (isInDropDown)
+        ? <button
+            className={styles["dropdown-button"]}
+            onMouseDown={handlerMouseDown}
+            onMouseUp={handlerMouseUp}
+            onFocus={handlerMouseFocus}
+            onBlur={handlerBlur}
+            id="button-in-dropdown"
+        >
+            <div
+                className={buttonInDropDownMenuStyle}
+            >
+                {title}
+                {(hasTriangleAndSubMenu)
+                    ? <div className={styles.triangle}></div>
+                    : ''
+                }
+                {(hotkeyInfo)
+                  ? <div>{hotkeyInfo}</div> 
+                  : ''
+                }
+            </div>
+        </button>
+        : <button
+            className={buttonStyle}
+            onMouseDown={handlerMouseDown}
+            onMouseUp={handlerMouseUp}
+            onFocus={handlerMouseFocus}
+            onBlur={handlerBlur}
+            id="button"
+        >
+            {title}
+        </button>;
+
+    return (
+        <div className={styles.button}>
+            {button}
+            {(isBlockEnd)
+                ? <div className={styles["block-end-line"]}></div>
+                : ''
+            }
+        </div>
+    );
 }

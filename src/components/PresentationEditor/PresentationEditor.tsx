@@ -1,5 +1,4 @@
 import { Bottom } from "../AppFooter/Bottom";
-import { Content } from "../AppContent/Content";
 import { TopBar } from "../TopBar/TopBar";
 import styles from "./PresentationEditor.module.css";
 import {SlideList} from "../AppContent/SlideList/SlideList";

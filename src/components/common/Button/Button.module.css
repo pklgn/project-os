@@ -1,4 +1,8 @@
 .button {
+  display: inline-block;
+}
+
+.button-default {
   border: none;
   font-size: 14px;
   border-radius: 0.2rem;
@@ -8,12 +12,26 @@
   padding: 4px 6px;
 }
 
-.button:hover {
+.button-default:hover {
   background-color: rgba(190, 189, 189, 0.75);
 }
 
-.button:focus {
+.button-default:focus {
   background-color: #f6ea6a;
+}
+
+
+.button-default-on {
+  border: none;
+  font-size: 14px;
+  border-radius: 0.2rem;
+  display: inline-block;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.button-default-on:focus {
+  background-color: #e4d429;
 }
 
 .dropdown {
@@ -37,27 +55,32 @@
   display: none;
 }
 
-.subbuton { 
-  padding: 0;
+.dropdown-button {
   border: none;
   font: inherit;
   color: inherit;
   background-color: transparent;
   cursor: pointer;
-  display: flex;
   min-width: 16vw;
-  justify-content: space-between;
-  padding-left: 30px;
-  padding-top: 10px;
   min-height: 35px;
+  padding: 0 10px 0 25px;
 }
 
-.subbuton:hover {
+.dropdown-button:hover, 
+.dropdown-button:focus {
   background-color: #bebdbdbf;
+  outline: none;
 }
 
-.button:focus {
-  background-color: #f6ea6a;
+.dropdown-button:hover .triangle,
+.dropdown-button:focus .triangle {
+  border-left: 10px solid #000000;
+}
+
+.dropdown-button-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .triangle {
@@ -67,23 +90,12 @@
   border-left: 10px solid rgb(196 196 196);
   border-bottom: 5px solid transparent;
   background-color: transparent;
-  margin: 7px;
-}
-
-.triangle-hovered {
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-left: 10px solid #000000;
-  border-bottom: 5px solid transparent;
-  background-color: transparent;
-  margin: 7px;
+  margin-top: 4px;
 }
 
 .block-end-line {
   margin-top: 3px;
   margin-bottom: 3px;
-  margin-left: 20px;
   height: 0.1px;
-  background-color: rgba(0, 0, 0, .2);
+  background-color: rgb(0, 0, 0);
 }
