@@ -4,7 +4,6 @@ import styles from "./TopBar.module.css";
 
 function TopBar() {
     const mockData: string[] = [
-        'Вставка',
         'Показ слайдов',
     ];
 
@@ -14,7 +13,7 @@ function TopBar() {
 
     const dropDownMenuFile: Map<string, boolean[]> = new Map();
     dropDownMenuFile.set("Создать", [true, false]);
-    dropDownMenuFile.set("Открыть Ctrl+O", [false, false]);
+    dropDownMenuFile.set("Открыть", [false, false]);
     dropDownMenuFile.set("Создать копию", [true, true]);
     dropDownMenuFile.set("Электронная почта", [false, false]);
     dropDownMenuFile.set("Скачать", [true, true]);

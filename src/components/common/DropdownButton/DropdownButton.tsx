@@ -1,5 +1,4 @@
 import { BaseSyntheticEvent, useState } from "react";
-import { withMods } from "../../utils/withMods";
 import styles from "./DropdownButton.module.css";
 
 export function DropdownButton(props: {
@@ -17,20 +16,14 @@ export function DropdownButton(props: {
     const trianglesStyle: string[] = [];
     const handlerOnMouseEnter = (event: BaseSyntheticEvent) => {
         const targetId: number = parseInt(event.target.getAttribute("id"));
-        console.log(targetId);
         trianglesStyle[targetId] = styles["triangle-hovered"];
         setTrianglesStyle(trianglesStyle);
-        //newTriangleState[targetId] = styles["triangle-hovered"];\
-        console.log('entered');
     }
 
     const handlerOnMouseLeave = (event: BaseSyntheticEvent) => {
         const targetId: number = parseInt(event.target.getAttribute("id"));
-        console.log(targetId);
         trianglesStyle[targetId] = styles.triangle;
         setTrianglesStyle(trianglesStyle);
-        //newTriangleState[targetId] = styles.triangle;
-        console.log('leave');
     }
 
     const handlerFocus = () => {
