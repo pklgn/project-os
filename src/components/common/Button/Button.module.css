@@ -1,8 +1,4 @@
 .button {
-  display: inline-block;
-}
-
-.button-default {
   border: none;
   font-size: 14px;
   border-radius: 0.2rem;
@@ -12,11 +8,11 @@
   padding: 4px 6px;
 }
 
-.button-default:hover {
+.button:hover {
   background-color: rgba(190, 189, 189, 0.75);
 }
 
-.button-default:focus {
+.button:focus {
   background-color: #f6ea6a;
 }
 
