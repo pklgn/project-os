@@ -1,12 +1,8 @@
 import "./App.css";
-import {Button} from "./components/common/Button"
-import {TopBar} from "./components/TopBar/TopBar";
+import { PresentationEditor } from "./components/PresentationEditor/PresentationEditor";
 
 function App() {
-    return <div>
-        <TopBar/>
-        <Button text={'Первый компонент!'} state={"default"} onClick={() => console.log('onClick')}/>
-    </div>
+  return <PresentationEditor />;
 }
 
 export default App;

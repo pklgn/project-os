@@ -1,0 +1,11 @@
+.editor {
+    display: grid;
+    grid-template-areas:
+            "top top"
+            "side content"
+            "footer footer";
+    grid-gap: 10px;
+    grid-template-columns: 1fr 5fr;
+    padding: 20px;
+}
+
