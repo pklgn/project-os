@@ -19,24 +19,59 @@ function TopBar() {
                         />
                     }
                     summoningButtonPlace={"above"}
-                    hrAfterElement={[1]}
+                    hrAfterElement={[2, 4]}
                     elementsArray={[
                         <Button
-                            title="Файл"
+                            title="Создать"
                             content={{
                                 hotkeyInfo: "",
                                 icon: <Triangle />
                             }}
                         />,
                         <Button
-                            title="Файл"
+                            title="Открыть"
                             content={{
                                 hotkeyInfo: "Ctrl+O",
                                 icon: undefined
                             }}
                         />,
                         <Button
-                            title="2"
+                            title="Создать копию"
+                            content={{
+                                hotkeyInfo: "",
+                                icon: <Triangle />,
+                            }}
+                        />,
+                        <Button
+                            title="Отправить по почте"
+                            content={{
+                                hotkeyInfo: "",
+                                icon: <Triangle />,
+                            }}
+                        />,
+                        <Button
+                            title="Скачать"
+                            content={{
+                                hotkeyInfo: "",
+                                icon: <Triangle />,
+                            }}
+                        />,
+                        <Button
+                            title="Переименовать"
+                            content={{
+                                hotkeyInfo: "",
+                                icon: undefined,
+                            }}
+                        />,
+                        <Button
+                            title="Переместить"
+                            content={{
+                                hotkeyInfo: "",
+                                icon: undefined,
+                            }}
+                        />,
+                        <Button
+                            title="Удалить"
                             content={{
                                 hotkeyInfo: "",
                                 icon: undefined,

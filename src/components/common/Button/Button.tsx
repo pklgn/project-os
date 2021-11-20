@@ -19,17 +19,14 @@ export function Button(props: ButtonProps = {
     const [isButtonOn, setButtonState] = useState(false);
 
     const handlerMouseDown = (_: BaseSyntheticEvent) => {
-        console.log('mouse down');
         setButtonStyle(styles["button-on"]);
     }
 
     const handlerMouseUp = (_: BaseSyntheticEvent) => {
-        console.log('mouse up');
         setButtonStyle(styles.button);
     }
 
     const handlerClick = (event: BaseSyntheticEvent) => {
-        console.log('click');
         if (isButtonOn) {
             event.target.blur();
             setButtonState(false);

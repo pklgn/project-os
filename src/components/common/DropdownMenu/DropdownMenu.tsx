@@ -37,9 +37,9 @@ export function DropdownMenu(props: DropdownMenuProps = {
     return (
         <div className={styles.dropdown} onClick={hendlerClick} onBlur={hendlerClick}>
             {props.summoningButton}
-            {/* {(menuRender)
+            {(menuRender)
                 ? <div className={styles["dropdown-menu"]}>{menu}</div>
-                : ''} */}
+                : ''}
         </div>
     );
 }
