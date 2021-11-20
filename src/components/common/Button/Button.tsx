@@ -39,8 +39,7 @@ export function Button(props: ButtonProps = {
     }
 
     const handlerBlur = (_: BaseSyntheticEvent) => {
-        console.log('mouse up');
-        setButtonStyle(styles.button);
+        setButtonState(false);
     }
 
 
