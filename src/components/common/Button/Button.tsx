@@ -51,7 +51,7 @@ export function Button(props: ButtonProps = {
             {title}
         </button>
         : <button
-            className={styles["dropdown-button"]}
+            className={styles["button-with-content"]}
             onMouseDown={handlerMouseDown}
             onMouseUp={handlerMouseUp}
             onFocus={handlerMouseFocus}
@@ -59,7 +59,7 @@ export function Button(props: ButtonProps = {
             id="button-in-dropdown"
         >
             <div
-                className={styles["dropdown-button-content"]}
+                className={styles["button-content"]}
             >
                 {(triangle === undefined)
                     ? icon
