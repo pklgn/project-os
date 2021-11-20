@@ -11,22 +11,40 @@ function TopBar() {
     return (
         <div className={styles['top-bar']}>
             <div className={styles['top-bar__button-list']}>
-                <Button
-                    title="Файл"
-                    content={{
-                        hotkeyInfo: "",
-                        icon: <Triangle />
-                    }} />
+                <DropdownMenu
+                    summoningButton={
+                        <Button
+                            title="Файл"
+                            content={undefined}
+                        />
+                    }
+                    summoningButtonPlace={"above"}
+                    hrAfterElement={[1]}
+                    elementsArray={[
+                        <Button
+                            title="Файл"
+                            content={{
+                                hotkeyInfo: "",
+                                icon: <Triangle />
+                            }}
+                        />,
+                        <Button
+                            title="Файл"
+                            content={{
+                                hotkeyInfo: "Ctrl+O",
+                                icon: undefined
+                            }}
+                        />,
+                        <Button
+                            title="2"
+                            content={{
+                                hotkeyInfo: "",
+                                icon: undefined,
+                            }}
+                        />
+                    ]}
+                />
             </div>
-            <DropdownMenu
-                SummoningButtonPlace={"above"}
-                SummoningButtonId={""}
-                ButtonsArray={[
-                    <Button
-                        title="Файл"
-                        content={undefined} />
-                ]}
-            />
         </div>
     );
 }
