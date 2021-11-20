@@ -1,17 +1,18 @@
 import styles from "./Slide.module.css";
 import {mockText} from "../../../model/mock/mockEditor"
 import {TextElementComponent} from "../../PresentationElements/TextElementComponent";
-import {useRef} from "react";
+import {useResize} from "../../utils/useResize";
+import {useEffect, useRef} from "react";
 
 const SLIDE_ASPECT_RATIO = 2.1
 
 export function Slide() {
-    const ref = useRef<HTMLDivElement>(null)
+    const ref = useRef(null)
+    const [width, height] = useResize(ref)
 
-    if (ref.current) {
-        const width = ref.current.clientWidth
-        ref.current.style.height = `${width / SLIDE_ASPECT_RATIO}px`
-    }
+    useEffect(() => {
+        console.log(width, height)
+    })
 
     return <div
         className={styles.slide}
