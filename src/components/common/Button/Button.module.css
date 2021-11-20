@@ -41,7 +41,7 @@
   color: inherit;
   background-color: transparent;
   cursor: pointer;
-  min-width: 18vw;
+  min-width: 240px;
   min-height: 35px;
   padding: 0 10px 0 25px;
 }
@@ -55,7 +55,7 @@
   color: inherit;
   background-color: #bebdbdbf;
   cursor: pointer;
-  min-width: 18vw;
+  min-width: 240px;
   min-height: 35px;
   padding: 0 10px 0 25px;
   outline: none;
