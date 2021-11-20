@@ -31,6 +31,9 @@
 }
 
 .button-with-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border: none;
   font: inherit;
   color: inherit;
@@ -45,25 +48,4 @@
 .button-with-content:focus {
   background-color: #bebdbdbf;
   outline: none;
-}
-
-.button-with-content:hover .triangle,
-.button-with-content:focus .triangle {
-  border-left: 10px solid #000000;
-}
-
-.button-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.triangle {
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-left: 10px solid rgb(196 196 196);
-  border-bottom: 5px solid transparent;
-  background-color: transparent;
-  margin-top: 4px;
 }
