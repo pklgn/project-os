@@ -41,13 +41,22 @@
   color: inherit;
   background-color: transparent;
   cursor: pointer;
-  min-width: 16vw;
+  min-width: 18vw;
   min-height: 35px;
   padding: 0 10px 0 25px;
 }
 
-.button-with-content:hover, 
-.button-with-content:focus {
+.button-with-content-active {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  font: inherit;
+  color: inherit;
   background-color: #bebdbdbf;
+  cursor: pointer;
+  min-width: 18vw;
+  min-height: 35px;
+  padding: 0 10px 0 25px;
   outline: none;
 }

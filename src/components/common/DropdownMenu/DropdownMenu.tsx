@@ -1,29 +1,26 @@
-import { useState } from "react";
+import { BaseSyntheticEvent, useState } from "react";
+import { Button } from "../Button/Button";
 import styles from "./DropdownMenu.module.css";
 
 type DropdownMenuProps = {
     summoningButtonPlace: 'above'|'left'|'default',
     elementsArray: JSX.Element[],
-    summoningButton: JSX.Element | undefined,
-    hrAfterElement: number[] | undefined,
+    summoningButton: Button | undefined,
+    bottomBorderAfterElement : number[] | undefined,
 }
 
 export function DropdownMenu(props: DropdownMenuProps = {
     summoningButtonPlace: 'default',
     summoningButton: undefined,
     elementsArray: [],
-    hrAfterElement: undefined,
-},
-): JSX.Element {
+    bottomBorderAfterElement : undefined,
+}): JSX.Element {
 
     const [menuRender, setMenuRender] = useState(false);
-    const hendlerClick = () => {
-        setMenuRender(!menuRender);
-    }
 
-    const menu: JSX.Element[] = (props.hrAfterElement !== undefined) 
+    const menu: JSX.Element[] = (props.bottomBorderAfterElement !== undefined) 
         ? props.elementsArray.map((element, index) => {
-            if (props.hrAfterElement?.includes(index)) {
+            if (props.bottomBorderAfterElement ?.includes(index)) {
                 return <div className="element-with-hr">
                     {element}
                     <div className={styles["block-end-line"]}></div>
@@ -35,10 +32,12 @@ export function DropdownMenu(props: DropdownMenuProps = {
 
 
     return (
-        <div className={styles.dropdown} onClick={hendlerClick} onBlur={hendlerClick}>
-            {props.summoningButton}
-            {(menuRender)
-                ? <div className={styles["dropdown-menu"]}>{menu}</div>
+        <div className={styles.dropdown}>
+            {props.summoningButton?.button}
+            {(props.summoningButton?.isOn)
+                ? (props.summoningButtonPlace === "above") 
+                    ? <div className={styles["dropdown-menu"]}>{menu}</div>
+                    : <div className={styles["dropdown-menu-rightside"]}>{menu}</div>
                 : ''}
         </div>
     );

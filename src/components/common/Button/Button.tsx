@@ -9,51 +9,87 @@ type ButtonProps = {
     } | undefined
 }
 
+export type Button = {
+    button: JSX.Element,
+    isOn: boolean,
+}
+
 export function Button(props: ButtonProps = {
     title: "",
     content: undefined,
-}): JSX.Element {
+}): Button {
     const { title, content } = props;
 
     const [buttonStyle, setButtonStyle] = useState(styles.button);
+    const [buttonWithContentStyle, setButtonWithContentStyle] = useState(styles["button-with-content"]);
     const [isButtonOn, setButtonState] = useState(false);
 
-    const handlerMouseDown = (_: BaseSyntheticEvent) => {
+    const onMouseDownOnButton = (event: BaseSyntheticEvent) => {
+        console.log('Down');
         setButtonStyle(styles["button-on"]);
+        event.preventDefault();
     }
 
-    const handlerMouseUp = (_: BaseSyntheticEvent) => {
+    const onMouseUpOnButton = (event: BaseSyntheticEvent) => {
+        console.log('Up');
         setButtonStyle(styles.button);
-    }
-
-    const handlerClick = (event: BaseSyntheticEvent) => {
-        if (isButtonOn) {
-            event.target.blur();
-            setButtonState(false);
+        if (!isButtonOn) {
+            event.target.focus();
         } else {
-            setButtonState(true);
+            event.target.blur();
         }
     }
 
-    const handlerBlur = (_: BaseSyntheticEvent) => {
+    const onFocusButton = (_: BaseSyntheticEvent) => {
+        console.log('focus');
+        setButtonState(true);
+    }
+
+    const onBlurButton = (_: BaseSyntheticEvent) => {
+        console.log('blur');
         setButtonState(false);
     }
 
+    const onFocusButtonWithContent = (_: BaseSyntheticEvent) => {
+        console.log('focus');
+        setButtonState(true);
+        setButtonWithContentStyle(styles["button-with-content-active"]);
+    }
+
+    const onBlurButtonWithContent = (_: BaseSyntheticEvent) => {
+        console.log('blur');
+        setButtonState(false);
+        setButtonWithContentStyle(styles["button-with-content"]);
+    }
+
+    const onMouseEnterButtonWithContent = (_: BaseSyntheticEvent) => {
+        console.log('enter');
+        setButtonState(true);
+        setButtonWithContentStyle(styles["button-with-content-active"]);
+    }
+
+    const onMouseLeaveButtonWithContent = (_: BaseSyntheticEvent) => {
+        console.log('leave');
+        setButtonState(false);
+        setButtonWithContentStyle(styles["button-with-content"]);
+    }
 
     const button: JSX.Element = (content === undefined)
         ? <button
             className={buttonStyle}
-            onMouseDown={handlerMouseDown}
-            onMouseUp={handlerMouseUp}
-            onClick={handlerClick}
-            onBlur={handlerBlur}
+            onFocus={onFocusButton}
+            onBlur={onBlurButton}
+            onMouseDown={onMouseDownOnButton}
+            onMouseUp={onMouseUpOnButton}
         >
             {title}
         </button>
         : <button
-            className={styles["button-with-content"]}
-            onMouseDown={handlerMouseDown}
-            onMouseUp={handlerMouseUp}
+            className={buttonWithContentStyle}
+            onMouseEnter={onMouseEnterButtonWithContent}
+            onMouseLeave={onMouseLeaveButtonWithContent}
+            onFocus={onFocusButtonWithContent}
+            onBlur={onBlurButtonWithContent}
         >
             {title}
             {(content.icon !== undefined)
@@ -66,5 +102,8 @@ export function Button(props: ButtonProps = {
             }
         </button>;
 
-    return button;
+    return {
+        button: button,
+        isOn: isButtonOn
+    }
 }
