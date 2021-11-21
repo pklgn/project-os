@@ -6,7 +6,7 @@ type TextElementProps = {
     element: SlideElement,
 };
 
-function getElementContent(element: SlideElement): TextElement|undefined {
+function getTextElementContent(element: SlideElement): TextElement|undefined {
     let elementText: TextElement|undefined;
 
     if (isText(element.content)) {
@@ -21,7 +21,7 @@ function getElementContent(element: SlideElement): TextElement|undefined {
 
 function TextElementComponent(props: TextElementProps) {
     const element: SlideElement = props.element;
-    const elementText: TextElement|undefined = getElementContent(element);
+    const elementText: TextElement|undefined = getTextElementContent(element);
 
     if(!elementText) {
         return null;
