@@ -4,17 +4,23 @@ import {TextElementComponent} from "../../PresentationElements/TextElementCompon
 import {useResize} from "../../utils/useResize";
 import {useEffect, useLayoutEffect, useRef} from "react";
 
-const SLIDE_ASPECT_RATIO = 1.8
+const SlideParams = {
+    ASPECT_RATIO: 1.8,
+    MAX_PAGE_HEIGHT: 0.8,
+}
 
 export function Slide() {
     const ref = useRef<HTMLDivElement>(null)
     const [width] = useResize(ref)
+    const maxHeight = SlideParams.MAX_PAGE_HEIGHT * window.innerHeight
 
     useEffect(() => {
-        if (ref.current && width) {
-            ref.current.style.height = `${width / SLIDE_ASPECT_RATIO}px`
+        if (ref.current) {
+            const height = width / SlideParams.ASPECT_RATIO
+            ref.current.style.height = `${Math.min(height, maxHeight)}px`
         }
-    })
+    }, [ref, width])
+
     return <div
         className={styles.slide}
         ref={ref}
