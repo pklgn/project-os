@@ -26,12 +26,12 @@ export function Button(props: ButtonProps = {
     const [buttonWithContentStyle, setButtonWithContentStyle] = useState(styles["button-with-content"]);
     const [isButtonOn, setButtonState] = useState(false);
 
-    const onMouseDownOnButton = (event: BaseSyntheticEvent) => {
+    const onMouseDownButton = (event: BaseSyntheticEvent) => {
         setButtonStyle(styles["button-on"]);
         event.preventDefault();
     }
 
-    const onMouseUpOnButton = (event: BaseSyntheticEvent) => {
+    const onMouseUpButton = (event: BaseSyntheticEvent) => {
         setButtonStyle(styles.button);
         if (!isButtonOn) {
             event.target.focus();
@@ -79,8 +79,8 @@ export function Button(props: ButtonProps = {
             className={buttonStyle}
             onFocus={onFocusButton}
             onBlur={onBlurButton}
-            onMouseDown={onMouseDownOnButton}
-            onMouseUp={onMouseUpOnButton}
+            onMouseDown={onMouseDownButton}
+            onMouseUp={onMouseUpButton}
             onClick={onClickButton}
         >
             {title}
