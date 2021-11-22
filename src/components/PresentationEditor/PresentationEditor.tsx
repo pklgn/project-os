@@ -1,6 +1,5 @@
-import { Bottom } from "../AppFooter/Bottom";
-import { Content } from "../AppContent/Content";
-import { TopBar } from "../TopBar/TopBar";
+import { BottomBar } from "../AppFooter/BottomBar";
+import { TopBar } from "../AppTop/TopBar";
 import styles from "./PresentationEditor.module.css";
 import {SlideList} from "../AppContent/SlideList/SlideList";
 import {Slide} from "../AppContent/Slide/Slide";
@@ -11,7 +10,7 @@ export function PresentationEditor(): JSX.Element {
             <TopBar />
             <SlideList />
             <Slide />
-            <Bottom />
+            <BottomBar />
         </div>
     );
 }

@@ -1,8 +1,7 @@
-import styles from "./Bottom.module.css";
+import styles from "./BottomBar.module.css";
 import { SlideInfo } from "./SlideInfo/SlideInfo";
-import { SlideListTool } from "./SlideListTool/SlideListTool";
 
-export function Bottom(): JSX.Element {
+export function BottomBar(): JSX.Element {
     return (
         <div className={styles.bottom}>
             <SlideInfo />

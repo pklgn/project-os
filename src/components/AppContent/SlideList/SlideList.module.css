@@ -2,4 +2,5 @@
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
     grid-area: side;
+    min-height: 320px;
 }
