@@ -2,7 +2,13 @@ import styles from "./Slide.module.css";
 import {mockText} from "../../../model/mock/mockEditor"
 import {TextElementComponent} from "../../PresentationElements/TextElementComponent";
 import {useResize} from "../../utils/useResize";
-import {useEffect, useLayoutEffect, useRef} from "react";
+import {useEffect, useRef} from "react";
+import {FigureElementComponent} from "../../PresentationElements/FigureElementComponent";
+import {
+    mockCircleFigureElement,
+    mockRectangleFigureElement,
+    mockTriangleFigureElement
+} from "../../../model/mock/mockFigures";
 
 const SlideParams = {
     ASPECT_RATIO: 1.8,
@@ -39,6 +45,9 @@ export function Slide() {
                 ry="0.4rem"
             />
             <TextElementComponent key={mockText.id} element={mockText}/>
+            <FigureElementComponent element={mockTriangleFigureElement}/>
+            <FigureElementComponent element={mockRectangleFigureElement}/>
+            <FigureElementComponent element={mockCircleFigureElement}/>
         </svg>
     </div>;
 }
