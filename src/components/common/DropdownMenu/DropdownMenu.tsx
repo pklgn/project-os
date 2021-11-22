@@ -27,11 +27,11 @@ export function DropdownMenu(props: DropdownMenuProps = {
     // }, [props.summoningButton?.isOn]);
 
     const onMouseClick = (_: BaseSyntheticEvent) => {
-        console.log('here!');
+        //console.log('click dropdown!');
     }
 
     const onMouseOver = (_: BaseSyntheticEvent) => {
-        console.log('over!');
+        //console.log('over dropdown');
         //props.summoningButton?.setOn(false);
     }
 

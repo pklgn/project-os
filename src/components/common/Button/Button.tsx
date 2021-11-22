@@ -18,7 +18,7 @@ export type Button = {
 export function Button(props: ButtonProps = {
     title: "",
     content: undefined,
-    foo: () => {}
+    foo: () => { }
 }): Button {
     const { title, content } = props;
 
@@ -26,17 +26,29 @@ export function Button(props: ButtonProps = {
     const [isButtonOn, setButtonState] = useState(false);
 
     const onMouseDownButton = (event: BaseSyntheticEvent) => {
+        console.log('down');
         setButtonStyle(styles["button-on"]);
-        event.preventDefault();
+        event.target.focus();
     }
 
     const onMouseUpButton = (event: BaseSyntheticEvent) => {
-        setButtonStyle(styles.button);
-        if (!isButtonOn) {
-            event.target.focus();
-        } else {
+        console.log('up');
+        if (isButtonOn) {
             event.target.blur();
+            console.log('blur');
+            setButtonState(false);
+        } else {
+            setButtonState(true);
         }
+        setButtonStyle(styles.button);
+    }
+
+    const onFocusButton = (event: BaseSyntheticEvent) => {
+        //console.log('focus');
+    }
+
+    const onBlurButton = (event: BaseSyntheticEvent) => {
+        //console.log('blur');
     }
 
     const onClickButton = (_: BaseSyntheticEvent) => {
@@ -45,11 +57,11 @@ export function Button(props: ButtonProps = {
         }
     }
 
-    const onMouseEnterButtonWithContent = (event: BaseSyntheticEvent) => {
+    const onMouseEnterButtonWithContent = (_: BaseSyntheticEvent) => {
         setButtonState(true);
     }
 
-    const onMouseLeaveButtonWithContent = (event: BaseSyntheticEvent) => {
+    const onMouseLeaveButtonWithContent = (_: BaseSyntheticEvent) => {
         setButtonState(false);
     }
 
@@ -58,6 +70,8 @@ export function Button(props: ButtonProps = {
             className={buttonStyle}
             onMouseDown={onMouseDownButton}
             onMouseUp={onMouseUpButton}
+            onFocus={onFocusButton}
+            onBlur={onBlurButton}
             onClick={onClickButton}
         >
             {title}

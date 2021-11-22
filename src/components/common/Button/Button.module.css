@@ -14,7 +14,7 @@
 }
 
 .button:focus {
-  background-color: #f6ea6a;
+  background-color: #e4d429;
 }
 
 .button-on {
@@ -22,14 +22,10 @@
   outline: none;
   font-size: 14px;
   border-radius: 0.2rem;
-  background-color: #e4d429;
+  background-color: #f6ea6a;
   display: inline-block;
   cursor: pointer;
   padding: 4px 6px;
-}
-
-.button-on:focus {
-  background-color: #e4d429;
 }
 
 .button-with-content {
