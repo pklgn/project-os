@@ -12,7 +12,8 @@ type ButtonProps = {
 
 export type Button = {
     button: JSX.Element,
-    isOn: boolean
+    isOn: boolean,
+    setButtonOn: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export function Button(props: ButtonProps = {
@@ -49,6 +50,9 @@ export function Button(props: ButtonProps = {
 
     const onBlurButton = (event: BaseSyntheticEvent) => {
         //console.log('blur');
+        if (isButtonOn) {
+            event.target.focus();
+        }
     }
 
     const onClickButton = (_: BaseSyntheticEvent) => {
@@ -94,6 +98,7 @@ export function Button(props: ButtonProps = {
 
     return {
         button: button,
-        isOn: isButtonOn
+        isOn: isButtonOn,
+        setButtonOn: setButtonState
     }
 }
