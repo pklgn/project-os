@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useState } from "react";
+import { BaseSyntheticEvent, useEffect, useState } from "react";
 import { Button } from "../Button/Button";
 import styles from "./DropdownMenu.module.css";
 
@@ -18,6 +18,23 @@ export function DropdownMenu(props: DropdownMenuProps = {
 
     const [menuRender, setMenuRender] = useState(false);
 
+    // useEffect(() => {
+    //     if (props.summoningButton?.isOn) {
+    //         setMenuRender(true);
+    //     } else {
+    //         setMenuRender(false);
+    //     }
+    // }, [props.summoningButton?.isOn]);
+
+    const onMouseClick = (_: BaseSyntheticEvent) => {
+        console.log('here!');
+    }
+
+    const onMouseOver = (_: BaseSyntheticEvent) => {
+        console.log('over!');
+        //props.summoningButton?.setOn(false);
+    }
+
     const menu: JSX.Element[] = (props.bottomBorderAfterElement !== undefined) 
         ? props.elementsArray.map((element, index) => {
             if (props.bottomBorderAfterElement ?.includes(index)) {
@@ -32,7 +49,11 @@ export function DropdownMenu(props: DropdownMenuProps = {
 
 
     return (
-        <div className={styles.dropdown}>
+        <div
+          className={styles.dropdown}
+          onClick={onMouseClick}
+          onMouseOver={onMouseOver}
+        >
             {props.summoningButton?.button}
             {(props.summoningButton?.isOn)
                 ? (props.summoningButtonPlace === "above") 

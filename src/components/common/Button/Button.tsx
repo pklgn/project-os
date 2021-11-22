@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useState } from "react";
+import React, { BaseSyntheticEvent, useEffect, useState } from "react";
 import styles from "./Button.module.css";
 
 type ButtonProps = {
@@ -12,7 +12,7 @@ type ButtonProps = {
 
 export type Button = {
     button: JSX.Element,
-    isOn: boolean,
+    isOn: boolean
 }
 
 export function Button(props: ButtonProps = {
@@ -23,7 +23,6 @@ export function Button(props: ButtonProps = {
     const { title, content } = props;
 
     const [buttonStyle, setButtonStyle] = useState(styles.button);
-    const [buttonWithContentStyle, setButtonWithContentStyle] = useState(styles["button-with-content"]);
     const [isButtonOn, setButtonState] = useState(false);
 
     const onMouseDownButton = (event: BaseSyntheticEvent) => {
@@ -40,45 +39,23 @@ export function Button(props: ButtonProps = {
         }
     }
 
-    const onFocusButton = (_: BaseSyntheticEvent) => {
-        setButtonState(true);
-    }
-
-    const onBlurButton = (_: BaseSyntheticEvent) => {
-        setButtonState(false);
-    }
-
     const onClickButton = (_: BaseSyntheticEvent) => {
         if (props.foo !== undefined) {
             props.foo();
         }
     }
 
-    const onFocusButtonWithContent = (_: BaseSyntheticEvent) => {
+    const onMouseEnterButtonWithContent = (event: BaseSyntheticEvent) => {
         setButtonState(true);
-        setButtonWithContentStyle(styles["button-with-content-active"]);
     }
 
-    const onBlurButtonWithContent = (_: BaseSyntheticEvent) => {
+    const onMouseLeaveButtonWithContent = (event: BaseSyntheticEvent) => {
         setButtonState(false);
-        setButtonWithContentStyle(styles["button-with-content"]);
-    }
-
-    const onMouseEnterButtonWithContent = (_: BaseSyntheticEvent) => {
-        setButtonState(true);
-        setButtonWithContentStyle(styles["button-with-content-active"]);
-    }
-
-    const onMouseLeaveButtonWithContent = (_: BaseSyntheticEvent) => {
-        setButtonState(false);
-        setButtonWithContentStyle(styles["button-with-content"]);
     }
 
     const button: JSX.Element = (content === undefined)
         ? <button
             className={buttonStyle}
-            onFocus={onFocusButton}
-            onBlur={onBlurButton}
             onMouseDown={onMouseDownButton}
             onMouseUp={onMouseUpButton}
             onClick={onClickButton}
@@ -86,11 +63,9 @@ export function Button(props: ButtonProps = {
             {title}
         </button>
         : <button
-            className={buttonWithContentStyle}
+            className={styles["button-with-content"]}
             onMouseEnter={onMouseEnterButtonWithContent}
             onMouseLeave={onMouseLeaveButtonWithContent}
-            onFocus={onFocusButtonWithContent}
-            onBlur={onBlurButtonWithContent}
         >
             {title}
             {(content.icon !== undefined)

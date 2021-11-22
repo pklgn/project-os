@@ -46,17 +46,10 @@
   padding: 0 10px 0 25px;
 }
 
-.button-with-content-active {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: none;
-  font: inherit;
-  color: inherit;
+.button-with-content:hover {
   background-color: #bebdbdbf;
-  cursor: pointer;
-  min-width: 240px;
-  min-height: 35px;
-  padding: 0 10px 0 25px;
-  outline: none;
+}
+
+.button-with-content:hover div[id="icon"]{
+  border-left: 10px solid rgb(138, 138, 138);
 }
