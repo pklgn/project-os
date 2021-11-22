@@ -14,10 +14,21 @@
 }
 
 .button:focus {
-  background-color: #e4d429;
+  background-color: #f6ea6a;
 }
 
 .button-on {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  border-radius: 0.2rem;
+  background-color: #e4d429;
+  display: inline-block;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.button-wo-focus-active {
   border: none;
   outline: none;
   font-size: 14px;

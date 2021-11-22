@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useEffect, useState } from "react";
+import React, { BaseSyntheticEvent, useState } from "react";
 import styles from "./Button.module.css";
 
 type ButtonProps = {
@@ -13,45 +13,49 @@ type ButtonProps = {
 export type Button = {
     button: JSX.Element,
     isOn: boolean,
-    setButtonOn: React.Dispatch<React.SetStateAction<boolean>>
+    renderActive: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export function Button(props: ButtonProps = {
     title: "",
     content: undefined,
-    foo: () => { }
+    foo: () => { },
 }): Button {
     const { title, content } = props;
 
     const [buttonStyle, setButtonStyle] = useState(styles.button);
     const [isButtonOn, setButtonState] = useState(false);
+    const [preventMouseUp, setPreventMouseUp] = useState(false);
+    const [renderActive, setActiveRendering] = useState(false);
 
     const onMouseDownButton = (event: BaseSyntheticEvent) => {
-        console.log('down');
         setButtonStyle(styles["button-on"]);
         event.target.focus();
     }
 
     const onMouseUpButton = (event: BaseSyntheticEvent) => {
-        console.log('up');
-        if (isButtonOn) {
-            event.target.blur();
-            console.log('blur');
-            setButtonState(false);
+        if (preventMouseUp) {
+            setPreventMouseUp(false);
         } else {
-            setButtonState(true);
+            setButtonState(false);
+            event.target.blur();
         }
         setButtonStyle(styles.button);
     }
 
-    const onFocusButton = (event: BaseSyntheticEvent) => {
-        //console.log('focus');
+    const onFocusButton = (_: BaseSyntheticEvent) => {
+        setButtonStyle(styles["button-on"]);
+        setButtonState(true);
+        setPreventMouseUp(true);
     }
 
     const onBlurButton = (event: BaseSyntheticEvent) => {
-        //console.log('blur');
-        if (isButtonOn) {
-            event.target.focus();
+        console.log('disabling');
+        if (!renderActive) {
+            setButtonStyle(styles["button-wo-focus-active"]);
+            setActiveRendering(true);
+        } else {
+            setButtonStyle(styles.button);
         }
     }
 
@@ -99,6 +103,6 @@ export function Button(props: ButtonProps = {
     return {
         button: button,
         isOn: isButtonOn,
-        setButtonOn: setButtonState
+        renderActive: setActiveRendering
     }
 }
