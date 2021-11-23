@@ -1,4 +1,5 @@
 .click-handler-layer {
+    position: absolute;
     z-index: 1004;
     width: 100vw;
     height: 100vw;

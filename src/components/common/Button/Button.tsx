@@ -12,8 +12,7 @@ type ButtonProps = {
 
 export type Button = {
     button: JSX.Element,
-    isOn: boolean,
-    renderActive: React.Dispatch<React.SetStateAction<boolean>>
+    isOn: boolean
 }
 
 export function Button(props: ButtonProps = {
@@ -26,7 +25,6 @@ export function Button(props: ButtonProps = {
     const [buttonStyle, setButtonStyle] = useState(styles.button);
     const [isButtonOn, setButtonState] = useState(false);
     const [preventMouseUp, setPreventMouseUp] = useState(false);
-    const [renderActive, setActiveRendering] = useState(false);
 
     const onMouseDownButton = (event: BaseSyntheticEvent) => {
         setButtonStyle(styles["button-on"]);
@@ -49,14 +47,9 @@ export function Button(props: ButtonProps = {
         setPreventMouseUp(true);
     }
 
-    const onBlurButton = (event: BaseSyntheticEvent) => {
+    const onBlurButton = (_: BaseSyntheticEvent) => {
         console.log('disabling');
-        if (!renderActive) {
-            setButtonStyle(styles["button-wo-focus-active"]);
-            setActiveRendering(true);
-        } else {
-            setButtonStyle(styles.button);
-        }
+        setButtonStyle(styles.button);
     }
 
     const onClickButton = (_: BaseSyntheticEvent) => {
@@ -102,7 +95,6 @@ export function Button(props: ButtonProps = {
 
     return {
         button: button,
-        isOn: isButtonOn,
-        renderActive: setActiveRendering
+        isOn: isButtonOn
     }
 }

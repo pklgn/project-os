@@ -1,21 +1,19 @@
 import styles from "./ClickHandlerLayer.module.css";
-import { BaseSyntheticEvent, useState } from "react";
+import { BaseSyntheticEvent } from "react";
 
-export type ClickHandlerType = {
+export type ClickHandlerLayerType = {
     clickHandlerLayer: JSX.Element,
-    clickHandled: boolean,
-    falsingStateFunc: () => void
+    resetClickState: () => void,
 }
 
-export function ClickHandlerLayer(): ClickHandlerType {
-    const [wasClick, setClickState] = useState(false);
+export function ClickHandlerLayer(): ClickHandlerLayerType {
 
     const onClickHandler = (_: BaseSyntheticEvent) => {
-        setClickState(true);
+        console.log('click layer!');
     }
 
     const resetClickState = () => {
-        setClickState(false);
+        //
     }
 
     return {
@@ -23,7 +21,6 @@ export function ClickHandlerLayer(): ClickHandlerType {
           className={styles["click-handler-layer"]}
           onClick={onClickHandler}
         ></div>,
-        clickHandled: wasClick,
-        falsingStateFunc: resetClickState
+        resetClickState: resetClickState
     }
 }
