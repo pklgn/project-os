@@ -14,7 +14,8 @@ export type Button = {
     button: JSX.Element,
     isOn: boolean,
     setOnOffButton: (s: boolean) => void,
-    setOnOffFocusStyle: (s: boolean) => void
+    setOnOffFocusStyle: (s: boolean) => void,
+    makeBlur: () => void
 }
 
 export function Button(props: ButtonProps = {
@@ -55,7 +56,7 @@ export function Button(props: ButtonProps = {
         setPreventMouseUp(true);
     }
 
-    const onBlurButton = (_: BaseSyntheticEvent) => {
+    const onBlurButton = () => {
         console.log('disabling');
         if (!stayFocusStyle) {
             setButtonStyle(styles.button);
@@ -117,6 +118,7 @@ export function Button(props: ButtonProps = {
         button: button,
         isOn: isButtonOn,
         setOnOffButton: setOnOffButton,
-        setOnOffFocusStyle: setOnOffFocusButton
+        setOnOffFocusStyle: setOnOffFocusButton,
+        makeBlur: onBlurButton
     }
 }

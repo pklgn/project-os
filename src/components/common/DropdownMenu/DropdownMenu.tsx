@@ -25,12 +25,16 @@ export function DropdownMenu(props: DropdownMenuProps = {
         
         const hendler = (event: MouseEvent) => {
             const target = event.target as Node;
+            summoningButton.setOnOffFocusStyle(false);
             if (summoningButton.isOn) {
                 if (menuRef!.current!.contains(target)) {
                     summoningButton.setOnOffFocusStyle(true);
+                    console.log(`match sumoningState: ${summoningButton.isOn}`);
                 } else {
                     summoningButton.setOnOffButton(false);
                     summoningButton.setOnOffFocusStyle(false);
+                    summoningButton.makeBlur();
+                    console.log(`miss sumoningState: ${summoningButton.isOn}`);
                 }
                 console.log(menuRef!.current!.contains(target));
             }
