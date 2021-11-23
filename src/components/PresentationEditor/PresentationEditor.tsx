@@ -6,7 +6,6 @@ import { Slide } from "../AppContent/Slide/Slide";
 import { ClickHandlerLayer, ClickHandlerLayerType } from "../common/ClickHandlerLayer/ClickHandlerLayer";
 
 export function PresentationEditor(): JSX.Element {
-    const clickHandlerLayer: ClickHandlerLayerType = ClickHandlerLayer();
 
     return (
         <div className={styles.editor}>
@@ -14,7 +13,6 @@ export function PresentationEditor(): JSX.Element {
             <SlideList />
             <Slide />
             <BottomBar />
-            {clickHandlerLayer.clickHandlerLayer}
         </div>
     );
 }

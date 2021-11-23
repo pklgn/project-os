@@ -4,15 +4,17 @@ import styles from "./Button.module.css";
 type ButtonProps = {
     title: string,
     content: {
-        hotkeyInfo: string;
-        icon: JSX.Element | undefined;
+        hotkeyInfo: string,
+        icon: JSX.Element | undefined,
     } | undefined,
     foo: Function | undefined
 }
 
 export type Button = {
     button: JSX.Element,
-    isOn: boolean
+    isOn: boolean,
+    setOnOffButton: (s: boolean) => void,
+    setOnOffFocusStyle: (s: boolean) => void
 }
 
 export function Button(props: ButtonProps = {
@@ -25,6 +27,12 @@ export function Button(props: ButtonProps = {
     const [buttonStyle, setButtonStyle] = useState(styles.button);
     const [isButtonOn, setButtonState] = useState(false);
     const [preventMouseUp, setPreventMouseUp] = useState(false);
+    const [stayFocusStyle, setStayFocusStyle] = useState(false);
+
+    const setOnOffButton = (state: boolean) => {
+        setButtonState(state);
+    }
+
 
     const onMouseDownButton = (event: BaseSyntheticEvent) => {
         setButtonStyle(styles["button-on"]);
@@ -49,7 +57,15 @@ export function Button(props: ButtonProps = {
 
     const onBlurButton = (_: BaseSyntheticEvent) => {
         console.log('disabling');
-        setButtonStyle(styles.button);
+        if (!stayFocusStyle) {
+            setButtonStyle(styles.button);
+        } else {
+            setButtonStyle(styles["button-wo-focus-active"]);
+        }
+    }
+
+    const setOnOffFocusButton = (state: boolean) => {
+        setStayFocusStyle(state);
     }
 
     const onClickButton = (_: BaseSyntheticEvent) => {
@@ -81,6 +97,10 @@ export function Button(props: ButtonProps = {
             className={styles["button-with-content"]}
             onMouseEnter={onMouseEnterButtonWithContent}
             onMouseLeave={onMouseLeaveButtonWithContent}
+            onClick={(props.content?.hotkeyInfo !== undefined)
+                ? onClickButton
+                : () => {}
+            }
         >
             {title}
             {(content.icon !== undefined)
@@ -95,6 +115,8 @@ export function Button(props: ButtonProps = {
 
     return {
         button: button,
-        isOn: isButtonOn
+        isOn: isButtonOn,
+        setOnOffButton: setOnOffButton,
+        setOnOffFocusStyle: setOnOffFocusButton
     }
 }
