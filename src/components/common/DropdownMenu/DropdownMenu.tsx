@@ -1,58 +1,65 @@
 import React, { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
-import { generateUUId } from "../../../model/utils/uuid";
-import { Button } from "../Button/Button";
+import { ButtonType } from "../Button/Button";
 import styles from "./DropdownMenu.module.css";
 
 type DropdownMenuProps = {
     summoningButtonPlace: 'above' | 'left' | 'default',
     elementsArray: JSX.Element[],
-    summoningButton: Button | undefined,
+    summoningButtonType: ButtonType | undefined,
     bottomBorderAfterElement: number[] | undefined
 }
 
 export function DropdownMenu(props: DropdownMenuProps = {
     summoningButtonPlace: 'default',
-    summoningButton: undefined,
+    summoningButtonType: undefined,
     elementsArray: [],
     bottomBorderAfterElement: undefined
 }): JSX.Element {
 
-    const summoningButton: Button = props.summoningButton!;
+    const summoningButtonType: ButtonType = props.summoningButtonType!;
     const [menuRender, setMenuRender] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+    const isSummoningButtonWithIcon: boolean = props.summoningButtonType!.buttons.buttonWithTextAndRightIcon !== undefined;
 
     useEffect(() => {
-        
-        const hendler = (event: MouseEvent) => {
-            const target = event.target as Node;
-            summoningButton.setOnOffFocusStyle(false);
-            if (summoningButton.isOn) {
-                if (menuRef!.current!.contains(target)) {
-                    summoningButton.setOnOffFocusStyle(true);
-                    console.log(`match sumoningState: ${summoningButton.isOn}`);
-                } else {
-                    summoningButton.setOnOffButton(false);
-                    summoningButton.setOnOffFocusStyle(false);
-                    summoningButton.makeBlur();
-                    console.log(`miss sumoningState: ${summoningButton.isOn}`);
-                }
-                console.log(menuRef!.current!.contains(target));
+
+        const handler = (isSummoningButtonWithIcon)
+            ? (_: MouseEvent) => {
+
             }
-        }
+            : (event: MouseEvent) => {
+                const target = event.target as Node;
 
-        setMenuRender(summoningButton.isOn);
+                const buttonWithTextOnlyActions = summoningButtonType.actions.forButtonWithText;
 
-        document.addEventListener("mousedown", hendler);
+                buttonWithTextOnlyActions.setOnOffFocusStyle(false);
+                if (summoningButtonType.info.isOn) {
+                    if (menuRef!.current!.contains(target)) {
+                        buttonWithTextOnlyActions.setOnOffFocusStyle(true);
+                        buttonWithTextOnlyActions.setOnOffFocusStyle(true);
+                        console.log(`match summoningState: ${summoningButtonType.info.isOn}`);
+                    } else {
+                        summoningButtonType.actions.setOnOffButton(false);
+                        buttonWithTextOnlyActions.setOnOffFocusStyle(false);
+                        console.log(`miss summoningState: ${summoningButtonType.info.isOn}`);
+                    }
+                } else {
+                    console.log('button is off');
+                }
+            }
+
+        console.log(`batton state: ${summoningButtonType.info.isOn}`);
+        setMenuRender(summoningButtonType.info.isOn);
+
+        document.addEventListener("mousedown", handler);
 
         return () => {
-            document.removeEventListener("mousedown", hendler);
+            document.removeEventListener("mousedown", handler);
         }
-    }, [summoningButton.isOn]);
+    }, [summoningButtonType.info.isOn]);
 
     const onMouseClick = (_: BaseSyntheticEvent) => {
         console.log('click dropdown!');
-        const eventTarget = _.target;
-        console.log(_.target);
     }
 
     const menu: JSX.Element[] = (props.bottomBorderAfterElement !== undefined)
@@ -73,7 +80,10 @@ export function DropdownMenu(props: DropdownMenuProps = {
             onClick={onMouseClick}
             ref={menuRef}
         >
-            {summoningButton.button}
+            {(isSummoningButtonWithIcon)
+                ? summoningButtonType.buttons.buttonWithTextAndRightIcon
+                : summoningButtonType.buttons.buttonWithText
+            }
             {(menuRender)
                 ? (props.summoningButtonPlace === "above")
                     ? <div
