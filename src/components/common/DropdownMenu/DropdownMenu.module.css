@@ -1,6 +1,7 @@
 .dropdown {
     position: relative;
     display: inline-block;
+    z-index: 1005;
 }
 
 .dropdown-menu {
