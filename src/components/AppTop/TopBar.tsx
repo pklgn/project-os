@@ -4,9 +4,6 @@ import { Triangle } from "../common/icons/Triangle/Triangle";
 import styles from "./TopBar.module.css";
 
 function TopBar() {
-    const mockData: string[] = [
-        'Показ слайдов',
-    ];
 
     const func = () => {
         console.log('ok!');

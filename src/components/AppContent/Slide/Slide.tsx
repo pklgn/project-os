@@ -11,7 +11,7 @@ export function Slide() {
     const [width, height] = useResize(ref)
 
     useEffect(() => {
-        console.log(width, height)
+        //console.log(width, height)
     })
 
     return <div

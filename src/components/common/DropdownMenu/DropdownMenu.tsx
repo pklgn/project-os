@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { BaseSyntheticEvent, useContext, useEffect, useState } from "react";
 import { Button } from "../Button/Button";
 import styles from "./DropdownMenu.module.css";
 
@@ -6,33 +6,24 @@ type DropdownMenuProps = {
     summoningButtonPlace: 'above' | 'left' | 'default',
     elementsArray: JSX.Element[],
     summoningButton: Button | undefined,
-    bottomBorderAfterElement: number[] | undefined,
+    bottomBorderAfterElement: number[] | undefined
 }
 
 export function DropdownMenu(props: DropdownMenuProps = {
     summoningButtonPlace: 'default',
     summoningButton: undefined,
     elementsArray: [],
-    bottomBorderAfterElement: undefined,
+    bottomBorderAfterElement: undefined
 }): JSX.Element {
 
     const [menuRender, setMenuRender] = useState(false);
 
-    // useEffect(() => {
-    //     if (props.summoningButton?.isOn) {
-    //         setMenuRender(true);
-    //     } else {
-    //         setMenuRender(false);
-    //     }
-    // }, [props.summoningButton?.isOn]);
+    useEffect(() => {
+        setMenuRender(props.summoningButton!.isOn);
+    }, [props.summoningButton?.isOn]);
 
     const onMouseClick = (_: BaseSyntheticEvent) => {
         console.log('click dropdown!');
-        props.summoningButton?.setButtonOn(true);
-    }
-
-    const onMouseOver = (_: BaseSyntheticEvent) => {
-        console.log('over dropdown');
     }
 
     const menu: JSX.Element[] = (props.bottomBorderAfterElement !== undefined)
@@ -47,14 +38,12 @@ export function DropdownMenu(props: DropdownMenuProps = {
         })
         : props.elementsArray;
 
-
     return (
         <div
             className={styles.dropdown}
-            onMouseOver={onMouseOver}
         >
             {props.summoningButton?.button}
-            {(props.summoningButton?.isOn)
+            {(menuRender)
                 ? (props.summoningButtonPlace === "above")
                     ? <div
                         className={styles["dropdown-menu"]}
