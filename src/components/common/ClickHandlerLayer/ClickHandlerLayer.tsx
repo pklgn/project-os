@@ -4,7 +4,7 @@ import { BaseSyntheticEvent, useState } from "react";
 export type ClickHandlerType = {
     clickHandlerLayer: JSX.Element,
     clickHandled: boolean,
-    falsingStateFunc: React.Dispatch<React.SetStateAction<boolean>>
+    falsingStateFunc: () => void
 }
 
 export function ClickHandlerLayer(): ClickHandlerType {
@@ -14,12 +14,16 @@ export function ClickHandlerLayer(): ClickHandlerType {
         setClickState(true);
     }
 
+    const resetClickState = () => {
+        setClickState(false);
+    }
+
     return {
         clickHandlerLayer: <div
           className={styles["click-handler-layer"]}
           onClick={onClickHandler}
         ></div>,
-        clickHandled: false,
-        falsingStateFunc: setClickState
+        clickHandled: wasClick,
+        falsingStateFunc: resetClickState
     }
 }
