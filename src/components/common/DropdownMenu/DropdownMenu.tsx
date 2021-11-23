@@ -1,4 +1,5 @@
-import { BaseSyntheticEvent, useContext, useEffect, useState } from "react";
+import React, { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
+import { generateUUId } from "../../../model/utils/uuid";
 import { Button } from "../Button/Button";
 import styles from "./DropdownMenu.module.css";
 
@@ -16,14 +17,38 @@ export function DropdownMenu(props: DropdownMenuProps = {
     bottomBorderAfterElement: undefined
 }): JSX.Element {
 
+    const summoningButton: Button = props.summoningButton!;
     const [menuRender, setMenuRender] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setMenuRender(props.summoningButton!.isOn);
-    }, [props.summoningButton?.isOn]);
+        
+        const hendler = (event: MouseEvent) => {
+            const target = event.target as Node;
+            if (summoningButton.isOn) {
+                if (menuRef!.current!.contains(target)) {
+                    summoningButton.setOnOffFocusStyle(true);
+                } else {
+                    summoningButton.setOnOffButton(false);
+                    summoningButton.setOnOffFocusStyle(false);
+                }
+                console.log(menuRef!.current!.contains(target));
+            }
+        }
+
+        setMenuRender(summoningButton.isOn);
+
+        document.addEventListener("mousedown", hendler);
+
+        return () => {
+            document.removeEventListener("mousedown", hendler);
+        }
+    }, [summoningButton.isOn]);
 
     const onMouseClick = (_: BaseSyntheticEvent) => {
         console.log('click dropdown!');
+        const eventTarget = _.target;
+        console.log(_.target);
     }
 
     const menu: JSX.Element[] = (props.bottomBorderAfterElement !== undefined)
@@ -41,19 +66,19 @@ export function DropdownMenu(props: DropdownMenuProps = {
     return (
         <div
             className={styles.dropdown}
+            onClick={onMouseClick}
+            ref={menuRef}
         >
-            {props.summoningButton?.button}
+            {summoningButton.button}
             {(menuRender)
                 ? (props.summoningButtonPlace === "above")
                     ? <div
                         className={styles["dropdown-menu"]}
-                        onClick={onMouseClick}
                     >
                         {menu}
                     </div>
                     : <div
                         className={styles["dropdown-menu-rightside"]}
-                        onClick={onMouseClick}
                     >
                         {menu}
                     </div>
