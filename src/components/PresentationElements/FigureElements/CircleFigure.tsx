@@ -1,5 +1,7 @@
 import {Coordinates, Size} from "../../../model/types";
 import {FigureProps} from "../FigureElementComponent";
+import commonStyles from "./CommonFigureStyle.module.css"
+import {joinClassNames} from "../../utils/joinClassNames";
 
 function getCenterPointCoordinates(
     startPoint: Coordinates,
@@ -26,8 +28,13 @@ function CircleFigure(props: FigureProps) {
         x: cx,
         y: cy,
     } = getCenterPointCoordinates(startPoint, size);
+    const r = size.width === size.height
+        ? size.width / 2
+        : 0
 
-    const r = size.width / 2;
+    if (!r) {
+        return null;
+    }
 
     return <circle
         cx={cx}
@@ -37,6 +44,9 @@ function CircleFigure(props: FigureProps) {
         stroke={content.borderColor}
         strokeWidth={content.borderWidth}
         opacity={opacity}
+        className={joinClassNames([
+            commonStyles.figure,
+        ])}
     />
 }
 
