@@ -1,56 +1,21 @@
-import React, { BaseSyntheticEvent, useState } from "react";
+import { BaseSyntheticEvent, useState } from "react";
 import styles from "./Button.module.css";
 
 type ButtonProps = {
-    title: string,
+    text: string | undefined,
     content: {
-        hotkeyInfo: string;
-        icon: JSX.Element | undefined;
+        hotkeyInfo: string,
+        icon: JSX.Element | undefined,
     } | undefined,
     foo: Function | undefined
 }
 
-export type Button = {
-    button: JSX.Element,
-    isOn: boolean
-}
-
 export function Button(props: ButtonProps = {
-    title: "",
+    text: "",
     content: undefined,
     foo: () => { },
-}): Button {
-    const { title, content } = props;
-
-    const [buttonStyle, setButtonStyle] = useState(styles.button);
-    const [isButtonOn, setButtonState] = useState(false);
-    const [preventMouseUp, setPreventMouseUp] = useState(false);
-
-    const onMouseDownButton = (event: BaseSyntheticEvent) => {
-        setButtonStyle(styles["button-on"]);
-        event.target.focus();
-    }
-
-    const onMouseUpButton = (event: BaseSyntheticEvent) => {
-        if (preventMouseUp) {
-            setPreventMouseUp(false);
-        } else {
-            setButtonState(false);
-            event.target.blur();
-        }
-        setButtonStyle(styles.button);
-    }
-
-    const onFocusButton = (_: BaseSyntheticEvent) => {
-        setButtonStyle(styles["button-on"]);
-        setButtonState(true);
-        setPreventMouseUp(true);
-    }
-
-    const onBlurButton = (_: BaseSyntheticEvent) => {
-        console.log('disabling');
-        setButtonStyle(styles.button);
-    }
+}): JSX.Element {
+    const { text, content } = props;
 
     const onClickButton = (_: BaseSyntheticEvent) => {
         if (props.foo !== undefined) {
@@ -58,43 +23,103 @@ export function Button(props: ButtonProps = {
         }
     }
 
+    const [buttonTextStyle, setButtonWithTextStyle] = useState(styles.button);
+
+    const [preventMouseUpOnButtonWithText, setPreventMouseUpOnButtonWithText] = useState(false);
+    const [isButtonWithTextFocused, setButtonWithTextFocus] = useState(false);
+
+    const onMouseDownButtonWithText = (event: BaseSyntheticEvent) => {
+        setButtonWithTextStyle(styles["button-on"]);
+        event.target.focus();
+    }
+
+    const onMouseUpButtonWithText = (event: BaseSyntheticEvent) => {
+        if (preventMouseUpOnButtonWithText) {
+            setPreventMouseUpOnButtonWithText(false);
+        } else {
+            event.target.blur();
+        }
+        setButtonWithTextStyle(styles.button);
+    }
+
+    const onFocusButtonWithText = () => {
+        setButtonWithTextStyle(styles["button-on"]);
+        setPreventMouseUpOnButtonWithText(true);
+    }
+
+    const onBlurButtonWithText = () => {
+        console.log(`blur! ${text}`);
+        if (!isButtonWithTextFocused) {
+            setButtonWithTextStyle(styles.button);
+        } else {
+            setButtonWithTextStyle(styles["button-wo-focus-active"]);
+        }
+    }
+
+    const buttonWithText: JSX.Element | undefined = (props.text !== undefined && props.content === undefined)
+        ?
+        <button
+            className={buttonTextStyle}
+            onMouseDown={onMouseDownButtonWithText}
+            onMouseUp={onMouseUpButtonWithText}
+            onFocus={onFocusButtonWithText}
+            onBlur={onBlurButtonWithText}
+            onClick={onClickButton}
+        >
+            {text}
+        </button>
+        : undefined;
+
     const onMouseEnterButtonWithContent = (_: BaseSyntheticEvent) => {
-        setButtonState(true);
     }
 
     const onMouseLeaveButtonWithContent = (_: BaseSyntheticEvent) => {
-        setButtonState(false);
     }
 
-    const button: JSX.Element = (content === undefined)
-        ? <button
-            className={buttonStyle}
-            onMouseDown={onMouseDownButton}
-            onMouseUp={onMouseUpButton}
-            onFocus={onFocusButton}
-            onBlur={onBlurButton}
-            onClick={onClickButton}
-        >
-            {title}
-        </button>
-        : <button
-            className={styles["button-with-content"]}
-            onMouseEnter={onMouseEnterButtonWithContent}
-            onMouseLeave={onMouseLeaveButtonWithContent}
-        >
-            {title}
-            {(content.icon !== undefined)
-                ? content.icon
-                : ''
-            }
-            {(content.icon === undefined && content.hotkeyInfo !== undefined)
-                ? <div className="hotkey">{content.hotkeyInfo}</div>
-                : ''
-            }
-        </button>;
+    const buttonWithTextAndRightIcon: JSX.Element | undefined =
+        (props.content !== undefined && props.content?.icon !== undefined && text !== undefined)
+            ? <button
+                className={styles["button-with-content"]}
+                onMouseEnter={onMouseEnterButtonWithContent}
+                onMouseLeave={onMouseLeaveButtonWithContent}
+                onClick={onClickButton}
+            >
+                {text}
+                {content!.icon}
+            </button>
+            : undefined;
 
-    return {
-        button: button,
-        isOn: isButtonOn
-    }
+    const buttonWithTextAndRightHotKeyInfo: JSX.Element | undefined =
+        (props.content !== undefined && props.content?.hotkeyInfo !== undefined && text !== undefined)
+            ? <button
+                className={styles["button-with-content"]}
+                onMouseEnter={onMouseEnterButtonWithContent}
+                onMouseLeave={onMouseLeaveButtonWithContent}
+                onClick={onClickButton}
+            >
+                {text}
+                <div className="hotkey-info">
+                    {content!.hotkeyInfo}
+                </div>
+            </button>
+            : undefined;
+
+    const buttonWithTextInSubMenu: JSX.Element | undefined =
+        (text !== undefined)
+            ? <button
+                className={styles["button-with-content"]}
+                onMouseEnter={onMouseEnterButtonWithContent}
+                onMouseLeave={onMouseLeaveButtonWithContent}
+                onClick={onClickButton}
+            >
+                {text}
+            </button>
+            : undefined;
+
+    return (
+        (buttonWithText !== undefined) ? buttonWithText
+            : (buttonWithTextAndRightIcon) ? buttonWithTextAndRightIcon
+                : (buttonWithTextInSubMenu !== undefined) ? buttonWithTextInSubMenu
+                    : <div></div>
+    );
 }

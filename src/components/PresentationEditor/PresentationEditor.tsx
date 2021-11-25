@@ -3,10 +3,8 @@ import { TopBar } from "../AppTop/TopBar";
 import styles from "./PresentationEditor.module.css";
 import { SlideList } from "../AppContent/SlideList/SlideList";
 import { Slide } from "../AppContent/Slide/Slide";
-import { ClickHandlerLayer, ClickHandlerLayerType } from "../common/ClickHandlerLayer/ClickHandlerLayer";
 
 export function PresentationEditor(): JSX.Element {
-    const clickHandlerLayer: ClickHandlerLayerType = ClickHandlerLayer();
 
     return (
         <div className={styles.editor}>
@@ -14,7 +12,6 @@ export function PresentationEditor(): JSX.Element {
             <SlideList />
             <Slide />
             <BottomBar />
-            {clickHandlerLayer.clickHandlerLayer}
         </div>
     );
 }
