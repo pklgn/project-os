@@ -3,16 +3,29 @@ import {mockText} from "../../../model/mock/mockEditor"
 import {TextElementComponent} from "../../PresentationElements/TextElementComponent";
 import {useResize} from "../../utils/useResize";
 import {useEffect, useRef} from "react";
+import {FigureElementComponent} from "../../PresentationElements/FigureElementComponent";
+import {
+    mockCircleFigureElement,
+    mockRectangleFigureElement,
+    mockTriangleFigureElement
+} from "../../../model/mock/mockFigures";
 
-const SLIDE_ASPECT_RATIO = 2.1
+const SlideParams = {
+    ASPECT_RATIO: 1.8,
+    MAX_PAGE_HEIGHT: 0.8,
+}
 
 export function Slide() {
-    const ref = useRef(null)
-    const [width, height] = useResize(ref)
+    const ref = useRef<HTMLDivElement>(null)
+    const [width] = useResize(ref)
+    const maxHeight = SlideParams.MAX_PAGE_HEIGHT * window.innerHeight
 
     useEffect(() => {
-        console.log(width, height)
-    })
+        if (ref.current) {
+            const height = width / SlideParams.ASPECT_RATIO
+            ref.current.style.height = `${Math.min(height, maxHeight)}px`
+        }
+    }, [ref, width])
 
     return <div
         className={styles.slide}
@@ -32,6 +45,9 @@ export function Slide() {
                 ry="0.4rem"
             />
             <TextElementComponent key={mockText.id} element={mockText}/>
+            <FigureElementComponent element={mockTriangleFigureElement}/>
+            <FigureElementComponent element={mockRectangleFigureElement}/>
+            <FigureElementComponent element={mockCircleFigureElement}/>
         </svg>
     </div>;
 }

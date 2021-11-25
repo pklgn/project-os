@@ -1,0 +1,62 @@
+.button {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  border-radius: 0.2rem;
+  display: inline-block;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 4px 6px;
+}
+
+.button:hover {
+  background-color: rgba(190, 189, 189, 0.75);
+}
+
+.button:focus {
+  background-color: #f6ea6a;
+}
+
+.button-on {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  border-radius: 0.2rem;
+  background-color: #e4d429;
+  display: inline-block;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.button-wo-focus-active {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  border-radius: 0.2rem;
+  background-color: #f6ea6a;
+  display: inline-block;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.button-with-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  min-width: 240px;
+  min-height: 35px;
+  padding: 0 10px 0 25px;
+}
+
+.button-with-content:hover {
+  background-color: #bebdbdbf;
+}
+
+.button-with-content:hover div[id="icon"]{
+  border-left: 10px solid rgb(138, 138, 138);
+}
