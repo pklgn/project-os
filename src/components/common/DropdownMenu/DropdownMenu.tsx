@@ -1,54 +1,43 @@
-import React, { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
-import { generateUUId } from "../../../model/utils/uuid";
+import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { Button } from "../Button/Button";
 import styles from "./DropdownMenu.module.css";
 
 type DropdownMenuProps = {
     summoningButtonPlace: 'above' | 'left' | 'default',
     elementsArray: JSX.Element[],
-    summoningButton: Button | undefined,
+    summoningButtonText: string,
     bottomBorderAfterElement: number[] | undefined
 }
 
 export function DropdownMenu(props: DropdownMenuProps = {
     summoningButtonPlace: 'default',
-    summoningButton: undefined,
+    summoningButtonText: "",
     elementsArray: [],
     bottomBorderAfterElement: undefined
 }): JSX.Element {
 
-    const summoningButton: Button = props.summoningButton!;
     const [menuRender, setMenuRender] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        
-        const hendler = (event: MouseEvent) => {
-            const target = event.target as Node;
-            if (summoningButton.isOn) {
-                if (menuRef!.current!.contains(target)) {
-                    summoningButton.setOnOffFocusStyle(true);
-                } else {
-                    summoningButton.setOnOffButton(false);
-                    summoningButton.setOnOffFocusStyle(false);
-                }
-                console.log(menuRef!.current!.contains(target));
-            }
-        }
+    // useEffect(() => {
 
-        setMenuRender(summoningButton.isOn);
+    //     const handler = (isSummoningButtonWithIcon)
+    //         ? (_: MouseEvent) => {
 
-        document.addEventListener("mousedown", hendler);
+    //         }
+    //         : (event: MouseEvent) => {
+                
+    //         }
 
-        return () => {
-            document.removeEventListener("mousedown", hendler);
-        }
-    }, [summoningButton.isOn]);
+    //     document.addEventListener("mousedown", handler);
+
+    //     return () => {
+    //         document.removeEventListener("mousedown", handler);
+    //     }
+    // });
 
     const onMouseClick = (_: BaseSyntheticEvent) => {
         console.log('click dropdown!');
-        const eventTarget = _.target;
-        console.log(_.target);
     }
 
     const menu: JSX.Element[] = (props.bottomBorderAfterElement !== undefined)
@@ -69,7 +58,7 @@ export function DropdownMenu(props: DropdownMenuProps = {
             onClick={onMouseClick}
             ref={menuRef}
         >
-            {summoningButton.button}
+            <Button text={props.summoningButtonText} content={undefined} foo={undefined}/>
             {(menuRender)
                 ? (props.summoningButtonPlace === "above")
                     ? <div
