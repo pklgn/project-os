@@ -10,47 +10,12 @@ type ButtonProps = {
     foo: Function | undefined
 }
 
-export type ButtonType = {
-    buttons: {
-        buttonWithText: JSX.Element | undefined,
-        buttonWithTextAndRightIcon: JSX.Element | undefined,
-        buttonWithTextAndRightHotKeyInfo: JSX.Element | undefined,
-        buttonWithTextInSubMenu: JSX.Element | undefined
-    },
-    info: {
-        isOn: boolean,
-        forButtonWithText: {
-            isButtonWithTextFocused: boolean
-        },
-        forButtonWithTextAndRightIcon: {
-            isButtonWithTextAndRightIconFocused: boolean
-        },
-    },
-    actions: {
-        setOnOffButton: (s: boolean) => void,
-        toggleOnOffButton: () => void,
-        forButtonWithText: {
-            setOnOffFocusStyle: (s: boolean) => void,
-            toggleOnOffFocusStyleButton: () => void
-        }
-    }
-}
-
 export function Button(props: ButtonProps = {
     text: "",
     content: undefined,
     foo: () => { },
-}): ButtonType {
+}): JSX.Element {
     const { text, content } = props;
-    const [isButtonOn, setButtonState] = useState(false);
-
-    const setOnOffButton = (state: boolean) => {
-        setButtonState(state);
-    }
-
-    const toggleOnOffButton = () => {
-        setButtonState(!isButtonOn);
-    }
 
     const onClickButton = (_: BaseSyntheticEvent) => {
         if (props.foo !== undefined) {
@@ -63,14 +28,6 @@ export function Button(props: ButtonProps = {
     const [preventMouseUpOnButtonWithText, setPreventMouseUpOnButtonWithText] = useState(false);
     const [isButtonWithTextFocused, setButtonWithTextFocus] = useState(false);
 
-    const setOnOffFocusButtonWithText = (state: boolean) => {
-        setButtonWithTextFocus(state);
-    }
-
-    const toggleOnOffFocusStyleButtonWithText = () => {
-        setOnOffFocusButtonWithText(!isButtonWithTextFocused);
-    }
-
     const onMouseDownButtonWithText = (event: BaseSyntheticEvent) => {
         setButtonWithTextStyle(styles["button-on"]);
         event.target.focus();
@@ -80,7 +37,6 @@ export function Button(props: ButtonProps = {
         if (preventMouseUpOnButtonWithText) {
             setPreventMouseUpOnButtonWithText(false);
         } else {
-            setButtonState(false);
             event.target.blur();
         }
         setButtonWithTextStyle(styles.button);
@@ -88,7 +44,6 @@ export function Button(props: ButtonProps = {
 
     const onFocusButtonWithText = () => {
         setButtonWithTextStyle(styles["button-on"]);
-        setButtonState(true);
         setPreventMouseUpOnButtonWithText(true);
     }
 
@@ -101,7 +56,7 @@ export function Button(props: ButtonProps = {
         }
     }
 
-    const buttonWithText: JSX.Element | undefined = (props.text !== undefined)
+    const buttonWithText: JSX.Element | undefined = (props.text !== undefined && props.content === undefined)
         ?
         <button
             className={buttonTextStyle}
@@ -116,11 +71,9 @@ export function Button(props: ButtonProps = {
         : undefined;
 
     const onMouseEnterButtonWithContent = (_: BaseSyntheticEvent) => {
-        setButtonState(true);
     }
 
     const onMouseLeaveButtonWithContent = (_: BaseSyntheticEvent) => {
-        setButtonState(false);
     }
 
     const buttonWithTextAndRightIcon: JSX.Element | undefined =
@@ -163,29 +116,10 @@ export function Button(props: ButtonProps = {
             </button>
             : undefined;
 
-    return {
-        buttons: {
-            buttonWithText: buttonWithText,
-            buttonWithTextAndRightIcon: buttonWithTextAndRightIcon,
-            buttonWithTextAndRightHotKeyInfo: buttonWithTextAndRightHotKeyInfo,
-            buttonWithTextInSubMenu: buttonWithTextInSubMenu
-        },
-        info: {
-            isOn: isButtonOn,
-            forButtonWithText: {
-                isButtonWithTextFocused: isButtonWithTextFocused
-            },
-            forButtonWithTextAndRightIcon: {
-                isButtonWithTextAndRightIconFocused: false
-            }
-        },
-        actions: {
-            setOnOffButton: setOnOffButton,
-            toggleOnOffButton: toggleOnOffButton,
-            forButtonWithText: {
-                setOnOffFocusStyle: setOnOffFocusButtonWithText,
-                toggleOnOffFocusStyleButton: toggleOnOffFocusStyleButtonWithText
-            }
-        }
-    }
+    return (
+        (buttonWithText !== undefined) ? buttonWithText
+            : (buttonWithTextAndRightIcon) ? buttonWithTextAndRightIcon
+                : (buttonWithTextInSubMenu !== undefined) ? buttonWithTextInSubMenu
+                    : <div></div>
+    );
 }
