@@ -4,45 +4,64 @@ import styles from "./DropdownMenu.module.css";
 
 type DropdownMenuProps = {
     summoningButtonPlace: 'above' | 'left' | 'default',
+    summoningButtonType: 'text' | 'textInSubMenu',
     elementsArray: JSX.Element[],
     summoningButtonText: string,
     bottomBorderAfterElement: number[] | undefined
 }
 
+type buttonState = 'disabled' | 'active' | 'focused'
+
 export function DropdownMenu(props: DropdownMenuProps = {
     summoningButtonPlace: 'default',
-    summoningButtonText: "",
+    summoningButtonType: 'text',
+    summoningButtonText: '',
     elementsArray: [],
     bottomBorderAfterElement: undefined
 }): JSX.Element {
 
+    const {
+        summoningButtonPlace,
+        summoningButtonType,
+        summoningButtonText,
+        elementsArray,
+        bottomBorderAfterElement
+    } = props;
+
     const [menuRender, setMenuRender] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+    const summoningButtonRef = useRef<HTMLDivElement>(null);
+    let summoningButtonState: buttonState = 'disabled';
 
-    // useEffect(() => {
+    useEffect(() => {
+        const handler =
+            (event: MouseEvent) => {
+                const target = event.target as Node;
 
-    //     const handler = (isSummoningButtonWithIcon)
-    //         ? (_: MouseEvent) => {
+                if (summoningButtonRef.current?.contains(target)) {
+                    console.log('yes!');
+                    setMenuRender(true);
+                    if (menuRender) {
+                        setMenuRender(false);
+                    }
+                }
 
-    //         }
-    //         : (event: MouseEvent) => {
-                
-    //         }
+            }
 
-    //     document.addEventListener("mousedown", handler);
+        document.addEventListener("mousedown", handler);
 
-    //     return () => {
-    //         document.removeEventListener("mousedown", handler);
-    //     }
-    // });
+        return () => {
+            document.removeEventListener("mousedown", handler);
+        }
+    }, [menuRender]);
 
     const onMouseClick = (_: BaseSyntheticEvent) => {
-        console.log('click dropdown!');
+        // console.log('click dropdown!');
     }
 
-    const menu: JSX.Element[] = (props.bottomBorderAfterElement !== undefined)
-        ? props.elementsArray.map((element, index) => {
-            if (props.bottomBorderAfterElement?.includes(index)) {
+    const menu: JSX.Element[] = (bottomBorderAfterElement !== undefined)
+        ? elementsArray.map((element, index) => {
+            if (bottomBorderAfterElement?.includes(index)) {
                 return <div className="element-with-hr">
                     {element}
                     <div className={styles["block-end-line"]}></div>
@@ -50,7 +69,7 @@ export function DropdownMenu(props: DropdownMenuProps = {
             }
             return element;
         })
-        : props.elementsArray;
+        : elementsArray;
 
     return (
         <div
@@ -58,7 +77,17 @@ export function DropdownMenu(props: DropdownMenuProps = {
             onClick={onMouseClick}
             ref={menuRef}
         >
-            <Button text={props.summoningButtonText} content={undefined} foo={undefined}/>
+            <div
+                ref={summoningButtonRef}
+            >
+                <Button
+                    text={summoningButtonText}
+                    state={summoningButtonState}
+                    contentType={summoningButtonType}
+                    content={undefined}
+                    foo={undefined}
+                />
+            </div>
             {(menuRender)
                 ? (props.summoningButtonPlace === "above")
                     ? <div
