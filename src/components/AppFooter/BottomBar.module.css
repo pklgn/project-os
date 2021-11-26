@@ -1,0 +1,10 @@
+.bottom {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    grid-area: footer;
+    width: 100%;
+    justify-self: center;
+    grid-column: 1 / span 2;
+}
