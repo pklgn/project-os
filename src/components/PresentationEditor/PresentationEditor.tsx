@@ -1,20 +1,19 @@
 import { BottomBar } from "../AppFooter/BottomBar";
 import { TopBar } from "../AppTop/TopBar";
 import styles from "./PresentationEditor.module.css";
+import { ElementListTool } from "../AppFooter/ElementListTool/ElementListTool";
+import { SlideListTool } from "../AppFooter/SlideListTool/SlideListTool";
 import { SlideList } from "../AppContent/SlideList/SlideList";
 import { Slide } from "../AppContent/Slide/Slide";
-import { ClickHandlerLayer, ClickHandlerLayerType } from "../common/ClickHandlerLayer/ClickHandlerLayer";
 
 export function PresentationEditor(): JSX.Element {
-    const clickHandlerLayer: ClickHandlerLayerType = ClickHandlerLayer();
-
     return (
         <div className={styles.editor}>
             <TopBar />
             <SlideList />
             <Slide />
-            <BottomBar />
-            {clickHandlerLayer.clickHandlerLayer}
+            <SlideListTool />
+            <ElementListTool />
         </div>
     );
 }
