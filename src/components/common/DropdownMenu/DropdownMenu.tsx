@@ -1,5 +1,6 @@
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { Button } from "../Button/Button";
+import { Triangle } from "../icons/Triangle/Triangle";
 import styles from "./DropdownMenu.module.css";
 
 type DropdownMenuProps = {
@@ -31,33 +32,103 @@ export function DropdownMenu(props: DropdownMenuProps = {
     const [menuRender, setMenuRender] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const summoningButtonRef = useRef<HTMLDivElement>(null);
-    let summoningButtonState: buttonState = 'disabled';
+    const rightsideSubMenuRef = useRef<HTMLDivElement>(null);
+    const [
+        buttonDisabledState,
+        buttonActiveState,
+        buttonFocusedState
+    ]: buttonState[] = ['disabled', 'active', 'focused'];
+
+    const [buttonCurrentState, setButtonCurrentState] = useState(buttonDisabledState);
+
+    const mouseDownOnSummoningButtonHandler =
+        (event: MouseEvent) => {
+            const target = event.target as Node;
+            if (summoningButtonRef.current?.contains(target)) {
+                setButtonCurrentState(buttonActiveState);
+            } else {
+                if (!menuRef.current?.contains(target) && menuRender) {
+                    setMenuRender(false);
+                    setButtonCurrentState(buttonDisabledState);
+                }
+            }
+        }
+
+    const mouseUpOnSummoningButtonHandler =
+        (event: MouseEvent) => {
+            const target = event.target as Node;
+            if (summoningButtonRef.current?.contains(target)) {
+                if (menuRender) {
+                    setMenuRender(false);
+                    setButtonCurrentState(buttonDisabledState);
+                } else {
+                    setMenuRender(true);
+                    setButtonCurrentState(buttonFocusedState);
+                }
+            }
+        }
+
+    const mouseOverOnSummoningButtonHandler =
+        (event: MouseEvent) => {
+            const target = event.target as Node;
+            if (summoningButtonRef.current?.contains(target)) {
+                console.log(`enter target ${summoningButtonText}`);
+                setMenuRender(true);
+            }
+        }
+
+    const mouseOutOnSummoningButtonHandler =
+        (event: MouseEvent) => {
+            const target = event.target as Node;
+            if (menuRef.current?.contains(target)) {
+                setMenuRender(true);
+            } else {
+                setMenuRender(false);
+            }
+        }
+
+    const clickHandler =
+        (event: MouseEvent) => {
+            const target = event.target as Node;
+            if (rightsideSubMenuRef.current?.contains(target)) {
+                setMenuRender(false);
+            }
+        }
+
+    const focusOnSummoningButtonHandler =
+        (event: FocusEvent) => {
+            const target = event.target as Node;
+            console.log('focus!');
+            if (menuRef.current?.contains(target)) {
+                setMenuRender(true);
+            }
+        }
 
     useEffect(() => {
-        const handler =
-            (event: MouseEvent) => {
-                const target = event.target as Node;
 
-                if (summoningButtonRef.current?.contains(target)) {
-                    console.log('yes!');
-                    setMenuRender(true);
-                    if (menuRender) {
-                        setMenuRender(false);
-                    }
-                }
+        if (summoningButtonPlace === 'above') {
+            document.addEventListener("mousedown", mouseDownOnSummoningButtonHandler);
+            document.addEventListener("mouseup", mouseUpOnSummoningButtonHandler);
+        }
 
-            }
-
-        document.addEventListener("mousedown", handler);
+        if (summoningButtonPlace === 'left') {
+            document.addEventListener("mouseover", mouseOverOnSummoningButtonHandler);
+            document.addEventListener("mouseout", mouseOutOnSummoningButtonHandler);
+            document.addEventListener("click", clickHandler);
+        }
 
         return () => {
-            document.removeEventListener("mousedown", handler);
+            if (summoningButtonPlace === 'above') {
+                document.removeEventListener("mousedown", mouseDownOnSummoningButtonHandler);
+                document.removeEventListener("mouseup", mouseUpOnSummoningButtonHandler);
+            }
+            if (summoningButtonPlace === 'left') {
+                document.removeEventListener("mouseover", mouseOverOnSummoningButtonHandler);
+                document.removeEventListener("mouseout", mouseOutOnSummoningButtonHandler);
+                document.removeEventListener("click", clickHandler);
+            }
         }
     }, [menuRender]);
-
-    const onMouseClick = (_: BaseSyntheticEvent) => {
-        // console.log('click dropdown!');
-    }
 
     const menu: JSX.Element[] = (bottomBorderAfterElement !== undefined)
         ? elementsArray.map((element, index) => {
@@ -74,7 +145,6 @@ export function DropdownMenu(props: DropdownMenuProps = {
     return (
         <div
             className={styles.dropdown}
-            onClick={onMouseClick}
             ref={menuRef}
         >
             <div
@@ -82,9 +152,14 @@ export function DropdownMenu(props: DropdownMenuProps = {
             >
                 <Button
                     text={summoningButtonText}
-                    state={summoningButtonState}
+                    state={buttonCurrentState}
                     contentType={summoningButtonType}
-                    content={undefined}
+                    content={(summoningButtonType === 'text')
+                        ? undefined
+                        : (summoningButtonType === 'textInSubMenu')
+                            ? { hotkeyInfo: "", icon: <Triangle width={10} height={10} color="grey" /> }
+                            : undefined
+                    }
                     foo={undefined}
                 />
             </div>
@@ -97,6 +172,7 @@ export function DropdownMenu(props: DropdownMenuProps = {
                     </div>
                     : <div
                         className={styles["dropdown-menu-rightside"]}
+                        ref={rightsideSubMenuRef}
                     >
                         {menu}
                     </div>

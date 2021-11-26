@@ -1,6 +1,5 @@
 import { Button } from "../common/Button/Button";
 import { DropdownMenu } from "../common/DropdownMenu/DropdownMenu";
-import { Circle } from "../common/icons/Circle/Circle";
 import styles from "./TopBar.module.css";
 
 function TopBar() {
@@ -83,7 +82,7 @@ function TopBar() {
                                 <Button text="Вставить URL" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />
                             ]}
                         />,
-                        <Button text="Фигуры" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                        <Button text="Текст" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
                         <DropdownMenu
                             summoningButtonText="Фигуры"
                             summoningButtonType="textInSubMenu"
@@ -97,8 +96,10 @@ function TopBar() {
                         />
                     ]}
                 />
-                <Button text="Показ слайдов" state={'disabled'} contentType={'text'} content={undefined} foo={func} />
-                <Button text="" state={'disabled'} contentType="icon" content={{ hotkeyInfo: "", icon: <Circle /> }} foo={func} />
+                <span className={styles.span}></span>
+                <input className={styles["presentation-name-input-field"]} type="text" />
+                <span className={styles.span}></span>
+                <Button text="Показ слайдов" state={'default'} contentType={'text'} content={undefined} foo={func} />
             </div>
         </div>
     );
