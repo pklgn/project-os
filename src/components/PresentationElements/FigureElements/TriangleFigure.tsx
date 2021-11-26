@@ -1,5 +1,7 @@
 import {FigureProps} from "../FigureElementComponent";
 import {useEffect} from "react";
+import {joinClassNames} from "../../utils/joinClassNames";
+import commonStyles from "./CommonFigureStyle.module.css"
 
 function TriangleFigure(props: FigureProps) {
     const leftVertex = {
@@ -25,6 +27,9 @@ function TriangleFigure(props: FigureProps) {
         stroke={props.content.borderColor}
         strokeWidth={props.content.borderWidth}
         points={pointsString}
+        className={joinClassNames([
+            commonStyles.figure,
+        ])}
     />
 }
 
