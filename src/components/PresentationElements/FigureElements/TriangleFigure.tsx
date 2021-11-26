@@ -18,7 +18,6 @@ function TriangleFigure(props: FigureProps) {
     const pointsString = `${leftVertex.x},${leftVertex.y} ${topVertex.x},${topVertex.y} ${rightVertex.x},${rightVertex.y}`
 
     useEffect(() => {
-        console.log(pointsString)
     }, [])
 
     return <polygon

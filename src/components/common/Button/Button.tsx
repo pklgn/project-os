@@ -25,7 +25,6 @@ export function Button(props: ButtonProps = {
         if (foo !== undefined) {
             foo();
         }
-        console.log(`${state} ${contentType} ${buttonStyle}`);
     }
 
     const [buttonStyle, setButtonStyle] = useState(styles.default);
