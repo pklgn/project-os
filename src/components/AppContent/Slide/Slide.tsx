@@ -45,9 +45,9 @@ export function Slide() {
                 ry="0.4rem"
             />
             <TextElementComponent key={mockText.id} element={mockText}/>
-            <FigureElementComponent element={mockTriangleFigureElement} slideRef={ref.current}/>
-            <FigureElementComponent element={mockRectangleFigureElement} slideRef={ref.current}/>
-            <FigureElementComponent element={mockCircleFigureElement} slideRef={ref.current}/>
+            <FigureElementComponent element={mockTriangleFigureElement} />
+            <FigureElementComponent element={mockRectangleFigureElement} />
+            <FigureElementComponent element={mockCircleFigureElement} />
         </svg>
     </div>;
 }
