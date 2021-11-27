@@ -2,7 +2,7 @@ import {Coordinates, Size} from "../../../model/types";
 import {FigureProps} from "../FigureElementComponent";
 import commonStyles from "./CommonFigureStyle.module.css"
 import {joinClassNames} from "../../utils/joinClassNames";
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import {useDragAndDrop} from "../../utils/useDragAndDrop";
 
 function getCenterPointCoordinates(
@@ -29,9 +29,6 @@ function CircleFigure(props: FigureProps) {
     const [position, setPosition] = useState(getCenterPointCoordinates(startPoint, size))
     const ref = useRef<SVGCircleElement>(null);
     useDragAndDrop(ref.current, position, setPosition)
-    useEffect(() => {
-        console.log(ref)
-    })
 
     const r = size.width === size.height
         ? size.width / 2

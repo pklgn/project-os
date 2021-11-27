@@ -1,12 +1,27 @@
 import {Coordinates} from "../../model/types";
 import {useEffect} from "react";
 
-function useDragAndDrop(element: SVGCircleElement|SVGRectElement|SVGPolygonElement|null,
+function useDragAndDrop(element: SVGCircleElement|null,
                         position: Coordinates,
                         setPosition: (coordinates: Coordinates) => void,
 
 ) {
     let startPosition: Coordinates
+
+    function onMouseDown(event: MouseEvent) {
+        startPosition = {
+            x: event.pageX,
+            y: event.pageY,
+        }
+
+        document.addEventListener('mousemove', onMouseMove)
+        document.addEventListener('mouseup', onMouseUp)
+    }
+
+    function onMouseUp() {
+        document.removeEventListener('mousemove', onMouseMove)
+        document.removeEventListener('mouseup', onMouseUp)
+    }
 
     function onMouseMove(e: MouseEvent) {
         const delta = {
@@ -22,25 +37,17 @@ function useDragAndDrop(element: SVGCircleElement|SVGRectElement|SVGPolygonEleme
     }
 
     useEffect(() => {
-        if (document) {
-            document.addEventListener('mousedown', onMouseDown)
+        if (element) {
+            element.addEventListener('mousedown', onMouseDown)
         }
 
-        function onMouseDown(event: MouseEvent) {
-            startPosition = {
-                x: event.pageX,
-                y: event.pageY,
+        return () => {
+            if (element) {
+                element.removeEventListener('mousedown', onMouseDown)
             }
-
-            document.addEventListener('mousemove', onMouseMove)
-            document.addEventListener('mouseup', onMouseUp)
         }
-    }, [])
+    })
 
-    function onMouseUp() {
-        document.removeEventListener('mousemove', onMouseMove)
-        document.removeEventListener('mouseup', onMouseUp)
-    }
 }
 
 export {
