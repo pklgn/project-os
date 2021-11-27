@@ -1,4 +1,3 @@
-import { BottomBar } from "../AppFooter/BottomBar";
 import { TopBar } from "../AppTop/TopBar";
 import styles from "./PresentationEditor.module.css";
 import { ElementListTool } from "../AppFooter/ElementListTool/ElementListTool";
