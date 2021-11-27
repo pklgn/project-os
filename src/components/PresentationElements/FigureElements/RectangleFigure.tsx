@@ -1,4 +1,6 @@
 import {FigureProps} from "../FigureElementComponent";
+import {joinClassNames} from "../../utils/joinClassNames";
+import commonStyles from "./CommonFigureStyle.module.css"
 
 function RectangleFigure(props: FigureProps) {
     return <rect
@@ -10,6 +12,9 @@ function RectangleFigure(props: FigureProps) {
         fill={props.content.figureColor}
         stroke={props.content.borderColor}
         strokeWidth={props.content.borderWidth}
+        className={joinClassNames([
+            commonStyles.figure,
+        ])}
     />
 }
 
