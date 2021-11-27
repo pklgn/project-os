@@ -17,6 +17,7 @@ const SlideParams = {
 
 export function Slide() {
     const ref = useRef<HTMLDivElement>(null)
+    const svgRef = useRef(null)
     const [width] = useResize(ref)
     const maxHeight = SlideParams.MAX_PAGE_HEIGHT * window.innerHeight
 
@@ -32,10 +33,17 @@ export function Slide() {
         ref={ref}
     >
         <svg
+            ref={svgRef}
             width="100%"
             height="100%"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
+            onMouseMove={(e) => {
+                // keeps drag and drop only on the target element
+                if (e.target !== ref.current) {
+                    e.preventDefault()
+                }
+            }}
         >
             <rect
                 width="100%"
@@ -48,6 +56,7 @@ export function Slide() {
             <FigureElementComponent element={mockTriangleFigureElement} />
             <FigureElementComponent element={mockRectangleFigureElement} />
             <FigureElementComponent element={mockCircleFigureElement} />
+
         </svg>
     </div>;
 }

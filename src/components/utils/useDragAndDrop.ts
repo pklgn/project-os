@@ -1,7 +1,7 @@
 import {Coordinates} from "../../model/types";
 import {useEffect} from "react";
 
-function useDragAndDrop(element: SVGCircleElement|null,
+function useDragAndDrop(element: SVGGeometryElement|null,
                         position: Coordinates,
                         setPosition: (coordinates: Coordinates) => void,
 
@@ -13,7 +13,6 @@ function useDragAndDrop(element: SVGCircleElement|null,
             x: event.pageX,
             y: event.pageY,
         }
-
         document.addEventListener('mousemove', onMouseMove)
         document.addEventListener('mouseup', onMouseUp)
     }
