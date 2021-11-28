@@ -1,11 +1,21 @@
 import {FigureProps} from "../FigureElementComponent";
 import {joinClassNames} from "../../utils/joinClassNames";
 import commonStyles from "./CommonFigureStyle.module.css"
+import {useDragAndDrop} from "../../utils/useDragAndDrop";
+import {useRef, useState} from "react";
 
 function RectangleFigure(props: FigureProps) {
+    const [position, setPosition] = useState({
+        x: props.startPoint.x,
+        y: props.startPoint.y,
+    })
+    const ref = useRef(null)
+    useDragAndDrop(ref.current, position, setPosition)
+
     return <rect
-        x={props.startPoint.x}
-        y={props.startPoint.y}
+        ref={ref}
+        x={position.x}
+        y={position.y}
         width={props.size.width}
         height={props.size.height}
         opacity={props.opacity}
