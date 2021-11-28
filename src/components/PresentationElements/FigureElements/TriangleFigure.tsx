@@ -1,29 +1,33 @@
 import {FigureProps} from "../FigureElementComponent";
-import {useEffect} from "react";
+import {useRef, useState} from "react";
 import {joinClassNames} from "../../utils/joinClassNames";
 import commonStyles from "./CommonFigureStyle.module.css"
+import {useDragAndDrop} from "../../utils/useDragAndDrop";
 
 function TriangleFigure(props: FigureProps) {
-    const leftVertex = {
+    const [position, setPosition] = useState({
         x: props.startPoint.x,
-        y: props.startPoint.y + props.size.height,
+        y: props.startPoint.y,
+    })
+
+    const leftVertex = {
+        x: position.x,
+        y: position.y + props.size.height,
     };
     const topVertex = {
-        x: props.startPoint.x + props.size.width / 2,
-        y: props.startPoint.y + props.size.height / 2,
+        x: position.x + props.size.width / 2,
+        y: position.y + props.size.height / 2,
     };
     const rightVertex = {
-        x: props.startPoint.x + props.size.width,
-        y: props.startPoint.y + props.size.height,
+        x: position.x + props.size.width,
+        y: position.y + props.size.height,
     };
-
     const pointsString = `${leftVertex.x},${leftVertex.y} ${topVertex.x},${topVertex.y} ${rightVertex.x},${rightVertex.y}`
-
-    useEffect(() => {
-        console.log(pointsString)
-    }, [])
+    const ref = useRef(null)
+    useDragAndDrop(ref.current, position, setPosition)
 
     return <polygon
+        ref={ref}
         fill={props.content.figureColor}
         stroke={props.content.borderColor}
         strokeWidth={props.content.borderWidth}

@@ -13,82 +13,93 @@ function TopBar() {
             <div className={styles['top-bar__button-list']}>
                 <DropdownMenu
                     summoningButtonText="Файл"
+                    summoningButtonType="text"
                     summoningButtonPlace={"above"}
                     bottomBorderAfterElement={[2, 4]}
                     elementsArray={[
                         <DropdownMenu
                             summoningButtonText="Создать"
+                            summoningButtonType="textInSubMenu"
                             summoningButtonPlace={"left"}
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text="Презентация" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                                <Button text="Документ" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                                <Button text="Таблица" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />
+                                <Button text="Презентация" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                                <Button text="Документ" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                                <Button text="Таблица" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />
                             ]}
                         />,
-                        <Button text="Открыть" content={{ hotkeyInfo: "Ctrl+O", icon: undefined }} foo={func} />,
+                        <Button text="Открыть" state={'disabled'} contentType={'textInSubMenu'} content={{ hotkeyInfo: "Ctrl+O", icon: <div></div> }} foo={func} />,
                         <DropdownMenu
                             summoningButtonText="Создать копию"
+                            summoningButtonType="textInSubMenu"
                             summoningButtonPlace={"left"}
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text="Вся презентация" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                                <Button text="Выбранные слайды" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />
+                                <Button text="Вся презентация" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                                <Button text="Выбранные слайды" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />
                             ]}
                         />,
                         <DropdownMenu
                             summoningButtonText="Электронная почта"
+                            summoningButtonType="textInSubMenu"
                             summoningButtonPlace={"left"}
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text="Отправить на почту" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                                <Button text="Написать соавторам" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />
+                                <Button text="Отправить на почту" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                                <Button text="Написать соавторам" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />
                             ]}
                         />,
                         <DropdownMenu
                             summoningButtonText="Скачать"
+                            summoningButtonType="textInSubMenu"
                             summoningButtonPlace={"left"}
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text="Microsoft PowerPoint (.pptx)" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                                <Button text="Документ PDF (.pdf)" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                                <Button text="Обычный текст (.txt)" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />
+                                <Button text="Microsoft PowerPoint (.pptx)" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                                <Button text="Документ PDF (.pdf)" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                                <Button text="Обычный текст (.txt)" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />
                             ]}
                         />,
-                        <Button text="Переименовать" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                        <Button text="Переместить" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                        <Button text="Удалить" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />
+                        <Button text="Переименовать" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                        <Button text="Переместить" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                        <Button text="Удалить" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />
                     ]}
                 />
                 <DropdownMenu
-                    summoningButtonText="Изображение"
+                    summoningButtonText="Добавить"
+                    summoningButtonType="text"
                     summoningButtonPlace={"above"}
                     bottomBorderAfterElement={undefined}
                     elementsArray={[
                         <DropdownMenu
-                            summoningButtonText=""
+                            summoningButtonText="Изображение"
+                            summoningButtonType="textInSubMenu"
                             summoningButtonPlace={"left"}
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text="Загрузить с компьютера" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                                <Button text="Добавить с Google Диска" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                                <Button text="Вставить URL" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />
+                                <Button text="Загрузить с компьютера" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                                <Button text="Добавить с Google Диска" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                                <Button text="Вставить URL" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />
                             ]}
                         />,
-                        <Button text="Текстовое поле" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
+                        <Button text="Текст" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
                         <DropdownMenu
                             summoningButtonText="Фигуры"
+                            summoningButtonType="textInSubMenu"
                             summoningButtonPlace={"left"}
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text="Круг" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                                <Button text="Треугольник" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />,
-                                <Button text="Квадрат" content={{ hotkeyInfo: "", icon: undefined }} foo={func} />
+                                <Button text="Круг" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                                <Button text="Треугольник" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />,
+                                <Button text="Квадрат" state={'disabled'} contentType={'textInSubMenu'} content={undefined} foo={func} />
                             ]}
                         />
                     ]}
                 />
-                <Button text="Показ слайдов" content={undefined} foo={func} />
+                <span className={styles.span}></span>
+                <input className={styles["presentation-name-input-field"]} type="text" />
+                <span className={styles.span}></span>
+                <Button text="Показ слайдов" state={'default'} contentType={'text'} content={undefined} foo={func} />
             </div>
         </div>
     );

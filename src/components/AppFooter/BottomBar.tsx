@@ -1,10 +1,10 @@
 import styles from "./BottomBar.module.css";
-import { SlideInfo } from "./SlideInfo/SlideInfo";
+import { ElementListTool } from "./ElementListTool/ElementListTool";
 
 export function BottomBar(): JSX.Element {
     return (
         <div className={styles.bottom}>
-            <SlideInfo />
+            <ElementListTool />
         </div>
     );
 }
