@@ -25,7 +25,7 @@ function useResize(ref: RefObject<HTMLElement>) {
         customResizeObserver.observe(ref.current)
 
         return () => customResizeObserver.disconnect()
-    }, [ref])
+    }, [ref, trackResize])
 
     return [width, height]
 }

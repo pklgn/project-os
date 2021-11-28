@@ -15,13 +15,12 @@ export type FigureProps = {
     content: FigureElement,
 }
 
-function getFigureElement(element: SlideElement): FigureElement|undefined {
-    let figureElement: FigureElement|undefined;
+function getFigureElement(element: SlideElement): FigureElement | undefined {
+    let figureElement: FigureElement | undefined;
 
     if (isFigure(element.content)) {
         figureElement = element.content;
-    }
-    else {
+    } else {
         figureElement = undefined;
     }
 
@@ -34,6 +33,7 @@ function FigureElementComponent(props: FigureElementProps) {
     if (!figureElement) {
         return null;
     }
+
     const figureProps: FigureProps = {
         startPoint: props.element.startPoint,
         size: props.element.size,

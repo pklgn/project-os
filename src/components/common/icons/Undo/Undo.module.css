@@ -1,0 +1,10 @@
+.undo {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+}
+
+.undo:hover {
+    transition: 0.4s;
+    opacity: 0.5;
+}
