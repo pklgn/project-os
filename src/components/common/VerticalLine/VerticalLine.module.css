@@ -1,0 +1,7 @@
+.vertical_line {
+    margin: 0 20px 0;
+    width: 0;
+    height: 60%;
+    align-self: center;
+    border-left: solid #1f1f1f;
+}

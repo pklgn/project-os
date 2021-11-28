@@ -2,9 +2,8 @@ import styles from "./Delete.module.css";
 
 export function Delete(): JSX.Element {
     return (
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width={styles.width}
-            height={styles.height} opacity={styles.opacity}
-                viewBox="0 0 512 512" enable-background="new 0 0 512 512">
+        <svg className={styles.delete} x="0px" y="0px" width={styles.width} height={styles.height} 
+            opacity={styles.opacity} viewBox="0 0 512 512" enable-background="new 0 0 512 512">
             <g>
                 <polygon fill="#CEE8FA" points="190.551,495.523 117.226,495.523 87.886,113.866 190.551,113.866 	"/>
                 <polygon fill="#CEE8FA" points="394.773,495.523 321.448,495.523 321.448,113.866 424.112,113.866 	"/>

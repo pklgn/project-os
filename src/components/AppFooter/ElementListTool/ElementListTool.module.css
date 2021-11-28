@@ -1,5 +1,8 @@
 .element-tools {
+    display: flex;
+    flex-direction: row;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
     width: 100%;
+    grid-area: elementTools;
 }
