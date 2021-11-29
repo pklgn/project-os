@@ -12,16 +12,12 @@ function TopBar() {
     }
 
     const [localeContext, setLocaleContext] = useState(useContext(LocaleContext));
-    let currLocale: string = 'ru_RU';
 
     const toggleLocaleContext = () => {
-        console.log('i hate niggers!');
-        if (currLocale === 'en_EN') {
+        if (localeContext.currLocale === 'en_EN') {
             setLocaleContext(getL18nObject('ru_RU'));
-            currLocale = 'ru_RU';
-        } else {
+        } else if (localeContext.currLocale === 'ru_RU') {
             setLocaleContext(getL18nObject('en_EN'));
-            currLocale = 'en_EN';
         }
     }
 
@@ -29,86 +25,86 @@ function TopBar() {
         <div className={styles['top-bar']}>
             <div className={styles['top-bar__button-list']}>
                 <DropdownMenu
-                    summoningButtonText={localeContext.file_word}
+                    summoningButtonText={localeContext.localization.file_word}
                     summoningButtonType="text"
                     summoningButtonPlace="above"
                     bottomBorderAfterElement={[2, 4]}
                     elementsArray={[
                         <DropdownMenu
-                            summoningButtonText={localeContext.create_word}
+                            summoningButtonText={localeContext.localization.create_word}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext.presentation_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.document_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.spreadsheet_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.localization.presentation_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.localization.document_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.localization.spreadsheet_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />,
-                        <Button text={localeContext.open_word} state='disabled' contentType='textInSubMenu' content={{ hotkeyInfo: "Ctrl+O", icon: <div></div> }} foo={func} />,
+                        <Button text={localeContext.localization.open_word} state='disabled' contentType='textInSubMenu' content={{ hotkeyInfo: "Ctrl+O", icon: <div></div> }} foo={func} />,
                         <DropdownMenu
-                            summoningButtonText={localeContext["create-copy"]}
+                            summoningButtonText={localeContext.localization["create-copy"]}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext["all-presentation"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext["chosen-slides"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
-                            ]}
-                        />,
-                        <DropdownMenu
-                            summoningButtonText={localeContext.email}
-                            summoningButtonType="textInSubMenu"
-                            summoningButtonPlace="left"
-                            bottomBorderAfterElement={undefined}
-                            elementsArray={[
-                                <Button text={localeContext["send-to-email"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext["write-to-co-authors"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.localization["all-presentation"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.localization["chosen-slides"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />,
                         <DropdownMenu
-                            summoningButtonText={localeContext.download_word}
+                            summoningButtonText={localeContext.localization.email}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext["powerpoint-file-format"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext["pdf-file-format"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext["regular-text-format"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.localization["send-to-email"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.localization["write-to-co-authors"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />,
-                        <Button text={localeContext.rename_word}/* "Переименовать" */ state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                        <Button text={localeContext.relocate_word}/* "Переместить" */ state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                        <Button text={localeContext.delete_word}/* "Удалить" */ state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                        <DropdownMenu
+                            summoningButtonText={localeContext.localization.download_word}
+                            summoningButtonType="textInSubMenu"
+                            summoningButtonPlace="left"
+                            bottomBorderAfterElement={undefined}
+                            elementsArray={[
+                                <Button text={localeContext.localization["powerpoint-file-format"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.localization["pdf-file-format"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.localization["regular-text-format"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                            ]}
+                        />,
+                        <Button text={localeContext.localization.rename_word}/* "Переименовать" */ state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                        <Button text={localeContext.localization.relocate_word}/* "Переместить" */ state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                        <Button text={localeContext.localization.delete_word}/* "Удалить" */ state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
                     ]}
                 />
                 <DropdownMenu
-                    summoningButtonText={localeContext.add_word}
+                    summoningButtonText={localeContext.localization.add_word}
                     summoningButtonType="text"
                     summoningButtonPlace="above"
                     bottomBorderAfterElement={undefined}
                     elementsArray={[
                         <DropdownMenu
-                            summoningButtonText={localeContext.image_word}
+                            summoningButtonText={localeContext.localization.image_word}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext["upload-from-computer"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext["add-from-google-drive"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext["put-url"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.localization["upload-from-computer"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.localization["add-from-google-drive"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.localization["put-url"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />,
-                        <Button text={localeContext.text_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                        <Button text={localeContext.localization.text_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
                         <DropdownMenu
-                            summoningButtonText={localeContext.figures_word}
+                            summoningButtonText={localeContext.localization.figures_word}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext.circle_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.triangle_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext["square-figure_word"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.localization.circle_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.localization.triangle_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.localization["square-figure_word"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />
                     ]}
@@ -116,8 +112,8 @@ function TopBar() {
                 <span className={styles.span}></span>
                 <input className={styles["presentation-name-input-field"]} type="text" />
                 <span className={styles.span}></span>
-                <Button text={localeContext["slide-show"]} state='default' contentType='text' content={undefined} foo={func} />
-                <Button text={localeContext["change-locale"]} state='default' contentType='text' content={undefined} foo={toggleLocaleContext} />
+                <Button text={localeContext.localization["slide-show"]} state='default' contentType='text' content={undefined} foo={func} />
+                <Button text={localeContext.localization["change-locale"]} state='default' contentType='text' content={undefined} foo={toggleLocaleContext} />
             </div>
         </div>
     );
