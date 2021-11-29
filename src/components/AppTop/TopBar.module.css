@@ -17,12 +17,8 @@
 }
 
 .span {
-    min-width: 30vw;
+    min-width: 28vw;
     max-height: 0px;
-}
-
-.presentation-name-input-field {
-
 }
 
 .top-bar__text {
