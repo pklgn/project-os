@@ -5,6 +5,8 @@
     height: 1.85em;
     grid-area: top-bar;
     display: flex;
+    align-self: center;
+    justify-self: self-start;
 }
 
 .top-bar__button-list {
