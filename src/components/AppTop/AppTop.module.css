@@ -1,0 +1,10 @@
+.top-bar {
+    grid-area: top;
+    display: grid;
+    grid-template-areas:
+      "logo presentation-name-input-field"
+      "logo top-bar";
+    background-color: rgba(190, 189, 189, 0.75);
+    border-radius: 0.2rem;
+    min-height: 50px;
+}
