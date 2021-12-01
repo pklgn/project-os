@@ -17,3 +17,7 @@
   border-radius: 50%;
   background-color: black;
 }
+
+.input {
+  grid-area: presentation-name-input-field;
+}
