@@ -1,13 +1,15 @@
 import {Coordinates} from "../../model/types";
 import {useEffect} from "react";
 
+const INITIAL_SCALE = 1
+
 function useDragAndDrop(element: SVGGeometryElement|null,
                         position: Coordinates,
                         setPosition: (coordinates: Coordinates) => void,
 
 ) {
     let startPosition: Coordinates
-
+    const scale = parseFloat(element?.parentElement?.dataset.scale ?? `${INITIAL_SCALE}`)
     function onMouseDown(event: MouseEvent) {
         startPosition = {
             x: event.pageX,
@@ -28,8 +30,8 @@ function useDragAndDrop(element: SVGGeometryElement|null,
             y: e.pageY - startPosition.y,
         }
         const newPosition = {
-            x: position.x + delta.x,
-            y: position.y + delta.y,
+            x: position.x + delta.x / scale,
+            y: position.y + delta.y / scale,
         }
 
         setPosition(newPosition)
@@ -39,7 +41,6 @@ function useDragAndDrop(element: SVGGeometryElement|null,
         if (element) {
             element.addEventListener('mousedown', onMouseDown)
         }
-
         return () => {
             if (element) {
                 element.removeEventListener('mousedown', onMouseDown)
