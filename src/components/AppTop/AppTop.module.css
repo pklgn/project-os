@@ -1,0 +1,19 @@
+.top-bar {
+  grid-area: top;
+  display: grid;
+  grid-template-columns: 1fr 14fr 6fr;
+  grid-template-areas: "logo top-bar presentation-name-input-field";
+  background-color: rgba(190, 189, 189, 0.75);
+  border-radius: 0.2rem;
+  max-height: 45px;
+}
+
+.logo-container {
+  grid-area: logo;
+  position: absolute;
+  max-height: 55px;
+  margin-left: 15px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background-color: black;
+}

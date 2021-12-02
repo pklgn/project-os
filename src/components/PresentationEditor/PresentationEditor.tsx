@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+import { AppTop } from "../AppTop/AppTop";
+=======
 import { TopBar } from "../AppTop/TopBar";
+>>>>>>> os/dev-5-ermakov
 import styles from "./PresentationEditor.module.css";
 import { ElementListTool } from "../AppFooter/ElementListTool/ElementListTool";
 import { SlideListTool } from "../AppFooter/SlideListTool/SlideListTool";
@@ -8,7 +12,7 @@ import { SlideWrapper } from "../AppContent/Slide/SlideWrapper";
 export function PresentationEditor(): JSX.Element {
     return (
         <div className={styles.editor}>
-            <TopBar />
+            <AppTop />
             <SlideList />
             <SlideWrapper />
             <SlideListTool />
