@@ -34,7 +34,7 @@ function TextElementComponent(props: TextElementProps) {
         className={styles.element}
         x={element.startPoint.x}
         y={element.startPoint.y}
-        fontSize={`${elementText.fontSize}px`}
+        fontSize={`${elementText.fontSize}`}
         textAnchor={'middle'}
     >
         {elementText.content}
