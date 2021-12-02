@@ -1,0 +1,38 @@
+{
+    "INFO_TOPBAR_MENU_BLOCK": "",
+
+    "add_word": "Добавить",
+    "circle_word": "Круг",
+    "create_word": "Создать",
+    "delete_word": "Удалить",
+    "document_word": "Документ",
+    "download_word": "Скачать",
+    "figures_word": "Фигуры",
+    "file_word": "Файл",
+    "image_word": "Изображение",
+    "open_word": "Открыть",
+    "presentation_word": "Презентация",
+    "rename_word": "Переименовать",
+    "relocate_word": "Переместить",
+    "spreadsheet_word": "Таблица",
+    "square-figure_word": "Квадрат",
+    "text_word": "Текст",
+    "triangle_word": "Треугольник",
+
+    "add-from-google-drive": "Добавить с Google Диска",
+    "all-presentation": "Вся презентация",
+    "change-locale": "Сменить язык",
+    "chosen-slides": "Выбранные слайды",
+    "create-copy": "Создать копию",
+    "email": "Электронная почта",
+    "powerpoint-file-format": "Microsoft PowerPoint (.pptx)",
+    "put-url": "Вставить URL",
+    "pdf-file-format": "Документ PDF (.pdf)",
+    "regular-text-format": "Обычный текст (.txt)",
+    "send-to-email": "Отправить по почте",
+    "slide-show": "Показ слайдов",
+    "upload-from-computer": "Загрузить с компьютера",
+    "write-to-co-authors": "Написать соавторам",
+
+    "INFO_TOPBAR_MENU_BLOCK_END": ""
+}

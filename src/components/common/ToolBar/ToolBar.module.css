@@ -1,0 +1,20 @@
+.top-bar {
+    padding: 0 10px;
+    background-color: rgba(190, 189, 189, 0.75);
+    border-radius: 0.2rem;
+    height: 30px;
+    grid-area: top-bar;
+    display: flex;
+    align-self: center;
+    justify-self: self-start;
+}
+
+.top-bar__button-list {
+    justify-self: center;
+    align-self: center;
+    border-radius: 2px;
+}
+
+.top-bar__text {
+    text-align: center;
+}

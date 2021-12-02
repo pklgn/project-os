@@ -1,0 +1,10 @@
+.layer_forward {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+}
+
+.layer_forward:hover {
+    transition: 0.4s;
+    opacity: 0.5;
+}
