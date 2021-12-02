@@ -1,3 +1,14 @@
 .input {
     grid-area: presentation-name-input-field;
+    max-height: 20px;
+    align-self: center;
+    padding: 5px;
+    justify-self: center;
+    outline: none;
+    border-radius: 0.2rem;
+    text-align: center;
+}
+
+.input:focus {
+    border-color: #e59035;
 }
