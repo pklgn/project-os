@@ -1,10 +1,10 @@
-.reorder {
+.layer_forward {
     width: 30px;
     height: 30px;
     opacity: 1;
 }
 
-.reorder:hover {
+.layer_forward:hover {
     transition: 0.4s;
     opacity: 0.5;
 }
