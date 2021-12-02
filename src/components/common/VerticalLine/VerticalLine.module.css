@@ -1,7 +1,8 @@
 .vertical_line {
     margin: 0 20px 0;
-    width: 0;
+    width: 0.3px;
     height: 60%;
+    opacity: 0.8;
     align-self: center;
-    border-left: solid #1f1f1f;
+    background-color: rgb(28, 32, 20)
 }
