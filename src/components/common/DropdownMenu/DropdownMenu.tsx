@@ -104,14 +104,6 @@ export function DropdownMenu(props: DropdownMenuProps = {
             }
         }
 
-    const focusOnSummoningButtonHandler =
-        (event: FocusEvent) => {
-            const target = event.target as Node;
-            if (menuRef.current?.contains(target)) {
-                setMenuRender(true);
-            }
-        }
-
     useEffect(() => {
 
         if (summoningButtonPlace === 'above') {
@@ -137,7 +129,7 @@ export function DropdownMenu(props: DropdownMenuProps = {
                 document.removeEventListener("click", clickHandler);
             }
         }
-    }, [menuRender]);
+    });
 
     const menu: JSX.Element[] = (bottomBorderAfterElement !== undefined)
         ? elementsArray.map((element, index) => {

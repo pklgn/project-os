@@ -1,4 +1,3 @@
-import { Editor } from "../model/types";
 import { Actions } from "./actions"
 
 export const editorReducers = (editor: any, action: Actions) => {

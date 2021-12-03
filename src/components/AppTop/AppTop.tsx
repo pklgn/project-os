@@ -17,7 +17,7 @@ export function AppTop(): JSX.Element {
 
     useEffect(() => {
         setPresentationTitle(store.getState().presentation.name);
-    });
+    }, []);
 
     const onChangeHandler = (event: BaseSyntheticEvent) => {
         mapDispatchToProps(store.dispatch, event.target.value).changePresentationTitle();
