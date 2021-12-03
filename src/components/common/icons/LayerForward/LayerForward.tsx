@@ -1,12 +1,12 @@
-import styles from "./LayerForward.module.css";
-
 export function LayerForward(): JSX.Element {
     return (
-        <svg className={styles.layer_forward} x="0px" y="0px" opacity={styles.opacity} width={styles.width}
-            height={styles.height} viewBox="0 0 24 24" enable-background="new 0 0 280.168 280.168" 
-            fill="#208EB2">
-            <path d="M0 0h24v24H0V0z" fill="none"/>
-            <path d="M8 11h3v10h2V11h3l-4-4-4 4zM4 3v2h16V3H4z"/>
+        <svg enable-background="new 0 0 24 24" height="24px" 
+            viewBox="0 0 24 24" width="24px" fill="#208EB2">
+            <rect fill="none" height="24" width="24"/>
+                <path d="M3,13c0-2.45,1.76-4.47,4.08-4.91L5.59,9.59L7,11l4-4.01L7,3L5.59,4.41l1.58,1.58l0,
+                0.06C3.7,6.46,1,9.42,1,13 c0,3.87,3.13,7,7,7h3v-2H8C5.24,18,3,15.76,3,13z"/>
+                <path d="M13,13v7h9v-7H13z M20,18h-5v-3h5V18z"/>
+            <rect height="7" width="9" x="13" y="4"/>
         </svg>
     );
 }

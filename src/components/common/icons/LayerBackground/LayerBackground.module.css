@@ -1,10 +1,10 @@
-.layer_backward {
+.layer_background {
     width: 30px;
     height: 30px;
     opacity: 1;
 }
 
-.layer_backward:hover {
+.layer_background:hover {
     transition: 0.4s;
     opacity: 0.5;
 }
