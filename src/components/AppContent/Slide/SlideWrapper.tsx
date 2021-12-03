@@ -1,8 +1,8 @@
 import styles from "./Slide.module.css";
 import { useResize } from "../../utils/useResize";
 import { useEffect, useRef } from "react";
-import { Slide } from "./Slide";
-
+import { SlideComponent } from "./SlideComponent";
+import {mockSlide} from "../../../model/mock/mockSlide";
 
 const SlideParams = {
     ASPECT_RATIO: 1.62,
@@ -10,6 +10,7 @@ const SlideParams = {
 }
 
 export function SlideWrapper() {
+    //TODO получать здесь через store данные для текущего отображаемого слайда
     const ref = useRef<HTMLDivElement>(null)
     const [width] = useResize(ref)
     const maxHeight = SlideParams.MAX_PAGE_HEIGHT * window.innerHeight
@@ -25,6 +26,6 @@ export function SlideWrapper() {
         className={styles.slide}
         ref={ref}
     >
-        <Slide/>
+        <SlideComponent slide={mockSlide}/>
     </div>
 }
