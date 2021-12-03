@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { AppTop } from "../AppTop/AppTop";
-=======
-import { TopBar } from "../AppTop/TopBar";
->>>>>>> os/dev-5-ermakov
 import styles from "./PresentationEditor.module.css";
 import { ElementListTool } from "../AppFooter/ElementListTool/ElementListTool";
 import { SlideListTool } from "../AppFooter/SlideListTool/SlideListTool";

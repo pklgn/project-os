@@ -1,7 +1,7 @@
 import styles from "./Slide.module.css";
-import {useResize} from "../../utils/useResize";
-import {useEffect, useRef} from "react";
-import {Slide} from "./Slide";
+import { useResize } from "../../utils/useResize";
+import { useEffect, useRef } from "react";
+import { Slide } from "./Slide";
 
 
 const SlideParams = {
@@ -19,7 +19,7 @@ export function SlideWrapper() {
             const height = width / SlideParams.ASPECT_RATIO
             ref.current.style.height = `${Math.min(height, maxHeight)}px`
         }
-    }, [ref, width])
+    }, [ref, width, maxHeight])
 
     return <div
         className={styles.slide}

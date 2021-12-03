@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import "./App.css";
 import { PresentationEditor } from "./components/PresentationEditor/PresentationEditor";
 import { getL18nObject } from "./l18n/l18n";
