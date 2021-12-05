@@ -1,7 +1,23 @@
 import styles from "./SlideList.module.css";
+import {useRef} from "react";
+import {Slide} from "../../../model/types";
+import {SlideListItem} from "./SlideListItem";
 
-export function SlideList() {
+type SlideListProps = {
+    slidesList: Slide[],
+}
 
+export function SlideList(props: SlideListProps) {
+    const ref = useRef<HTMLUListElement>(null)
 
-    return <div className={styles["slides-list"]}>slidelist</div>;
+    return <ul
+        className={`${styles.list} ${styles['list-wrapper']}`}
+        ref={ref}
+    >
+        {
+            props.slidesList.map((slide) => {
+                return <SlideListItem item={slide}/>
+            })
+        }
+    </ul>
 }

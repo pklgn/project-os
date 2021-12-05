@@ -1,0 +1,38 @@
+{
+    "INFO_TOPBAR_MENU_BLOCK": "",
+
+    "add_word": "Add",
+    "circle_word": "Circle",
+    "create_word": "Create",
+    "delete_word": "Delete",
+    "document_word": "Document",
+    "download_word": "Download",
+    "figures_word": "Figures",
+    "file_word": "File",
+    "image_word": "Image",
+    "open_word": "Open",
+    "presentation_word": "Presentation",
+    "rename_word": "Rename",
+    "relocate_word": "Relocate",
+    "spreadsheet_word": "Spreadsheet",
+    "square-figure_word": "Square",
+    "text_word": "Text",
+    "triangle_word": "Triangle",
+
+    "add-from-google-drive": "Add from Google drive",
+    "all-presentation": "All presentation",
+    "change-locale": "Change locale",
+    "chosen-slides": "Chosen slides",
+    "create-copy": "Create copy",
+    "email": "Email",
+    "powerpoint-file-format": "Microsoft PowerPoint (.pptx)",
+    "put-url": "Input Image's URL",
+    "pdf-file-format": "Document PDF (.pdf)",
+    "regular-text-format": "Regular text (.txt)",
+    "send-to-email": "Send email",
+    "slide-show": "Slide show",
+    "upload-from-computer": "Upload from device",
+    "write-to-co-authors": "Write to co-authors",
+
+    "INFO_TOPBAR_MENU_BLOCK_END": ""
+}

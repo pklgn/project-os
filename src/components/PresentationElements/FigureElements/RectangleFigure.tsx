@@ -9,7 +9,7 @@ function RectangleFigure(props: FigureProps) {
         x: props.startPoint.x,
         y: props.startPoint.y,
     })
-    const ref = useRef(null)
+    const ref = useRef<SVGRectElement>(null)
     useDragAndDrop(ref.current, position, setPosition)
 
     return <rect

@@ -51,7 +51,7 @@ export function Button(props: ButtonProps = {
                                         : styles.button;
             setButtonStyle(style);
         }
-    });
+    }, [state, contentType]);
 
     const [preventingMouseUp, setPreventMouseUpStatus] = useState(false);
 
@@ -74,18 +74,6 @@ export function Button(props: ButtonProps = {
         }
         : (_: BaseSyntheticEvent) => {
         }
-
-    const onFocusHandler = (_: BaseSyntheticEvent) => {
-    }
-
-    const onBlurHandler = (_: BaseSyntheticEvent) => {
-    }
-
-    const onMouseEnterHandler = (_: BaseSyntheticEvent) => {
-    }
-
-    const onMouseLeaveHandler = (_: BaseSyntheticEvent) => {
-    }
 
     const button: JSX.Element =
         <button

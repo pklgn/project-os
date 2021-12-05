@@ -232,12 +232,12 @@ const mockEditor = {
 const mockText: SlideElement = {
     id: '1',
     startPoint: {
-        x: 100,
-        y: 100,
+        x: 50,
+        y: 50,
     },
     size: {
-        width: 50,
-        height: 50,
+        width: 20,
+        height: 20,
     },
     opacity: 1,
     content: {
