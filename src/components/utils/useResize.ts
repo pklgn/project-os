@@ -1,6 +1,6 @@
 import {useCallback, useState, RefObject, useLayoutEffect} from "react";
 
-function useResize(ref: RefObject<HTMLElement>) {
+function useResize(ref: RefObject<HTMLElement|SVGSVGElement>) {
     const [width, setWidth] = useState(0)
     const [height, setHeight] = useState(0)
     const trackResize = useCallback((entries: ResizeObserverEntry[]) => {
