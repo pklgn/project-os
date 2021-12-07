@@ -4,8 +4,8 @@ import styles from "./PresentationEditor.module.css";
 import { ElementListTool } from "../AppFooter/ElementListTool/ElementListTool";
 import { ReorderListTool } from "../AppFooter/ReorderList Tool/ReorderListTool";
 import { SlideListTool } from "../AppFooter/SlideListTool/SlideListTool";
-import { SlideList } from "../AppContent/SlideList/SlideList";
 import { SlideWrapper } from "../AppContent/Slide/SlideWrapper";
+import {SidePanel} from "../AppContent/SidePanel/SidePanel";
 
 export function PresentationEditor(): JSX.Element {
     const [menuSwitcher, setMenuSwitcher] = useState(true);
@@ -13,7 +13,7 @@ export function PresentationEditor(): JSX.Element {
     return (
         <div className={styles.editor}>
             <AppTop />
-            <SlideList />
+            <SidePanel />
             <SlideWrapper />
             <SlideListTool />
             {
