@@ -1,4 +1,5 @@
 import styles from "./Slide.module.css";
+import wrapperStyles from "./SlideWrapper.module.css"
 import { useResize } from "../../utils/useResize";
 import { useEffect, useRef } from "react";
 import { SlideComponent } from "./SlideComponent";
@@ -16,20 +17,22 @@ export function SlideWrapper() {
     const maxHeight = SlideParams.MAX_PAGE_HEIGHT_RATIO * window.innerHeight
 
     useEffect(() => {
-        console.log(window.innerHeight)
         const height = width / SlideParams.ASPECT_RATIO
         if (ref.current) {
             ref.current.style.height = `${Math.min(height, maxHeight)}px`
+
             if (Math.min(height, maxHeight) === maxHeight) {
-                ref.current.style.width = `${maxHeight * SlideParams.ASPECT_RATIO}px`
+                ref.current.style.maxWidth = `${maxHeight * SlideParams.ASPECT_RATIO}px`
             }
         }
     }, [ref, width, maxHeight])
 
-    return <div
-        className={styles.slide}
-        ref={ref}
-    >
-        <SlideComponent slide={mockSlide}/>
+    return <div className={wrapperStyles.wrapper}>
+            <div
+            className={styles.slide}
+            ref={ref}
+        >
+            <SlideComponent slide={mockSlide}/>
+        </div>
     </div>
 }
