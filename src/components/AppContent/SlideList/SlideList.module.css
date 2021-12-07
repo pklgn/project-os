@@ -4,6 +4,7 @@
     min-width: 128px;
     margin: 0;
     height: 100%;
+    overflow: auto;
 }
 
 .list {

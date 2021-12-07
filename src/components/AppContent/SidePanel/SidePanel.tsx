@@ -9,6 +9,10 @@ function SidePanel() {
             mockSlide,
             mockSlide,
             mockSlide,
+            mockSlide,
+            mockSlide,
+            mockSlide,
+            mockSlide,
         ]}/>
     </div>
 }
