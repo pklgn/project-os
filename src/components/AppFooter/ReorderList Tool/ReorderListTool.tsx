@@ -12,12 +12,12 @@ type ReorderListToolProps = {
 
 export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
     return <div className={styles["reorder-tools"]}>
-        <Button text="" state="active" contentType="icon" content={{hotkeyInfo: "", icon: <LayerBackward />}} foo={props.foo}/>
+        <Button text="Backward" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerBackward />}} foo={props.foo}/>
         <VerticalLine />
-        <Button text="" state="active" contentType="icon" content={{hotkeyInfo: "", icon: <LayerBackground />}} foo={props.foo}/>
+        <Button text="Back" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerBackground />}} foo={props.foo}/>
         <VerticalLine />
-        <Button text="" state="active" contentType="icon" content={{hotkeyInfo: "", icon: <LayerForward />}} foo={props.foo}/>
+        <Button text="Forward" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerForward />}} foo={props.foo}/>
         <VerticalLine />
-        <Button text="" state="active" contentType="icon" content={{hotkeyInfo: "", icon: <LayerForeground />}} foo={props.foo}/>
+        <Button text="Front" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerForeground />}} foo={props.foo}/>
     </div>
 }

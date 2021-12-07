@@ -6,6 +6,7 @@
     border-radius: 0.2rem;
     width: 100%;
     grid-area: elementTools;
+    overflow-y: hidden;
 }
 
 .reorder-tools > * {
@@ -15,7 +16,7 @@
 @keyframes show-reorder-tools {
     0%{
         opacity: 0;
-        transform: translateY(70px);
+        transform: translateY(30px);
     }
     
     50%{
