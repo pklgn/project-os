@@ -18,7 +18,7 @@
         opacity: 0;
         transform: translateY(30px);
     }
-    
+
     50%{
         opacity: 1;
     }

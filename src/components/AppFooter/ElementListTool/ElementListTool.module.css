@@ -1,7 +1,6 @@
 .element-tools {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
     width: 100%;
@@ -18,7 +17,7 @@
         opacity: 0;
         transform: translateY(-20px);
     }
-    
+
     50%{
         opacity: 1;
     }
