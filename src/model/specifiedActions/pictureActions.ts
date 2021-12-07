@@ -6,6 +6,7 @@ import { Editor, Slide, PictureElement, SlideElement } from "../types";
 export function addPictureElement(
     editor: Editor,
     src: string,
+    alt: string = '',
     x: number = 1,
     y: number = 1,
     width: number = 1,
@@ -18,7 +19,8 @@ export function addPictureElement(
     }
 
     const pictureElement: PictureElement = {
-        src
+        src,
+        alt,
     }
 
     const element: SlideElement = {

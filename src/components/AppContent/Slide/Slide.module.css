@@ -1,12 +1,11 @@
 .slide {
-    background-color: rgba(190, 189, 189, 0.75);
-    border-radius: 0.2rem;
-    grid-area: content;
     box-sizing: border-box;
     padding: 20px;
     width: 100%;
     height: 100%;
     min-width: 640px;
+    justify-self: center;
+    align-self: center;
 }
 
 .slide-container {

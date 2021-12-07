@@ -1,41 +1,23 @@
 import styles from "./SlideList.module.css";
-import {Slide} from "../Slide/Slide";
 import {useRef} from "react";
+import {Slide} from "../../../model/types";
+import {SlideListItem} from "./SlideListItem";
 
-export function SlideList() {
+type SlideListProps = {
+    slidesList: Slide[],
+}
+
+export function SlideList(props: SlideListProps) {
     const ref = useRef<HTMLUListElement>(null)
 
-    return <div
-        className={styles['list-wrapper']}
+    return <ul
+        className={`${styles.list} ${styles['list-wrapper']}`}
+        ref={ref}
     >
-        <ul
-            className={styles.list}
-            ref={ref}
-        >
-            <li className={styles['list-item-wrapper']}>
-                <div
-                    className={styles['list-item']}
-                >
-                    <Slide/>
-                    <div className={styles["prevent-pointer-events"]}/>
-                </div>
-            </li>
-            <li className={styles['list-item-wrapper']}>
-                <div
-                    className={styles['list-item']}
-                >
-                    <Slide/>
-                    <div className={styles["prevent-pointer-events"]}/>
-                </div>
-            </li>
-            <li className={styles['list-item-wrapper']}>
-                <div
-                    className={styles['list-item']}
-                >
-                    <Slide/>
-                    <div className={styles["prevent-pointer-events"]}/>
-                </div>
-            </li>
-        </ul>
-    </div>
+        {
+            props.slidesList.map((slide) => {
+                return <SlideListItem item={slide}/>
+            })
+        }
+    </ul>
 }

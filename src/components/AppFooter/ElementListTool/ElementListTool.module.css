@@ -5,4 +5,24 @@
     border-radius: 0.2rem;
     width: 100%;
     grid-area: elementTools;
+    overflow-y: hidden;
+}
+
+.element-tools > * {
+    animation: show-element-tools .4s forwards;
+}
+
+@keyframes show-element-tools {
+    0%{
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    50%{
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateY(0);
+    }
 }
