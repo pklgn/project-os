@@ -1,18 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-import { useState } from "react";
->>>>>>> dev-5-ivaykov
 import { AppTop } from "../AppTop/AppTop";
-=======
 import { useState } from "react";
-import { TopBar } from "../AppTop/TopBar";
->>>>>>> 9f19cd7 (Простая анимация готова. Никаких TransitionGroup, никаких библиотек. Сойдёт)
-=======
-import { useState } from "react";
-import { AppTop } from "../AppTop/AppTop";
->>>>>>> 459a2cd (toolbar.  Для элементов)
 import styles from "./PresentationEditor.module.css";
 import { ElementListTool } from "../AppFooter/ElementListTool/ElementListTool";
 import { ReorderListTool } from "../AppFooter/ReorderList Tool/ReorderListTool";
