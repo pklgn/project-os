@@ -1,5 +1,3 @@
-import styles from "./LayerForeground.module.css";
-
 export function LayerForeground(): JSX.Element {
     return (
         <svg x="0px" y="0px" width="30px" height="30px" viewBox="0 0 24 24" 

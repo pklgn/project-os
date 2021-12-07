@@ -1,9 +1,7 @@
-import styles from "./Fullscreen.module.css";
-
 export function Fullscreen(): JSX.Element {
     return (
-        <svg className={styles.fullscreen} x="0px" y="0px" width={styles.width} height={styles.height}
-            opacity={styles.opacity} viewBox="0 0 512.001 512.001" enable-background="new 0 0 512.001 512.001">
+        <svg x="0px" y="0px" width="25px" height="25px" viewBox="0 0 512.001 512.001" 
+            enable-background="new 0 0 512.001 512.001">
         <path fill="#208EB2" d="M505.183,239.546l-58.182-58.182c-6.654-6.658-16.669-8.645-25.363-5.046
             c-8.696,3.603-14.367,12.088-14.367,21.501v34.909H279.273v-128h34.909c9.413,0,17.898-5.671,21.501-14.367
             c3.601-8.696,1.61-18.707-5.046-25.363L272.456,6.817c-9.087-9.089-23.824-9.089-32.912,0l-58.182,58.182
@@ -16,6 +14,5 @@ export function Fullscreen(): JSX.Element {
             c2.878,1.193,5.904,1.772,8.901,1.772c6.056,0,12.009-2.365,16.46-6.817l58.182-58.182
             C514.274,263.369,514.274,248.634,505.183,239.546z"/>
         </svg>
-
     );
 }

@@ -93,3 +93,16 @@
   padding: 0 10px 0 25px;
   outline: none;
 }
+
+.icon {
+  border: none;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  background-color: rgba(190, 189, 189, 0);
+  border-radius: 0.2rem;
+}
+
+.icon:hover {
+  background-color: rgba(153, 153, 153, 0.4);
+}
