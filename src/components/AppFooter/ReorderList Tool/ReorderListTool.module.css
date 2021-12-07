@@ -1,8 +1,28 @@
-.element-tools {
+.reorder-tools {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
     width: 100%;
     grid-area: elementTools;
+}
+
+.reorder-tools > * {
+    animation: show-reorder-tools .4s forwards;
+}
+
+@keyframes show-reorder-tools {
+    0%{
+        opacity: 0;
+        transform: translateY(70px);
+    }
+    
+    50%{
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateY(0);
+    }
 }
