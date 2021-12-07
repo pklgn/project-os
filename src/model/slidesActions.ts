@@ -6,7 +6,7 @@ export function addSlide(editor: Editor): Editor {
 
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
 
-    let insertIndex: number = 0;
+    let insertIndex = 0;
     slideList.forEach((slide) => {
         insertIndex++;
         if (slide.id === activeSlideId) {
@@ -66,14 +66,14 @@ export function deleteSelectedSlides(editor: Editor): Editor {
                                       selectedSlidesIds: string[],
                                       lastSelectedSlideId: string
     ): string {
-        let result: string = "";
+        let result = "";
         if (slideList.length === 1) {
             return "";
         }
 
         const lastSelectedSlideIndex: number = slideList.findIndex((slide) => slide.id === lastSelectedSlideId);
 
-        let slideId: string = '';
+        let slideId = '';
         for (let index = lastSelectedSlideIndex; index < slideList.length; index++) {
             slideId = slideList[index].id;
             if (!selectedSlidesIds.includes(slideId)) {

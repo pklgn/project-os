@@ -6,11 +6,11 @@ import { Editor, Slide, PictureElement, SlideElement } from "../types";
 export function addPictureElement(
     editor: Editor,
     src: string,
-    alt: string = '',
-    x: number = 1,
-    y: number = 1,
-    width: number = 1,
-    height: number = 1,
+    alt = '',
+    x = 1,
+    y = 1,
+    width = 1,
+    height = 1,
 ): Editor {
     const currSlide: Slide|undefined = getCurrentSlide(editor);
 

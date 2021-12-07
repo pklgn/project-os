@@ -3,7 +3,7 @@ import { getCurrentSlide, applySlideChanges } from "../slidesActions";
 import { Editor, Slide, TextElement, SlideElement } from "../types";
 import { isText } from "../utils/tools";
 
-export function addTextElement(editor: Editor, x: number = 1, y: number = 1): Editor {
+export function addTextElement(editor: Editor, x = 1, y = 1): Editor {
     const currSlide: Slide|undefined = getCurrentSlide(editor);
 
     if (!currSlide) {

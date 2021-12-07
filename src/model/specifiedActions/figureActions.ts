@@ -6,8 +6,8 @@ import { Editor, FigureShape, Slide, FigureElement, SlideElement } from "../type
 export function addFigureElement(
     editor: Editor,
     figureType: FigureShape,
-    x: number = 1,
-    y: number = 1,
+    x = 1,
+    y = 1,
 ): Editor {
     const currSlide: Slide|undefined = getCurrentSlide(editor);
 
