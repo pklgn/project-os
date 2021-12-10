@@ -1,12 +1,8 @@
-import styles from "./LayerBackward.module.css";
-
 export function LayerBackward(): JSX.Element {
     return (
-        <svg className={styles.layer_backward} x="0px" y="0px" opacity={styles.opacity} width={styles.width}
-            height={styles.height} viewBox="0 0 24 24" enable-background="new 0 0 280.168 280.168" 
-            fill="#208EB2">
-            <path d="M0 0h24v24H0V0z" fill="none"/>
-            <path d="M16 13h-3V3h-2v10H8l4 4 4-4zM4 19v2h16v-2H4z"/>
+        <svg enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#208EB2">
+            <rect fill="none" height="24px" width="24px"/>
+            <path d="M19,15l-1.41-1.41L13,18.17V2H11v16.17l-4.59-4.59L5,15l7,7L19,15z"/>
         </svg>
     );
 }
