@@ -1,4 +1,5 @@
 import { Actions } from "./actions"
+import { combineReducers } from "redux";
 
 export const editorReducers = (editor: any, action: Actions) => {
     return {
@@ -17,3 +18,11 @@ const title = (editor: string = '', action: Actions) => {
         return editor
     }
 }
+
+const reducers = combineReducers({
+    editor: editorReducers
+})
+
+export default reducers
+
+export type RootState = ReturnType<typeof reducers>
