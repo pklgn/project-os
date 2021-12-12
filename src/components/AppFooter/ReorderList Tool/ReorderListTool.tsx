@@ -7,7 +7,7 @@ import { LayerForward } from "../../common/icons/LayerForward/LayerForward";
 import { LayerForeground } from "../../common/icons/LayerForeground/LayerForeground";
 
 type ReorderListToolProps = {
-    foo: Function | undefined
+    foo: () => void | undefined
 }
 
 export function ReorderListTool(props: ReorderListToolProps): JSX.Element {

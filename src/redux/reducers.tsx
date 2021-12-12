@@ -10,7 +10,7 @@ export const editorReducers = (editor: any, action: Actions) => {
     };
 }
 
-const title = (editor: string = '', action: Actions) => {
+const title = (editor = '', action: Actions) => {
     if (action.type === 'CHANGE_PRESENTATION_TITLE') {
         return action.title
     } else {
