@@ -9,7 +9,7 @@ type ButtonProps = {
         hotkeyInfo: string,
         icon: JSX.Element,
     } | undefined,
-    foo: Function | undefined
+    foo: () => void | undefined
 }
 
 export function Button(props: ButtonProps = {
@@ -17,7 +17,7 @@ export function Button(props: ButtonProps = {
     state: 'disabled',
     contentType: 'text',
     content: undefined,
-    foo: () => { },
+    foo: () => {return undefined},
 }): JSX.Element {
     const { text, content, contentType, state, foo } = props;
 
@@ -60,6 +60,7 @@ export function Button(props: ButtonProps = {
             setButtonStyle(styles['default-pressed']);
         }
         : (_: BaseSyntheticEvent) => {
+            return undefined;
         }
 
     const onMouseUpHandler = (state === 'default')
@@ -73,6 +74,7 @@ export function Button(props: ButtonProps = {
             }
         }
         : (_: BaseSyntheticEvent) => {
+            return undefined;
         }
 
     const button: JSX.Element =
