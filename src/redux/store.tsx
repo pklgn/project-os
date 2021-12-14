@@ -5,4 +5,4 @@ import { editorReducers } from './reducers';
 
 const editor: Editor = initEditor();
 
-export let store = createStore(editorReducers, editor);
+export const store = createStore(editorReducers, editor);

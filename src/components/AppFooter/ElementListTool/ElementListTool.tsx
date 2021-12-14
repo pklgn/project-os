@@ -9,21 +9,21 @@ import { Fullscreen } from "../../common/icons/Fullscreen/Fullscreen";
 import { VerticalLine } from "../../common/VerticalLine/VerticalLine";
 
 type ElementListToolProps = {
-    foo: Function | undefined
+    foo: () => void | undefined
 }
 
 export function ElementListTool(props: ElementListToolProps): JSX.Element {
     return <div className={styles["element-tools"]}>
-        <Button text="Undo" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <Undo />}} foo={undefined}/>
+        <Button text="" state="active" contentType="icon" content={{hotkeyInfo: "", icon: <Undo />}} foo={() => undefined}/>
         <VerticalLine />
-        <Button text="Redo" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <Redo />}} foo={undefined}/>
+        <Button text="" state="active" contentType="icon" content={{hotkeyInfo: "", icon: <Redo />}} foo={() => undefined}/>
         <VerticalLine />
         <Button  text="Reorder" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <Reorder />}} foo={props.foo}/>
         <VerticalLine />
-        <Button text="Opacity" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <Opacity />}} foo={undefined}/>
+        <Button text="" state="active" contentType="icon" content={{hotkeyInfo: "", icon: <Opacity />}} foo={() => undefined}/>
         <VerticalLine />
-        <Button text="Delete" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <Delete />}} foo={undefined}/>
+        <Button text="" state="active" contentType="icon" content={{hotkeyInfo: "", icon: <Delete />}} foo={() => undefined}/>
         <VerticalLine />
-        <Button text="Fullscreen" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <Fullscreen />}} foo={undefined}/>
+        <Button text="" state="active" contentType="icon" content={{hotkeyInfo: "", icon: <Fullscreen />}} foo={() => undefined}/>
     </div>;
 }
