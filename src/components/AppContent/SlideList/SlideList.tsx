@@ -1,7 +1,8 @@
 import styles from "./SlideList.module.css";
-import {useRef} from "react";
-import {Slide} from "../../../model/types";
-import {SlideListItem} from "./SlideListItem";
+import { useRef } from "react";
+import { Slide } from "../../../model/types";
+import { SlideListItem } from "./SlideListItem";
+import { generateUUId } from '../../../model/utils/uuid';
 
 type SlideListProps = {
     slidesList: Slide[],
@@ -16,7 +17,7 @@ export function SlideList(props: SlideListProps) {
     >
         {
             props.slidesList.map((slide) => {
-                return <SlideListItem item={slide}/>
+                return <SlideListItem item={slide} key={generateUUId()}/>
             })
         }
     </ul>

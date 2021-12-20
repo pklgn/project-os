@@ -1,7 +1,7 @@
 import { BaseSyntheticEvent, useEffect, useState } from 'react';
 
 import { AdaptiveInputField } from '../common/AdaptiveInputField/AdaptiveInputField';
-import { AppLogoSVG } from '../common/icons/AppLogo';
+import { AppLogoPng } from '../common/icons/AppLogo';
 import { ToolBar } from '../common/ToolBar/ToolBar';
 
 import { connect } from 'react-redux';
@@ -29,7 +29,7 @@ export function AppTop(): JSX.Element {
             className={styles['top-bar']}
         >
             <div className={styles["logo-container"]}>
-                <AppLogoSVG width={55} height={55} type={'default'} />
+                <AppLogoPng width={55} height={55} type={'default'} />
             </div>
             <ToolBar />
             <AdaptiveInputField value={presentationTitle} onChange={onChangeHandler} />

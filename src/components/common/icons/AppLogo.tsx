@@ -1,7 +1,7 @@
-import logoDefault from '../../../assets/logos/logoOS.svg';
-import logoNotDefault from '../../../assets/logos/logoMari.svg';
+import logoDefault from '../../../assets/logos/logoOS.png';
+import logoNotDefault from '../../../assets/logos/logoMari.png';
 
-export function AppLogoSVG(props: {
+export function AppLogoPng(props: {
     type: 'default' | '!default',
     height: number,
     width: number
