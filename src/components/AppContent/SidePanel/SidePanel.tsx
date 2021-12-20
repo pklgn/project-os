@@ -1,6 +1,7 @@
-import {SlideList} from "../SlideList/SlideList";
+import React from 'react';
+import { SlideList } from "../SlideList/SlideList";
 import styles from "./SidePanel.module.css"
-import {mockSlide} from "../../../model/mock/mockSlide";
+import { mockSlide } from "../../../model/mock/mockSlide";
 
 function SidePanel() {
     //TODO получать здесь список слайдов
