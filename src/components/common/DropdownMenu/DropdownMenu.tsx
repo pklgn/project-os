@@ -91,7 +91,7 @@ export function DropdownMenu(props: DropdownMenuProps = {
         (event: MouseEvent) => {
             const target = event.target as Node;
             if (rightSideSubMenuRef.current?.contains(target) || bottomSideSubMenuRef.current?.contains(target)) {
-                let isNodeSummoningSubMenu: boolean = false;
+                let isNodeSummoningSubMenu = false;
                 target.childNodes.forEach((value) => {
                     if (typeof value.lastChild?.nodeValue === "object") {
                         isNodeSummoningSubMenu = true;
@@ -161,7 +161,7 @@ export function DropdownMenu(props: DropdownMenuProps = {
                             ? { hotkeyInfo: "", icon: <Triangle width={10} height={10} color="grey" /> }
                             : undefined
                     }
-                    foo={undefined}
+                    foo={() => undefined}
                 />
             </div>
             {(menuRender)

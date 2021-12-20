@@ -41,7 +41,7 @@ function mapStateToProps(state: Editor) {
     return {
         name: state.presentation.name
     }
-};
+}
 
 const mapDispatchToProps = (dispatch: any, title: string) => {
     return {
