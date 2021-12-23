@@ -7,12 +7,14 @@ export function addSlide(editor: Editor): Editor {
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
 
     let insertIndex = 0;
-    slideList.forEach((slide) => {
-        insertIndex++;
-        if (slide.id === activeSlideId) {
-            return;
+    for (let index = 0; index < slideList.length; index++) {
+        if (slideList[index].id === activeSlideId) {
+            insertIndex = index + 1;
+            break;
         }
-    });
+    }
+
+    console.log(insertIndex);
 
     const background: Background = {
         color: '#ffffff',
@@ -25,7 +27,9 @@ export function addSlide(editor: Editor): Editor {
         elementsList: []
     };
 
-    const slidesList: Slide[] = [
+    const slidesList: Slide[] = (insertIndex === slideList.length - 1)
+    ? [...editor.presentation.slidesList, newSlide]
+    : [
         ...editor.presentation.slidesList.slice(0, insertIndex),
         newSlide,
         ...editor.presentation.slidesList.slice(insertIndex)
