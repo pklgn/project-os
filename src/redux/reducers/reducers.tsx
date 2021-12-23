@@ -1,4 +1,4 @@
-import { Action } from "../actions"
+import { Action } from "../actions/actions"
 import { ActionType } from "../action-types/types";
 import { addSlide } from "../../model/slidesActions";
 import { Editor } from "../../model/types";
