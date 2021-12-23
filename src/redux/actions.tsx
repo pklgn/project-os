@@ -1,7 +1,7 @@
 export type Actions = TitleAction;
 
 type TitleAction = {
-    type: 'CHANGE_PRESENTATION_TITLE',
+    type: string,
     title: string
 }
 

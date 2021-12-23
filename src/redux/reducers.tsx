@@ -1,6 +1,13 @@
 import { Actions } from "./actions"
+import { addSlide } from "../model/slidesActions";
+import { ADD_SLIDE } from "./constants";
 
 export const editorReducers = (editor: any, action: Actions) => {
+    switch(action.type) {
+        case ADD_SLIDE:
+            return addSlide(editor)
+    }
+
     return {
         ...editor,
         presentation: {
