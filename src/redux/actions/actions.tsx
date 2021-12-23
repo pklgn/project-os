@@ -18,4 +18,8 @@ interface AddSlide {
     type: ActionType.ADD_SLIDE
 }
 
-export type Action = DepositAction | WithdrawAction | BankruptAction | AddSlide;
+interface DeleteSelectedSlides {
+    type: ActionType.DELETE_SELECTED_SLIDES
+}
+
+export type Action = DepositAction | WithdrawAction | BankruptAction | AddSlide | DeleteSelectedSlides;

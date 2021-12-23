@@ -6,7 +6,6 @@ import { ToolBar } from '../common/ToolBar/ToolBar';
 
 import { connect } from 'react-redux';
 import { Editor } from '../../model/types';
-import { changePresentationTitle } from '../../redux/actions';
 import { store } from '../../redux/store';
 
 import styles from './AppTop.module.css';
