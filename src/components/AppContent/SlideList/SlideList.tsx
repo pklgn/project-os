@@ -17,7 +17,7 @@ export function SlideList(props: SlideListProps) {
     >
         {
             props.slidesList.map((slide) => {
-                return <SlideListItem item={slide} key={generateUUId()}/>
+                return <SlideListItem item={slide} key={slide.id}/>
             })
         }
     </ul>

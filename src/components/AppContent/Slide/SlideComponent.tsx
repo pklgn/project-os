@@ -7,7 +7,7 @@ import {Slide} from "../../../model/types";
 import {getSlideElementType} from "../../../model/utils/tools";
 
 type SlideProps = {
-    slide: Slide,
+    slide: Slide | undefined,
 }
 
 export function SlideComponent(props: SlideProps) {
@@ -27,7 +27,8 @@ export function SlideComponent(props: SlideProps) {
         data-scale={scale}
     >
         {
-            props.slide.elementsList.map((element) => {
+            (props.slide !== undefined)
+            ? props.slide.elementsList.map((element) => {
                 switch (getSlideElementType(element.content)) {
                     case 'TEXT':
                         return <TextElementComponent element={element}/>
@@ -37,6 +38,7 @@ export function SlideComponent(props: SlideProps) {
                         return <PictureElementComponent element={element}/>
                 }
             })
+            : ''
         }
     </svg>
 }

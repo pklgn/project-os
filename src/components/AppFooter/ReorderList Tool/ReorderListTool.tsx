@@ -1,4 +1,8 @@
 import styles from "./ReorderListTool.module.css";
+
+import { useContext } from "react";
+import { LocaleContext, LocaleContextType } from "../../../App";
+
 import { Button } from "../../common/Button/Button"
 import { VerticalLine } from "../../common/VerticalLine/VerticalLine";
 import { LayerBackward } from "../../common/icons/LayerBackward/LayerBackward";
@@ -11,13 +15,15 @@ type ReorderListToolProps = {
 }
 
 export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
+    const localeContext: LocaleContextType = useContext(LocaleContext);
+
     return <div className={styles["reorder-tools"]}>
-        <Button text="Backward" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerBackward />}} foo={props.foo}/>
+        <Button text={localeContext.locale.localization.backward_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerBackward />}} foo={props.foo}/>
         <VerticalLine />
-        <Button text="Back" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerBackground />}} foo={props.foo}/>
+        <Button text={localeContext.locale.localization.back_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerBackground />}} foo={props.foo}/>
         <VerticalLine />
-        <Button text="Forward" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerForward />}} foo={props.foo}/>
+        <Button text={localeContext.locale.localization.forward_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerForward />}} foo={props.foo}/>
         <VerticalLine />
-        <Button text="Front" state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerForeground />}} foo={props.foo}/>
+        <Button text={localeContext.locale.localization.front_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <LayerForeground />}} foo={props.foo}/>
     </div>
 }

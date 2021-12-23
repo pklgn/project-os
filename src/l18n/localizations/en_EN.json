@@ -1,10 +1,15 @@
 {
+    "USE_EVERYWHERE_BLOCK": "",
+
+    "delete_word": "Delete",
+
+    "USE_EVERYWHERE_BLOCK_END": "",
+
     "INFO_TOPBAR_MENU_BLOCK": "",
 
     "add_word": "Add",
     "circle_word": "Circle",
     "create_word": "Create",
-    "delete_word": "Delete",
     "document_word": "Document",
     "download_word": "Download",
     "figures_word": "Figures",
@@ -34,5 +39,19 @@
     "upload-from-computer": "Upload from device",
     "write-to-co-authors": "Write to co-authors",
 
-    "INFO_TOPBAR_MENU_BLOCK_END": ""
+    "INFO_TOPBAR_MENU_BLOCK_END": "",
+
+    "SLIDE_TOOL_BAR_BLOCK": "",
+
+    "backward_word": "Backward",
+    "back_word": "Back",
+    "forward_word": "Forward",
+    "front_word": "Front",
+    "fullscreen_word": "Fullscreen",
+    "opacity_word": "Opacity",
+    "redo_word": "Redo",
+    "reorder_word": "Reorder",
+    "undo_word": "Undo",
+
+    "SLIDE_TOOL_BAR_BLOCK_END": ""
 }

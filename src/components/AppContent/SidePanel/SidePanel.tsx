@@ -1,20 +1,15 @@
-import React from 'react';
 import { SlideList } from "../SlideList/SlideList";
 import styles from "./SidePanel.module.css"
-import { mockSlide } from "../../../model/mock/mockSlide";
+
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/reducers/rootReducer';
 
 function SidePanel() {
+    const state = useSelector((state: RootState) => state.presentation);
+
     //TODO получать здесь список слайдов
     return <div className={styles['slide-list']}>
-        <SlideList slidesList={[
-            mockSlide,
-            mockSlide,
-            mockSlide,
-            mockSlide,
-            mockSlide,
-            mockSlide,
-            mockSlide,
-        ]}/>
+        <SlideList slidesList={state.presentation.slidesList}/>
     </div>
 }
 
