@@ -1,20 +1,20 @@
+import { AppTop } from "../AppTop/AppTop";
 import { useState } from "react";
-import { TopBar } from "../AppTop/TopBar";
 import styles from "./PresentationEditor.module.css";
 import { ElementListTool } from "../AppFooter/ElementListTool/ElementListTool";
 import { ReorderListTool } from "../AppFooter/ReorderList Tool/ReorderListTool";
 import { SlideListTool } from "../AppFooter/SlideListTool/SlideListTool";
-import { SlideList } from "../AppContent/SlideList/SlideList";
-import { Slide } from "../AppContent/Slide/Slide";
+import { SlideWrapper } from "../AppContent/Slide/SlideWrapper";
+import {SidePanel} from "../AppContent/SidePanel/SidePanel";
 
 export function PresentationEditor(): JSX.Element {
     const [menuSwitcher, setMenuSwitcher] = useState(true);
     const handleToggleView = () => setMenuSwitcher(!menuSwitcher);
     return (
         <div className={styles.editor}>
-            <TopBar />
-            <SlideList />
-            <Slide />
+            <AppTop />
+            <SidePanel />
+            <SlideWrapper />
             <SlideListTool />
             {
                 menuSwitcher

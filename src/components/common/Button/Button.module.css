@@ -3,14 +3,13 @@
   outline: none;
   font-size: 14px;
   border-radius: 0.2rem;
-  display: inline-block;
   cursor: pointer;
   background-color: transparent;
-  padding: 4px 6px;
+  padding: 3px 10px 3px 10px;
 }
 
 .default:hover {
-  background-color: rgba(190, 189, 189, 0.75);
+  background-color: rgba(153, 153, 153, 0.4);
 }
 
 .default:focus {
@@ -22,10 +21,9 @@
   outline: none;
   font-size: 14px;
   border-radius: 0.2rem;
-  display: inline-block;
   cursor: pointer;
   background-color: #e4d429;
-  padding: 4px 6px;
+  padding: 3px 10px 3px 10px;
 }
 
 .button {
@@ -33,14 +31,13 @@
   outline: none;
   font-size: 14px;
   border-radius: 0.2rem;
-  display: inline-block;
   cursor: pointer;
   background-color: transparent;
-  padding: 4px 6px;
+  padding: 3px 10px 3px 10px;
 }
 
 .button:hover {
-  background-color: rgba(190, 189, 189, 0.75);
+  background-color: rgba(153, 153, 153, 0.4);
 }
 
 .button-pressed {
@@ -48,10 +45,9 @@
   outline: none;
   font-size: 14px;
   border-radius: 0.2rem;
-  display: inline-block;
   cursor: pointer;
   background-color: #e4d429;
-  padding: 4px 6px;
+  padding: 3px 10px 3px 10px;
 }
 
 .button-focused {
@@ -59,10 +55,9 @@
   outline: none;
   font-size: 14px;
   border-radius: 0.2rem;
-  display: inline-block;
   cursor: pointer;
   background-color: #f6ea6a;
-  padding: 4px 6px;
+  padding: 3px 10px 3px 10px;
 }
 
 .button-in-submenu {
@@ -97,4 +92,17 @@
   min-height: 35px;
   padding: 0 10px 0 25px;
   outline: none;
+}
+
+.icon {
+  border: none;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  background-color: rgba(190, 189, 189, 0);
+  border-radius: 0.2rem;
+}
+
+.icon:hover {
+  background-color: rgba(153, 153, 153, 0.4);
 }

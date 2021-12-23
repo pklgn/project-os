@@ -4,12 +4,12 @@ import {generateUUId} from "../utils/uuid";
 const mockCircleFigureElement: SlideElement = {
     id: generateUUId(),
     startPoint: {
-        x: 200,
-        y: 400,
+        x: 60,
+        y: 60,
     },
     size: {
-        width: 50,
-        height: 50,
+        width: 10,
+        height: 10,
     },
     opacity: 1,
     content: {
@@ -23,12 +23,12 @@ const mockCircleFigureElement: SlideElement = {
 const mockRectangleFigureElement: SlideElement = {
     id: generateUUId(),
     startPoint: {
-        x: 200,
-        y: 300,
+        x: 10,
+        y: 10,
     },
     size: {
-        width: 30,
-        height: 30,
+        width: 5,
+        height: 5,
     },
     opacity: 1,
     content: {
@@ -42,8 +42,8 @@ const mockRectangleFigureElement: SlideElement = {
 const mockTriangleFigureElement: SlideElement = {
     id: generateUUId(),
     startPoint: {
-        x: 400,
-        y: 300,
+        x: 20,
+        y: 30,
     },
     size: {
         width: 30,

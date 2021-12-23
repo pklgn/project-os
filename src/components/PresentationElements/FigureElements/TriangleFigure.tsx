@@ -23,7 +23,7 @@ function TriangleFigure(props: FigureProps) {
         y: position.y + props.size.height,
     };
     const pointsString = `${leftVertex.x},${leftVertex.y} ${topVertex.x},${topVertex.y} ${rightVertex.x},${rightVertex.y}`
-    const ref = useRef(null)
+    const ref = useRef<SVGPolygonElement>(null)
     useDragAndDrop(ref.current, position, setPosition)
 
     return <polygon

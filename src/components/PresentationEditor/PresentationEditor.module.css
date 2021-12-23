@@ -5,8 +5,9 @@
             "side content"
             "slideTools elementTools";
     grid-gap: 10px;
-    grid-template-columns: 1fr 5fr;
-    grid-template-rows: 20px auto 30px;
-    padding: 20px;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: 45px 1fr 30px;
+    max-height: 100vh;
+    padding: 10px;
+    box-sizing: border-box;
 }
-
