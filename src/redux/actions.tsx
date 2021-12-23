@@ -1,13 +1,21 @@
-export type Actions = TitleAction;
+import { ActionType } from "./action-types/types"
 
-type TitleAction = {
-    type: string,
-    title: string
+interface DepositAction {
+    type: ActionType.DEPOSIT,
+    payload: number
 }
 
-export function changePresentationTitle(title: string): TitleAction {
-    return {
-        type: 'CHANGE_PRESENTATION_TITLE',
-        title
-    }
+interface WithdrawAction {
+    type: ActionType.WITHDRAW,
+    payload: number
 }
+
+interface BankruptAction {
+    type: ActionType.BANKRUPT
+}
+
+interface AddSlide {
+    type: ActionType.ADD_SLIDE
+}
+
+export type Action = DepositAction | WithdrawAction | BankruptAction | AddSlide;
