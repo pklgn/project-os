@@ -1,8 +1,4 @@
-import { createStore } from 'redux';
-import { initEditor } from '../model/initModelActions';
-import { Editor } from '../model/types';
-import { editorReducers } from './reducers';
+import { createStore } from "redux";
+import reducers from "./reducers/rootReducer";
 
-const editor: Editor = initEditor();
-
-export const store = createStore(editorReducers, editor);
+export const store = createStore(reducers);
