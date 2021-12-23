@@ -10,3 +10,15 @@ export const changePresentationTitle = (payload: string) => {
         })
     }
 }
+
+export const setSelectedIdInEditor = (payload: {
+    selectedSlidesIds: string[],
+    selectedSlideElementsIds: string[]
+}) => {
+    return (dispatch: Dispatch<PresentationActions>) => {
+        dispatch({
+            type: ActionType.SET_SELECTED_ID_IN_EDITOR,
+            payload
+        })
+    }
+}
