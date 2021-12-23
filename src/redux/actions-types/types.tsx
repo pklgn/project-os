@@ -1,5 +1,12 @@
 export enum ActionType {
+    //PresentationActions
     CHANGE_PRESENTATION_TITLE = 'CHANGE_PRESENTATION_TITLE',
+    //PresentationActions
+
+    //SlideActions
+    ADD_SLIDE = "ADD_SLIDE",
+    DELETE_SELECTED_SLIDES = "DELETE_SELECTED_SLIDES",
+    //SlideActions
 
     //ElementsActions
     MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND = 'MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND',

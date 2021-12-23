@@ -1,11 +1,11 @@
 import { ActionType } from "../actions-types/types";
 
-interface ElementsToForegroundOrBackgroundLayoutAction {
+interface ElementsMoveToForegroundOrBackgroundAction {
     type: ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND,
     payload: boolean
 }
 
-interface ElementsSizeAction {
+interface ElementsChangeSizeAction {
     type: ActionType.CHANGE_ELEMENTS_SIZE,
     payload: {
         scaleX: number,
@@ -13,7 +13,7 @@ interface ElementsSizeAction {
     }
 }
 
-interface ElementsOpacityAction {
+interface ElementsChangeOpacityAction {
     type: ActionType.CHANGE_ELEMENTS_OPACITY,
     payload: number
 }
@@ -22,7 +22,7 @@ interface ElementsRemoveAction {
     type: ActionType.REMOVE_SELECTED_ELEMENTS
 }
 
-interface ElementsPositionAction {
+interface ElementsChangePositionAction {
     type: ActionType.CHANGE_ELEMENTS_POSITION,
     payload: {
         dx: number,
@@ -30,4 +30,4 @@ interface ElementsPositionAction {
     }
 }
 
-export type ElementAction = ElementsToForegroundOrBackgroundLayoutAction | ElementsSizeAction | ElementsOpacityAction | ElementsRemoveAction | ElementsPositionAction
+export type ElementAction = ElementsMoveToForegroundOrBackgroundAction | ElementsChangeSizeAction | ElementsChangeOpacityAction | ElementsRemoveAction | ElementsChangePositionAction

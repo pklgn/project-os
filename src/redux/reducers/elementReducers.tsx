@@ -4,7 +4,7 @@ import { Editor } from "../../model/types";
 import { ActionType } from "../actions-types/types";
 import { ElementAction } from "../actions/elementActions"
 
-const elementReducer = (state: Editor = initEditor(), action: ElementAction): Editor => {
+const elementReducers = (state: Editor = initEditor(), action: ElementAction): Editor => {
     switch (action.type){
         case ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND:
             return moveElementsToBackgroundOrForeground(state, action.payload);
@@ -21,4 +21,4 @@ const elementReducer = (state: Editor = initEditor(), action: ElementAction): Ed
     }
 }
 
-export default elementReducer
+export default elementReducers

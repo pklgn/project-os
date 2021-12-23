@@ -1,11 +1,11 @@
-import { ActionType } from "../action-types/types"
+import { ActionType } from "../actions-types/types"
 
-interface AddSlide {
+interface SlideAddAction {
     type: ActionType.ADD_SLIDE
 }
 
-interface DeleteSelectedSlides {
+interface DeleteSelectedSlideAction {
     type: ActionType.DELETE_SELECTED_SLIDES
 }
 
-export type Action = AddSlide | DeleteSelectedSlides;
+export type SlideAction = SlideAddAction | DeleteSelectedSlideAction;
