@@ -1,13 +1,13 @@
 {
     "USE_EVERYWHERE_BLOCK": "",
 
+    "add_word": "Добавить",
     "delete_word": "Удалить",
 
     "USE_EVERYWHERE_BLOCK_END": "",
 
     "INFO_TOPBAR_MENU_BLOCK": "",
 
-    "add_word": "Добавить",
     "circle_word": "Круг",
     "create_word": "Создать",
     "document_word": "Документ",

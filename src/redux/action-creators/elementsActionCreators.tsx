@@ -1,5 +1,5 @@
 import { Dispatch } from "redux"
-import { ActionType } from "../actions-types/types";
+import { ActionType } from "../action-types/types";
 import { ElementAction } from "../actions/elementActions"
 
 export const removeSelectedElements = () => {

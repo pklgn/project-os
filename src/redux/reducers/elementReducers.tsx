@@ -1,7 +1,7 @@
 import { changeElementsOpacity, changeElementsPosition, changeElementsSize, moveElementsToBackgroundOrForeground, removeSelectedElements } from "../../model/elementActions";
 import { initEditor } from "../../model/initModelActions";
 import { Editor } from "../../model/types";
-import { ActionType } from "../actions-types/types";
+import { ActionType } from "../action-types/types";
 import { ElementAction } from "../actions/elementActions"
 
 const elementReducers = (state: Editor = initEditor(), action: ElementAction): Editor => {

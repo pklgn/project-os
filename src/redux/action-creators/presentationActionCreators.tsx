@@ -1,5 +1,5 @@
 import { Dispatch } from "redux"
-import { ActionType } from "../actions-types/types";
+import { ActionType } from "../action-types/types";
 import { PresentationActions } from "../actions/presentationActions"
 
 export const changePresentationTitle = (payload: string) => {

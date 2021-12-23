@@ -1,13 +1,13 @@
 {
     "USE_EVERYWHERE_BLOCK": "",
 
+    "add_word": "Add",
     "delete_word": "Delete",
 
     "USE_EVERYWHERE_BLOCK_END": "",
 
     "INFO_TOPBAR_MENU_BLOCK": "",
 
-    "add_word": "Add",
     "circle_word": "Circle",
     "create_word": "Create",
     "document_word": "Document",
