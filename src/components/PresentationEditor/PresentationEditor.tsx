@@ -15,7 +15,7 @@ export function PresentationEditor(): JSX.Element {
             <AppTop />
             <SidePanel />
             <SlideWrapper />
-            <SlideListTool />
+            <SlideListTool foo={()=>{}}/>
             {
                 menuSwitcher
                 ? <ElementListTool foo={handleToggleView}/>
