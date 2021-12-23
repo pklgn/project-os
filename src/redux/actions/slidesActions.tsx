@@ -1,4 +1,4 @@
-import { ActionType } from "../actions-types/types"
+import { ActionType } from "../action-types/types"
 
 interface SlideAddAction {
     type: ActionType.ADD_SLIDE

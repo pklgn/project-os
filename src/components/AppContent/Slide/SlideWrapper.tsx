@@ -1,9 +1,13 @@
 import styles from "./Slide.module.css";
 import wrapperStyles from "./SlideWrapper.module.css"
+
 import { useResize } from "../../utils/useResize";
 import { useEffect, useRef } from "react";
 import { SlideComponent } from "./SlideComponent";
-import {mockSlide} from "../../../model/mock/mockSlide";
+
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/reducers/rootReducer";
+import { Slide } from "../../../model/types";
 
 const SlideParams = {
     ASPECT_RATIO: 1.62,
@@ -11,7 +15,8 @@ const SlideParams = {
 }
 
 export function SlideWrapper() {
-    //TODO получать здесь через store данные для текущего отображаемого слайда
+    const state = useSelector((state: RootState) => state.presentation);
+
     const ref = useRef<HTMLDivElement>(null)
     const [width] = useResize(ref)
     const maxHeight = SlideParams.MAX_PAGE_HEIGHT_RATIO * window.innerHeight
@@ -27,12 +32,18 @@ export function SlideWrapper() {
         }
     }, [ref, width, maxHeight])
 
+    const currSlideId: string = state.selectedSlidesIds[0] ?? '-';
+    const currSlideIndex: number = state.presentation.slidesList.findIndex(slide => slide.id = currSlideId);
+    const currSlide: Slide | undefined = (currSlideId === '-')
+        ? undefined
+        : state.presentation.slidesList[currSlideIndex];
+
     return <div className={wrapperStyles.wrapper}>
             <div
             className={styles.slide}
             ref={ref}
         >
-            <SlideComponent slide={mockSlide}/>
+            <SlideComponent slide={currSlide}/>
         </div>
     </div>
 }

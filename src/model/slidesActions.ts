@@ -7,12 +7,12 @@ export function addSlide(editor: Editor): Editor {
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
 
     let insertIndex = 0;
-    slideList.forEach((slide) => {
-        insertIndex++;
-        if (slide.id === activeSlideId) {
-            return;
+    for (let index = 0; index < slideList.length; ++index) {
+        ++insertIndex;
+        if (slideList[index].id === activeSlideId) {
+            break;
         }
-    });
+    }
 
     const background: Background = {
         color: '#ffffff',

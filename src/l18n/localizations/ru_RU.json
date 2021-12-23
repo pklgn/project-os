@@ -1,10 +1,15 @@
 {
-    "INFO_TOPBAR_MENU_BLOCK": "",
+    "USE_EVERYWHERE_BLOCK": "",
 
     "add_word": "Добавить",
+    "delete_word": "Удалить",
+
+    "USE_EVERYWHERE_BLOCK_END": "",
+
+    "INFO_TOPBAR_MENU_BLOCK": "",
+
     "circle_word": "Круг",
     "create_word": "Создать",
-    "delete_word": "Удалить",
     "document_word": "Документ",
     "download_word": "Скачать",
     "figures_word": "Фигуры",
@@ -34,5 +39,19 @@
     "upload-from-computer": "Загрузить с компьютера",
     "write-to-co-authors": "Написать соавторам",
 
-    "INFO_TOPBAR_MENU_BLOCK_END": ""
+    "INFO_TOPBAR_MENU_BLOCK_END": "",
+
+    "SLIDE_TOOL_BAR_BLOCK": "",
+
+    "backward_word": "На задний план",
+    "back_word": "Переместить назад",
+    "forward_word": "На передний план",
+    "front_word": "Переместить вперёд",
+    "fullscreen_word": "Полный экран",
+    "opacity_word": "Прозрачность",
+    "redo_word": "Отменить действие",
+    "reorder_word": "Сдвинуть",
+    "undo_word": "Отменить действие",
+
+    "SLIDE_TOOL_BAR_BLOCK_END": ""
 }
