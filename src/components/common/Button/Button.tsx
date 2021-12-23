@@ -17,7 +17,7 @@ export function Button(props: ButtonProps = {
     state: 'disabled',
     contentType: 'text',
     content: undefined,
-    foo: () => {return undefined},
+    foo: () => {},
 }): JSX.Element {
     const { text, content, contentType, state, foo } = props;
 
