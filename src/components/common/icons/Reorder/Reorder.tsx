@@ -3,7 +3,7 @@ import styles from "./Reorder.module.css";
 export function Reorder(): JSX.Element {
     return (
         <svg className={styles.reorder} x="0px" y="0px" width={styles.width} height={styles.height}
-         opacity={styles.opacity} viewBox="0 0 280.168 280.168" enable-background="new 0 0 280.168 280.168">
+         opacity={styles.opacity} viewBox="0 0 280.168 280.168" enableBackground="new 0 0 280.168 280.168">
         <g>
             <path fill = "#1A7492" d="M0,183.842l140.084-70.042l140.084,70.033l-140.084,
             70.042L0,183.842z"/>
