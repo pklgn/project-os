@@ -4,20 +4,20 @@ import { Editor } from "../../model/types";
 import { ActionType } from "../action-types/types";
 import { ElementAction } from "../actions/elementActions"
 
-const elementReducers = (state: Editor = initEditor(), action: ElementAction): Editor => {
+const elementReducers = (editor: Editor = initEditor(), action: ElementAction): Editor => {
     switch (action.type){
         case ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND:
-            return moveElementsToBackgroundOrForeground(state, action.payload);
+            return moveElementsToBackgroundOrForeground(editor, action.payload);
         case ActionType.CHANGE_ELEMENTS_SIZE:
-            return changeElementsSize(state, action.payload.scaleX, action.payload.scaleY);
+            return changeElementsSize(editor, action.payload.scaleX, action.payload.scaleY);
         case ActionType.CHANGE_ELEMENTS_OPACITY:
-            return changeElementsOpacity(state, action.payload);
+            return changeElementsOpacity(editor, action.payload);
         case ActionType.REMOVE_SELECTED_ELEMENTS:
-            return removeSelectedElements(state);
+            return removeSelectedElements(editor);
         case ActionType.CHANGE_ELEMENTS_POSITION:
-            return changeElementsPosition(state, action.payload.dx, action.payload.dy);
+            return changeElementsPosition(editor, action.payload.dx, action.payload.dy);
         default:
-            return state
+            return editor
     }
 }
 

@@ -2,19 +2,16 @@ import { generateUUId } from "./utils/uuid";
 import { Editor, Slide, Background, Presentation } from "./types";
 
 export function addSlide(editor: Editor): Editor {
-    const slideList: Slide[] = editor.presentation.slidesList;
+    console.log(`editor before add`);
+    console.log(editor);
+    const slideList: Slide[] = [...editor.presentation.slidesList];
 
-    const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
+    const activeSlideId: string = [...editor.selectedSlidesIds.slice(-1)][0];
+    console.log(`active id before add: ${activeSlideId}`);
 
-    let insertIndex = 0;
-    for (let index = 0; index < slideList.length; index++) {
-        if (slideList[index].id === activeSlideId) {
-            insertIndex = index + 1;
-            break;
-        }
-    }
-
-    console.log(insertIndex);
+    const insertIndex = slideList.findIndex(item => item.id === activeSlideId);
+    
+    console.log(`insert index: ${insertIndex} ids in editor: ${editor.selectedSlidesIds}`);
 
     const background: Background = {
         color: '#ffffff',
@@ -26,14 +23,12 @@ export function addSlide(editor: Editor): Editor {
         background,
         elementsList: []
     };
+    console.log(`generated for newSlide: ${newSlide.id}`);
 
-    const slidesList: Slide[] = (insertIndex === slideList.length - 1)
-    ? [...editor.presentation.slidesList, newSlide]
-    : [
-        ...editor.presentation.slidesList.slice(0, insertIndex),
-        newSlide,
-        ...editor.presentation.slidesList.slice(insertIndex)
-    ];
+    const slidesBefore: Slide[] = [...editor.presentation.slidesList.slice(0, insertIndex + 1)];
+    const slidesAfter: Slide[] = [...editor.presentation.slidesList.slice(insertIndex + 1)];
+
+    const slidesList: Slide[] = [...slidesBefore, ...[newSlide], ...slidesAfter]
 
     const updatedPresentation: Presentation = {
         ...editor.presentation,

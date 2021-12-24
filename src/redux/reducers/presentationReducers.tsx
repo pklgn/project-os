@@ -7,6 +7,7 @@ import { Editor } from "../../model/types";
 import { initEditor } from "../../model/initModelActions";
 
 export const presentationReducers = (editor = initEditor(), action: SlideAction | PresentationActions): Editor => {
+    console.log(`in reducer ${editor.selectedSlidesIds}`);
     switch(action.type) {
         case ActionType.ADD_SLIDE:
             return addSlide(editor);

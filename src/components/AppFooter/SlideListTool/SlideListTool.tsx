@@ -1,5 +1,5 @@
 import styles from "./SlideListTool.module.css";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { Button } from "../../common/Button/Button"
 import { VerticalLine } from "../../common/VerticalLine/VerticalLine";
@@ -9,8 +9,10 @@ import { RemoveSlide } from "../../common/icons/RemoveSlide/RemoveSlide";
 import { LocaleContext, LocaleContextType } from "../../../App";
 
 import { useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, EmptyObject } from "redux";
 import { addSlide, deleteSelectedSlides } from "../../../redux/action-creators/slideActionCreators";
+import { store } from "../../../redux/store";
+import { Editor } from "../../../model/types";
 
 type SlideListToolProps = {
     foo: () => void | undefined
@@ -25,6 +27,11 @@ export function SlideListTool(props: SlideListToolProps): JSX.Element {
 
     const addSlideButtonFunction = () => {
         dispatchAddSlideAction();
+        console.log(`after: ${select(store.getState())}`)
+    }
+
+    function select(state: EmptyObject & { element: Editor; presentation: Editor; }) {
+        return state.presentation.selectedSlidesIds
     }
 
     const deleteSelectedSlidesButtonFunction = () => {
@@ -32,8 +39,8 @@ export function SlideListTool(props: SlideListToolProps): JSX.Element {
     }
 
     return <div className={styles["slides-list-tools"]}>
-        <Button text={localeContext.locale.localization.add_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <AddSlide />}} foo={addSlideButtonFunction} />
+        <Button text={localeContext.locale.localization.add_word} state="disabled" contentType="icon" content={{ hotkeyInfo: "", icon: <AddSlide /> }} foo={addSlideButtonFunction} />
         <VerticalLine />
-        <Button text={localeContext.locale.localization.delete_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <RemoveSlide />}} foo={deleteSelectedSlidesButtonFunction} />        
+        <Button text={localeContext.locale.localization.delete_word} state="disabled" contentType="icon" content={{ hotkeyInfo: "", icon: <RemoveSlide /> }} foo={deleteSelectedSlidesButtonFunction} />
     </div>;
 }
