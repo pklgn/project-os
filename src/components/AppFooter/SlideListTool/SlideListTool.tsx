@@ -10,7 +10,7 @@ import { LocaleContext, LocaleContextType } from "../../../App";
 
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addSlide } from "../../../redux/action-creators/slideActionCreators";
+import { addSlide, deleteSelectedSlides } from "../../../redux/action-creators/slideActionCreators";
 
 type SlideListToolProps = {
     foo: () => void | undefined
@@ -21,14 +21,19 @@ export function SlideListTool(props: SlideListToolProps): JSX.Element {
 
     const dispatch = useDispatch();
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
+    const dispatchDeleteSlideAction = bindActionCreators(deleteSelectedSlides, dispatch);
 
     const addSlideButtonFunction = () => {
         dispatchAddSlideAction();
     }
 
+    const deleteSelectedSlidesButtonFunction = () => {
+        dispatchDeleteSlideAction();
+    }
+
     return <div className={styles["slides-list-tools"]}>
-        <Button text={localeContext.locale.localization.add_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <AddSlide />}} foo={addSlideButtonFunction}/>
+        <Button text={localeContext.locale.localization.add_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <AddSlide />}} foo={addSlideButtonFunction} />
         <VerticalLine />
-        <Button text={localeContext.locale.localization.delete_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <RemoveSlide />}} foo={props.foo}/>        
+        <Button text={localeContext.locale.localization.delete_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <RemoveSlide />}} foo={deleteSelectedSlidesButtonFunction} />        
     </div>;
 }

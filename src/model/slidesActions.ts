@@ -6,13 +6,7 @@ export function addSlide(editor: Editor): Editor {
 
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
 
-    let insertIndex = 0;
-    for (let index = 0; index < slideList.length; ++index) {
-        ++insertIndex;
-        if (slideList[index].id === activeSlideId) {
-            break;
-        }
-    }
+    const insertIndex = slideList.findIndex(item => item.id === activeSlideId) + 1
 
     const background: Background = {
         color: '#ffffff',
