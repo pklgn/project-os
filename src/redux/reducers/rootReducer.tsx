@@ -1,8 +1,8 @@
-import { combineReducers } from "redux";
 import { allReducers } from "./reducer";
+import { combineReducers } from "redux";
 
 const reducers = combineReducers({
-    allReducers
+    model: allReducers
 })
 
 export default reducers

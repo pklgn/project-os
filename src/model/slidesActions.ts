@@ -2,41 +2,46 @@ import { generateUUId } from "./utils/uuid";
 import { Editor, Slide, Background, Presentation } from "./types";
 
 export function addSlide(editor: Editor): Editor {
+    const slideList: Slide[] = [...editor.presentation.slidesList];
     
-    const slideList: Slide[] = editor.presentation.slidesList;
-    
-    const activeSlideId: string = editor.selectedSlidesIds[editor.selectedSlidesIds.length - 1];
+    /*TODO Feature with adding slide after active slide isn't working for wome reasone
+    console.log(slideList);
+    const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
+    console.log(activeSlideId);
 
-    const insertIndex = slideList.findIndex(item => item.id === activeSlideId) + 1
+    const insertIndex = slideList.findIndex((item) => item.id === activeSlideId) + 1;
+
+    console.log(insertIndex);
+    console.log(slideList.findIndex(item => item.id === activeSlideId));
+    */
 
     const background: Background = {
         color: '#ffffff',
         src: ''
-    };
-    
+    }
+
     const newSlide: Slide = {
         id: generateUUId(),
         background,
         elementsList: []
-    };
-    
-    const newSlideList: Slide[] = [
-        ...slideList.slice(0, insertIndex),
-        newSlide,
-        ...slideList.slice(insertIndex)
-    ];
+    }
 
+    const newSlideList: Slide[] = [
+        newSlide,
+        ...slideList
+    ];
+    
     const updatedPresentation: Presentation = {
         ...editor.presentation,
         slidesList: newSlideList
-    };
+    }
     
     return {
         ...editor,
         presentation: updatedPresentation,
         selectedSlidesIds: [newSlide.id],
         selectedSlideElementsIds: []
-    };
+    }
 }
 
 export function deleteSelectedSlides(editor: Editor): Editor {

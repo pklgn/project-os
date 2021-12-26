@@ -1,17 +1,26 @@
 import { ActionType } from "../action-types/types";
-import { SlideAction } from "../actions/slidesActions";
 import { ElementAction } from "../actions/elementActions";
+import { HistoryActions } from "../actions/historyActions";
 import { PresentationActions } from "../actions/presentationActions";
+import { SlideAction } from "../actions/slidesActions";
 
 import { Editor } from "../../model/types";
 import { initEditor } from "../../model/initModelActions";
 
-import { changePresentationName, setSelectedIdInEditor } from "../../model/presentationActions";
 import { addSlide, deleteSelectedSlides } from "../../model/slidesActions";
+import { changePresentationName, setSelectedIdInEditor } from "../../model/presentationActions";
+import { keep, redo, undo } from "../../model/historyActions";
 import { moveElementsToBackgroundOrForeground, changeElementsSize, changeElementsOpacity, changeElementsPosition } from "../../model/elementActions";
 
-export const allReducers = (state: Editor = initEditor(), action: SlideAction | PresentationActions | ElementAction): Editor => {
+export const allReducers = (state: Editor = initEditor(), action: SlideAction | PresentationActions | ElementAction | HistoryActions): Editor => {
     switch (action.type) {
+        case ActionType.KEEP:
+            return keep(state);
+        case ActionType.REDO:
+            return redo(state);
+        case ActionType.UNDO:
+            return undo(state);
+
         case ActionType.ADD_SLIDE:
             return addSlide(state);
         case ActionType.CHANGE_PRESENTATION_TITLE:
@@ -28,7 +37,7 @@ export const allReducers = (state: Editor = initEditor(), action: SlideAction | 
         case ActionType.CHANGE_ELEMENTS_OPACITY:
             return changeElementsOpacity(state, action.payload);
         //case ActionType.REMOVE_SELECTED_ELEMENTS:
-            //return removeSelectedElements(state);
+        //return removeSelectedElements(state);
         case ActionType.CHANGE_ELEMENTS_POSITION:
             return changeElementsPosition(state, action.payload.dx, action.payload.dy);
 
