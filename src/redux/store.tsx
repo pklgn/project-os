@@ -4,6 +4,5 @@ import reducers from "./reducers/rootReducer";
 
 export const store = createStore(
     reducers,
-    {},
     applyMiddleware(thunk)
 );

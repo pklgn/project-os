@@ -6,17 +6,17 @@ import { addSlide, deleteSelectedSlides } from "../../model/slidesActions";
 import { Editor } from "../../model/types";
 import { initEditor } from "../../model/initModelActions";
 
-export const presentationReducers = (editor = initEditor(), action: SlideAction | PresentationActions): Editor => {
+export const presentationReducers = (state: Editor = initEditor(), action: SlideAction | PresentationActions): Editor => {
     switch(action.type) {
         case ActionType.ADD_SLIDE:
-            return addSlide(editor);
+            return addSlide(state);
         case ActionType.CHANGE_PRESENTATION_TITLE:
-            return changePresentationName(editor, action.payload);
+            return changePresentationName(state, action.payload);
         case ActionType.SET_SELECTED_ID_IN_EDITOR:
-            return setSelectedIdInEditor(editor, action.payload.selectedSlidesIds, action.payload.selectedSlideElementsIds);
+            return setSelectedIdInEditor(state, action.payload.selectedSlidesIds, action.payload.selectedSlideElementsIds);
         case ActionType.DELETE_SELECTED_SLIDES:
-            return deleteSelectedSlides(editor);
+            return deleteSelectedSlides(state);
         default:
-            return editor
+            return state
     }
 }
