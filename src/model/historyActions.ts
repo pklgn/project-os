@@ -2,15 +2,30 @@ import { Editor } from "./types";
 
 export function undo(editor: Editor): Editor {
     if (editor.history.currState > 0) {
-        editor.history.currState -= 1
+        const currState = editor.history.currState - 1
+        const history = {
+            ...editor.history,
+            currState: currState
+        }
+        const presentation = editor.history.presentationStates[currState];
+        const selectedSlidesIds = editor.history.selectedSlidesIdsStates[currState];
+        const selectedSlideElementsIds = editor.history.selectedSlideElementsIdsStates[currState];
+        return {
+            ...editor,
+            presentation,
+            history,
+            selectedSlideElementsIds,
+            selectedSlidesIds,
+        }
+        // editor.history.currState -= 1
 
-        const currState: number = editor.history.currState;
-        editor.presentation =
-            editor.history.presentationStates[currState];
-        editor.selectedSlidesIds =
-            editor.history.selectedSlidesIdsStates[currState];
-        editor.selectedSlideElementsIds =
-            editor.history.selectedSlideElementsIdsStates[currState];
+        // const currState: number = editor.history.currState;
+        // editor.presentation =
+        //     editor.history.presentationStates[currState];
+        // editor.selectedSlidesIds =
+        //     editor.history.selectedSlidesIdsStates[currState];
+        // editor.selectedSlideElementsIds =
+        //     editor.history.selectedSlideElementsIdsStates[currState];
     }
 
     return editor;
