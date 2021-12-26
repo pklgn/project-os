@@ -7,7 +7,8 @@ import { getL18nObject, l18nType } from "./l18n/l18n";
 
 import { bindActionCreators } from "redux";
 import { keepModelAction } from "./redux/action-creators/historyActionCreators";
-import { useDispatch } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
+import { store } from "./redux/store";
 
 export type LocaleContextType = {
   locale: l18nType,
@@ -29,9 +30,11 @@ function App() {
 
   dispatchKeepAppModelAction();
   return (
-    <LocaleContext.Provider value={{ locale, changeLocale }}>
-      <PresentationEditor />
-    </LocaleContext.Provider>
+    <Provider store={store} >
+      <LocaleContext.Provider value={{ locale, changeLocale }}>
+        <PresentationEditor />
+      </LocaleContext.Provider>
+    </Provider>
   );
 }
 

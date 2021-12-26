@@ -29,7 +29,7 @@ export function AppTop(): JSX.Element {
                 <AppLogoPng width={55} height={55} type={'default'} />
             </div>
             <ToolBar />
-            <AdaptiveInputField value={state.allReducers.presentation.name} onChange={onChangeHandler} />
+            <AdaptiveInputField value={state.model.presentation.name} onChange={onChangeHandler} />
         </div>
     );
 }

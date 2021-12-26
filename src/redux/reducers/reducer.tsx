@@ -15,14 +15,11 @@ import { moveElementsToBackgroundOrForeground, changeElementsSize, changeElement
 export const allReducers = (state: Editor = initEditor(), action: SlideAction | PresentationActions | ElementAction | HistoryActions): Editor => {
     switch (action.type) {
         case ActionType.KEEP:
-            keep(state);
-            return state;
+            return keep(state);
         case ActionType.REDO:
-            redo(state);
-            return state;
+            return redo(state);
         case ActionType.UNDO:
-            undo(state);
-            return state;
+            return undo(state);
 
         case ActionType.ADD_SLIDE:
             return addSlide(state);

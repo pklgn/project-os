@@ -9,10 +9,8 @@ import { VerticalLine } from "../../common/VerticalLine/VerticalLine";
 import { LocaleContext, LocaleContextType } from "../../../App";
 
 import { addSlide, deleteSelectedSlides } from "../../../redux/action-creators/slideActionCreators";
-import { bindActionCreators, EmptyObject } from "redux";
-import { Editor } from "../../../model/types";
+import { bindActionCreators } from "redux";
 import { keepModelAction } from "../../../redux/action-creators/historyActionCreators";
-import { store } from "../../../redux/store";
 import { useDispatch } from "react-redux";
 
 type SlideListToolProps = {
@@ -29,7 +27,6 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
 
     const addSlideButtonFunction = () => {
         dispatchAddSlideAction();
-        console.log(`after: ${store.getState()}`)
         dispatchKeepModelAction();
     }
 
