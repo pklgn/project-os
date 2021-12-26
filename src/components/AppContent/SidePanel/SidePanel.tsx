@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducers/rootReducer';
 
 function SidePanel() {
-    const state = useSelector((state: RootState) => state.presentation);
+    const state = useSelector((state: RootState) => state.allReducers);
 
     //TODO получать здесь список слайдов
     return <div className={styles['slide-list']}>

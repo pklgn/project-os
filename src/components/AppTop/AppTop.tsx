@@ -7,12 +7,12 @@ import { ToolBar } from '../common/ToolBar/ToolBar';
 import styles from './AppTop.module.css';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { $CombinedState, bindActionCreators } from 'redux';
 import { RootState } from '../../redux/reducers/rootReducer';
 import { changePresentationTitle } from '../../redux/action-creators/presentationActionCreators';
 
 export function AppTop(): JSX.Element {
-    const state = useSelector((state: RootState) => state.presentation);
+    const state = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
     const dispatchPresentationName = bindActionCreators(changePresentationTitle, dispatch);
 
@@ -29,7 +29,7 @@ export function AppTop(): JSX.Element {
                 <AppLogoPng width={55} height={55} type={'default'} />
             </div>
             <ToolBar />
-            <AdaptiveInputField value={state.presentation.name} onChange={onChangeHandler} />
+            <AdaptiveInputField value={state.allReducers.presentation.name} onChange={onChangeHandler} />
         </div>
     );
 }
