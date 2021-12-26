@@ -27,7 +27,7 @@ export function SlideListTool(props: SlideListToolProps): JSX.Element {
 
     const addSlideButtonFunction = () => {
         dispatchAddSlideAction();
-        console.log(`after: ${select(store.getState())}`)
+        console.log(`after: ${store.getState()}`)
     }
 
     function select(state: EmptyObject & { element: Editor; presentation: Editor; }) {
