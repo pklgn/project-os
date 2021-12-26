@@ -15,7 +15,7 @@ const SlideParams = {
 }
 
 export function SlideWrapper() {
-    const state = useSelector((state: RootState) => state.presentation);
+    const state = useSelector((state: RootState) => state.allReducers);
 
     const ref = useRef<HTMLDivElement>(null)
     const [width] = useResize(ref)
