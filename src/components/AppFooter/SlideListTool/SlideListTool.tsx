@@ -1,41 +1,41 @@
 import styles from "./SlideListTool.module.css";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
-import { Button } from "../../common/Button/Button"
-import { VerticalLine } from "../../common/VerticalLine/VerticalLine";
 import { AddSlide } from "../../common/icons/AddSlide/AddSlide";
+import { Button } from "../../common/Button/Button"
 import { RemoveSlide } from "../../common/icons/RemoveSlide/RemoveSlide";
+import { VerticalLine } from "../../common/VerticalLine/VerticalLine";
 
 import { LocaleContext, LocaleContextType } from "../../../App";
 
-import { useDispatch } from "react-redux";
-import { bindActionCreators, EmptyObject } from "redux";
 import { addSlide, deleteSelectedSlides } from "../../../redux/action-creators/slideActionCreators";
-import { store } from "../../../redux/store";
+import { bindActionCreators, EmptyObject } from "redux";
 import { Editor } from "../../../model/types";
+import { keepModelAction } from "../../../redux/action-creators/historyActionCreators";
+import { store } from "../../../redux/store";
+import { useDispatch } from "react-redux";
 
 type SlideListToolProps = {
     foo: () => void | undefined
 }
 
-export function SlideListTool(props: SlideListToolProps): JSX.Element {
+export function SlideListTool(_: SlideListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchDeleteSlideAction = bindActionCreators(deleteSelectedSlides, dispatch);
+    const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
 
     const addSlideButtonFunction = () => {
         dispatchAddSlideAction();
         console.log(`after: ${store.getState()}`)
-    }
-
-    function select(state: EmptyObject & { element: Editor; presentation: Editor; }) {
-        return state.presentation.selectedSlidesIds
+        dispatchKeepModelAction();
     }
 
     const deleteSelectedSlidesButtonFunction = () => {
         dispatchDeleteSlideAction();
+        dispatchKeepModelAction();
     }
 
     return <div className={styles["slides-list-tools"]}>
