@@ -1,4 +1,10 @@
 export enum ActionType {
+    //HistoryActions
+    UNDO = 'UNDO',
+    REDO = 'REDO',
+    KEEP = 'KEEP',
+    //HistoryActions
+
     //PresentationActions
     CHANGE_PRESENTATION_TITLE = 'CHANGE_PRESENTATION_TITLE',
     SET_SELECTED_ID_IN_EDITOR = "SET_SELECTED_ID_IN_EDITOR",
