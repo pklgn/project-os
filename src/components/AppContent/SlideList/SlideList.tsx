@@ -19,8 +19,8 @@ export function SlideList(props: SlideListProps) {
         ref={ref}
     >
         {
-            props.slidesList.map((slide) => {
-                return <SlideListItem item={slide} key={slide.id}/>
+            props.slidesList.map((slide, index) => {
+                return <SlideListItem item={slide} itemNumber={index + 1} key={slide.id} />
             })
         }
     </ul>;

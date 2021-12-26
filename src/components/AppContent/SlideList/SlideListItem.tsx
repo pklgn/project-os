@@ -5,6 +5,7 @@ import {SlideComponent} from "../Slide/SlideComponent";
 
 type SlideListItemProps = {
     item: Slide,
+    itemNumber: number
 }
 
 function SlideListItem(props: SlideListItemProps) {
@@ -12,6 +13,9 @@ function SlideListItem(props: SlideListItemProps) {
         <div
             className={styles['list-item']}
         >
+            <div className={styles["item-number"]}>
+              {props.itemNumber}
+            </div>
             <SlideComponent slide={props.item}/>
             <div className={styles["prevent-pointer-events"]}/>
         </div>
