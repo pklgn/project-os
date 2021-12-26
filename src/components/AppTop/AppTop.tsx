@@ -6,10 +6,10 @@ import { ToolBar } from '../common/ToolBar/ToolBar';
 
 import styles from './AppTop.module.css';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { $CombinedState, bindActionCreators } from 'redux';
-import { RootState } from '../../redux/reducers/rootReducer';
+import { bindActionCreators } from 'redux';
 import { changePresentationTitle } from '../../redux/action-creators/presentationActionCreators';
+import { RootState } from '../../redux/reducers/rootReducer';
+import { useDispatch, useSelector } from 'react-redux';
 
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);

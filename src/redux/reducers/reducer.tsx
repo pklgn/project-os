@@ -12,17 +12,17 @@ import { changePresentationName, setSelectedIdInEditor } from "../../model/prese
 import { keep, redo, undo } from "../../model/historyActions";
 import { moveElementsToBackgroundOrForeground, changeElementsSize, changeElementsOpacity, changeElementsPosition } from "../../model/elementActions";
 
-export const allReducers = (state: Editor = initEditor(), action: SlideAction | PresentationActions | ElementAction | HistoryActions): Editor | void => {
+export const allReducers = (state: Editor = initEditor(), action: SlideAction | PresentationActions | ElementAction | HistoryActions): Editor => {
     switch (action.type) {
         case ActionType.KEEP:
             keep(state);
-            break;
+            return state;
         case ActionType.REDO:
             redo(state);
-            break;
+            return state;
         case ActionType.UNDO:
             undo(state);
-            break;
+            return state;
 
         case ActionType.ADD_SLIDE:
             return addSlide(state);
