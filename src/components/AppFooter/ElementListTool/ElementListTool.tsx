@@ -14,7 +14,6 @@ import { Undo } from "../../common/icons/Undo/Undo";
 
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
-import { store } from "../../../redux/store";
 import { redoModelAction, undoModelAction } from "../../../redux/action-creators/historyActionCreators";
 
 type ElementListToolProps = {
@@ -36,6 +35,12 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
         dispatchTurnBackModelStateAction();
     }
 
+    document.addEventListener('keydown', function(event) {
+      if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
+        undoPressButtonHandler()
+      }
+    });
+    
     return <div className={styles["element-tools"]}>
         <Button
           text={localeContext.locale.localization.undo_word}
