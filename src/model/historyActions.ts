@@ -17,15 +17,6 @@ export function undo(editor: Editor): Editor {
             selectedSlideElementsIds,
             selectedSlidesIds,
         }
-        // editor.history.currState -= 1
-
-        // const currState: number = editor.history.currState;
-        // editor.presentation =
-        //     editor.history.presentationStates[currState];
-        // editor.selectedSlidesIds =
-        //     editor.history.selectedSlidesIdsStates[currState];
-        // editor.selectedSlideElementsIds =
-        //     editor.history.selectedSlideElementsIdsStates[currState];
     }
 
     return editor;
