@@ -22,7 +22,7 @@ export function ToolBar() {
             }
         }
     }
-
+    /* eslint-disable react/jsx-key */
     return (
         <div className={styles['top-bar']}>
             <div className={styles['top-bar__button-list']}>
@@ -116,4 +116,5 @@ export function ToolBar() {
             </div>
         </div>
     );
+    /* eslint-enable */
 }

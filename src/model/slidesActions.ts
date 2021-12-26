@@ -2,6 +2,7 @@ import { generateUUId } from "./utils/uuid";
 import { Editor, Slide, Background, Presentation } from "./types";
 
 export function addSlide(editor: Editor): Editor {
+<<<<<<< HEAD
     console.log(`editor before add`);
     console.log(editor);
     const slideList: Slide[] = [...editor.presentation.slidesList];
@@ -12,6 +13,22 @@ export function addSlide(editor: Editor): Editor {
     const insertIndex = slideList.findIndex(item => item.id === activeSlideId);
     
     console.log(`insert index: ${insertIndex} ids in editor: ${editor.selectedSlidesIds}`);
+=======
+    if( editor.presentation.slidesList[0]){
+        console.log("editor: ")
+        console.log(editor.presentation.slidesList[0].id)
+        console.log(editor.presentation.slidesList)
+    }
+    let oldId: string = "0"
+    const slideList: Slide[] = editor.presentation.slidesList;
+    if (slideList[0]) {
+        oldId = slideList[0].id
+    }
+    
+    const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
+
+    const insertIndex = slideList.findIndex(item => item.id === activeSlideId) + 1
+>>>>>>> dev-10-ivaykov
 
     const background: Background = {
         color: '#ffffff',
@@ -23,18 +40,43 @@ export function addSlide(editor: Editor): Editor {
         background,
         elementsList: []
     };
+<<<<<<< HEAD
     console.log(`generated for newSlide: ${newSlide.id}`);
 
     const slidesBefore: Slide[] = [...editor.presentation.slidesList.slice(0, insertIndex + 1)];
     const slidesAfter: Slide[] = [...editor.presentation.slidesList.slice(insertIndex + 1)];
 
     const slidesList: Slide[] = [...slidesBefore, ...[newSlide], ...slidesAfter]
+=======
+    console.log("newSlide: ")
+    console.log(newSlide.id)
+    // slidesList ошибка
+    const newSlideList: Slide[] = [
+        ...slideList.slice(0, insertIndex),
+        newSlide,
+        ...slideList.slice(insertIndex)
+    ];
+    
+    console.log("slidesList: ")
+    console.log(newSlideList[0].id)
+    console.log(newSlideList)
 
+    if (slideList[0]) {
+        newSlideList[0].id = oldId
+        console.log("oldId:")
+        console.log(oldId)
+    }
+>>>>>>> dev-10-ivaykov
+
+    console.log("slidesList: ")
+    console.log(newSlideList[0].id)
+    console.log(newSlideList)
+    
     const updatedPresentation: Presentation = {
         ...editor.presentation,
-        slidesList: slidesList
+        slidesList: newSlideList
     };
-
+    
     return {
         ...editor,
         presentation: updatedPresentation,

@@ -21,7 +21,7 @@ type ElementListToolProps = {
 
 export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
-    const state = useSelector((state: RootState) => state.presentation);
+    const state = useSelector((state: RootState) => state.allReducers.presentation);
 
     return <div className={styles["element-tools"]}>
         <Button text={localeContext.locale.localization.undo_word} state="disabled" contentType="icon" content={{hotkeyInfo: "", icon: <Undo />}} foo={() => undefined}/>

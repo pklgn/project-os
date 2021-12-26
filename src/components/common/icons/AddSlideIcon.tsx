@@ -1,5 +1,5 @@
 function AddSlideIcon() {
-    return <svg enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24"
+    return <svg enableBackground="new 0 0 24 24" height="24px" viewBox="0 0 24 24"
                 width="24px" fill="#000000">
         <g>
             <rect fill="none" height="24" width="24"/>
