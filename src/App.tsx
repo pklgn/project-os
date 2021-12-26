@@ -5,9 +5,7 @@ import { PresentationEditor } from "./components/PresentationEditor/Presentation
 
 import { getL18nObject, l18nType } from "./l18n/l18n";
 
-import { bindActionCreators } from "redux";
-import { keepModelAction } from "./redux/action-creators/historyActionCreators";
-import { Provider, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
 export type LocaleContextType = {
@@ -25,10 +23,6 @@ export const LocaleContext = createContext(initialLocaleContext);
 function App() {
   const [locale, changeLocale] = useState(getL18nObject('ru_RU'));
 
-  const dispatch = useDispatch();
-  const dispatchKeepAppModelAction = bindActionCreators(keepModelAction, dispatch);
-
-  dispatchKeepAppModelAction();
   return (
     <Provider store={store} >
       <LocaleContext.Provider value={{ locale, changeLocale }}>
