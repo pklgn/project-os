@@ -5,7 +5,7 @@ export function addSlide(editor: Editor): Editor {
     
     const slideList: Slide[] = editor.presentation.slidesList;
     
-    const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
+    const activeSlideId: string = editor.selectedSlidesIds[editor.selectedSlidesIds.length - 1];
 
     const insertIndex = slideList.findIndex(item => item.id === activeSlideId) + 1
 
@@ -13,7 +13,7 @@ export function addSlide(editor: Editor): Editor {
         color: '#ffffff',
         src: ''
     };
-
+    
     const newSlide: Slide = {
         id: generateUUId(),
         background,
