@@ -20,8 +20,10 @@ const thunkHolder = {
       : undefined
 }
 
+const t = composeWithDevTools({trace: true, traceLimit: 50})
+
 export const store = createStore(
     reducers,
     {},
-    composeWithDevTools(applyMiddleware(thunk))
+    t(applyMiddleware(thunk))
 );
