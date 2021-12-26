@@ -2,19 +2,18 @@ import { generateUUId } from "./utils/uuid";
 import { Editor, Slide, Background, Presentation } from "./types";
 
 export function addSlide(editor: Editor): Editor {
-    const slideList: Slide[] = editor.presentation.slidesList;
+    const slideList: Slide[] = [...editor.presentation.slidesList];
     
+    /*TODO Feature with adding slide after active slide isn't working for wome reasone
+    console.log(slideList);
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
+    console.log(activeSlideId);
 
-    let activeSlideIndex = 0;
-    slideList.forEach((slide, index) => {
-        if (slide.id) {
-            activeSlideIndex = index;
-        }
-    });
-    activeSlideIndex = activeSlideIndex + 1;
+    const insertIndex = slideList.findIndex((item) => item.id === activeSlideId) + 1;
 
-    console.log(activeSlideIndex);
+    console.log(insertIndex);
+    console.log(slideList.findIndex(item => item.id === activeSlideId));
+    */
 
     const background: Background = {
         color: '#ffffff',
@@ -28,9 +27,8 @@ export function addSlide(editor: Editor): Editor {
     }
 
     const newSlideList: Slide[] = [
-        ...slideList.slice(0, activeSlideIndex),
         newSlide,
-        ...slideList.slice(activeSlideIndex)
+        ...slideList
     ];
     
     const updatedPresentation: Presentation = {
