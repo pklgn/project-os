@@ -1,7 +1,7 @@
 import styles from "./ElementListTool.module.css";
 
 import { LocaleContext, LocaleContextType } from "../../../App";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { Button } from "../../common/Button/Button"
 import { Delete } from "../../common/icons/Delete/Delete";
@@ -14,34 +14,41 @@ import { Undo } from "../../common/icons/Undo/Undo";
 
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
-import { redo, undo } from "../../../model/historyActions";
 import { store } from "../../../redux/store";
+import { redoModelAction, undoModelAction } from "../../../redux/action-creators/historyActionCreators";
 
 type ElementListToolProps = {
     foo: () => void | undefined
 }
 
-export function ElementListTool(_: ElementListToolProps): JSX.Element {
+export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
-    const state = store.getState();
 
     const dispatch = useDispatch();
-    const dispatchSetPreviousModelStateAction = bindActionCreators(undo, dispatch);
-    const dispatchTurnBackModelStateAction = bindActionCreators(redo, dispatch);
+    const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
+    const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
+
+    const undoPressButtonHandler = () => {
+        dispatchSetPreviousModelStateAction();
+    }
+
+    const redoButtonPressHandler = () => {
+        dispatchTurnBackModelStateAction();
+    }
 
     return <div className={styles["element-tools"]}>
         <Button
           text={localeContext.locale.localization.undo_word}
           state="disabled" contentType="icon"
           content={{hotkeyInfo: "", icon: <Undo />}}
-          foo={() => dispatchSetPreviousModelStateAction(state.allReducers)}
+          foo={undoPressButtonHandler}
         />
         <VerticalLine />
         <Button
           text={localeContext.locale.localization.redo_word}
           state="disabled" contentType="icon"
           content={{hotkeyInfo: "", icon: <Redo />}}
-          foo={() => dispatchTurnBackModelStateAction(state.allReducers)}
+          foo={redoButtonPressHandler}
         />
         <VerticalLine />
         <Button
@@ -49,7 +56,7 @@ export function ElementListTool(_: ElementListToolProps): JSX.Element {
           state="disabled"
           contentType="icon"
           content={{hotkeyInfo: "", icon: <Reorder />}}
-          foo={() => undefined}
+          foo={props.foo}
         />
         <VerticalLine />
         <Button
@@ -73,7 +80,7 @@ export function ElementListTool(_: ElementListToolProps): JSX.Element {
           state="disabled"
           contentType="icon"
           content={{hotkeyInfo: "", icon: <Fullscreen />}}
-          foo={() => console.log(state)}
+          foo={() => undefined}
         />
     </div>;
 }

@@ -1,18 +1,15 @@
 import { SlideList } from "../SlideList/SlideList";
 import styles from "./SidePanel.module.css"
 
-import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducers/rootReducer';
+import { connect, useSelector } from 'react-redux';
 
-function SidePanel() {
+import { Editor } from "../../../model/types";
+
+export function SidePanel() {
     const state = useSelector((state: RootState) => state.allReducers);
 
-    //TODO получать здесь список слайдов
     return <div className={styles['slide-list']}>
         <SlideList slidesList={state.presentation.slidesList}/>
     </div>
-}
-
-export {
-    SidePanel,
 }

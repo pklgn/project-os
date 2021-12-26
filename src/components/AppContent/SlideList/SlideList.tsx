@@ -1,8 +1,9 @@
 import styles from "./SlideList.module.css";
 import { useRef } from "react";
-import { Slide } from "../../../model/types";
+import { Editor, Slide } from "../../../model/types";
 import { SlideListItem } from "./SlideListItem";
 import { generateUUId } from '../../../model/utils/uuid';
+import { connect } from "react-redux";
 
 type SlideListProps = {
     slidesList: Slide[],
@@ -22,3 +23,12 @@ export function SlideList(props: SlideListProps) {
         }
     </ul>
 }
+
+function mapStateToProps(state: Editor) {
+    console.log('CALLED');
+    return {
+        slidesList: state.presentation.slidesList
+    }
+}
+
+export default connect(mapStateToProps)(SlideList);
