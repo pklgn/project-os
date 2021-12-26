@@ -37,7 +37,11 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
 
     document.addEventListener('keydown', function(event) {
       if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
-        undoPressButtonHandler()
+        console.log('hello');
+        undoPressButtonHandler();
+      }
+      if (event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
+        redoButtonPressHandler();
       }
     });
     
