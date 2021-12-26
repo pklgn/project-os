@@ -2,16 +2,8 @@ import { generateUUId } from "./utils/uuid";
 import { Editor, Slide, Background, Presentation } from "./types";
 
 export function addSlide(editor: Editor): Editor {
-    if( editor.presentation.slidesList[0]){
-        console.log("editor: ")
-        console.log(editor.presentation.slidesList[0].id)
-        console.log(editor.presentation.slidesList)
-    }
-    let oldId: string = "0"
+    
     const slideList: Slide[] = editor.presentation.slidesList;
-    if (slideList[0]) {
-        oldId = slideList[0].id
-    }
     
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
 
@@ -27,29 +19,13 @@ export function addSlide(editor: Editor): Editor {
         background,
         elementsList: []
     };
-    console.log("newSlide: ")
-    console.log(newSlide.id)
-    // slidesList ошибка
+    
     const newSlideList: Slide[] = [
         ...slideList.slice(0, insertIndex),
         newSlide,
         ...slideList.slice(insertIndex)
     ];
-    
-    console.log("slidesList: ")
-    console.log(newSlideList[0].id)
-    console.log(newSlideList)
 
-    if (slideList[0]) {
-        newSlideList[0].id = oldId
-        console.log("oldId:")
-        console.log(oldId)
-    }
-
-    console.log("slidesList: ")
-    console.log(newSlideList[0].id)
-    console.log(newSlideList)
-    
     const updatedPresentation: Presentation = {
         ...editor.presentation,
         slidesList: newSlideList
