@@ -25,7 +25,7 @@ export function SlideListItem(props: SlideListItemProps) {
                 {props.itemIndex + 1}
             </div>
             <SlideComponent slide={props.item} />
-            <div className={styles["prevent-pointer-events"]} id={`${props.itemIndex}`} key={props.itemIndex} />
+            <div className={styles["prevent-pointer-events"]} id={`${props.itemIndex + 1}`} key={props.itemIndex} />
         </div>
     </li>
 }
