@@ -27,9 +27,9 @@ export function SlideList(props: SlideListProps) {
             case 'default':
                 return (event: BaseSyntheticEvent) => {
                     const itemIndex: number = event.target.getAttribute("id");
-                    const newItemStatusList: boolean[] = itemStatusList.map((itemStatus, index) => {
+                    const newItemStatusList: boolean[] = itemStatusList.map((_, index) => {
                         if (index == itemIndex) {
-                            return !itemStatus;
+                            return true;
                         } else {
                             return false;
                         }
@@ -93,31 +93,25 @@ export function SlideList(props: SlideListProps) {
     const onClickListHandler = getVariantOfItemListClickHandlers(handlerKey);
 
     useEffect(() => {
-        const handlerKeyDown = (event: KeyboardEvent) => {
-            if (event.code === 'ControlLeft') {
-                changeClickHandlerKey('ctrlPressed');
-            } else if (event.code === 'ShiftLeft') {
-                changeClickHandlerKey('shiftPressed');
-            }
-        }
-
-        const handlerKeyUp = (event: KeyboardEvent) => {
-            if (event.code === 'ShiftLeft' || event.code === 'ControlLeft') {
-                changeClickHandlerKey('default');
-            }
-        }
 
         const handlerMouseClick = (event: MouseEvent) => {
+            const node = event.target as Node;
+            changeClickHandlerKey('default');
+            if (ref.current?.contains(node)) {
+                if (event.ctrlKey) {
+                    changeClickHandlerKey('ctrlPressed');
+                } else if (event.shiftKey) {
+                    changeClickHandlerKey('shiftPressed');
+                }
+            } else {
+                changeStatusList(itemStatusList.map(_ => false));
+            }
         }
 
-        document.addEventListener('keydown', handlerKeyDown);
-        document.addEventListener('keyup', handlerKeyUp);
-        document.addEventListener('click', handlerMouseClick);
+        document.addEventListener('mousedown', handlerMouseClick);
 
         return () => {
-            document.removeEventListener('keydown', handlerKeyDown);
-            document.removeEventListener('keyup', handlerKeyUp);
-            document.removeEventListener('click', handlerMouseClick);
+            document.removeEventListener('mousedown', handlerMouseClick);
         }
     });
 

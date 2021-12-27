@@ -10,7 +10,7 @@ import { LocaleContext, LocaleContextType } from "../../../App";
 
 import { addSlide, deleteSelectedSlides } from "../../../redux/action-creators/slideActionCreators";
 import { bindActionCreators } from "redux";
-import { keepModelAction } from "../../../redux/action-creators/historyActionCreators";
+import { keepModelAction } from "../../../redux/action-creators/editorActionCreators";
 import { useDispatch } from "react-redux";
 
 type SlideListToolProps = {

@@ -6,6 +6,7 @@
     margin-top: 0.5px;
     margin-bottom: 0.5px;
     height: 100%;
+    user-select: none;
 }
 
 .list {
@@ -34,6 +35,7 @@
     font-weight: 900;
     color: #ff6d01;
     border: 0.2rem solid #cecdcd;
+    user-select: none;
 }
 
 .item-number-active {
@@ -50,6 +52,7 @@
     font-weight: 900;
     color: #6f1700;
     border: 0.2rem solid #cecdcd;
+    user-select: none;
 }
 
 .list-item-wrapper-disabled {

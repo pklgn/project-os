@@ -5,12 +5,4 @@ interface TitleAction {
     payload: string
 }
 
-interface SelectedIdAction {
-    type: ActionType.SET_SELECTED_ID_IN_EDITOR,
-    payload: {
-        selectedSlidesIds: string[],
-        selectedSlideElementsIds: string[]
-    }
-}
-
-export type PresentationActions = TitleAction | SelectedIdAction;
+export type PresentationActions = TitleAction;

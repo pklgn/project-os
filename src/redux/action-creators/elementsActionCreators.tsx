@@ -6,7 +6,7 @@ export const removeSelectedElements = () => {
     return (dispatch: Dispatch<ElementAction>) => {
         dispatch({
             type: ActionType.REMOVE_SELECTED_ELEMENTS
-        })
+        });
     }
 }
 
@@ -18,7 +18,7 @@ export const changeSelectedElementsPosition = (payload: {
         dispatch({
             type: ActionType.CHANGE_ELEMENTS_POSITION,
             payload
-        })
+        });
     }
 }
 
@@ -27,7 +27,7 @@ export const changeSelectedElementsOpacity = (payload: number) => {
         dispatch({
             type: ActionType.CHANGE_ELEMENTS_OPACITY,
             payload
-        })
+        });
     }
 }
 
@@ -39,7 +39,7 @@ export const changeSelectedElementsSize = (payload: {
         dispatch({
             type: ActionType.CHANGE_ELEMENTS_SIZE,
             payload
-        })
+        });
     }
 }
 
@@ -48,6 +48,6 @@ export const moveSelectedElementsToBackgroundOrForeground = (payload: boolean) =
         dispatch({
             type: ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND,
             payload
-        })
+        });
     }
 }

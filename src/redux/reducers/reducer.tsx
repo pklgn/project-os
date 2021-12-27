@@ -1,6 +1,6 @@
 import { ActionType } from "../action-types/types";
+import { EditorActions } from "../actions/editorActions";
 import { ElementAction } from "../actions/elementActions";
-import { HistoryActions } from "../actions/historyActions";
 import { PresentationActions } from "../actions/presentationActions";
 import { SlideAction } from "../actions/slidesActions";
 
@@ -12,8 +12,10 @@ import { changePresentationName, setSelectedIdInEditor } from "../../model/prese
 import { keep, redo, undo } from "../../model/historyActions";
 import { moveElementsToBackgroundOrForeground, changeElementsSize, changeElementsOpacity, changeElementsPosition } from "../../model/elementActions";
 
-export const allReducers = (state: Editor = initEditor(), action: SlideAction | PresentationActions | ElementAction | HistoryActions): Editor => {
+export const allReducers = (state: Editor = initEditor(), action: SlideAction | PresentationActions | ElementAction | EditorActions): Editor => {
     switch (action.type) {
+        case ActionType.SET_SELECTED_ID_IN_EDITOR:
+            return setSelectedIdInEditor(state, action.payload.selectedSlidesIds, action.payload.selectedSlideElementsIds);
         case ActionType.KEEP:
             return keep(state);
         case ActionType.REDO:
@@ -25,8 +27,6 @@ export const allReducers = (state: Editor = initEditor(), action: SlideAction | 
             return addSlide(state);
         case ActionType.CHANGE_PRESENTATION_TITLE:
             return changePresentationName(state, action.payload);
-        case ActionType.SET_SELECTED_ID_IN_EDITOR:
-            return setSelectedIdInEditor(state, action.payload.selectedSlidesIds, action.payload.selectedSlideElementsIds);
         case ActionType.DELETE_SELECTED_SLIDES:
             return deleteSelectedSlides(state);
 

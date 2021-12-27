@@ -14,7 +14,7 @@ import { Undo } from "../../common/icons/Undo/Undo";
 
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
-import { redoModelAction, undoModelAction } from "../../../redux/action-creators/historyActionCreators";
+import { undoModelAction, redoModelAction } from "../../../redux/action-creators/editorActionCreators";
 
 type ElementListToolProps = {
     foo: () => void | undefined
