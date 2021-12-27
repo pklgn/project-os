@@ -108,13 +108,6 @@ export function SlideList(props: SlideListProps) {
         }
 
         const handlerMouseClick = (event: MouseEvent) => {
-            console.log(event.target);
-            console.log(ref.current);
-            console.log(event.target == ref.current);
-            if (event.target != ref.current) {
-                console.log('miss!');
-                changeStatusList(itemStatusList.map(item => false));
-            }
         }
 
         document.addEventListener('keydown', handlerKeyDown);
