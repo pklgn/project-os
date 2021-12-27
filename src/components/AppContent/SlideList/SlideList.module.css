@@ -10,7 +10,8 @@
 
 .list {
     box-sizing: border-box;
-    padding: 20px;
+    padding: 10px;
+    padding-top: 5px;
     overflow: auto;
     cursor: default;
 }
@@ -19,7 +20,7 @@
     position: relative;
 }
 
-.item-number {
+.item-number-disabled {
     position: absolute;
     background-color: #6f1700;
     border-radius: 50%;
@@ -35,23 +36,36 @@
     border: 0.2rem solid #cecdcd;
 }
 
-.list-item-wrapper {
-    list-style-type: none;
-    display: inline-grid;
-}
-
-.list-item-wrapper:hover {
-    box-shadow: 3px 3px black;
-}
-
-.list-item-wrapper:hover .item-number {
+.item-number-active {
+    position: absolute;
     background-color: #ff6d01;
+    border-radius: 50%;
+    height: 18px;
+    width: 18px;
+    margin: 0px;
+    margin-top: 11px;
+    margin-left: -10px;
+    font-size: 12px;
+    text-align: center;
+    font-weight: 900;
     color: #6f1700;
     border: 0.2rem solid #cecdcd;
 }
 
-.list-item-wrapper+.list-item-wrapper {
-    margin-top: 16px;
+.list-item-wrapper-disabled {
+    list-style-type: none;
+    display: inline-grid;
+}
+
+.list-item-wrapper-active {
+    list-style-type: none;
+    display: inline-grid;
+    box-shadow: 3px 3px black;
+}
+
+.list-item-wrapper-disabled,
+.list-item-wrapper-active {
+    margin-top: 10px;
 }
 
 .prevent-pointer-events {

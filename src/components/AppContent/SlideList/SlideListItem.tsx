@@ -1,27 +1,31 @@
 import styles from "./SlideList.module.css";
-import {Slide} from "../../../model/types"
-import {SlideComponent} from "../Slide/SlideComponent";
 
+import { Slide } from "../../../model/types"
+import { SlideComponent } from "../Slide/SlideComponent";
 
 type SlideListItemProps = {
     item: Slide,
-    itemNumber: number
+    status: boolean,
+    itemIndex: number
 }
 
-function SlideListItem(props: SlideListItemProps) {
-    return <li className={styles['list-item-wrapper']}>
+export function SlideListItem(props: SlideListItemProps) {
+    const itemWrapperStyle = (props.status)
+        ? styles['list-item-wrapper-active']
+        : styles['list-item-wrapper-disabled'];
+    const itemNumberStyle = (props.status)
+        ? styles['item-number-active']
+        : styles['item-number-disabled'];
+
+    return <li className={itemWrapperStyle}>
         <div
             className={styles['list-item']}
         >
-            <div className={styles["item-number"]}>
-              {props.itemNumber}
+            <div className={itemNumberStyle}>
+                {props.itemIndex + 1}
             </div>
-            <SlideComponent slide={props.item}/>
-            <div className={styles["prevent-pointer-events"]}/>
+            <SlideComponent slide={props.item} />
+            <div className={styles["prevent-pointer-events"]} id={`${props.itemIndex}`} key={props.itemIndex} />
         </div>
     </li>
-}
-
-export {
-    SlideListItem,
 }
