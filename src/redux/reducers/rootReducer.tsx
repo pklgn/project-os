@@ -3,8 +3,8 @@ import { combineReducers } from "redux";
 
 const reducers = combineReducers({
     model: allReducers
-})
+});
 
-export default reducers
+export default reducers;
 
-export type RootState = ReturnType<typeof reducers>
+export type RootState = ReturnType<typeof reducers>;
