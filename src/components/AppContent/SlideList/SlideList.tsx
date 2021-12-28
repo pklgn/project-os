@@ -22,22 +22,16 @@ export function SlideList(props: SlideListProps) {
     const dispatchSetIdAction = bindActionCreators(setSelectedIdInEditor, dispatch);
 
     const [lastActiveItemIndex, changeLastActiveItemIndex] = useState(getActiveSlideIndex(store));
-    const [itemStatusList, changeStatusList] = useState(
-        props.slidesList.map((_, index) => {
-            console.log(`last ${lastActiveItemIndex} index:${index}`);
-            
-            if (index === lastActiveItemIndex) {
-                return true;
-            }
-            return false;
-        })
-    );
+    const [itemStatusList, changeStatusList] = useState([] as boolean[]);
     const [itemHrStatus, changeItemHrStatus] = useState([] as boolean[]);
 
     useEffect(() => {
         changeStatusList(
-            props.slidesList.map((_) => {
-                return false
+            props.slidesList.map((_, index) => {
+                if (index === lastActiveItemIndex) {
+                    return true;
+                } 
+                return false;
             })
         );
         changeItemHrStatus(
@@ -81,7 +75,6 @@ export function SlideList(props: SlideListProps) {
                 return (event: BaseSyntheticEvent) => {
                     if (event.target.getAttribute("id")) {
                         const itemIndex: number = event.target.getAttribute("id") - 1;
-                        console.log(`find index ${itemIndex}`);
 
                         const newItemStatusList: boolean[] = itemStatusList.map((itemStatus, index) => {
                             if (index == itemIndex) {
@@ -222,7 +215,7 @@ export function SlideList(props: SlideListProps) {
     >
         {
             props.slidesList.map((slide, index) => {
-                return <>
+                return <span key={index}>
                     <div
                         className={
                             (itemHrStatus[index])
@@ -249,7 +242,7 @@ export function SlideList(props: SlideListProps) {
                         id={`${index + 1}`}
                         key={index + 1}
                     ></div>
-                </>;
+                </span>;
             })
         }
     </ul>;
@@ -257,8 +250,7 @@ export function SlideList(props: SlideListProps) {
 
 function getActiveSlideIndex(store: StoreType): number {
     const slideId: string = store.getState().model.selectedSlidesIds.slice(-1)[0];
-    console.log(`${store.getState().model.presentation.slidesList.findIndex(slide => slide.id === slideId)}`);
-    
+
     return store.getState().model.presentation.slidesList.findIndex(slide => slide.id === slideId);
 }
 

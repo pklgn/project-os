@@ -55,13 +55,6 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     const lastSelectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
     const nextSelectedSlideId: string = getNextUnselectedSlideId(slideList, selectedSlidesIds, lastSelectedSlideId);
 
-    const newSelectedSlidesId: string[] = [];
-
-    if (nextSelectedSlideId !== "") {
-        newSelectedSlidesId.push(nextSelectedSlideId);
-    }
-
-
     function getNextUnselectedSlideId(slideList: Slide[],
                                       selectedSlidesIds: string[],
                                       lastSelectedSlideId: string
@@ -104,7 +97,7 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     return {
         ...editor,
         presentation: updatedPresentation,
-        selectedSlidesIds: newSelectedSlidesId,
+        selectedSlidesIds: [nextSelectedSlideId],
         selectedSlideElementsIds: [],
     };
 }
