@@ -53,15 +53,15 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     const selectedSlidesIds: string[] = editor.selectedSlidesIds;
 
     const lastSelectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const nextSelectedSlideId: string = getNextUnselectedSlideId(slideList, selectedSlidesIds, lastSelectedSlideId);
+    const nextSelectedSlideId: string[] = getNextUnselectedSlideId(slideList, selectedSlidesIds, lastSelectedSlideId);
 
     function getNextUnselectedSlideId(slideList: Slide[],
                                       selectedSlidesIds: string[],
                                       lastSelectedSlideId: string
-    ): string {
+    ): string[] {
         let result = "";
         if (slideList.length === 1) {
-            return "";
+            return [];
         }
 
         const lastSelectedSlideIndex: number = slideList.findIndex((slide) => slide.id === lastSelectedSlideId);
@@ -83,7 +83,7 @@ export function deleteSelectedSlides(editor: Editor): Editor {
             }
         }
 
-        return result;
+        return [result];
     }
 
 
@@ -97,7 +97,7 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     return {
         ...editor,
         presentation: updatedPresentation,
-        selectedSlidesIds: [nextSelectedSlideId],
+        selectedSlidesIds: nextSelectedSlideId,
         selectedSlideElementsIds: [],
     };
 }
