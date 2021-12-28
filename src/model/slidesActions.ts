@@ -45,15 +45,21 @@ export function addSlide(editor: Editor): Editor {
 }
 
 export function deleteSelectedSlides(editor: Editor): Editor {
-    const slideList: Slide[] = editor.presentation.slidesList
+    const slideList: Slide[] = editor.presentation.slidesList;
     if (!slideList.length) {
         return editor;
     }
+    console.log('delete begin');
 
     const selectedSlidesIds: string[] = editor.selectedSlidesIds;
+    console.log(`constLeng ${selectedSlidesIds.length} editLength ${editor.selectedSlidesIds.length}`);
+
+    selectedSlidesIds.forEach(id => console.log(`selectedID: ${id}`));
 
     const lastSelectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
     const nextSelectedSlideId: string = getNextUnselectedSlideId(slideList, selectedSlidesIds, lastSelectedSlideId);
+    console.log(`lastSelectedSlideId: ${lastSelectedSlideId}`);
+    console.log(`nextSelectedSlideId: ${nextSelectedSlideId}`);
 
     function getNextUnselectedSlideId(slideList: Slide[],
                                       selectedSlidesIds: string[],
@@ -83,11 +89,14 @@ export function deleteSelectedSlides(editor: Editor): Editor {
             }
         }
 
+        console.log('delete end');
+
         return result;
     }
 
 
     const newSlideList: Slide[] = slideList.filter((slide) => !selectedSlidesIds.includes(slide.id));
+    newSlideList.forEach(slide => console.log(`slide id: ${slide.id}`));
 
     const updatedPresentation: Presentation = {
         ...editor.presentation,

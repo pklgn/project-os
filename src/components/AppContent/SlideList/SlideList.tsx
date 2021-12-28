@@ -19,18 +19,25 @@ export function SlideList(props: SlideListProps) {
     const ref = useRef<HTMLUListElement>(null);
 
     const dispatch = useDispatch();
-    const dispatchSetIdAction = bindActionCreators(setSelectedIdInEditor, dispatch);
+    const dispatchSetIdAction =
+        bindActionCreators(setSelectedIdInEditor, dispatch);
 
-    const [lastActiveItemIndex, changeLastActiveItemIndex] = useState(getActiveSlideIndex(store));
-    const [itemStatusList, changeStatusList] = useState([] as boolean[]);
+    const [preLastActiveSlideIndex, changePreLastActiveSlideIndex] =
+        useState(getActiveSlideIndex(store));
+    const [itemActiveStatusList, changeActiveStatusItemList] =
+        useState([] as boolean[]);
     const [itemHrStatus, changeItemHrStatus] = useState([] as boolean[]);
 
     useEffect(() => {
-        changeStatusList(
+        changeActiveStatusItemList(
             props.slidesList.map((_, index) => {
-                if (index === lastActiveItemIndex) {
+                if (index === preLastActiveSlideIndex) {
                     return true;
-                } 
+                }
+                if (preLastActiveSlideIndex === -1 && index === 0) {
+                    changePreLastActiveSlideIndex(0);
+                    return true;
+                }
                 return false;
             })
         );
@@ -44,63 +51,70 @@ export function SlideList(props: SlideListProps) {
         );
     }, [props.slidesList]);
 
-    function getVariantOfItemListClickHandlers(key: 'default' | 'ctrlPressed' | 'shiftPressed'):
-        (event: BaseSyntheticEvent) => void {
+    function getVariantOfItemListClickHandlers(
+        key: 'default' | 'ctrlPressed' | 'shiftPressed'
+    ): (event: BaseSyntheticEvent) => void {
+        const selectedSlidesIdsFromModel =
+            store.getState().model.selectedSlidesIds;
         switch (key) {
             case 'default':
                 return (event: BaseSyntheticEvent) => {
                     if (event.target.getAttribute("id")) {
-                        const itemIndex: number = event.target.getAttribute("id") - 1;
+                        const itemIndex: number =
+                            event.target.getAttribute("id") - 1;
 
-                        const newItemStatusList: boolean[] = itemStatusList.map((_, index) => {
-                            if (index == itemIndex) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
+                        const newitemActiveStatusList: boolean[] =
+                            itemActiveStatusList.map((_, index) => {
+                                if (index == itemIndex) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            });
 
-                        changeLastActiveItemIndex(itemIndex);
+                        changePreLastActiveSlideIndex(itemIndex);
 
-                        changeStatusList(newItemStatusList);
+                        changeActiveStatusItemList(newitemActiveStatusList);
 
                         dispatchSetIdAction({
                             selectedSlidesIds: [props.slidesList[itemIndex].id],
                             selectedSlideElementsIds: []
                         });
                     }
-
                 }
             case 'ctrlPressed':
                 return (event: BaseSyntheticEvent) => {
                     if (event.target.getAttribute("id")) {
-                        const itemIndex: number = event.target.getAttribute("id") - 1;
+                        const itemIndex: number =
+                            event.target.getAttribute("id") - 1;
 
-                        const newItemStatusList: boolean[] = itemStatusList.map((itemStatus, index) => {
-                            if (index == itemIndex) {
-                                return !itemStatus;
-                            } else {
-                                return itemStatus;
-                            }
-                        });
+                        const newitemActiveStatusList: boolean[] =
+                            itemActiveStatusList.map((itemStatus, index) => {
+                                if (index == itemIndex) {
+                                    return !itemStatus;
+                                } else {
+                                    return itemStatus;
+                                }
+                            });
 
                         const indexOfSameIdInModel: number =
-                            store.getState().model.selectedSlidesIds.findIndex(item =>
-                                item === props.slidesList[itemIndex].id)
-                            ;
+                            selectedSlidesIdsFromModel.findIndex(item =>
+                                item === props.slidesList[itemIndex].id
+                            );
 
                         const newSelectedSlideId =
                             (indexOfSameIdInModel === -1)
                                 ? [
-                                    ...store.getState().model.selectedSlidesIds,
+                                    ...selectedSlidesIdsFromModel,
                                     props.slidesList[itemIndex].id
                                 ]
                                 : [
-                                    ...store.getState().model.selectedSlidesIds.slice(0, indexOfSameIdInModel),
-                                    ...store.getState().model.selectedSlidesIds.slice(indexOfSameIdInModel + 1)
+                                    ...selectedSlidesIdsFromModel.slice(0, indexOfSameIdInModel),
+                                    ...selectedSlidesIdsFromModel.slice(indexOfSameIdInModel + 1)
                                 ];
-                        changeLastActiveItemIndex(itemIndex);
-                        changeStatusList(newItemStatusList);
+
+                        changePreLastActiveSlideIndex(itemIndex);
+                        changeActiveStatusItemList(newitemActiveStatusList);
 
                         dispatchSetIdAction({
                             selectedSlidesIds: newSelectedSlideId,
@@ -112,20 +126,22 @@ export function SlideList(props: SlideListProps) {
             case 'shiftPressed':
                 return (event: BaseSyntheticEvent) => {
                     if (event.target.getAttribute("id")) {
-                        const itemIndex: number = event.target.getAttribute("id") - 1;
-                        const newItemStatusList: boolean[] = itemStatusList.map((_, index) => {
-                            if (index >= lastActiveItemIndex && index <= itemIndex ||
-                                index >= itemIndex && index <= lastActiveItemIndex) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
+                        const itemIndex: number =
+                            event.target.getAttribute("id") - 1;
+                        const newitemActiveStatusList: boolean[] =
+                            itemActiveStatusList.map((_, index) => {
+                                if (index >= preLastActiveSlideIndex && index <= itemIndex ||
+                                    index >= itemIndex && index <= preLastActiveSlideIndex) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            });
 
-                        changeStatusList(newItemStatusList);
+                        changeActiveStatusItemList(newitemActiveStatusList);
                         let newSelectedSlidesIds: string[] = [];
                         props.slidesList.map((item, index) => {
-                            if (newItemStatusList[index]) {
+                            if (newitemActiveStatusList[index]) {
                                 newSelectedSlidesIds.push(item.id);
                             }
                         });
@@ -140,7 +156,8 @@ export function SlideList(props: SlideListProps) {
         }
     }
 
-    const [handlerKey, changeClickHandlerKey] = useState('default' as 'default' | 'ctrlPressed' | 'shiftPressed');
+    const [handlerKey, changeClickHandlerKey] =
+        useState('default' as 'default' | 'ctrlPressed' | 'shiftPressed');
     const onClickListHandler = getVariantOfItemListClickHandlers(handlerKey);
 
     const [isMouseClickedDown, setMouseClicked] = useState(false);
@@ -157,17 +174,29 @@ export function SlideList(props: SlideListProps) {
                     changeClickHandlerKey('shiftPressed');
                 }
             } else {
-                const lastActiveSlideIndex: number = getActiveSlideIndex(store);
-                changeStatusList(itemStatusList.map((itemStatus, index) => {
-                    if (index != lastActiveSlideIndex) {
-                        return false;
-                    }
-                    return itemStatus;
-                }));
-                dispatchSetIdAction({
-                    selectedSlidesIds: [getIdOfLastActiveSlideIndex(store)],
-                    selectedSlideElementsIds: []
-                });
+                const lastActiveSlideIndex: number =
+                    getActiveSlideIndex(store);
+                changeActiveStatusItemList(
+                    itemActiveStatusList.map((itemStatus, index) => {
+                        if (index != preLastActiveSlideIndex) {
+                            return false;
+                        }
+                        return itemStatus;
+                    })
+                );
+
+                const savingIndex: number = (handlerKey === 'shiftPressed')
+                    ? preLastActiveSlideIndex
+                    : lastActiveSlideIndex;
+
+                if (store.getState().model.selectedSlidesIds.length !== 1 &&
+                    props.slidesList.length) {
+                    dispatchSetIdAction({
+                        selectedSlidesIds: [props.slidesList[savingIndex].id],
+                        selectedSlideElementsIds: []
+                    });
+                }
+                changePreLastActiveSlideIndex(preLastActiveSlideIndex);
             }
         }
 
@@ -229,7 +258,7 @@ export function SlideList(props: SlideListProps) {
                     <SlideListItem
                         item={slide}
                         itemIndex={index}
-                        status={itemStatusList[index]}
+                        status={itemActiveStatusList[index]}
                         key={slide.id}
                     />
 
@@ -252,8 +281,4 @@ function getActiveSlideIndex(store: StoreType): number {
     const slideId: string = store.getState().model.selectedSlidesIds.slice(-1)[0];
 
     return store.getState().model.presentation.slidesList.findIndex(slide => slide.id === slideId);
-}
-
-function getIdOfLastActiveSlideIndex(store: StoreType): string {
-    return store.getState().model.selectedSlidesIds.slice(-1)[0];
 }
