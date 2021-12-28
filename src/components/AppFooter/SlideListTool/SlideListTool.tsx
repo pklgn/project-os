@@ -36,8 +36,8 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
     }
 
     return <div className={styles["slides-list-tools"]}>
-        <Button text={localeContext.locale.localization.add_word} state="disabled" contentType="icon" content={{ hotkeyInfo: "", icon: <AddSlide /> }} foo={addSlideButtonFunction} />
+        <Button text={localeContext.locale.localization.add_word} state="disabled" shouldStopPropagation={false} contentType="icon" content={{ hotkeyInfo: "", icon: <AddSlide /> }} foo={addSlideButtonFunction} />
         <VerticalLine />
-        <Button text={localeContext.locale.localization.delete_word} state="disabled" contentType="icon" content={{ hotkeyInfo: "", icon: <RemoveSlide /> }} foo={deleteSelectedSlidesButtonFunction} />
+        <Button text={localeContext.locale.localization.delete_word} state="disabled" shouldStopPropagation={true} contentType="icon" content={{ hotkeyInfo: "", icon: <RemoveSlide /> }} foo={deleteSelectedSlidesButtonFunction} />
     </div>;
 }

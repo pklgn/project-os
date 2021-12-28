@@ -47,14 +47,16 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
     return <div className={styles["element-tools"]}>
         <Button
           text={localeContext.locale.localization.undo_word}
-          state="disabled" contentType="icon"
+          state="disabled" shouldStopPropagation={false}
+          contentType="icon"
           content={{hotkeyInfo: "", icon: <Undo />}}
           foo={undoPressButtonHandler}
         />
         <VerticalLine />
         <Button
           text={localeContext.locale.localization.redo_word}
-          state="disabled" contentType="icon"
+          state="disabled" shouldStopPropagation={false}
+          contentType="icon"
           content={{hotkeyInfo: "", icon: <Redo />}}
           foo={redoButtonPressHandler}
         />
@@ -62,6 +64,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
         <Button
           text={localeContext.locale.localization.reorder_word}
           state="disabled"
+          shouldStopPropagation={false}
           contentType="icon"
           content={{hotkeyInfo: "", icon: <Reorder />}}
           foo={props.foo}
@@ -70,6 +73,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
         <Button
           text={localeContext.locale.localization.opacity_word}
           state="disabled"
+          shouldStopPropagation={false}
           contentType="icon"
           content={{hotkeyInfo: "", icon: <Opacity />}}
           foo={() => undefined}
@@ -78,6 +82,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
         <Button
           text={localeContext.locale.localization.delete_word}
           state="disabled"
+          shouldStopPropagation={false}
           contentType="icon"
           content={{hotkeyInfo: "", icon: <Delete />}}
           foo={() => undefined}
@@ -86,6 +91,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
         <Button
           text={localeContext.locale.localization.fullscreen_word}
           state="disabled"
+          shouldStopPropagation={false}
           contentType="icon"
           content={{hotkeyInfo: "", icon: <Fullscreen />}}
           foo={() => undefined}

@@ -54,8 +54,6 @@ export function SlideList(props: SlideListProps) {
     function getVariantOfItemListClickHandlers(
         key: 'default' | 'ctrlPressed' | 'shiftPressed'
     ): (event: BaseSyntheticEvent) => void {
-        const selectedSlidesIdsFromModel =
-            store.getState().model.selectedSlidesIds;
         switch (key) {
             case 'default':
                 return (event: BaseSyntheticEvent) => {
@@ -98,26 +96,31 @@ export function SlideList(props: SlideListProps) {
                             });
 
                         const indexOfSameIdInModel: number =
-                            selectedSlidesIdsFromModel.findIndex(item =>
-                                item === props.slidesList[itemIndex].id
+                            props.slidesList.findIndex(item =>
+                                item.id === props.slidesList[itemIndex].id
                             );
 
-                        const newSelectedSlideId =
-                            (indexOfSameIdInModel === -1)
-                                ? [
-                                    ...selectedSlidesIdsFromModel,
-                                    props.slidesList[itemIndex].id
-                                ]
-                                : [
-                                    ...selectedSlidesIdsFromModel.slice(0, indexOfSameIdInModel),
-                                    ...selectedSlidesIdsFromModel.slice(indexOfSameIdInModel + 1)
-                                ];
+                        let newSelectedSlidesIds: string[] = [];
+                        props.slidesList.map((item, index) => {
+                            if (newitemActiveStatusList[index]) {
+                                newSelectedSlidesIds.push(item.id);
+                            }
+                        });
+
+                        if (indexOfSameIdInModel !== -1) {
+                            newSelectedSlidesIds.push(props.slidesList[indexOfSameIdInModel].id);
+                        } else {
+                            newSelectedSlidesIds = [
+                                ...newSelectedSlidesIds.slice(0, indexOfSameIdInModel),
+                                ...newSelectedSlidesIds.slice(indexOfSameIdInModel + 1)
+                            ];
+                        }
 
                         changePreLastActiveSlideIndex(itemIndex);
                         changeActiveStatusItemList(newitemActiveStatusList);
 
                         dispatchSetIdAction({
-                            selectedSlidesIds: newSelectedSlideId,
+                            selectedSlidesIds: newSelectedSlidesIds,
                             selectedSlideElementsIds: []
                         });
                     }
@@ -213,6 +216,7 @@ export function SlideList(props: SlideListProps) {
             if (isMouseClickedDown) {
                 const node = event as unknown as React.BaseSyntheticEvent<object, any, any>;
                 const itemId: number = node.target.getAttribute("id");
+
                 if (itemId) {
                     changeItemHrStatus(
                         itemHrStatus.map((_, index) => {

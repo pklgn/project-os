@@ -154,6 +154,7 @@ export function DropdownMenu(props: DropdownMenuProps = {
                 <Button
                     text={summoningButtonText}
                     state={buttonCurrentState}
+                    shouldStopPropagation={false}
                     contentType={summoningButtonType}
                     content={(summoningButtonType === 'text')
                         ? undefined

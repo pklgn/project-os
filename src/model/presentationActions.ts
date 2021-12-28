@@ -31,11 +31,6 @@ export function setSelectedIdInEditor(editor: Editor, selectedSlidesIds: string[
         ? selectedSlideElementsIds
         : editor.selectedSlideElementsIds;
 
-    // nextSelectedSlidesIds.forEach(id => {
-    //     console.clear()
-    //     console.log(`setSelected: ${id}`);
-    // });
-
     editor.selectedSlideElementsIds = nextSelectedElementsIds;
     editor.selectedSlidesIds = nextSelectedSlidesIds;
 
