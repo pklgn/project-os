@@ -32,7 +32,7 @@ export type Background = {
 };
 
 export type SlideElement = {
-    id: string,
+    readonly id: string,
     startPoint: Coordinates,
     size: Size,
     opacity: number,
