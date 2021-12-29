@@ -21,7 +21,7 @@ export type Presentation = {
 };
 
 export type Slide = {
-    id: string,
+    readonly id: string,
     background: Background,
     elementsList: SlideElement[],
 };

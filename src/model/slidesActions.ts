@@ -4,16 +4,10 @@ import { Editor, Slide, Background, Presentation } from "./types";
 export function addSlide(editor: Editor): Editor {
     const slideList: Slide[] = [...editor.presentation.slidesList];
     
-    /*TODO Feature with adding slide after active slide isn't working for wome reasone
-    console.log(slideList);
+    //TODO Feature with adding slide after active slide isn't working for wome reasone
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
-    console.log(activeSlideId);
 
     const insertIndex = slideList.findIndex((item) => item.id === activeSlideId) + 1;
-
-    console.log(insertIndex);
-    console.log(slideList.findIndex(item => item.id === activeSlideId));
-    */
 
     const background: Background = {
         color: '#ffffff',
@@ -27,8 +21,9 @@ export function addSlide(editor: Editor): Editor {
     }
 
     const newSlideList: Slide[] = [
+        ...slideList.slice(0, insertIndex),
         newSlide,
-        ...slideList
+        ...slideList.slice(insertIndex)
     ];
     
     const updatedPresentation: Presentation = {
