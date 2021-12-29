@@ -30,4 +30,4 @@ interface ElementsChangePositionAction {
     }
 }
 
-export type ElementAction = ElementsMoveToForegroundOrBackgroundAction | ElementsChangeSizeAction | ElementsChangeOpacityAction | ElementsRemoveAction | ElementsChangePositionAction
+export type ElementAction = ElementsMoveToForegroundOrBackgroundAction | ElementsChangeSizeAction | ElementsChangeOpacityAction | ElementsRemoveAction | ElementsChangePositionAction;

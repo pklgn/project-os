@@ -10,3 +10,5 @@ export const store = createStore(
     {},
     composedDevTools(applyMiddleware(thunk))
 );
+
+export type StoreType = typeof store;

@@ -3,17 +3,10 @@ import { Editor, Slide, Background, Presentation } from "./types";
 
 export function addSlide(editor: Editor): Editor {
     const slideList: Slide[] = [...editor.presentation.slidesList];
-    
-    /*TODO Feature with adding slide after active slide isn't working for wome reasone
-    console.log(slideList);
+
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
-    console.log(activeSlideId);
 
     const insertIndex = slideList.findIndex((item) => item.id === activeSlideId) + 1;
-
-    console.log(insertIndex);
-    console.log(slideList.findIndex(item => item.id === activeSlideId));
-    */
 
     const background: Background = {
         color: '#ffffff',
@@ -27,8 +20,9 @@ export function addSlide(editor: Editor): Editor {
     }
 
     const newSlideList: Slide[] = [
+        ...slideList.slice(0, insertIndex),
         newSlide,
-        ...slideList
+        ...slideList.slice(insertIndex)
     ];
     
     const updatedPresentation: Presentation = {
@@ -45,7 +39,7 @@ export function addSlide(editor: Editor): Editor {
 }
 
 export function deleteSelectedSlides(editor: Editor): Editor {
-    const slideList: Slide[] = editor.presentation.slidesList
+    const slideList: Slide[] = editor.presentation.slidesList;
     if (!slideList.length) {
         return editor;
     }
@@ -53,22 +47,15 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     const selectedSlidesIds: string[] = editor.selectedSlidesIds;
 
     const lastSelectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
-    const nextSelectedSlideId: string = getNextUnselectedSlideId(slideList, selectedSlidesIds, lastSelectedSlideId);
-
-    const newSelectedSlidesId: string[] = [];
-
-    if (nextSelectedSlideId !== "") {
-        newSelectedSlidesId.push(nextSelectedSlideId);
-    }
-
+    const nextSelectedSlideId: string[] = getNextUnselectedSlideId(slideList, selectedSlidesIds, lastSelectedSlideId);
 
     function getNextUnselectedSlideId(slideList: Slide[],
                                       selectedSlidesIds: string[],
                                       lastSelectedSlideId: string
-    ): string {
+    ): string[] {
         let result = "";
         if (slideList.length === 1) {
-            return "";
+            return [];
         }
 
         const lastSelectedSlideIndex: number = slideList.findIndex((slide) => slide.id === lastSelectedSlideId);
@@ -90,7 +77,7 @@ export function deleteSelectedSlides(editor: Editor): Editor {
             }
         }
 
-        return result;
+        return [result];
     }
 
 
@@ -104,7 +91,7 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     return {
         ...editor,
         presentation: updatedPresentation,
-        selectedSlidesIds: newSelectedSlidesId,
+        selectedSlidesIds: nextSelectedSlideId,
         selectedSlideElementsIds: [],
     };
 }
@@ -153,10 +140,10 @@ export function applySlideChanges(editor: Editor, updatedSlide: Slide, updatedSl
     };
 }
 
-export function getCurrentSlide(editor: Editor): Slide|undefined {
+export function getCurrentSlide(editor: Editor): Slide | undefined {
     const selectedSlidesIds = editor.selectedSlidesIds;
     const slideList: Slide[] = editor.presentation.slidesList;
-    const selectedSlideId: string|undefined = selectedSlidesIds[selectedSlidesIds.length - 1];
+    const selectedSlideId: string | undefined = selectedSlidesIds[selectedSlidesIds.length - 1];
 
     if(!selectedSlideId) {
         return undefined;
@@ -170,20 +157,20 @@ export function getCurrentSlide(editor: Editor): Slide|undefined {
 }
 
 export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
-    const slidesList: Slide[] = editor.presentation.slidesList;
-    const selectedSlides: Slide[] = slidesList.filter((slide) => {
+    const slidesList = editor.presentation.slidesList;
+    const selectedSlides = slidesList.filter((slide) => {
         return editor.selectedSlidesIds.includes(slide.id);
     });
-    const selectedSlidesIds: string[] = editor.selectedSlidesIds;
+    const selectedSlidesIds = editor.selectedSlidesIds;
 
     if (!(slidesList.length && selectedSlides.length)) {
         return editor;
     }
 
-    const slidesBeforeInsertPosition: Slide[] = slidesList.slice(0, insertIndex);
-    const slidesAfterInsertPosition: Slide[] = slidesList.slice(insertIndex);
+    const slidesBeforeInsertPosition = slidesList.slice(0, insertIndex);
+    const slidesAfterInsertPosition = slidesList.slice(insertIndex);
 
-    const updatedSlideList: Slide[] = [
+    const updatedSlideList = [
         ...slidesBeforeInsertPosition.filter((slide) => {
             return !selectedSlidesIds.includes(slide.id)
         }),
@@ -193,7 +180,7 @@ export function insertSelectedSlides(editor: Editor, insertIndex: number): Edito
         })
     ];
 
-    const updatedPresentation: Presentation = {
+    const updatedPresentation = {
         ...editor.presentation,
         slidesList: updatedSlideList,
     };

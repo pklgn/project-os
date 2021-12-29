@@ -18,7 +18,7 @@ export function AppTop(): JSX.Element {
 
     const onChangeHandler = (event: BaseSyntheticEvent) => {
         dispatchPresentationName(event.target.value);
-        document.title = event.target.value;
+        document.title = event.target.value + ' - Oladies&Slides';
     }
 
     return (
@@ -29,7 +29,7 @@ export function AppTop(): JSX.Element {
                 <AppLogoPng width={55} height={55} type={'default'} />
             </div>
             <ToolBar />
-            <AdaptiveInputField value={state.allReducers.presentation.name} onChange={onChangeHandler} />
+            <AdaptiveInputField value={state.model.presentation.name} onChange={onChangeHandler} />
         </div>
     );
 }

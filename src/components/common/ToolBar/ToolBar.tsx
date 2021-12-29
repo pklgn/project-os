@@ -38,20 +38,20 @@ export function ToolBar() {
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext.locale.localization.presentation_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.locale.localization.document_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.locale.localization.spreadsheet_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.locale.localization.presentation_word} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.locale.localization.document_word} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.locale.localization.spreadsheet_word} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />,
-                        <Button text={localeContext.locale.localization.open_word} state='disabled' contentType='textInSubMenu' content={{ hotkeyInfo: "Ctrl+O", icon: <div></div> }} foo={func} />,
+                        <Button text={localeContext.locale.localization.open_word} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={{ hotkeyInfo: "Ctrl+O", icon: <div></div> }} foo={func} />,
                         <DropdownMenu
                             summoningButtonText={localeContext.locale.localization["create-copy"]}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext.locale.localization["all-presentation"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.locale.localization["chosen-slides"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.locale.localization["all-presentation"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.locale.localization["chosen-slides"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />,
                         <DropdownMenu
@@ -60,8 +60,8 @@ export function ToolBar() {
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext.locale.localization["send-to-email"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.locale.localization["write-to-co-authors"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.locale.localization["send-to-email"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.locale.localization["write-to-co-authors"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />,
                         <DropdownMenu
@@ -70,14 +70,14 @@ export function ToolBar() {
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext.locale.localization["powerpoint-file-format"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.locale.localization["pdf-file-format"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.locale.localization["regular-text-format"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.locale.localization["powerpoint-file-format"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.locale.localization["pdf-file-format"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.locale.localization["regular-text-format"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />,
-                        <Button text={localeContext.locale.localization.rename_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                        <Button text={localeContext.locale.localization.relocate_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                        <Button text={localeContext.locale.localization.delete_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                        <Button text={localeContext.locale.localization.rename_word} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                        <Button text={localeContext.locale.localization.relocate_word} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                        <Button text={localeContext.locale.localization.delete_word} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />
                     ]}
                 />
                 <DropdownMenu
@@ -92,27 +92,27 @@ export function ToolBar() {
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext.locale.localization["upload-from-computer"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.locale.localization["add-from-google-drive"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.locale.localization["put-url"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.locale.localization["upload-from-computer"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.locale.localization["add-from-google-drive"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.locale.localization["put-url"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />,
-                        <Button text={localeContext.locale.localization.text_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
+                        <Button text={localeContext.locale.localization.text_word} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
                         <DropdownMenu
                             summoningButtonText={localeContext.locale.localization.figures_word}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button text={localeContext.locale.localization.circle_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.locale.localization.triangle_word} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />,
-                                <Button text={localeContext.locale.localization["square-figure_word"]} state='disabled' contentType='textInSubMenu' content={undefined} foo={func} />
+                                <Button text={localeContext.locale.localization.circle_word} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.locale.localization.triangle_word} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />,
+                                <Button text={localeContext.locale.localization["square-figure_word"]} state='disabled' shouldStopPropagation={false} contentType='textInSubMenu' content={undefined} foo={func} />
                             ]}
                         />
                     ]}
                 />
-                <Button text={localeContext.locale.localization["slide-show"]} state='default' contentType='text' content={undefined} foo={func} />
-                <Button text={localeContext.locale.localization["change-locale"]} state='default' contentType='text' content={undefined} foo={toggleLocaleContext} />
+                <Button text={localeContext.locale.localization["slide-show"]} state='default' shouldStopPropagation={false} contentType='text' content={undefined} foo={func} />
+                <Button text={localeContext.locale.localization["change-locale"]} state='default' shouldStopPropagation={false} contentType='text' content={undefined} foo={toggleLocaleContext} />
             </div>
         </div>
     );

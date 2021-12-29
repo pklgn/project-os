@@ -4,6 +4,7 @@ import styles from './Button.module.css';
 type ButtonProps = {
     text: string,
     state: 'disabled' | 'active' | 'focused' | 'default',
+    shouldStopPropagation: boolean,
     contentType: 'text' | 'icon' | 'leftSideIconAndTextInSubMenu' | 'rightSideIconAndTextInSubMenu' | 'rightSideHotKeyInfoAndTextInSubMenu' | 'textInSubMenu',
     content: {
         hotkeyInfo: string,
@@ -15,6 +16,7 @@ type ButtonProps = {
 export function Button(props: ButtonProps = {
     text: '',
     state: 'disabled',
+    shouldStopPropagation: false,
     contentType: 'text',
     content: undefined,
     foo: () => {},
@@ -56,10 +58,16 @@ export function Button(props: ButtonProps = {
     const [preventingMouseUp, setPreventMouseUpStatus] = useState(false);
 
     const onMouseDownHandler = (state === 'default')
-        ? (_: BaseSyntheticEvent) => {
+        ? (event: BaseSyntheticEvent) => {
+            if (props.shouldStopPropagation) {
+                event.stopPropagation();
+            }
             setButtonStyle(styles['default-pressed']);
         }
-        : (_: BaseSyntheticEvent) => {
+        : (event: BaseSyntheticEvent) => {
+            if (props.shouldStopPropagation) {
+                event.stopPropagation();
+            }
             return undefined;
         }
 

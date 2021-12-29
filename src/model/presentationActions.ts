@@ -30,9 +30,9 @@ export function setSelectedIdInEditor(editor: Editor, selectedSlidesIds: string[
     const nextSelectedElementsIds: string[] = (selectedSlideElementsIds.length)
         ? selectedSlideElementsIds
         : editor.selectedSlideElementsIds;
-    return {
-        ...editor,
-        selectedSlidesIds: nextSelectedSlidesIds,
-        selectedSlideElementsIds: nextSelectedElementsIds,
-    }
+
+    editor.selectedSlideElementsIds = nextSelectedElementsIds;
+    editor.selectedSlidesIds = nextSelectedSlidesIds;
+
+    return editor;
 }

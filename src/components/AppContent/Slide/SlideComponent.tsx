@@ -38,7 +38,7 @@ export function SlideComponent(props: SlideProps) {
                         return <PictureElementComponent element={element}/>
                 }
             })
-            : ''
+            : <></>
         }
     </svg>
 }

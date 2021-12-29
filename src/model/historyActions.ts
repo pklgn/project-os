@@ -1,34 +1,50 @@
 import { Editor } from "./types";
 
-export function undo(editor: Editor): void {
+export function undo(editor: Editor): Editor {
     if (editor.history.currState > 0) {
-        editor.history.currState -= 1
-
-        const currState: number = editor.history.currState;
-        editor.presentation =
-            editor.history.presentationStates[currState];
-        editor.selectedSlidesIds =
-            editor.history.selectedSlidesIdsStates[currState];
-        editor.selectedSlideElementsIds =
-            editor.history.selectedSlideElementsIdsStates[currState];
+        const currState = editor.history.currState - 1
+        const history = {
+            ...editor.history,
+            currState: currState
+        }
+        const presentation = editor.history.presentationStates[currState];
+        const selectedSlidesIds = editor.history.selectedSlidesIdsStates[currState];
+        const selectedSlideElementsIds = editor.history.selectedSlideElementsIdsStates[currState];
+        return {
+            ...editor,
+            presentation,
+            history,
+            selectedSlideElementsIds,
+            selectedSlidesIds,
+        }
     }
+
+    return editor;
 }
 
-export function redo(editor: Editor): void {
+export function redo(editor: Editor): Editor {
     if (editor.history.currState < editor.history.presentationStates.length - 1) {
-        editor.history.currState += 1;
-
-        const currState: number = editor.history.currState;
-        editor.presentation =
-            editor.history.presentationStates[currState];
-        editor.selectedSlidesIds =
-            editor.history.selectedSlidesIdsStates[currState];
-        editor.selectedSlideElementsIds =
-            editor.history.selectedSlideElementsIdsStates[currState];
+        const currState = editor.history.currState + 1
+        const history = {
+            ...editor.history,
+            currState: currState
+        }
+        const presentation = editor.history.presentationStates[currState];
+        const selectedSlidesIds = editor.history.selectedSlidesIdsStates[currState];
+        const selectedSlideElementsIds = editor.history.selectedSlideElementsIdsStates[currState];
+        return {
+            ...editor,
+            presentation,
+            history,
+            selectedSlideElementsIds,
+            selectedSlidesIds,
+        }
     }
+
+    return editor;
 }
 
-export function keep(editor: Editor): void {
+export function keep(editor: Editor): Editor {
     const spliceStart: number = editor.history.currState + 1;
 
     const selectedSlidesIds = editor.selectedSlidesIds;
@@ -44,4 +60,6 @@ export function keep(editor: Editor): void {
     editor.history.selectedSlideElementsIdsStates.push(selectedSlideElementsIds);
 
     editor.history.currState = editor.history.presentationStates.length - 1;
+
+    return editor;
 }

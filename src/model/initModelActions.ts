@@ -19,8 +19,8 @@ function initPresentation(): Presentation {
 
 function initHistory(): History {
     return {
-        presentationStates: [],
-        currState: -1,
+        presentationStates: [initPresentation()],
+        currState: 0,
         selectedSlidesIdsStates: [[]],
         selectedSlideElementsIdsStates: [[]],
     }
