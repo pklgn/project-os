@@ -18,3 +18,12 @@ export const deleteSelectedSlides = () => {
         });
     }
 }
+
+export const insertSelectedSlidesAtIndexAction = (payload: number) => {
+    return (dispatch: Dispatch<SlideAction>) => {
+        dispatch({
+            type: ActionType.INSERT_SELECTED_SLIDES_AT_INDEX,
+            payload
+        });
+    }
+}

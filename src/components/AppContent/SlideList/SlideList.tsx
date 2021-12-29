@@ -7,8 +7,9 @@ import { SlideListItem } from "./SlideListItem";
 import { Slide } from "../../../model/types";
 
 import { bindActionCreators } from "redux";
+import { insertSelectedSlidesAtIndexAction } from "../../../redux/action-creators/slideActionCreators";
+import { keepModelAction, setSelectedIdInEditor } from "../../../redux/action-creators/editorActionCreators";
 import { useDispatch } from "react-redux";
-import { setSelectedIdInEditor } from "../../../redux/action-creators/editorActionCreators";
 import { store, StoreType } from "../../../redux/store";
 
 type SlideListProps = {
@@ -21,6 +22,10 @@ export function SlideList(props: SlideListProps) {
     const dispatch = useDispatch();
     const dispatchSetIdAction =
         bindActionCreators(setSelectedIdInEditor, dispatch);
+    const dispatchInsertSelectedSlides =
+        bindActionCreators(insertSelectedSlidesAtIndexAction, dispatch);
+    const dispatchKeepModelAction =
+        bindActionCreators(keepModelAction, dispatch);
 
     const [preLastActiveSlideIndex, changePreLastActiveSlideIndex] =
         useState(getActiveSlideIndex(store));
@@ -57,14 +62,16 @@ export function SlideList(props: SlideListProps) {
     const onClickListHandler = getVariantOfItemListClickHandlers(handlerKey);
 
     const [isMouseReadyToDrag, setMouseReadyToDrag] = useState(false);
+    const [slideIndexToGrag, changeSlideIndexToDrag] = useState(0);
 
     useEffect(() => {
-        const handlerMouseDown = (event: MouseEvent) => {            
+        const handlerMouseDown = (event: MouseEvent) => {
             const node = event.target as Node;
 
             const nodeAsBaseEvent = event as unknown as React.BaseSyntheticEvent<object, any, any>;
-            const slideIndexToGrag: number = nodeAsBaseEvent.target.getAttribute("id") - 1;
-            const isMouseDownOnActiveListElement = slideIndexToGrag !== undefined && itemActiveStatusList[slideIndexToGrag];
+            const newSlideIndexToGrag = nodeAsBaseEvent.target.getAttribute("id") - 1;
+            changeSlideIndexToDrag(newSlideIndexToGrag);
+            const isMouseDownOnActiveListElement = newSlideIndexToGrag !== undefined && itemActiveStatusList[newSlideIndexToGrag];
             if (isMouseDownOnActiveListElement) {
                 setMouseReadyToDrag(true);
             }
@@ -107,7 +114,35 @@ export function SlideList(props: SlideListProps) {
             }
         }
 
-        const handlerMouseUp = (_: MouseEvent) => {
+        const handlerMouseUp = (event: MouseEvent) => {
+            const nodeAsBaseEvent = event as unknown as
+                React.BaseSyntheticEvent<object, any, any>;
+
+            const slideIndexToInsert: number =
+                nodeAsBaseEvent.target.getAttribute("id");
+
+            const findInsertPlace =
+                (slideIndexToGrag !== slideIndexToInsert - 1) &&
+                (slideIndexToInsert === 0 || slideIndexToInsert);
+
+            if (findInsertPlace && isMouseReadyToDrag) {
+                //TODO обновить boolean[] стейты активностей, после того, как слайды переместились
+                // changeActiveStatusItemList(
+                //     itemActiveStatusList.map((_, index) => {
+                //         const isThatSlideThatWasInserted =
+                //             store.getState().model.selectedSlidesIds
+                //                 .includes(props.slidesList[index].id);
+                //         console.log(`index:${index} id:${props.slidesList[index].id} ${isThatSlideThatWasInserted}`);
+
+                //         if (isThatSlideThatWasInserted) {
+                //             return true;
+                //         }
+                //         return false;
+                //     })
+                // );
+                dispatchInsertSelectedSlides(slideIndexToInsert);
+                dispatchKeepModelAction();
+            }
             setMouseReadyToDrag(false);
             changeItemHrStatus(
                 itemHrStatus.map(_ => {
@@ -180,10 +215,24 @@ export function SlideList(props: SlideListProps) {
                         const itemIndex: number =
                             event.target.getAttribute("id") - 1;
 
+                        let amountOfActiveItems: number = 0;
+                        itemActiveStatusList.forEach(status => {
+                            if (status) {
+                                amountOfActiveItems = amountOfActiveItems + 1;
+                            }
+                        });
+
+                        console.log(amountOfActiveItems);
+
                         const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((itemStatus, index) => {
                                 if (index == itemIndex) {
-                                    return !itemStatus;
+                                    if (amountOfActiveItems > 1) {
+                                        amountOfActiveItems = amountOfActiveItems - 1;
+                                        return !itemStatus;
+                                    } else {
+                                        return true;
+                                    }
                                 } else {
                                     return itemStatus;
                                 }

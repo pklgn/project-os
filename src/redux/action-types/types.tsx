@@ -16,6 +16,7 @@ export enum ActionType {
     //SlideActions
     ADD_SLIDE = "ADD_SLIDE",
     DELETE_SELECTED_SLIDES = "DELETE_SELECTED_SLIDES",
+    INSERT_SELECTED_SLIDES_AT_INDEX = 'INSERT_SELECTED_SLIDES_AT_INDEX',
     //SlideActions
 
     //ElementsActions

@@ -8,4 +8,12 @@ interface DeleteSelectedSlideAction {
     type: ActionType.DELETE_SELECTED_SLIDES
 }
 
-export type SlideAction = SlideAddAction | DeleteSelectedSlideAction;
+interface InsertSelectedSlidesAtIndexAction {
+    type: ActionType.INSERT_SELECTED_SLIDES_AT_INDEX,
+    payload: number
+}
+
+export type SlideAction =
+  SlideAddAction |
+  DeleteSelectedSlideAction |
+  InsertSelectedSlidesAtIndexAction;

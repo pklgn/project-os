@@ -7,7 +7,7 @@ import { SlideAction } from "../actions/slidesActions";
 import { Editor } from "../../model/types";
 import { initEditor } from "../../model/initModelActions";
 
-import { addSlide, deleteSelectedSlides } from "../../model/slidesActions";
+import { addSlide, deleteSelectedSlides, insertSelectedSlides } from "../../model/slidesActions";
 import { changePresentationName, setSelectedIdInEditor } from "../../model/presentationActions";
 import { keep, redo, undo } from "../../model/historyActions";
 import { moveElementsToBackgroundOrForeground, changeElementsSize, changeElementsOpacity, changeElementsPosition } from "../../model/elementActions";
@@ -29,6 +29,8 @@ export const allReducers = (state: Editor = initEditor(), action: SlideAction | 
             return changePresentationName(state, action.payload);
         case ActionType.DELETE_SELECTED_SLIDES:
             return deleteSelectedSlides(state);
+        case ActionType.INSERT_SELECTED_SLIDES_AT_INDEX:
+            return insertSelectedSlides(state, action.payload);
 
         case ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND:
             return moveElementsToBackgroundOrForeground(state, action.payload);
