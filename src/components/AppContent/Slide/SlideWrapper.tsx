@@ -33,7 +33,7 @@ export function SlideWrapper() {
     }, [ref, width, maxHeight])
 
     const currSlideId: string = state.selectedSlidesIds[0] ?? '-';
-    const currSlideIndex: number = state.presentation.slidesList.findIndex(slide => slide.id = currSlideId);
+    const currSlideIndex: number = state.presentation.slidesList.findIndex(slide => slide.id == currSlideId);
     const currSlide: Slide | undefined = (currSlideId === '-')
         ? undefined
         : state.presentation.slidesList[currSlideIndex];

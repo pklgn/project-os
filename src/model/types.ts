@@ -21,7 +21,7 @@ export type Presentation = {
 };
 
 export type Slide = {
-    id: string,
+    readonly id: string,
     background: Background,
     elementsList: SlideElement[],
 };
@@ -32,7 +32,7 @@ export type Background = {
 };
 
 export type SlideElement = {
-    id: string,
+    readonly id: string,
     startPoint: Coordinates,
     size: Size,
     opacity: number,
