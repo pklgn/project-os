@@ -36,7 +36,7 @@ export function SlideList(props: SlideListProps) {
     useEffect(() => {
         changeActiveStatusItemList(
             props.slidesList.map((_, index) => {
-                if (index === getActiveSlideIndex(props)) {
+                if (getActiveSlidesIndexes(props).includes(index)) {
                     return true;
                 }
                 return false;
@@ -111,34 +111,23 @@ export function SlideList(props: SlideListProps) {
         }
 
         const handlerMouseUp = (event: MouseEvent) => {
-            const nodeAsBaseEvent = event as unknown as
-                React.BaseSyntheticEvent<object, any, any>;
+            if (isMouseReadyToDrag) {
+                const nodeAsBaseEvent = event as unknown as
+                    React.BaseSyntheticEvent<object, any, any>;
 
-            const slideIndexToInsert: number =
-                nodeAsBaseEvent.target.getAttribute("id");
+                const slideIndexToInsert: number =
+                    nodeAsBaseEvent.target.getAttribute("id");
 
-            const findInsertPlace =
-                (slideIndexToGrag !== slideIndexToInsert - 1) &&
-                (slideIndexToInsert === 0 || slideIndexToInsert);
+                const findInsertPlace =
+                    (slideIndexToGrag !== slideIndexToInsert - 1) &&
+                    (slideIndexToInsert === 0 || slideIndexToInsert);
 
-            if (findInsertPlace && isMouseReadyToDrag) {
-                //TODO обновить boolean[] стейты активностей, после того, как слайды переместились
-                // changeActiveStatusItemList(
-                //     itemActiveStatusList.map((_, index) => {
-                //         const isThatSlideThatWasInserted =
-                //             store.getState().model.selectedSlidesIds
-                //                 .includes(props.slidesList[index].id);
-                //         console.log(`index:${index} id:${props.slidesList[index].id} ${isThatSlideThatWasInserted}`);
-
-                //         if (isThatSlideThatWasInserted) {
-                //             return true;
-                //         }
-                //         return false;
-                //     })
-                // );
-                dispatchInsertSelectedSlides(slideIndexToInsert);
-                dispatchKeepModelAction();
+                if (findInsertPlace) {
+                    dispatchInsertSelectedSlides(slideIndexToInsert);
+                    dispatchKeepModelAction();
+                }
             }
+
             setMouseReadyToDrag(false);
             changeItemHrStatus(
                 itemHrStatus.map(_ => {
@@ -220,7 +209,7 @@ export function SlideList(props: SlideListProps) {
                         const lastActiveSlideIndex = getActiveSlideIndex(props);
                         let wasEverChangedWayOfChoose = false;
 
-                        const newItemActiveStatusList: boolean[] = 
+                        const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((itemStatus, index) => {
                                 if (index == itemIndex) {
                                     if (lastActiveSlideIndex > index && !wasEverChangedWayOfChoose) {
@@ -319,7 +308,7 @@ export function SlideList(props: SlideListProps) {
     >
         {
             props.slidesList.map((slide, index) => {
-                return <span key={index}>
+                return <li className={styles['slide-list-item']} key={index}>
                     <div
                         className={
                             (itemHrStatus[index])
@@ -346,7 +335,7 @@ export function SlideList(props: SlideListProps) {
                         id={`${index + 1}`}
                         key={index + 1}
                     ></div>
-                </span>;
+                </li>;
             })
         }
     </ul>;
@@ -356,4 +345,21 @@ function getActiveSlideIndex(props: SlideListProps): number {
     const slideId: string = store.getState().model.selectedSlidesIds.slice(-1)[0];
 
     return props.slidesList.findIndex(slide => slide.id === slideId);
+}
+
+function getActiveSlidesIndexes(props: SlideListProps): number[] {
+    const slidesIds: string[] = store.getState().model.selectedSlidesIds;
+
+    let result: number[] = [];
+    props.slidesList.forEach((slide, index) => {
+        if (slidesIds.includes(slide.id)) {
+            result.push(index);
+        }
+    });
+
+    return result;
+}
+
+function getActiveSlidesId(): string[] {
+    return store.getState().model.selectedSlidesIds;
 }

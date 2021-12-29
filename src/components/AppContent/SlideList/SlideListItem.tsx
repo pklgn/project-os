@@ -11,21 +11,17 @@ type SlideListItemProps = {
 
 export function SlideListItem(props: SlideListItemProps) {
     const itemWrapperStyle = (props.status)
-        ? styles['list-item-wrapper-active']
-        : styles['list-item-wrapper-disabled'];
+        ? styles['list-item-active']
+        : styles['list-item-disabled'];
     const itemNumberStyle = (props.status)
         ? styles['item-number-active']
         : styles['item-number-disabled'];
 
-    return <li className={itemWrapperStyle}>
-        <div
-            className={styles['list-item']}
-        >
-            <div className={itemNumberStyle}>
-                {props.itemIndex + 1}
-            </div>
-            <SlideComponent slide={props.item} />
-            <div className={styles["prevent-pointer-events"]} id={`${props.itemIndex + 1}`} key={props.itemIndex} />
+    return <div className={itemWrapperStyle}>
+        <div className={itemNumberStyle}>
+            {props.itemIndex + 1}
         </div>
-    </li>
+        <SlideComponent slide={props.item} />
+        <div className={styles["prevent-pointer-events"]} id={`${props.itemIndex + 1}`} key={props.itemIndex} />
+    </div>;
 }

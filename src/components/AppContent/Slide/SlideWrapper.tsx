@@ -42,6 +42,7 @@ export function SlideWrapper() {
             <div
             className={styles.slide}
             ref={ref}
+            inlist={'slide-list'}
         >
             <SlideComponent slide={currSlide}/>
         </div>

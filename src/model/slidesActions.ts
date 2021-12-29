@@ -140,10 +140,10 @@ export function applySlideChanges(editor: Editor, updatedSlide: Slide, updatedSl
     };
 }
 
-export function getCurrentSlide(editor: Editor): Slide|undefined {
+export function getCurrentSlide(editor: Editor): Slide | undefined {
     const selectedSlidesIds = editor.selectedSlidesIds;
     const slideList: Slide[] = editor.presentation.slidesList;
-    const selectedSlideId: string|undefined = selectedSlidesIds[selectedSlidesIds.length - 1];
+    const selectedSlideId: string | undefined = selectedSlidesIds[selectedSlidesIds.length - 1];
 
     if(!selectedSlideId) {
         return undefined;
@@ -157,20 +157,20 @@ export function getCurrentSlide(editor: Editor): Slide|undefined {
 }
 
 export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
-    const slidesList: Slide[] = editor.presentation.slidesList;
-    const selectedSlides: Slide[] = slidesList.filter((slide) => {
+    const slidesList = editor.presentation.slidesList;
+    const selectedSlides = slidesList.filter((slide) => {
         return editor.selectedSlidesIds.includes(slide.id);
     });
-    const selectedSlidesIds: string[] = editor.selectedSlidesIds;
+    const selectedSlidesIds = editor.selectedSlidesIds;
 
     if (!(slidesList.length && selectedSlides.length)) {
         return editor;
     }
 
-    const slidesBeforeInsertPosition: Slide[] = slidesList.slice(0, insertIndex);
-    const slidesAfterInsertPosition: Slide[] = slidesList.slice(insertIndex);
+    const slidesBeforeInsertPosition = slidesList.slice(0, insertIndex);
+    const slidesAfterInsertPosition = slidesList.slice(insertIndex);
 
-    const updatedSlideList: Slide[] = [
+    const updatedSlideList = [
         ...slidesBeforeInsertPosition.filter((slide) => {
             return !selectedSlidesIds.includes(slide.id)
         }),
@@ -180,7 +180,7 @@ export function insertSelectedSlides(editor: Editor, insertIndex: number): Edito
         })
     ];
 
-    const updatedPresentation: Presentation = {
+    const updatedPresentation = {
         ...editor.presentation,
         slidesList: updatedSlideList,
     };
