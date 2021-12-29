@@ -7,8 +7,10 @@ import { SlideListItem } from "./SlideListItem";
 import { Slide } from "../../../model/types";
 
 import { bindActionCreators } from "redux";
-import { insertSelectedSlidesAtIndexAction } from "../../../redux/action-creators/slideActionCreators";
-import { keepModelAction, setSelectedIdInEditor } from "../../../redux/action-creators/editorActionCreators";
+import { addSlide, deleteSelectedSlides, insertSelectedSlidesAtIndexAction }
+    from "../../../redux/action-creators/slideActionCreators";
+import { keepModelAction, setSelectedIdInEditor }
+    from "../../../redux/action-creators/editorActionCreators";
 import { useDispatch } from "react-redux";
 import { store } from "../../../redux/store";
 
@@ -28,10 +30,15 @@ export function SlideList(props: SlideListProps) {
         bindActionCreators(insertSelectedSlidesAtIndexAction, dispatch);
     const dispatchKeepModelAction =
         bindActionCreators(keepModelAction, dispatch);
+    const dispatchAddSlideAction =
+        bindActionCreators(addSlide, dispatch);
+    const dispatchDeleteSlideAction =
+        bindActionCreators(deleteSelectedSlides, dispatch);
 
     const [itemActiveStatusList, changeActiveStatusItemList] =
         useState([] as boolean[]);
     const [itemHrStatus, changeItemHrStatus] = useState([] as boolean[]);
+    const [readyForHotkeys, setHotkeysMode] = useState(false);
 
     useEffect(() => {
         changeActiveStatusItemList(
@@ -50,6 +57,7 @@ export function SlideList(props: SlideListProps) {
                 false
             ]
         );
+        setHotkeysMode(true);
     }, [props.slidesList]);
 
     const [handlerKey, changeClickHandlerKey] =
@@ -83,6 +91,7 @@ export function SlideList(props: SlideListProps) {
             const isMouseDownOnList = ref.current?.contains(node);
 
             if (isMouseDownOnList) {
+                setHotkeysMode(true);
                 if (event.ctrlKey) {
                     changeClickHandlerKey('ctrlPressed');
                 } else if (event.shiftKey) {
@@ -91,6 +100,8 @@ export function SlideList(props: SlideListProps) {
             } else {
                 const lastActiveSlideIndex =
                     getLastActiveSlideIndex(props);
+
+                setHotkeysMode(false);
 
                 changeActiveStatusItemList(
                     itemActiveStatusList.map((itemStatus, index) => {
@@ -154,14 +165,100 @@ export function SlideList(props: SlideListProps) {
             }
         }
 
+        const onKeyDownHandler = (e: KeyboardEvent) => {
+            if (readyForHotkeys) {
+                console.clear();
+                switch (e.code) {
+                    case 'Delete':
+                        dispatchDeleteSlideAction();
+                        break;
+                    case 'ArrowUp':
+                        if (e.shiftKey) {
+                            const startChooseSlideIndex =
+                                getLastActiveSlideIndex(props);
+                            const nextChosenSlideId =
+                                (startChooseSlideIndex)
+                                    ? props.slidesList[startChooseSlideIndex - 1].id
+                                    : props.slidesList[startChooseSlideIndex].id;
+                            const activeSlidesIds = [
+                                nextChosenSlideId,
+                                ...getActiveSlidesIds()
+                            ];
+
+                            changeActiveStatusItemList(
+                                itemActiveStatusList.map((status, index) => {
+                                    if (index === startChooseSlideIndex - 1) {
+                                        return true;
+                                    } else {
+                                        return status;
+                                    }
+                                })
+                            );
+
+                            dispatchSetIdAction({
+                                selectedSlidesIds: activeSlidesIds,
+                                selectedSlideElementsIds: []
+                            });
+                            console.log('Up with shift');
+                        } else if (e.ctrlKey) {
+                            console.log('Up with ctrl');
+                        } else {
+                            
+                        }
+                        break;
+                    case 'ArrowDown':
+                        if (e.shiftKey) {
+                            const startChooseSlideIndex =
+                                getLastActiveSlideIndex(props);
+                            const nextChosenSlideId =
+                                (startChooseSlideIndex !== props.slidesList.length - 1)
+                                    ? props.slidesList[startChooseSlideIndex + 1].id
+                                    : props.slidesList[startChooseSlideIndex].id;
+                            const activeSlidesIds = [
+                                ...getActiveSlidesIds(),
+                                nextChosenSlideId
+                            ];
+
+                            changeActiveStatusItemList(
+                                itemActiveStatusList.map((status, index) => {
+                                    if (index === startChooseSlideIndex + 1) {
+                                        return true;
+                                    } else {
+                                        return status;
+                                    }
+                                })
+                            );
+
+                            dispatchSetIdAction({
+                                selectedSlidesIds: activeSlidesIds,
+                                selectedSlideElementsIds: []
+                            });
+                            console.log('Down with shift');
+                        } else if (e.ctrlKey) {
+                            console.log('Down with ctrl');
+                        } else {
+                            
+                        }
+                        break;
+                    case 'KeyM':
+                        if (e.ctrlKey) {
+                            dispatchAddSlideAction();
+                        }
+                        break;
+                }
+            }
+        }
+
         document.addEventListener('mousedown', handlerMouseDown);
         document.addEventListener('mouseup', handlerMouseUp);
         document.addEventListener('mouseover', handlerMouseOver);
+        document.addEventListener('keydown', onKeyDownHandler);
 
         return () => {
             document.removeEventListener('mousedown', handlerMouseDown);
             document.removeEventListener('mouseup', handlerMouseUp);
             document.removeEventListener('mouseover', handlerMouseOver);
+            document.removeEventListener('keydown', onKeyDownHandler);
         }
     });
 
@@ -358,4 +455,8 @@ function getActiveSlidesIndexes(props: SlideListProps): number[] {
     });
 
     return result;
+}
+
+function getActiveSlidesIds(): string[] {
+    return store.getState().model.selectedSlidesIds;
 }
