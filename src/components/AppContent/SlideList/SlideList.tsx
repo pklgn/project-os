@@ -90,7 +90,7 @@ export function SlideList(props: SlideListProps) {
                 }
             } else {
                 const lastActiveSlideIndex =
-                    getActiveSlideIndex(props);
+                    getLastActiveSlideIndex(props);
 
                 changeActiveStatusItemList(
                     itemActiveStatusList.map((itemStatus, index) => {
@@ -175,7 +175,7 @@ export function SlideList(props: SlideListProps) {
                         const itemIndex: number =
                             event.target.getAttribute("id") - 1;
 
-                        const newitemActiveStatusList: boolean[] =
+                        const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((_, index) => {
                                 if (index == itemIndex) {
                                     return true;
@@ -184,7 +184,7 @@ export function SlideList(props: SlideListProps) {
                                 }
                             });
 
-                        changeActiveStatusItemList(newitemActiveStatusList);
+                        changeActiveStatusItemList(newItemActiveStatusList);
 
                         dispatchSetIdAction({
                             selectedSlidesIds: [props.slidesList[itemIndex].id],
@@ -206,7 +206,7 @@ export function SlideList(props: SlideListProps) {
                             }
                         });
 
-                        const lastActiveSlideIndex = getActiveSlideIndex(props);
+                        const lastActiveSlideIndex = getLastActiveSlideIndex(props);
                         let wasEverChangedWayOfChoose = false;
 
                         const newItemActiveStatusList: boolean[] =
@@ -254,7 +254,7 @@ export function SlideList(props: SlideListProps) {
                         const itemIndex: number =
                             event.target.getAttribute("id") - 1;
 
-                        const lastActiveSlideIndex = getActiveSlideIndex(props);
+                        const lastActiveSlideIndex = getLastActiveSlideIndex(props);
                         let wasEverChangedWayOfChoose = false;
 
                         const newItemActiveStatusList: boolean[] =
@@ -341,7 +341,7 @@ export function SlideList(props: SlideListProps) {
     </ul>;
 }
 
-function getActiveSlideIndex(props: SlideListProps): number {
+function getLastActiveSlideIndex(props: SlideListProps): number {
     const slideId: string = store.getState().model.selectedSlidesIds.slice(-1)[0];
 
     return props.slidesList.findIndex(slide => slide.id === slideId);
@@ -358,8 +358,4 @@ function getActiveSlidesIndexes(props: SlideListProps): number[] {
     });
 
     return result;
-}
-
-function getActiveSlidesId(): string[] {
-    return store.getState().model.selectedSlidesIds;
 }

@@ -18,7 +18,7 @@ export function AppTop(): JSX.Element {
 
     const onChangeHandler = (event: BaseSyntheticEvent) => {
         dispatchPresentationName(event.target.value);
-        document.title = event.target.value;
+        document.title = event.target.value + ' - Oladies&Slides';
     }
 
     return (
