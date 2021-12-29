@@ -3,8 +3,7 @@ import { Editor, Slide, Background, Presentation } from "./types";
 
 export function addSlide(editor: Editor): Editor {
     const slideList: Slide[] = [...editor.presentation.slidesList];
-    
-    //TODO Feature with adding slide after active slide isn't working for wome reasone
+
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
 
     const insertIndex = slideList.findIndex((item) => item.id === activeSlideId) + 1;

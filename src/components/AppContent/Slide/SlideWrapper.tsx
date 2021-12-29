@@ -32,9 +32,9 @@ export function SlideWrapper() {
         }
     }, [ref, width, maxHeight])
 
-    const currSlideId: string = state.selectedSlidesIds[0] ?? '-';
-    const currSlideIndex: number = state.presentation.slidesList.findIndex(slide => slide.id == currSlideId);
-    const currSlide: Slide | undefined = (currSlideId === '-')
+    const currSlideId = state.selectedSlidesIds.slice(-1)[0];
+    const currSlideIndex = state.presentation.slidesList.findIndex(slide => slide.id === currSlideId);
+    const currSlide = (currSlideIndex === -1)
         ? undefined
         : state.presentation.slidesList[currSlideIndex];
 
