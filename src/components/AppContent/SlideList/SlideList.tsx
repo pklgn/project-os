@@ -217,6 +217,24 @@ export function SlideList(props: SlideListProps) {
                                 selectedSlideElementsIds: []
                             });
                         } else if (e.ctrlKey) {
+                            if (getActiveSlidesIds().length === 1) {
+                                const indexToInsertSelectedSlides =
+                                    (activeSlideIndex > 0)
+                                        ? activeSlideIndex - 1
+                                        : activeSlideIndex;
+                                changeActiveSlideIndex(indexToInsertSelectedSlides);
+                                changeLastChosenSlideIndex(indexToInsertSelectedSlides);
+                                changeActiveStatusItemList(itemActiveStatusList
+                                    .map((_, index) => {
+                                        if (index === indexToInsertSelectedSlides) {
+                                            return true;
+                                        }
+                                        return false;
+                                    })
+                                );
+                                dispatchInsertSelectedSlides(indexToInsertSelectedSlides);
+                                dispatchKeepModelAction();
+                            }
                         } else {
                             const newActiveSlideIndex = (activeSlideIndex > 0)
                                 ? activeSlideIndex - 1
@@ -288,6 +306,26 @@ export function SlideList(props: SlideListProps) {
                                 selectedSlideElementsIds: []
                             });
                         } else if (e.ctrlKey) {
+                            if (getActiveSlidesIds().length === 1) {
+                                const indexToInsertSelectedSlides =
+                                    (activeSlideIndex < props.slidesList.length - 1)
+                                        ? activeSlideIndex + 2
+                                        : activeSlideIndex;
+                                
+                                changeActiveSlideIndex(indexToInsertSelectedSlides - 1);
+                                changeLastChosenSlideIndex(indexToInsertSelectedSlides - 1);
+                                changeActiveStatusItemList(itemActiveStatusList
+                                    .map((_, index) => {
+                                        if (index === indexToInsertSelectedSlides) {
+                                            return true;
+                                        }
+                                        return false;
+                                    })
+                                );
+
+                                dispatchInsertSelectedSlides(indexToInsertSelectedSlides);
+                                dispatchKeepModelAction();
+                            }
                         } else {
                             const newActiveSlideIndex =
                                 (activeSlideIndex < props.slidesList.length - 1)
@@ -514,12 +552,14 @@ function getActiveSlideIndex(props: SlideListProps): number {
 function getActiveSlidesIndexes(props: SlideListProps): number[] {
     const slidesIds: string[] = store.getState().model.selectedSlidesIds;
 
-    let result: number[] = [];
-    props.slidesList.forEach((slide, index) => {
-        if (slidesIds.includes(slide.id)) {
-            result.push(index);
-        }
-    });
+    const result: number[] = props.slidesList
+        .map((slide, index) => {
+            if (slidesIds.includes(slide.id)) {
+                return index;
+            }
+            return -1;
+        })
+        .filter(index => index !== -1);
 
     return result;
 }
