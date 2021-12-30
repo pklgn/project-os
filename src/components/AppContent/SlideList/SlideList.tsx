@@ -67,7 +67,8 @@ export function SlideList(props: SlideListProps) {
 
     const [isMouseReadyToDrag, setMouseReadyToDrag] = useState(false);
     const [slideIndexToGrag, changeSlideIndexToDrag] = useState(0);
-    const [lastActiveSlideIndex, changeLastActiveSlideIndex] = useState(getLastActiveSlideIndex(props));
+    const [lastActiveSlideIndex, changeLastActiveSlideIndex] =
+        useState(getLastActiveSlideIndex(props));
 
     useEffect(() => {
         const handlerMouseDown = (event: MouseEvent) => {
@@ -113,7 +114,8 @@ export function SlideList(props: SlideListProps) {
 
                 if (props.slidesList.length) {
                     dispatchSetIdAction({
-                        selectedSlidesIds: [props.slidesList[lastActiveSlideIndex].id],
+                        selectedSlidesIds:
+                            [props.slidesList[lastActiveSlideIndex].id],
                         selectedSlideElementsIds: []
                     });
                 }
@@ -148,7 +150,8 @@ export function SlideList(props: SlideListProps) {
 
         const handlerMouseOver = (event: MouseEvent) => {
             if (isMouseReadyToDrag) {
-                const node = event as unknown as React.BaseSyntheticEvent<object, any, any>;
+                const node = event as unknown as
+                    React.BaseSyntheticEvent<object, any, any>;
                 const insertIndex: number = node.target.getAttribute("id");
 
                 if (insertIndex) {
@@ -306,8 +309,10 @@ export function SlideList(props: SlideListProps) {
 
                         const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((_, index) => {
-                                if (lastActiveSlideIndex >= index && index >= itemIndex ||
-                                    lastActiveSlideIndex <= index && index <= itemIndex) {
+                                if (lastActiveSlideIndex >= index &&
+                                    index >= itemIndex            ||
+                                    lastActiveSlideIndex <= index &&
+                                    index <= itemIndex) {
                                     return true;
                                 } else {
                                     return false;
@@ -380,7 +385,8 @@ export function SlideList(props: SlideListProps) {
 }
 
 function getLastActiveSlideIndex(props: SlideListProps): number {
-    const slideId: string = store.getState().model.selectedSlidesIds.slice(-1)[0];
+    const slideId: string =
+        store.getState().model.selectedSlidesIds.slice(-1)[0];
 
     return props.slidesList.findIndex(slide => slide.id === slideId);
 }
