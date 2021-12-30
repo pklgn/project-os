@@ -57,6 +57,7 @@ export function SlideList(props: SlideListProps) {
                 false
             ]
         );
+        changeLastActiveSlideIndex(getLastActiveSlideIndex(props));
         setHotkeysMode(true);
     }, [props.slidesList]);
 
@@ -66,6 +67,7 @@ export function SlideList(props: SlideListProps) {
 
     const [isMouseReadyToDrag, setMouseReadyToDrag] = useState(false);
     const [slideIndexToGrag, changeSlideIndexToDrag] = useState(0);
+    const [lastActiveSlideIndex, changeLastActiveSlideIndex] = useState(getLastActiveSlideIndex(props));
 
     useEffect(() => {
         const handlerMouseDown = (event: MouseEvent) => {
@@ -98,9 +100,6 @@ export function SlideList(props: SlideListProps) {
                     changeClickHandlerKey('shiftPressed');
                 }
             } else {
-                const lastActiveSlideIndex =
-                    getLastActiveSlideIndex(props);
-
                 setHotkeysMode(false);
 
                 changeActiveStatusItemList(
@@ -174,70 +173,34 @@ export function SlideList(props: SlideListProps) {
                         break;
                     case 'ArrowUp':
                         if (e.shiftKey) {
-                            const startChooseSlideIndex =
-                                getLastActiveSlideIndex(props);
-                            const nextChosenSlideId =
-                                (startChooseSlideIndex)
-                                    ? props.slidesList[startChooseSlideIndex - 1].id
-                                    : props.slidesList[startChooseSlideIndex].id;
-                            const activeSlidesIds = [
-                                nextChosenSlideId,
-                                ...getActiveSlidesIds()
-                            ];
 
-                            changeActiveStatusItemList(
-                                itemActiveStatusList.map((status, index) => {
-                                    if (index === startChooseSlideIndex - 1) {
-                                        return true;
-                                    } else {
-                                        return status;
-                                    }
-                                })
-                            );
+                            // changeActiveStatusItemList(newActiveItemStatusList);
 
-                            dispatchSetIdAction({
-                                selectedSlidesIds: activeSlidesIds,
-                                selectedSlideElementsIds: []
-                            });
+                            // dispatchSetIdAction({
+                            //     selectedSlidesIds: activatedSlidesIds,
+                            //     selectedSlideElementsIds: []
+                            // });
                             console.log('Up with shift');
                         } else if (e.ctrlKey) {
                             console.log('Up with ctrl');
                         } else {
-                            
+
                         }
                         break;
                     case 'ArrowDown':
                         if (e.shiftKey) {
-                            const startChooseSlideIndex =
-                                getLastActiveSlideIndex(props);
-                            const nextChosenSlideId =
-                                (startChooseSlideIndex !== props.slidesList.length - 1)
-                                    ? props.slidesList[startChooseSlideIndex + 1].id
-                                    : props.slidesList[startChooseSlideIndex].id;
-                            const activeSlidesIds = [
-                                ...getActiveSlidesIds(),
-                                nextChosenSlideId
-                            ];
 
-                            changeActiveStatusItemList(
-                                itemActiveStatusList.map((status, index) => {
-                                    if (index === startChooseSlideIndex + 1) {
-                                        return true;
-                                    } else {
-                                        return status;
-                                    }
-                                })
-                            );
+                            // changeActiveStatusItemList(newActiveItemStatusList);
 
-                            dispatchSetIdAction({
-                                selectedSlidesIds: activeSlidesIds,
-                                selectedSlideElementsIds: []
-                            });
+                            // dispatchSetIdAction({
+                            //     selectedSlidesIds: activatedSlidesIds,
+                            //     selectedSlideElementsIds: []
+                            // });
                             console.log('Down with shift');
                         } else if (e.ctrlKey) {
                             console.log('Down with ctrl');
                         } else {
-                            
+
                         }
                         break;
                     case 'KeyM':
@@ -271,6 +234,7 @@ export function SlideList(props: SlideListProps) {
                     if (event.target.getAttribute("id")) {
                         const itemIndex: number =
                             event.target.getAttribute("id") - 1;
+                        changeLastActiveSlideIndex(itemIndex);
 
                         const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((_, index) => {
@@ -294,6 +258,7 @@ export function SlideList(props: SlideListProps) {
                     if (event.target.getAttribute("id")) {
                         const itemIndex: number =
                             event.target.getAttribute("id") - 1;
+                        changeLastActiveSlideIndex(itemIndex);
 
                         let amountOfSlidesCanBeDisabled = 0;
                         itemActiveStatusList.forEach(status => {
@@ -303,15 +268,9 @@ export function SlideList(props: SlideListProps) {
                             }
                         });
 
-                        const lastActiveSlideIndex = getLastActiveSlideIndex(props);
-                        let wasEverChangedWayOfChoose = false;
-
                         const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((itemStatus, index) => {
-                                if (index == itemIndex) {
-                                    if (lastActiveSlideIndex > index && !wasEverChangedWayOfChoose) {
-                                        wasEverChangedWayOfChoose = true
-                                    }
+                                if (index === itemIndex) {
                                     if (amountOfSlidesCanBeDisabled > 1) {
                                         amountOfSlidesCanBeDisabled =
                                             amountOfSlidesCanBeDisabled - 1;
@@ -324,16 +283,10 @@ export function SlideList(props: SlideListProps) {
                                 }
                             });
 
-                        let newSelectedSlidesIds: string[] = [];
-                        props.slidesList.forEach((item, index) => {
-                            if (newItemActiveStatusList[index]) {
-                                newSelectedSlidesIds.push(item.id);
-                            }
-                        });
-
-                        if (wasEverChangedWayOfChoose) {
-                            newSelectedSlidesIds.reverse();
-                        }
+                        const newSelectedSlidesIds = [
+                            ...getActiveSlidesIds(),
+                            props.slidesList[itemIndex].id
+                        ]
 
                         changeActiveStatusItemList(newItemActiveStatusList);
 
@@ -351,25 +304,10 @@ export function SlideList(props: SlideListProps) {
                         const itemIndex: number =
                             event.target.getAttribute("id") - 1;
 
-                        const lastActiveSlideIndex = getLastActiveSlideIndex(props);
-                        let wasEverChangedWayOfChoose = false;
-
                         const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((_, index) => {
-                                const wasChosenSlideAfterLastActive =
-                                    index >= lastActiveSlideIndex &&
-                                    index <= itemIndex;
-                                const wasChosenSlideBeforeLastActive =
-                                    index >= itemIndex &&
-                                    index <= lastActiveSlideIndex;
-
-                                if (!wasEverChangedWayOfChoose &&
-                                    wasChosenSlideAfterLastActive) {
-                                    wasEverChangedWayOfChoose = true;
-                                }
-
-                                if (wasChosenSlideAfterLastActive ||
-                                    wasChosenSlideBeforeLastActive) {
+                                if (lastActiveSlideIndex >= index && index >= itemIndex ||
+                                    lastActiveSlideIndex <= index && index <= itemIndex) {
                                     return true;
                                 } else {
                                     return false;
@@ -377,16 +315,19 @@ export function SlideList(props: SlideListProps) {
                             });
                         changeActiveStatusItemList(newItemActiveStatusList);
 
-                        let newSelectedSlidesIds: string[] = [];
-                        props.slidesList.map((item, index) => {
-                            if (newItemActiveStatusList[index]) {
-                                newSelectedSlidesIds.push(item.id);
-                            }
-                        });
-
-                        if (wasEverChangedWayOfChoose) {
-                            newSelectedSlidesIds.reverse();
-                        }
+                        const newSelectedSlidesIds: string[] = [
+                            ...props.slidesList
+                                .map((slide, index) => {
+                                    if (newItemActiveStatusList[index] &&
+                                        index !== lastActiveSlideIndex) {
+                                        return slide.id;
+                                    } else {
+                                        return '';
+                                    }
+                                })
+                                .filter(id => id !== ''),
+                                props.slidesList[lastActiveSlideIndex].id
+                        ];
 
                         dispatchSetIdAction({
                             selectedSlidesIds: newSelectedSlidesIds,
