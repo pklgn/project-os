@@ -57,7 +57,8 @@ export function SlideList(props: SlideListProps) {
                 false
             ]
         );
-        changeLastActiveSlideIndex(getLastActiveSlideIndex(props));
+        changeActiveSlideIndex(getActiveSlideIndex(props));
+        changeLastChosenSlideIndex(getActiveSlideIndex(props));
         setHotkeysMode(true);
     }, [props.slidesList]);
 
@@ -67,8 +68,9 @@ export function SlideList(props: SlideListProps) {
 
     const [isMouseReadyToDrag, setMouseReadyToDrag] = useState(false);
     const [slideIndexToGrag, changeSlideIndexToDrag] = useState(0);
-    const [lastActiveSlideIndex, changeLastActiveSlideIndex] =
-        useState(getLastActiveSlideIndex(props));
+    const [activeSlideIndex, changeActiveSlideIndex] =
+        useState(getActiveSlideIndex(props));
+    const [lastChosenSlideIndex, changeLastChosenSlideIndex] = useState(getActiveSlideIndex(props));
 
     useEffect(() => {
         const handlerMouseDown = (event: MouseEvent) => {
@@ -104,20 +106,24 @@ export function SlideList(props: SlideListProps) {
                 setHotkeysMode(false);
 
                 changeActiveStatusItemList(
-                    itemActiveStatusList.map((itemStatus, index) => {
-                        if (index != lastActiveSlideIndex) {
+                    itemActiveStatusList.map((_, index) => {
+                        if (index === activeSlideIndex) {
+                            return true;
+                        } else {
                             return false;
                         }
-                        return itemStatus;
                     })
                 );
 
                 if (props.slidesList.length) {
-                    dispatchSetIdAction({
-                        selectedSlidesIds:
-                            [props.slidesList[lastActiveSlideIndex].id],
-                        selectedSlideElementsIds: []
-                    });
+                    if (!getActiveSlidesIds()
+                        .includes(props.slidesList[activeSlideIndex].id)) {
+                        dispatchSetIdAction({
+                            selectedSlidesIds:
+                                [props.slidesList[activeSlideIndex].id],
+                            selectedSlideElementsIds: []
+                        });
+                    }
                 }
             }
         }
@@ -169,46 +175,157 @@ export function SlideList(props: SlideListProps) {
 
         const onKeyDownHandler = (e: KeyboardEvent) => {
             if (readyForHotkeys) {
-                console.clear();
                 switch (e.code) {
                     case 'Delete':
                         dispatchDeleteSlideAction();
+                        dispatchKeepModelAction();
                         break;
                     case 'ArrowUp':
                         if (e.shiftKey) {
+                            const newChosenSlideIndex = (lastChosenSlideIndex > 0)
+                                ? lastChosenSlideIndex - 1
+                                : lastChosenSlideIndex;
+                            changeLastChosenSlideIndex(newChosenSlideIndex);
+                            const newActiveItemStatusList: boolean[] =
+                                itemActiveStatusList.map((_, index) => {
+                                    if (activeSlideIndex >= index &&
+                                        index >= newChosenSlideIndex ||
+                                        activeSlideIndex <= index &&
+                                        index <= newChosenSlideIndex) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                });
 
-                            // changeActiveStatusItemList(newActiveItemStatusList);
+                            const activatedSlidesIds = [
+                                ...props.slidesList
+                                    .map((slide, index) => {
+                                        if (newActiveItemStatusList[index]) {
+                                            return slide.id;
+                                        } else {
+                                            return '';
+                                        }
+                                    })
+                                    .filter(id => id !== ''),
+                            ];
 
-                            // dispatchSetIdAction({
-                            //     selectedSlidesIds: activatedSlidesIds,
-                            //     selectedSlideElementsIds: []
-                            // });
-                            console.log('Up with shift');
+                            changeActiveStatusItemList(newActiveItemStatusList);
+
+                            dispatchSetIdAction({
+                                selectedSlidesIds: activatedSlidesIds,
+                                selectedSlideElementsIds: []
+                            });
                         } else if (e.ctrlKey) {
-                            console.log('Up with ctrl');
                         } else {
+                            const newActiveSlideIndex = (activeSlideIndex > 0)
+                                ? activeSlideIndex - 1
+                                : activeSlideIndex;
+                            changeActiveSlideIndex(newActiveSlideIndex);
+                            changeLastChosenSlideIndex(newActiveSlideIndex);
+                            const newActiveItemStatusList: boolean[] =
+                                itemActiveStatusList.map((_, index) => {
+                                    if (index === newActiveSlideIndex) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                });
+                            const activatedSlidesIds = [
+                                ...props.slidesList
+                                    .map((slide, index) => {
+                                        if (newActiveItemStatusList[index]) {
+                                            return slide.id;
+                                        } else {
+                                            return '';
+                                        }
+                                    })
+                                    .filter(id => id !== ''),
+                            ];
+                            changeActiveStatusItemList(newActiveItemStatusList);
 
+                            dispatchSetIdAction({
+                                selectedSlidesIds: activatedSlidesIds,
+                                selectedSlideElementsIds: []
+                            });
                         }
                         break;
                     case 'ArrowDown':
                         if (e.shiftKey) {
+                            const newChosenSlideIndex =
+                                (lastChosenSlideIndex < props.slidesList.length - 1)
+                                    ? lastChosenSlideIndex + 1
+                                    : lastChosenSlideIndex;
+                            changeLastChosenSlideIndex(newChosenSlideIndex);
+                            const newActiveItemStatusList: boolean[] =
+                                itemActiveStatusList.map((_, index) => {
+                                    if (activeSlideIndex >= index &&
+                                        index >= newChosenSlideIndex ||
+                                        activeSlideIndex <= index &&
+                                        index <= newChosenSlideIndex) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                });
 
-                            // changeActiveStatusItemList(newActiveItemStatusList);
+                            const activatedSlidesIds = [
+                                ...props.slidesList
+                                    .map((slide, index) => {
+                                        if (newActiveItemStatusList[index]) {
+                                            return slide.id;
+                                        } else {
+                                            return '';
+                                        }
+                                    })
+                                    .filter(id => id !== ''),
+                            ];
 
-                            // dispatchSetIdAction({
-                            //     selectedSlidesIds: activatedSlidesIds,
-                            //     selectedSlideElementsIds: []
-                            // });
-                            console.log('Down with shift');
+                            changeActiveStatusItemList(newActiveItemStatusList);
+
+                            dispatchSetIdAction({
+                                selectedSlidesIds: activatedSlidesIds,
+                                selectedSlideElementsIds: []
+                            });
                         } else if (e.ctrlKey) {
-                            console.log('Down with ctrl');
                         } else {
+                            const newActiveSlideIndex =
+                                (activeSlideIndex < props.slidesList.length - 1)
+                                    ? activeSlideIndex + 1
+                                    : activeSlideIndex;
+                            changeActiveSlideIndex(newActiveSlideIndex);
+                            changeLastChosenSlideIndex(newActiveSlideIndex);
+                            const newActiveItemStatusList: boolean[] =
+                                itemActiveStatusList.map((_, index) => {
+                                    if (index === newActiveSlideIndex) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                });
+                            const activatedSlidesIds = [
+                                ...props.slidesList
+                                    .map((slide, index) => {
+                                        if (newActiveItemStatusList[index]) {
+                                            return slide.id;
+                                        } else {
+                                            return '';
+                                        }
+                                    })
+                                    .filter(id => id !== ''),
+                            ];
+                            changeActiveStatusItemList(newActiveItemStatusList);
 
+                            dispatchSetIdAction({
+                                selectedSlidesIds: activatedSlidesIds,
+                                selectedSlideElementsIds: []
+                            });
                         }
                         break;
                     case 'KeyM':
                         if (e.ctrlKey) {
                             dispatchAddSlideAction();
+                            dispatchKeepModelAction();
                         }
                         break;
                 }
@@ -237,7 +354,8 @@ export function SlideList(props: SlideListProps) {
                     if (event.target.getAttribute("id")) {
                         const itemIndex: number =
                             event.target.getAttribute("id") - 1;
-                        changeLastActiveSlideIndex(itemIndex);
+                        changeActiveSlideIndex(itemIndex);
+                        changeLastChosenSlideIndex(itemIndex);
 
                         const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((_, index) => {
@@ -261,7 +379,8 @@ export function SlideList(props: SlideListProps) {
                     if (event.target.getAttribute("id")) {
                         const itemIndex: number =
                             event.target.getAttribute("id") - 1;
-                        changeLastActiveSlideIndex(itemIndex);
+                        changeActiveSlideIndex(itemIndex);
+                        changeLastChosenSlideIndex(itemIndex);
 
                         let amountOfSlidesCanBeDisabled = 0;
                         itemActiveStatusList.forEach(status => {
@@ -306,12 +425,13 @@ export function SlideList(props: SlideListProps) {
 
                         const itemIndex: number =
                             event.target.getAttribute("id") - 1;
+                        changeLastChosenSlideIndex(itemIndex);
 
                         const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((_, index) => {
-                                if (lastActiveSlideIndex >= index &&
-                                    index >= itemIndex            ||
-                                    lastActiveSlideIndex <= index &&
+                                if (activeSlideIndex >= index &&
+                                    index >= itemIndex ||
+                                    activeSlideIndex <= index &&
                                     index <= itemIndex) {
                                     return true;
                                 } else {
@@ -324,14 +444,14 @@ export function SlideList(props: SlideListProps) {
                             ...props.slidesList
                                 .map((slide, index) => {
                                     if (newItemActiveStatusList[index] &&
-                                        index !== lastActiveSlideIndex) {
+                                        index !== activeSlideIndex) {
                                         return slide.id;
                                     } else {
                                         return '';
                                     }
                                 })
                                 .filter(id => id !== ''),
-                                props.slidesList[lastActiveSlideIndex].id
+                            props.slidesList[activeSlideIndex].id
                         ];
 
                         dispatchSetIdAction({
@@ -384,7 +504,7 @@ export function SlideList(props: SlideListProps) {
     </ul>;
 }
 
-function getLastActiveSlideIndex(props: SlideListProps): number {
+function getActiveSlideIndex(props: SlideListProps): number {
     const slideId: string =
         store.getState().model.selectedSlidesIds.slice(-1)[0];
 
