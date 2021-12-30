@@ -136,9 +136,7 @@ export function SlideList(props: SlideListProps) {
                 const slideIndexToInsert: number =
                     nodeAsBaseEvent.target.getAttribute("id");
 
-                const findInsertPlace =
-                    (slideIndexToGrag !== slideIndexToInsert - 1) &&
-                    (slideIndexToInsert === 0 || slideIndexToInsert);
+                const findInsertPlace = (slideIndexToGrag !== slideIndexToInsert) && (slideIndexToInsert === 0 || slideIndexToInsert);
 
                 if (findInsertPlace) {
                     dispatchInsertSelectedSlides(slideIndexToInsert);
