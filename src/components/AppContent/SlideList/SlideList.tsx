@@ -13,6 +13,7 @@ import { keepModelAction, setSelectedIdInEditor }
     from "../../../redux/action-creators/editorActionCreators";
 import { useDispatch } from "react-redux";
 import { store } from "../../../redux/store";
+import { log } from "console";
 
 type SlideListProps = {
     slidesList: Slide[],
@@ -43,6 +44,7 @@ export function SlideList(props: SlideListProps) {
     useEffect(() => {
         changeActiveStatusItemList(
             props.slidesList.map((_, index) => {
+                console.log('haha!');
                 if (getActiveSlidesIndexes(props).includes(index)) {
                     return true;
                 }
@@ -60,7 +62,7 @@ export function SlideList(props: SlideListProps) {
         changeActiveSlideIndex(getActiveSlideIndex(props));
         changeLastChosenSlideIndex(getActiveSlideIndex(props));
         setHotkeysMode(true);
-    }, [props.slidesList]);
+    }, [props.slidesList.length]);
 
     const [handlerKey, changeClickHandlerKey] =
         useState('default' as MouseDownHandlerType);
@@ -443,21 +445,31 @@ export function SlideList(props: SlideListProps) {
                                     amountOfSlidesCanBeDisabled + 1;
                             }
                         });
+                        // console.clear();
+                        console.log(`amountToDisable:${amountOfSlidesCanBeDisabled}`);
+                        itemActiveStatusList.forEach((status, index) => console.log(`#${index}-${status}`));
+                        
 
                         const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((itemStatus, index) => {
+                                console.log(`trying #${index}-${itemStatus}`);
                                 if (index === itemIndex) {
                                     if (amountOfSlidesCanBeDisabled > 1) {
                                         amountOfSlidesCanBeDisabled =
                                             amountOfSlidesCanBeDisabled - 1;
+                                            console.log('switched!');
                                         return !itemStatus;
                                     } else {
+                                        console.log('turn on!');
                                         return true;
                                     }
                                 } else {
+                                    console.log('kept!');
                                     return itemStatus;
                                 }
                             });
+
+                            newItemActiveStatusList.forEach((status, index) => console.log(`#${index}-${status}`));
 
                         const newSelectedSlidesIds = [
                             ...getActiveSlidesIds(),
