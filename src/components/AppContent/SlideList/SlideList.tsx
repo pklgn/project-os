@@ -30,8 +30,6 @@ export function SlideList(props: SlideListProps) {
         bindActionCreators(insertSelectedSlidesAtIndexAction, dispatch);
     const dispatchKeepModelAction =
         bindActionCreators(keepModelAction, dispatch);
-    const dispatchAddSlideAction =
-        bindActionCreators(addSlide, dispatch);
     const dispatchDeleteSlideAction =
         bindActionCreators(deleteSelectedSlides, dispatch);
 
@@ -378,12 +376,6 @@ export function SlideList(props: SlideListProps) {
                             });
                         }
                         break;
-                    case 'KeyM':
-                        if (e.ctrlKey) {
-                            dispatchAddSlideAction();
-                            dispatchKeepModelAction();
-                        }
-                        break;
                 }
             }
         }
@@ -464,7 +456,7 @@ export function SlideList(props: SlideListProps) {
                         const newSelectedSlidesIds = [
                             ...getActiveSlidesIds(),
                             props.slidesList[itemIndex].id
-                        ]
+                        ];
 
                         changeActiveStatusItemList(newItemActiveStatusList);
 
@@ -515,7 +507,6 @@ export function SlideList(props: SlideListProps) {
                             selectedSlideElementsIds: []
                         });
                     }
-
                 }
         }
     }
