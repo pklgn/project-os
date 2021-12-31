@@ -65,8 +65,6 @@ export function SlideList(props: SlideListProps) {
                 ? -slideHeight
                 : slideHeight;
 
-            console.log(`scrolls...`);
-
             ref.current?.scrollBy(0, yToScroll);
         }
     }, { threshold: 1 }));
@@ -195,7 +193,6 @@ export function SlideList(props: SlideListProps) {
 
         const onKeyDownHandler = (e: KeyboardEvent) => {
             if (readyForHotkeys) {
-                console.log(`pressed:${e.code}`);
                 switch (e.code) {
                     case 'Delete':
                         dispatchDeleteSlideAction();
@@ -383,7 +380,6 @@ export function SlideList(props: SlideListProps) {
                         break;
                     case 'KeyM':
                         if (e.ctrlKey) {
-                            console.log(`pressed:${e.code} and M`);
                             dispatchAddSlideAction();
                             dispatchKeepModelAction();
                         }
