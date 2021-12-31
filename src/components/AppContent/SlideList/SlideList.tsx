@@ -191,7 +191,7 @@ export function SlideList(props: SlideListProps) {
 
         const onKeyDownHandler = (e: KeyboardEvent) => {
             if (readyForHotkeys) {
-                //intersectionObserver.disconnect();
+                intersectionObserver.disconnect();
                 if (e.code === 'Delete') {
                     dispatchDeleteSlideAction();
                     dispatchKeepModelAction();
@@ -216,6 +216,7 @@ export function SlideList(props: SlideListProps) {
                                     return false;
                                 }
                             });
+
                         const activatedSlidesIds = [
                             ...props.slidesList
                                 .map((slide, index) => {
@@ -234,16 +235,18 @@ export function SlideList(props: SlideListProps) {
                             selectedSlideElementsIds: []
                         });
 
-                        // const selectetSlideAsElement =
-                        //     ref.current?.childNodes[newActiveSlideIndex] as Element;
+                        const selectetSlideAsElement =
+                            ref.current?.childNodes[newActiveSlideIndex] as Element;
 
-                        // intersectionObserver.observe(selectetSlideAsElement);
+                        intersectionObserver.observe(selectetSlideAsElement);
                     } else if (e.shiftKey) {
-                        const newChosenSlideIndex = (lastChosenSlideIndex > 0)
-                            ? (e.code === 'ArrowUp')
+                        const newChosenSlideIndex = (e.code === 'ArrowUp')
+                            ? (lastChosenSlideIndex > 0)
                                 ? lastChosenSlideIndex - 1
-                                : lastChosenSlideIndex + 1
-                            : lastChosenSlideIndex;
+                                : lastChosenSlideIndex
+                            : (lastChosenSlideIndex < props.slidesList.length - 1)
+                                ? lastChosenSlideIndex + 1
+                                : lastChosenSlideIndex;
 
                         changeLastChosenSlideIndex(newChosenSlideIndex);
                         const newActiveItemStatusList: boolean[] =
@@ -269,7 +272,6 @@ export function SlideList(props: SlideListProps) {
                                 })
                                 .filter(id => id !== ''),
                         ];
-
                         changeActiveStatusItemList(newActiveItemStatusList);
 
                         dispatchSetIdAction({
@@ -277,10 +279,10 @@ export function SlideList(props: SlideListProps) {
                             selectedSlideElementsIds: []
                         });
 
-                        // const selectetSlideAsElement =
-                        //     ref.current?.childNodes[newChosenSlideIndex] as Element;
+                        const selectetSlideAsElement =
+                            ref.current?.childNodes[newChosenSlideIndex] as Element;
 
-                        // intersectionObserver.observe(selectetSlideAsElement);
+                        intersectionObserver.observe(selectetSlideAsElement);
                     } else if (e.ctrlKey && getActiveSlidesIds().length === 1) {
                         const indexToInsertSelectedSlides = (e.code === 'ArrowUp')
                             ? (activeSlideIndex > 0)
@@ -300,8 +302,14 @@ export function SlideList(props: SlideListProps) {
                                 return false;
                             })
                         );
+
                         dispatchInsertSelectedSlides(indexToInsertSelectedSlides);
                         dispatchKeepModelAction();
+
+                        const selectetSlideAsElement =
+                            ref.current?.childNodes[indexToInsertSelectedSlides] as Element;
+
+                        intersectionObserver.observe(selectetSlideAsElement);
                     }
                 }
             }
