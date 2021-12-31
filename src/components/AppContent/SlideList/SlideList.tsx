@@ -327,11 +327,11 @@ export function SlideList(props: SlideListProps) {
                             if (getActiveSlidesIds().length === 1) {
                                 const indexToInsertSelectedSlides =
                                     (activeSlideIndex < props.slidesList.length - 1)
-                                        ? activeSlideIndex + 2
+                                        ? activeSlideIndex + 1
                                         : activeSlideIndex;
 
-                                changeActiveSlideIndex(indexToInsertSelectedSlides - 1);
-                                changeLastChosenSlideIndex(indexToInsertSelectedSlides - 1);
+                                changeActiveSlideIndex(indexToInsertSelectedSlides);
+                                changeLastChosenSlideIndex(indexToInsertSelectedSlides);
                                 changeActiveStatusItemList(itemActiveStatusList
                                     .map((_, index) => {
                                         if (index === indexToInsertSelectedSlides) {
