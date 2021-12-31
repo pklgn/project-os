@@ -17,6 +17,7 @@
     overflow: auto;
     cursor: default;
     margin: 0;
+    scroll-behavior: smooth;
 }
 
 .slide-list-item {
