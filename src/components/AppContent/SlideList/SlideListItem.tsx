@@ -2,11 +2,14 @@ import styles from "./SlideList.module.css";
 
 import { Slide } from "../../../model/types"
 import { SlideComponent } from "../Slide/SlideComponent";
+import { BaseSyntheticEvent } from "react";
 
 type SlideListItemProps = {
     item: Slide,
     status: boolean,
-    itemIndex: number
+    itemIndex: number,
+    onMouseEnter: (event: BaseSyntheticEvent) => void,
+    onMouseLeave: (event: BaseSyntheticEvent) => void
 }
 
 export function SlideListItem(props: SlideListItemProps) {
@@ -17,7 +20,11 @@ export function SlideListItem(props: SlideListItemProps) {
         ? styles['item-number-active']
         : styles['item-number-disabled'];
 
-    return <div className={itemWrapperStyle}>
+    return <div
+        className={itemWrapperStyle}
+        onMouseEnter={props.onMouseEnter}
+        onMouseLeave={props.onMouseLeave}
+    >
         <div className={itemNumberStyle}>
             {props.itemIndex + 1}
         </div>

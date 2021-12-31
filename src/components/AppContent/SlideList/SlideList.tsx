@@ -71,6 +71,23 @@ export function SlideList(props: SlideListProps) {
     const [activeSlideIndex, changeActiveSlideIndex] =
         useState(getActiveSlideIndex(props));
     const [lastChosenSlideIndex, changeLastChosenSlideIndex] = useState(getActiveSlideIndex(props));
+    const [intersectionObserver, _] = useState(new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) {
+            const slideAtTop =
+                (entries[0].boundingClientRect.top !== entries[0].intersectionRect.top);
+
+            const slideHeight = Math.max(
+                entries[0].target.clientHeight,
+                entries[0].target.scrollHeight
+            );
+
+            const yToScroll = (slideAtTop)
+                ? -slideHeight
+                : slideHeight;
+
+            ref.current?.scrollBy(0, yToScroll);
+        }
+    }, { threshold: 1 }));
 
     useEffect(() => {
         const handlerMouseDown = (event: MouseEvent) => {
@@ -145,6 +162,7 @@ export function SlideList(props: SlideListProps) {
             }
 
             setMouseReadyToDrag(false);
+            intersectionObserver.disconnect();
             changeItemHrStatus(
                 itemHrStatus.map(_ => {
                     return false;
@@ -309,7 +327,7 @@ export function SlideList(props: SlideListProps) {
                                     (activeSlideIndex < props.slidesList.length - 1)
                                         ? activeSlideIndex + 2
                                         : activeSlideIndex;
-                                
+
                                 changeActiveSlideIndex(indexToInsertSelectedSlides - 1);
                                 changeLastChosenSlideIndex(indexToInsertSelectedSlides - 1);
                                 changeActiveStatusItemList(itemActiveStatusList
@@ -500,6 +518,22 @@ export function SlideList(props: SlideListProps) {
         }
     }
 
+    const onMouseEnterHandler = (event: BaseSyntheticEvent) => {
+        if (event.target instanceof Element) {
+            const element = event.target as Element;
+            if (isMouseReadyToDrag) {
+                intersectionObserver.observe(element);
+            }
+        }
+    }
+
+    const onMouseLeaveHandler = (event: BaseSyntheticEvent) => {
+        if (event.target instanceof Element) {
+            const element = event.target as Element;
+            intersectionObserver.unobserve(element);
+        }
+    }
+
     return <ul
         className={`${styles.list} ${styles['list-wrapper']}`}
         ref={ref}
@@ -523,6 +557,8 @@ export function SlideList(props: SlideListProps) {
                         itemIndex={index}
                         status={itemActiveStatusList[index]}
                         key={slide.id}
+                        onMouseEnter={onMouseEnterHandler}
+                        onMouseLeave={onMouseLeaveHandler}
                     />
 
                     <div
