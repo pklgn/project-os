@@ -38,9 +38,38 @@ export function SlideList(props: SlideListProps) {
     const [itemActiveStatusList, changeActiveStatusItemList] =
         useState([] as boolean[]);
     const [itemHrStatus, changeItemHrStatus] = useState([] as boolean[]);
+    const [activeSlideIndex, changeActiveSlideIndex] =
+        useState(getActiveSlideIndex(props));
+    const [lastChosenSlideIndex, changeLastChosenSlideIndex] =
+        useState(getActiveSlideIndex(props));
+
     const [readyForHotkeys, setHotkeysMode] = useState(false);
 
     const [isMouseReadyToDrag, setMouseReadyToDrag] = useState(false);
+
+    const [handlerKey, changeClickHandlerKey] =
+        useState('default' as MouseDownHandlerType);
+    const onClickListHandler = getVariantOfItemListClickHandlers(handlerKey);
+
+    const [intersectionObserver, _] = useState(new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) {
+            const slideAtTop =
+                (entries[0].boundingClientRect.top !== entries[0].intersectionRect.top);
+
+            const slideHeight = Math.max(
+                entries[0].target.clientHeight,
+                entries[0].target.scrollHeight
+            );
+
+            const yToScroll = (slideAtTop)
+                ? -slideHeight
+                : slideHeight;
+
+            console.log(`scrolls...`);
+
+            ref.current?.scrollBy(0, yToScroll);
+        }
+    }, { threshold: 1 }));
 
     useEffect(() => {
         changeActiveStatusItemList(
@@ -64,63 +93,37 @@ export function SlideList(props: SlideListProps) {
         setHotkeysMode(true);
     }, [props.slidesList.length, isMouseReadyToDrag]);
 
-    const [handlerKey, changeClickHandlerKey] =
-        useState('default' as MouseDownHandlerType);
-    const onClickListHandler = getVariantOfItemListClickHandlers(handlerKey);
-
-    const [slideIndexToGrag, changeSlideIndexToDrag] = useState(0);
-    const [activeSlideIndex, changeActiveSlideIndex] =
-        useState(getActiveSlideIndex(props));
-    const [lastChosenSlideIndex, changeLastChosenSlideIndex] = useState(getActiveSlideIndex(props));
-    const [intersectionObserver, _] = useState(new IntersectionObserver((entries) => {
-        if (!entries[0].isIntersecting) {
-            const slideAtTop =
-                (entries[0].boundingClientRect.top !== entries[0].intersectionRect.top);
-
-            const slideHeight = Math.max(
-                entries[0].target.clientHeight,
-                entries[0].target.scrollHeight
-            );
-
-            const yToScroll = (slideAtTop)
-                ? -slideHeight
-                : slideHeight;
-
-            ref.current?.scrollBy(0, yToScroll);
-        }
-    }, { threshold: 1 }));
-
     useEffect(() => {
         const handlerMouseDown = (event: MouseEvent) => {
-            console.clear();
             if (event.target instanceof Element &&
-                ref.current?.contains(event.target) &&
-                event.target.getAttributeNames().includes("id")) {
+                ref.current?.contains(event.target)
+            ) {
+                setHotkeysMode(true);
+
                 const element = event.target as Element;
 
-                const newSlideIndexToGrag =
-                    parseInt(element.getAttribute("id")!) - 1;
+                if (element.getAttributeNames().includes("id")) {
+                    const newSlideIndexToGrag =
+                        parseInt(element.getAttribute("id")!) - 1;
 
-                changeSlideIndexToDrag(newSlideIndexToGrag);
-                console.log(`indexToDrag:${newSlideIndexToGrag}`);
+                    const isMouseDownOnActiveListElement =
+                        itemActiveStatusList[newSlideIndexToGrag];
 
-                const isMouseDownOnActiveListElement =
-                    itemActiveStatusList[newSlideIndexToGrag];
+                    if (isMouseDownOnActiveListElement) {
+                        setMouseReadyToDrag(true);
+                    }
 
-                if (isMouseDownOnActiveListElement) {
-                    setMouseReadyToDrag(true);
-                }
+                    changeClickHandlerKey('default');
 
-                changeClickHandlerKey('default');
+                    const isMouseDownOnList = ref.current?.contains(element);
 
-                const isMouseDownOnList = ref.current?.contains(element);
-
-                if (isMouseDownOnList) {
-                    setHotkeysMode(true);
-                    if (event.ctrlKey) {
-                        changeClickHandlerKey('ctrlPressed');
-                    } else if (event.shiftKey) {
-                        changeClickHandlerKey('shiftPressed');
+                    if (isMouseDownOnList) {
+                        setHotkeysMode(true);
+                        if (event.ctrlKey) {
+                            changeClickHandlerKey('ctrlPressed');
+                        } else if (event.shiftKey) {
+                            changeClickHandlerKey('shiftPressed');
+                        }
                     }
                 }
             } else {
@@ -143,18 +146,19 @@ export function SlideList(props: SlideListProps) {
                         selectedSlideElementsIds: []
                     });
                 }
+
             }
         }
 
         const handlerMouseUp = (event: MouseEvent) => {
             if (isMouseReadyToDrag &&
                 event.target instanceof Element &&
-                event.target.getAttributeNames().includes("id")) {
+                event.target.getAttributeNames().includes("id")
+            ) {
                 const element = event.target as Element;
 
                 const slideIndexToInsert: number =
                     parseInt(element.getAttribute("id")!);
-                console.log(`insertingAt:${slideIndexToInsert}`);
 
                 dispatchInsertSelectedSlides(slideIndexToInsert);
                 dispatchKeepModelAction();
@@ -172,12 +176,11 @@ export function SlideList(props: SlideListProps) {
         const handlerMouseOver = (event: MouseEvent) => {
             if (isMouseReadyToDrag &&
                 event.target instanceof Element &&
-                event.target.getAttributeNames().includes("id")) {
-
+                event.target.getAttributeNames().includes("id")
+            ) {
                 const element = event.target as Element;
                 const insertIndex: number =
                     parseInt(element.getAttribute("id")!);
-                console.log(`now over:${insertIndex}`);
 
                 changeItemHrStatus(
                     itemHrStatus.map((_, index) => {
@@ -192,6 +195,7 @@ export function SlideList(props: SlideListProps) {
 
         const onKeyDownHandler = (e: KeyboardEvent) => {
             if (readyForHotkeys) {
+                console.log(`pressed:${e.code}`);
                 switch (e.code) {
                     case 'Delete':
                         dispatchDeleteSlideAction();
@@ -379,6 +383,7 @@ export function SlideList(props: SlideListProps) {
                         break;
                     case 'KeyM':
                         if (e.ctrlKey) {
+                            console.log(`pressed:${e.code} and M`);
                             dispatchAddSlideAction();
                             dispatchKeepModelAction();
                         }
