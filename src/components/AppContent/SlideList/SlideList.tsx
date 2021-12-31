@@ -191,191 +191,118 @@ export function SlideList(props: SlideListProps) {
 
         const onKeyDownHandler = (e: KeyboardEvent) => {
             if (readyForHotkeys) {
-                switch (e.code) {
-                    case 'Delete':
-                        dispatchDeleteSlideAction();
-                        dispatchKeepModelAction();
-                        break;
-                    case 'ArrowUp':
-                        if (e.shiftKey) {
-                            const newChosenSlideIndex = (lastChosenSlideIndex > 0)
-                                ? lastChosenSlideIndex - 1
-                                : lastChosenSlideIndex;
-                            changeLastChosenSlideIndex(newChosenSlideIndex);
-                            const newActiveItemStatusList: boolean[] =
-                                itemActiveStatusList.map((_, index) => {
-                                    if (activeSlideIndex >= index &&
-                                        index >= newChosenSlideIndex ||
-                                        activeSlideIndex <= index &&
-                                        index <= newChosenSlideIndex) {
-                                        return true;
-                                    } else {
-                                        return false;
-                                    }
-                                });
+                //intersectionObserver.disconnect();
+                if (e.code === 'Delete') {
+                    dispatchDeleteSlideAction();
+                    dispatchKeepModelAction();
+                } else if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
 
-                            const activatedSlidesIds = [
-                                ...props.slidesList
-                                    .map((slide, index) => {
-                                        if (newActiveItemStatusList[index]) {
-                                            return slide.id;
-                                        } else {
-                                            return '';
-                                        }
-                                    })
-                                    .filter(id => id !== ''),
-                            ];
-
-                            changeActiveStatusItemList(newActiveItemStatusList);
-
-                            dispatchSetIdAction({
-                                selectedSlidesIds: activatedSlidesIds,
-                                selectedSlideElementsIds: []
-                            });
-                        } else if (e.ctrlKey) {
-                            if (getActiveSlidesIds().length === 1) {
-                                const indexToInsertSelectedSlides =
-                                    (activeSlideIndex > 0)
-                                        ? activeSlideIndex - 1
-                                        : activeSlideIndex;
-                                changeActiveSlideIndex(indexToInsertSelectedSlides);
-                                changeLastChosenSlideIndex(indexToInsertSelectedSlides);
-                                changeActiveStatusItemList(itemActiveStatusList
-                                    .map((_, index) => {
-                                        if (index === indexToInsertSelectedSlides) {
-                                            return true;
-                                        }
-                                        return false;
-                                    })
-                                );
-                                dispatchInsertSelectedSlides(indexToInsertSelectedSlides);
-                                dispatchKeepModelAction();
-                            }
-                        } else {
-                            const newActiveSlideIndex = (activeSlideIndex > 0)
+                    if (!(e.shiftKey || e.ctrlKey)) {
+                        const newActiveSlideIndex = (e.code === 'ArrowUp')
+                            ? (activeSlideIndex > 0)
                                 ? activeSlideIndex - 1
+                                : activeSlideIndex
+                            : (activeSlideIndex < props.slidesList.length - 1)
+                                ? activeSlideIndex + 1
                                 : activeSlideIndex;
-                            changeActiveSlideIndex(newActiveSlideIndex);
-                            changeLastChosenSlideIndex(newActiveSlideIndex);
-                            const newActiveItemStatusList: boolean[] =
-                                itemActiveStatusList.map((_, index) => {
-                                    if (index === newActiveSlideIndex) {
-                                        return true;
-                                    } else {
-                                        return false;
-                                    }
-                                });
-                            const activatedSlidesIds = [
-                                ...props.slidesList
-                                    .map((slide, index) => {
-                                        if (newActiveItemStatusList[index]) {
-                                            return slide.id;
-                                        } else {
-                                            return '';
-                                        }
-                                    })
-                                    .filter(id => id !== ''),
-                            ];
-                            changeActiveStatusItemList(newActiveItemStatusList);
 
-                            dispatchSetIdAction({
-                                selectedSlidesIds: activatedSlidesIds,
-                                selectedSlideElementsIds: []
+                        changeActiveSlideIndex(newActiveSlideIndex);
+                        changeLastChosenSlideIndex(newActiveSlideIndex);
+                        const newActiveItemStatusList: boolean[] =
+                            itemActiveStatusList.map((_, index) => {
+                                if (index === newActiveSlideIndex) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
                             });
-                        }
-                        break;
-                    case 'ArrowDown':
-                        if (e.shiftKey) {
-                            const newChosenSlideIndex =
-                                (lastChosenSlideIndex < props.slidesList.length - 1)
-                                    ? lastChosenSlideIndex + 1
-                                    : lastChosenSlideIndex;
-                            changeLastChosenSlideIndex(newChosenSlideIndex);
-                            const newActiveItemStatusList: boolean[] =
-                                itemActiveStatusList.map((_, index) => {
-                                    if (activeSlideIndex >= index &&
-                                        index >= newChosenSlideIndex ||
-                                        activeSlideIndex <= index &&
-                                        index <= newChosenSlideIndex) {
-                                        return true;
+                        const activatedSlidesIds = [
+                            ...props.slidesList
+                                .map((slide, index) => {
+                                    if (newActiveItemStatusList[index]) {
+                                        return slide.id;
                                     } else {
-                                        return false;
+                                        return '';
                                     }
-                                });
+                                })
+                                .filter(id => id !== ''),
+                        ];
+                        changeActiveStatusItemList(newActiveItemStatusList);
 
-                            const activatedSlidesIds = [
-                                ...props.slidesList
-                                    .map((slide, index) => {
-                                        if (newActiveItemStatusList[index]) {
-                                            return slide.id;
-                                        } else {
-                                            return '';
-                                        }
-                                    })
-                                    .filter(id => id !== ''),
-                            ];
+                        dispatchSetIdAction({
+                            selectedSlidesIds: activatedSlidesIds,
+                            selectedSlideElementsIds: []
+                        });
 
-                            changeActiveStatusItemList(newActiveItemStatusList);
+                        // const selectetSlideAsElement =
+                        //     ref.current?.childNodes[newActiveSlideIndex] as Element;
 
-                            dispatchSetIdAction({
-                                selectedSlidesIds: activatedSlidesIds,
-                                selectedSlideElementsIds: []
+                        // intersectionObserver.observe(selectetSlideAsElement);
+                    } else if (e.shiftKey) {
+                        const newChosenSlideIndex = (lastChosenSlideIndex > 0)
+                            ? (e.code === 'ArrowUp')
+                                ? lastChosenSlideIndex - 1
+                                : lastChosenSlideIndex + 1
+                            : lastChosenSlideIndex;
+
+                        changeLastChosenSlideIndex(newChosenSlideIndex);
+                        const newActiveItemStatusList: boolean[] =
+                            itemActiveStatusList.map((_, index) => {
+                                if (activeSlideIndex >= index &&
+                                    index >= newChosenSlideIndex ||
+                                    activeSlideIndex <= index &&
+                                    index <= newChosenSlideIndex) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
                             });
-                        } else if (e.ctrlKey) {
-                            if (getActiveSlidesIds().length === 1) {
-                                const indexToInsertSelectedSlides =
-                                    (activeSlideIndex < props.slidesList.length - 1)
-                                        ? activeSlideIndex + 1
-                                        : activeSlideIndex;
 
-                                changeActiveSlideIndex(indexToInsertSelectedSlides);
-                                changeLastChosenSlideIndex(indexToInsertSelectedSlides);
-                                changeActiveStatusItemList(itemActiveStatusList
-                                    .map((_, index) => {
-                                        if (index === indexToInsertSelectedSlides) {
-                                            return true;
-                                        }
-                                        return false;
-                                    })
-                                );
-
-                                dispatchInsertSelectedSlides(indexToInsertSelectedSlides);
-                                dispatchKeepModelAction();
-                            }
-                        } else {
-                            const newActiveSlideIndex =
-                                (activeSlideIndex < props.slidesList.length - 1)
-                                    ? activeSlideIndex + 1
-                                    : activeSlideIndex;
-                            changeActiveSlideIndex(newActiveSlideIndex);
-                            changeLastChosenSlideIndex(newActiveSlideIndex);
-                            const newActiveItemStatusList: boolean[] =
-                                itemActiveStatusList.map((_, index) => {
-                                    if (index === newActiveSlideIndex) {
-                                        return true;
+                        const activatedSlidesIds = [
+                            ...props.slidesList
+                                .map((slide, index) => {
+                                    if (newActiveItemStatusList[index]) {
+                                        return slide.id;
                                     } else {
-                                        return false;
+                                        return '';
                                     }
-                                });
-                            const activatedSlidesIds = [
-                                ...props.slidesList
-                                    .map((slide, index) => {
-                                        if (newActiveItemStatusList[index]) {
-                                            return slide.id;
-                                        } else {
-                                            return '';
-                                        }
-                                    })
-                                    .filter(id => id !== ''),
-                            ];
-                            changeActiveStatusItemList(newActiveItemStatusList);
+                                })
+                                .filter(id => id !== ''),
+                        ];
 
-                            dispatchSetIdAction({
-                                selectedSlidesIds: activatedSlidesIds,
-                                selectedSlideElementsIds: []
-                            });
-                        }
-                        break;
+                        changeActiveStatusItemList(newActiveItemStatusList);
+
+                        dispatchSetIdAction({
+                            selectedSlidesIds: activatedSlidesIds,
+                            selectedSlideElementsIds: []
+                        });
+
+                        // const selectetSlideAsElement =
+                        //     ref.current?.childNodes[newChosenSlideIndex] as Element;
+
+                        // intersectionObserver.observe(selectetSlideAsElement);
+                    } else if (e.ctrlKey && getActiveSlidesIds().length === 1) {
+                        const indexToInsertSelectedSlides = (e.code === 'ArrowUp')
+                            ? (activeSlideIndex > 0)
+                                ? activeSlideIndex - 1
+                                : activeSlideIndex
+                            : (activeSlideIndex < props.slidesList.length - 1)
+                                ? activeSlideIndex + 1
+                                : activeSlideIndex;
+
+                        changeActiveSlideIndex(indexToInsertSelectedSlides);
+                        changeLastChosenSlideIndex(indexToInsertSelectedSlides);
+                        changeActiveStatusItemList(itemActiveStatusList
+                            .map((_, index) => {
+                                if (index === indexToInsertSelectedSlides) {
+                                    return true;
+                                }
+                                return false;
+                            })
+                        );
+                        dispatchInsertSelectedSlides(indexToInsertSelectedSlides);
+                        dispatchKeepModelAction();
+                    }
                 }
             }
         }
