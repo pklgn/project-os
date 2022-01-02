@@ -2,6 +2,7 @@ import styles from "./SlideList.module.css";
 
 import { Slide } from "../../../model/types"
 import { SlideComponent } from "../Slide/SlideComponent";
+import { BaseSyntheticEvent } from "react";
 
 type SlideListItemProps = {
     item: Slide,
@@ -17,11 +18,12 @@ export function SlideListItem(props: SlideListItemProps) {
         ? styles['item-number-active']
         : styles['item-number-disabled'];
 
-    return <div className={itemWrapperStyle}>
+    return <div
+        className={itemWrapperStyle}
+    >
         <div className={itemNumberStyle}>
             {props.itemIndex + 1}
         </div>
-        <SlideComponent slide={props.item} />
-        <div className={styles["prevent-pointer-events"]} id={`${props.itemIndex + 1}`} key={props.itemIndex} />
+        <SlideComponent id={`${props.itemIndex + 1}`} slide={props.item} />
     </div>;
 }

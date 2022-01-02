@@ -1,5 +1,5 @@
 import styles from "./SlideListTool.module.css";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { AddSlide } from "../../common/icons/AddSlide/AddSlide";
 import { Button } from "../../common/Button/Button"
@@ -34,6 +34,21 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
         dispatchDeleteSlideAction();
         dispatchKeepModelAction();
     }
+
+    useEffect(() => {
+        const onKeyDownHandler = (e: KeyboardEvent) => {
+            if (e.ctrlKey && e.code === 'KeyM') {
+                dispatchAddSlideAction();
+                dispatchKeepModelAction();
+            }
+        }
+
+        document.addEventListener('keydown', onKeyDownHandler);
+
+        return () => {
+            document.removeEventListener('keydown', onKeyDownHandler);
+        }
+    }, []);
 
     return <div className={styles["slides-list-tools"]}>
         <Button text={localeContext.locale.localization.add_word} state="disabled" shouldStopPropagation={false} contentType="icon" content={{ hotkeyInfo: "", icon: <AddSlide /> }} foo={addSlideButtonFunction} />
