@@ -1,6 +1,6 @@
 import styles from "./SlideList.module.css";
 
-import React, { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { SlideListItem } from "./SlideListItem";
 
@@ -42,7 +42,7 @@ export function SlideList(props: SlideListProps) {
     const [readyForHotkeys, setHotkeysMode] = useState(false);
     const [isMouseReadyToDrag, setMouseReadyToDrag] = useState(false);
 
-    const [intersectionObserver, _] = useState(new IntersectionObserver((entries) => {
+    const [intersectionObserver, _] = useState(new IntersectionObserver((entries, _) => {
         if (!entries[0].isIntersecting) {
             const slideAtTop =
                 (entries[0].boundingClientRect.top !== entries[0].intersectionRect.top);
@@ -61,6 +61,7 @@ export function SlideList(props: SlideListProps) {
     }, { threshold: 1 }));
 
     useEffect(() => {
+        intersectionObserver.disconnect();
         changeActiveStatusSlideList(
             props.slidesList.map((_, index) => {
                 if (getChosenSlidesIndexes(props).includes(index)) {
@@ -77,8 +78,8 @@ export function SlideList(props: SlideListProps) {
                 false
             ]
         );
-        // changeActiveSlideIndex(getActiveSlideIndex(props));
-        // changeLastChosenSlideIndex(getActiveSlideIndex(props));
+        changeActiveSlideIndex(getActiveSlideIndex(props));
+        changeLastChosenSlideIndex(getActiveSlideIndex(props));
         setHotkeysMode(true);
     }, [props.slidesList.length, isMouseReadyToDrag]);
 
@@ -91,7 +92,6 @@ export function SlideList(props: SlideListProps) {
                 if (element.tagName === 'svg') {
                     const newSlideIndexToGrag =
                         parseInt(element.getAttribute("id")!) - 1;
-                    //intersectionObserver.observe(element);
 
                     const isMouseDownOnActiveListElement =
                         slideActiveStatusList[newSlideIndexToGrag];
@@ -103,6 +103,7 @@ export function SlideList(props: SlideListProps) {
                 setHotkeysMode(true);
             } else {
                 setHotkeysMode(false);
+                setMouseReadyToDrag(false);
                 intersectionObserver.disconnect();
 
                 changeActiveStatusSlideList(
@@ -125,10 +126,141 @@ export function SlideList(props: SlideListProps) {
             }
         }
 
+        const handlerKeyDown = (event: KeyboardEvent) => {
+            if (readyForHotkeys) {
+                if (event.code === 'Delete') {
+                    dispatchDeleteSlideAction();
+                    dispatchKeepModelAction();
+                } else if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
+                    const handlerType = (!(event.ctrlKey || event.shiftKey))
+                        ? 'default'
+                        : (event.ctrlKey)
+                            ? 'ctrlPressed'
+                            : (event.shiftKey)
+                                ? 'shiftPressed'
+                                : 'default';
+
+                    if (handlerType === 'default') {
+                        const newActiveSlideIndex = (event.code === 'ArrowUp')
+                            ? (activeSlideIndex > 0)
+                                ? activeSlideIndex - 1
+                                : activeSlideIndex
+                            : (activeSlideIndex < props.slidesList.length - 1)
+                                ? activeSlideIndex + 1
+                                : activeSlideIndex;
+
+                        changeActiveSlideIndex(newActiveSlideIndex);
+                        changeLastChosenSlideIndex(newActiveSlideIndex);
+                        const newActiveItemStatusList: boolean[] =
+                            slideActiveStatusList.map((_, index) => {
+                                if (index === newActiveSlideIndex) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            });
+                        changeActiveStatusSlideList(newActiveItemStatusList);
+
+                        const activatedSlidesIds = [
+                            ...props.slidesList
+                                .map((slide, index) => {
+                                    if (newActiveItemStatusList[index]) {
+                                        return slide.id;
+                                    } else {
+                                        return '';
+                                    }
+                                })
+                                .filter(id => id !== ''),
+                        ];
+
+                        dispatchSetIdAction({
+                            selectedSlidesIds: activatedSlidesIds,
+                            selectedSlideElementsIds: []
+                        });
+
+                    } else if (handlerType === 'shiftPressed') {
+                        const newChosenSlideIndex = (event.code === 'ArrowUp')
+                            ? (lastChosenSlideIndex > 0)
+                                ? lastChosenSlideIndex - 1
+                                : lastChosenSlideIndex
+                            : (lastChosenSlideIndex < props.slidesList.length - 1)
+                                ? lastChosenSlideIndex + 1
+                                : lastChosenSlideIndex;
+                        changeLastChosenSlideIndex(newChosenSlideIndex);
+
+                        const newActiveItemStatusList: boolean[] =
+                            slideActiveStatusList.map((_, index) => {
+                                if (activeSlideIndex >= index &&
+                                    index >= newChosenSlideIndex ||
+                                    activeSlideIndex <= index &&
+                                    index <= newChosenSlideIndex
+                                ) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            });
+                        changeActiveStatusSlideList(newActiveItemStatusList);
+
+                        const activatedSlidesIds = [
+                            ...props.slidesList
+                                .map((slide, index) => {
+                                    if (newActiveItemStatusList[index] &&
+                                        index !== activeSlideIndex) {
+                                        return slide.id;
+                                    } else {
+                                        return '';
+                                    }
+                                })
+                                .filter(id => id !== ''),
+                            props.slidesList[activeSlideIndex].id
+                        ];
+
+                        dispatchSetIdAction({
+                            selectedSlidesIds: activatedSlidesIds,
+                            selectedSlideElementsIds: []
+                        });
+
+                    } else if (handlerType === 'ctrlPressed' &&
+                        getActiveSlidesIds().length === 1
+                    ) {
+                        const indexToInsertSelectedSlides = (event.code === 'ArrowUp')
+                            ? (activeSlideIndex > 0)
+                                ? activeSlideIndex - 1
+                                : activeSlideIndex
+                            : (activeSlideIndex < props.slidesList.length - 1)
+                                ? activeSlideIndex + 1
+                                : activeSlideIndex;
+
+                        changeActiveSlideIndex(indexToInsertSelectedSlides);
+                        changeLastChosenSlideIndex(indexToInsertSelectedSlides);
+
+                        changeActiveStatusSlideList(slideActiveStatusList
+                            .map((_, index) => {
+                                if (index === indexToInsertSelectedSlides) {
+                                    return true;
+                                }
+                                return false;
+                            })
+                        );
+
+                        if (event.code === 'ArrowUp') {
+                            dispatchInsertSelectedSlides(indexToInsertSelectedSlides);
+                        } else {
+                            dispatchInsertSelectedSlides(indexToInsertSelectedSlides + 1);
+                        }
+                        dispatchKeepModelAction();
+                    }
+                }
+            }
+        }
+
         document.addEventListener('mousedown', handlerMouseDown);
+        document.addEventListener('keydown', handlerKeyDown);
 
         return () => {
             document.removeEventListener('mousedown', handlerMouseDown);
+            document.removeEventListener('keydown', handlerKeyDown);
         }
     });
 
@@ -138,21 +270,17 @@ export function SlideList(props: SlideListProps) {
                 ref.current?.contains(event.target) &&
                 event.target.tagName === 'svg'
             ) {
-                const handlerType = (!(event.ctrlKey || event.shiftKey))
-                    ? 'default'
-                    : (event.ctrlKey)
-                        ? 'ctrlPressed'
-                        : (event.shiftKey)
-                            ? 'shiftPressed'
-                            : 'default';
-
-                const amountOfSlidesCanBeDisabled = slideActiveStatusList
-                    .filter(status => status).length;
+                const handlerType = (event.ctrlKey)
+                    ? 'ctrlPressed'
+                    : (event.shiftKey)
+                        ? 'shiftPressed'
+                        : 'default';
 
                 const chosenSlideIndex =
                     parseInt(event.target.getAttribute("id")!) - 1;
 
-                const choosedNewSlide = !getChosenSlidesIndexes(props).includes(chosenSlideIndex);
+                const choosedNewSlide =
+                    !getChosenSlidesIndexes(props).includes(chosenSlideIndex);
                 if (choosedNewSlide) {
                     if (handlerType === 'default') {
                         changeActiveSlideIndex(chosenSlideIndex);
@@ -163,11 +291,10 @@ export function SlideList(props: SlideListProps) {
                     } else {
                         changeLastChosenSlideIndex(chosenSlideIndex);
                     }
-                } else {
-                    if (handlerType === 'ctrlPressed') {
-                        changeActiveSlideIndex(lastChosenSlideIndex);
-                    }
                 }
+
+                const amountOfSlidesCanBeDisabled = slideActiveStatusList
+                    .filter(status => status).length;
 
                 const newItemActiveStatusList: boolean[] = (handlerType === 'default')
                     ? slideActiveStatusList.map((_, index) => {
@@ -193,7 +320,8 @@ export function SlideList(props: SlideListProps) {
                             if (index <= activeSlideIndex &&
                                 index >= chosenSlideIndex ||
                                 index >= activeSlideIndex &&
-                                index <= chosenSlideIndex) {
+                                index <= chosenSlideIndex
+                            ) {
                                 return true;
                             } else {
                                 return false;
@@ -208,29 +336,32 @@ export function SlideList(props: SlideListProps) {
                         selectedSlideElementsIds: []
                     });
                 } else {
-                    const newSelectedSlidesIds = (handlerType === 'ctrlPressed')
-                        ? newItemActiveStatusList
-                            .map((status, index) => {
-                                if (status) {
-                                    return props.slidesList[index].id;
+                    const ctrlIds = (choosedNewSlide)
+                        ? [
+                            ...getActiveSlidesIds().slice(0),
+                            props.slidesList[chosenSlideIndex].id
+                        ]
+                        : getActiveSlidesIds()
+                            .slice(0)
+                            .filter(id => id !== props.slidesList[chosenSlideIndex].id);
+
+                    const idsChoosedByShift = [
+                        ...props.slidesList
+                            .map((slide, index) => {
+                                if (newItemActiveStatusList[index] &&
+                                    index !== activeSlideIndex) {
+                                    return slide.id;
                                 } else {
                                     return '';
                                 }
                             })
-                            .filter(id => id !== '')
-                        : [
-                            ...props.slidesList
-                                .map((slide, index) => {
-                                    if (newItemActiveStatusList[index] &&
-                                        index !== activeSlideIndex) {
-                                        return slide.id;
-                                    } else {
-                                        return '';
-                                    }
-                                })
-                                .filter(id => id !== ''),
-                            props.slidesList[activeSlideIndex].id
-                        ];
+                            .filter(id => id !== ''),
+                        props.slidesList[activeSlideIndex].id
+                    ];
+
+                    const newSelectedSlidesIds = (handlerType === 'ctrlPressed')
+                        ? ctrlIds
+                        : idsChoosedByShift;
 
                     dispatchSetIdAction({
                         selectedSlidesIds: newSelectedSlidesIds,
@@ -240,149 +371,11 @@ export function SlideList(props: SlideListProps) {
             }
         }
 
-    const onKeyDownListHandler = (event: React.KeyboardEvent<HTMLUListElement>) => {
-        if (readyForHotkeys) {
-            if (event.code === 'Delete') {
-                dispatchDeleteSlideAction();
-                dispatchKeepModelAction();
-            } else if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
-                // intersectionObserver.disconnect();
-
-                const handlerType = (!(event.ctrlKey || event.shiftKey))
-                    ? 'default'
-                    : (event.ctrlKey)
-                        ? 'ctrlPressed'
-                        : (event.shiftKey)
-                            ? 'shiftPressed'
-                            : 'default';
-
-                if (handlerType === 'default') {
-                    const newActiveSlideIndex = (event.code === 'ArrowUp')
-                        ? (activeSlideIndex > 0)
-                            ? activeSlideIndex - 1
-                            : activeSlideIndex
-                        : (activeSlideIndex < props.slidesList.length - 1)
-                            ? activeSlideIndex + 1
-                            : activeSlideIndex;
-
-                    changeActiveSlideIndex(newActiveSlideIndex);
-                    changeLastChosenSlideIndex(newActiveSlideIndex);
-                    const newActiveItemStatusList: boolean[] =
-                        slideActiveStatusList.map((_, index) => {
-                            if (index === newActiveSlideIndex) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
-
-                    const activatedSlidesIds = [
-                        ...props.slidesList
-                            .map((slide, index) => {
-                                if (newActiveItemStatusList[index]) {
-                                    return slide.id;
-                                } else {
-                                    return '';
-                                }
-                            })
-                            .filter(id => id !== ''),
-                    ];
-                    changeActiveStatusSlideList(newActiveItemStatusList);
-
-                    dispatchSetIdAction({
-                        selectedSlidesIds: activatedSlidesIds,
-                        selectedSlideElementsIds: []
-                    });
-
-                    // intersectionObserver.disconnect();
-                    // const selectetSlideAsElement =
-                    // ref.current?.childNodes[newActiveSlideIndex] as Element;
-
-                    // intersectionObserver.observe(selectetSlideAsElement);
-                } else if (handlerType === 'shiftPressed') {
-                    const newChosenSlideIndex = (event.code === 'ArrowUp')
-                        ? (lastChosenSlideIndex > 0)
-                            ? lastChosenSlideIndex - 1
-                            : lastChosenSlideIndex
-                        : (lastChosenSlideIndex < props.slidesList.length - 1)
-                            ? lastChosenSlideIndex + 1
-                            : lastChosenSlideIndex;
-
-                    changeLastChosenSlideIndex(newChosenSlideIndex);
-                    const newActiveItemStatusList: boolean[] =
-                        slideActiveStatusList.map((_, index) => {
-                            if (activeSlideIndex >= index &&
-                                index >= newChosenSlideIndex ||
-                                activeSlideIndex <= index &&
-                                index <= newChosenSlideIndex) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
-
-                    const activatedSlidesIds = [
-                        ...props.slidesList
-                            .map((slide, index) => {
-                                if (newActiveItemStatusList[index]) {
-                                    return slide.id;
-                                } else {
-                                    return '';
-                                }
-                            })
-                            .filter(id => id !== ''),
-                    ];
-                    changeActiveStatusSlideList(newActiveItemStatusList);
-
-                    dispatchSetIdAction({
-                        selectedSlidesIds: activatedSlidesIds,
-                        selectedSlideElementsIds: []
-                    });
-
-                    // intersectionObserver.disconnect();
-                    // const selectetSlideAsElement =
-                    // ref.current?.childNodes[newChosenSlideIndex] as Element;
-
-                    // intersectionObserver.observe(selectetSlideAsElement);
-                } else if (handlerType === 'ctrlPressed' &&
-                    getActiveSlidesIds().length === 1
-                ) {
-                    const indexToInsertSelectedSlides = (event.code === 'ArrowUp')
-                        ? (activeSlideIndex > 0)
-                            ? activeSlideIndex - 1
-                            : activeSlideIndex
-                        : (activeSlideIndex < props.slidesList.length - 1)
-                            ? activeSlideIndex + 1
-                            : activeSlideIndex;
-
-                    changeActiveSlideIndex(indexToInsertSelectedSlides);
-                    changeLastChosenSlideIndex(indexToInsertSelectedSlides);
-                    changeActiveStatusSlideList(slideActiveStatusList
-                        .map((_, index) => {
-                            if (index === indexToInsertSelectedSlides) {
-                                return true;
-                            }
-                            return false;
-                        })
-                    );
-
-                    dispatchInsertSelectedSlides(indexToInsertSelectedSlides);
-                    dispatchKeepModelAction();
-
-                    // intersectionObserver.disconnect();
-                    // const selectetSlideAsElement =
-                    // ref.current?.childNodes[indexToInsertSelectedSlides] as Element;
-
-                    // intersectionObserver.observe(selectetSlideAsElement);
-                }
-            }
-        }
-    }
-
     const onMouseUpListHandler = (event: React.MouseEvent<HTMLUListElement>) => {
         if (isMouseReadyToDrag &&
             event.target instanceof Element &&
-            ref.current?.contains(event.target)
+            ref.current?.contains(event.target) &&
+            slideHrStatus.includes(true)
         ) {
             const element = event.target as Element;
             const slideIndexToInsert = parseInt(element.getAttribute('id')!)
@@ -425,7 +418,6 @@ export function SlideList(props: SlideListProps) {
         onClick={onClickListHandler}
         onMouseUp={onMouseUpListHandler}
         onMouseOver={onMouseOverListHandler}
-        onKeyDown={onKeyDownListHandler}
     >
         {
             props.slidesList.map((slide, index) => {
