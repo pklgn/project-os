@@ -25,5 +25,9 @@ export function SlideListItem(props: SlideListItemProps) {
             {props.itemIndex + 1}
         </div>
         <SlideComponent id={`${props.itemIndex + 1}`} slide={props.item} />
+        <svg
+          className={styles['prevent-pointer-events']}
+          id={`${props.itemIndex + 1}`}
+        ></svg>
     </div>;
 }

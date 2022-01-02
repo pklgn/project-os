@@ -1,10 +1,10 @@
 import styles from "./Slide.module.css";
-import {TextElementComponent} from "../../PresentationElements/TextElementComponent";
-import {FigureElementComponent} from "../../PresentationElements/FigureElementComponent";
-import {PictureElementComponent} from "../../PresentationElements/PictureElementComponent";
-import {useRef} from "react";
-import {Slide} from "../../../model/types";
-import {getSlideElementType} from "../../../model/utils/tools";
+import { TextElementComponent } from "../../PresentationElements/TextElementComponent";
+import { FigureElementComponent } from "../../PresentationElements/FigureElementComponent";
+import { PictureElementComponent } from "../../PresentationElements/PictureElementComponent";
+import { useRef } from "react";
+import { Slide } from "../../../model/types";
+import { getSlideElementType } from "../../../model/utils/tools";
 
 type SlideProps = {
     id: string,
@@ -28,19 +28,20 @@ export function SlideComponent(props: SlideProps) {
         data-scale={scale}
         id={props.id}
     >
+        <text y={100}>{props.slide?.id}</text>
         {
             (props.slide !== undefined)
-            ? props.slide.elementsList.map((element) => {
-                switch (getSlideElementType(element.content)) {
-                    case 'TEXT':
-                        return <TextElementComponent element={element}/>
-                    case 'FIGURE':
-                        return <FigureElementComponent element={element}/>
-                    case "PICTURE":
-                        return <PictureElementComponent element={element}/>
-                }
-            })
-            : <></>
+                ? props.slide.elementsList.map((element) => {
+                    switch (getSlideElementType(element.content)) {
+                        case 'TEXT':
+                            return <TextElementComponent element={element} />
+                        case 'FIGURE':
+                            return <FigureElementComponent element={element} />
+                        case "PICTURE":
+                            return <PictureElementComponent element={element} />
+                    }
+                })
+                : <></>
         }
     </svg>
 }
