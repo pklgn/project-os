@@ -10,7 +10,7 @@ import { initEditor } from "../../model/initModelActions";
 import { addSlide, deleteSelectedSlides, insertSelectedSlides } from "../../model/slidesActions";
 import { changePresentationName, setSelectedIdInEditor } from "../../model/presentationActions";
 import { keep, redo, undo } from "../../model/historyActions";
-import { moveElementsToBackgroundOrForeground, changeElementsSize, changeElementsOpacity, changeElementsPosition } from "../../model/elementActions";
+import { moveElementsToBackgroundOrForeground, changeElementsSize, changeElementsOpacity, changeElementsPosition, removeSelectedElements } from "../../model/elementActions";
 
 export const allReducers = (state: Editor = initEditor(), action: SlideAction | PresentationActions | ElementAction | EditorActions): Editor => {
     switch (action.type) {
@@ -38,8 +38,8 @@ export const allReducers = (state: Editor = initEditor(), action: SlideAction | 
             return changeElementsSize(state, action.payload.scaleX, action.payload.scaleY);
         case ActionType.CHANGE_ELEMENTS_OPACITY:
             return changeElementsOpacity(state, action.payload);
-        //case ActionType.REMOVE_SELECTED_ELEMENTS:
-        //return removeSelectedElements(state);
+        case ActionType.REMOVE_SELECTED_ELEMENTS:
+            return removeSelectedElements(state);
         case ActionType.CHANGE_ELEMENTS_POSITION:
             return changeElementsPosition(state, action.payload.dx, action.payload.dy);
 

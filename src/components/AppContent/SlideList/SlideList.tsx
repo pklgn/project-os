@@ -53,15 +53,14 @@ export function SlideList(props: SlideListProps) {
             );
 
             const yToScroll = (slideAtTop)
-                ? -slideHeight
-                : slideHeight;
+                ? -slideHeight - slideHeight / 2
+                : slideHeight + slideHeight / 2;
 
             ref.current?.scrollBy(0, yToScroll);
         }
     }, { threshold: 1 }));
 
     useEffect(() => {
-        intersectionObserver.disconnect();
         changeActiveStatusSlideList(
             props.slidesList.map((_, index) => {
                 if (getChosenSlidesIndexes(props).includes(index)) {
@@ -149,6 +148,11 @@ export function SlideList(props: SlideListProps) {
                                 ? activeSlideIndex + 1
                                 : activeSlideIndex;
 
+                        intersectionObserver.disconnect();
+                        intersectionObserver.observe(
+                            ref.current?.getElementsByTagName('svg')[newActiveSlideIndex * 2] as Element
+                        );
+
                         changeActiveSlideIndex(newActiveSlideIndex);
                         changeLastChosenSlideIndex(newActiveSlideIndex);
                         const newActiveItemStatusList: boolean[] =
@@ -187,6 +191,11 @@ export function SlideList(props: SlideListProps) {
                                 ? lastChosenSlideIndex + 1
                                 : lastChosenSlideIndex;
                         changeLastChosenSlideIndex(newChosenSlideIndex);
+
+                        intersectionObserver.disconnect();
+                        intersectionObserver.observe(
+                            ref.current?.getElementsByTagName('svg')[newChosenSlideIndex * 2] as Element
+                        );
 
                         const newActiveItemStatusList: boolean[] =
                             slideActiveStatusList.map((_, index) => {
@@ -234,6 +243,13 @@ export function SlideList(props: SlideListProps) {
 
                         changeActiveSlideIndex(indexToInsertSelectedSlides);
                         changeLastChosenSlideIndex(indexToInsertSelectedSlides);
+                        console.log(`active:${activeSlideIndex} insertIndex:${indexToInsertSelectedSlides}`);
+                        console.log(ref.current?.getElementsByTagName('svg')[activeSlideIndex * 2]);
+                        console.log(ref.current?.getElementsByTagName('svg')[indexToInsertSelectedSlides * 2]);
+                        intersectionObserver.disconnect();
+                        intersectionObserver.observe(
+                            ref.current?.getElementsByTagName('svg')[activeSlideIndex * 2] as Element
+                        );
 
                         changeActiveStatusSlideList(slideActiveStatusList
                             .map((_, index) => {
@@ -398,8 +414,10 @@ export function SlideList(props: SlideListProps) {
             event.target instanceof Element &&
             ref.current?.contains(event.target)
         ) {
+            intersectionObserver.disconnect();
             const element = event.target as Element;
             const insertIndex = parseInt(element.getAttribute('id')!);
+            intersectionObserver.observe(element);
 
             changeSlideHrStatus(
                 slideHrStatus.map((_, index) => {
@@ -412,12 +430,17 @@ export function SlideList(props: SlideListProps) {
         }
     }
 
+    const onWheelListHandler = () => {
+        intersectionObserver.disconnect();
+    }
+
     return <ul
         className={`${styles.list} ${styles['list-wrapper']}`}
         ref={ref}
         onClick={onClickListHandler}
         onMouseUp={onMouseUpListHandler}
         onMouseOver={onMouseOverListHandler}
+        onWheel={onWheelListHandler}
     >
         {
             props.slidesList.map((slide, index) => {
