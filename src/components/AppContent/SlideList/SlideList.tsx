@@ -132,7 +132,6 @@ export function SlideList(props: SlideListProps) {
                     dispatchDeleteSlideAction();
                     dispatchKeepModelAction();
                 } else if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
-
                     const handlerType = (!(event.ctrlKey || event.shiftKey))
                         ? 'default'
                         : (event.ctrlKey)
@@ -160,6 +159,7 @@ export function SlideList(props: SlideListProps) {
                                     return false;
                                 }
                             });
+                        changeActiveStatusSlideList(newActiveItemStatusList);
 
                         const activatedSlidesIds = [
                             ...props.slidesList
@@ -172,7 +172,6 @@ export function SlideList(props: SlideListProps) {
                                 })
                                 .filter(id => id !== ''),
                         ];
-                        changeActiveStatusSlideList(newActiveItemStatusList);
 
                         dispatchSetIdAction({
                             selectedSlidesIds: activatedSlidesIds,
@@ -187,8 +186,8 @@ export function SlideList(props: SlideListProps) {
                             : (lastChosenSlideIndex < props.slidesList.length - 1)
                                 ? lastChosenSlideIndex + 1
                                 : lastChosenSlideIndex;
-
                         changeLastChosenSlideIndex(newChosenSlideIndex);
+
                         const newActiveItemStatusList: boolean[] =
                             slideActiveStatusList.map((_, index) => {
                                 if (activeSlideIndex >= index &&
@@ -201,19 +200,21 @@ export function SlideList(props: SlideListProps) {
                                     return false;
                                 }
                             });
+                        changeActiveStatusSlideList(newActiveItemStatusList);
 
                         const activatedSlidesIds = [
                             ...props.slidesList
                                 .map((slide, index) => {
-                                    if (newActiveItemStatusList[index]) {
+                                    if (newActiveItemStatusList[index] &&
+                                        index !== activeSlideIndex) {
                                         return slide.id;
                                     } else {
                                         return '';
                                     }
                                 })
                                 .filter(id => id !== ''),
+                            props.slidesList[activeSlideIndex].id
                         ];
-                        changeActiveStatusSlideList(newActiveItemStatusList);
 
                         dispatchSetIdAction({
                             selectedSlidesIds: activatedSlidesIds,
@@ -233,6 +234,7 @@ export function SlideList(props: SlideListProps) {
 
                         changeActiveSlideIndex(indexToInsertSelectedSlides);
                         changeLastChosenSlideIndex(indexToInsertSelectedSlides);
+
                         changeActiveStatusSlideList(slideActiveStatusList
                             .map((_, index) => {
                                 if (index === indexToInsertSelectedSlides) {
@@ -242,9 +244,12 @@ export function SlideList(props: SlideListProps) {
                             })
                         );
 
-                        dispatchInsertSelectedSlides(indexToInsertSelectedSlides);
+                        if (event.code === 'ArrowUp') {
+                            dispatchInsertSelectedSlides(indexToInsertSelectedSlides);
+                        } else {
+                            dispatchInsertSelectedSlides(indexToInsertSelectedSlides + 1);
+                        }
                         dispatchKeepModelAction();
-
                     }
                 }
             }
