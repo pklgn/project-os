@@ -33,18 +33,19 @@ export function SlideWrapper() {
     }, [ref, width, maxHeight])
 
     const currSlideId = state.selectedSlidesIds.slice(-1)[0];
-    const currSlideIndex = state.presentation.slidesList.findIndex(slide => slide.id === currSlideId);
+    const currSlideIndex =
+        state.presentation.slidesList.findIndex(slide => slide.id === currSlideId);
     const currSlide = (currSlideIndex === -1)
         ? undefined
         : state.presentation.slidesList[currSlideIndex];
 
     return <div className={wrapperStyles.wrapper}>
-            <div
+        <div
             className={styles.slide}
             ref={ref}
             inlist={'slide-list'}
         >
-            <SlideComponent slide={currSlide}/>
+            <SlideComponent id={`${currSlideIndex + 1}`}slide={currSlide} />
         </div>
     </div>
 }

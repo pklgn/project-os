@@ -7,9 +7,7 @@ import { BaseSyntheticEvent } from "react";
 type SlideListItemProps = {
     item: Slide,
     status: boolean,
-    itemIndex: number,
-    onMouseEnter: (event: BaseSyntheticEvent) => void,
-    onMouseLeave: (event: BaseSyntheticEvent) => void
+    itemIndex: number
 }
 
 export function SlideListItem(props: SlideListItemProps) {
@@ -22,13 +20,10 @@ export function SlideListItem(props: SlideListItemProps) {
 
     return <div
         className={itemWrapperStyle}
-        onMouseEnter={props.onMouseEnter}
-        onMouseLeave={props.onMouseLeave}
     >
         <div className={itemNumberStyle}>
             {props.itemIndex + 1}
         </div>
-        <SlideComponent slide={props.item} />
-        <div className={styles["prevent-pointer-events"]} id={`${props.itemIndex + 1}`} key={props.itemIndex} />
+        <SlideComponent id={`${props.itemIndex + 1}`} slide={props.item} />
     </div>;
 }

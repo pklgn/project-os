@@ -64,6 +64,7 @@
     position: relative;
     list-style-type: none;
     display: inline-grid;
+    cursor: pointer;
 }
 
 .list-item-active {
@@ -71,6 +72,7 @@
     list-style-type: none;
     display: inline-grid;
     box-shadow: 2px 2px black;
+    cursor: pointer;
 }
 
 .list-item-wrapper-disabled,
