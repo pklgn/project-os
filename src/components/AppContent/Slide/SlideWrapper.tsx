@@ -7,6 +7,7 @@ import { SlideComponent } from "./SlideComponent";
 
 import { store } from "../../../redux/store";
 import { getCurrentSlide } from "../../../model/slidesActions";
+import { Slide } from "../../../model/types";
 
 const SlideParams = {
     ASPECT_RATIO: 1.62,
@@ -19,9 +20,9 @@ export function SlideWrapper() {
     const [width] = useResize(ref);
     const maxHeight = SlideParams.MAX_PAGE_HEIGHT_RATIO * window.innerHeight;
     const [currSlide, changeCurrSlide] =
-        useState(getCurrentSlide(store.getState().model));
+        useState(getCurrentSlide(store.getState().model) as Slide | undefined);
     const [currSlideIndex, changeCurrSlideIndex] =
-        useState(getCurrentSlide(store.getState().model)?.id!);
+        useState(getCurrentSlide(store.getState().model)?.id! as string | undefined);
 
     useEffect(() => {
         const height = width / SlideParams.ASPECT_RATIO
@@ -37,12 +38,17 @@ export function SlideWrapper() {
 
     const handleChange = () => {
         const previousValue = currSlideIndex;
-        const currSlide = getCurrentSlide(store.getState().model)!;
-        const currValue = currSlide.id;
+        const currSlide = getCurrentSlide(store.getState().model);
+        if (currSlide !== undefined) {
+            const currValue = currSlide.id;
 
-        if (previousValue !== currValue) {
-            changeCurrSlide(currSlide);
-            changeCurrSlideIndex(currValue);
+            if (previousValue !== currValue) {
+                changeCurrSlide(currSlide);
+                changeCurrSlideIndex(currValue);
+            }
+        } else {
+            changeCurrSlide(undefined);
+            changeCurrSlideIndex(undefined);
         }
     }
     store.subscribe(handleChange);
@@ -53,7 +59,7 @@ export function SlideWrapper() {
             ref={ref}
             inlist={'slide-list'}
         >
-            <SlideComponent id={`${currSlideIndex + 1}`} slide={currSlide} />
+            <SlideComponent id={`${parseInt(currSlideIndex!) + 1}`} slide={currSlide} />
         </div>
     </div>;
 }

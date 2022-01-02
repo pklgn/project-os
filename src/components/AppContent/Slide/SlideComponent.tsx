@@ -7,7 +7,7 @@ import { Slide } from "../../../model/types";
 import { getSlideElementType } from "../../../model/utils/tools";
 
 type SlideProps = {
-    id: string,
+    id: string | undefined,
     slide: Slide | undefined,
 }
 
