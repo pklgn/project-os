@@ -5,6 +5,8 @@ import {PictureElementComponent} from "../../PresentationElements/PictureElement
 import {useRef} from "react";
 import {Slide} from "../../../model/types";
 import {getSlideElementType} from "../../../model/utils/tools";
+import {mockPicture} from "../../../model/mock/mockPicture";
+import {mockText} from "../../../model/mock/mockEditor";
 
 type SlideProps = {
     id: string,
@@ -15,6 +17,8 @@ export function SlideComponent(props: SlideProps) {
     const ref = useRef<SVGSVGElement>(null)
     const height = ref.current?.getBoundingClientRect().height ?? 100
     const scale = height / 100
+    props.slide?.elementsList.push(mockPicture)
+    props.slide?.elementsList.push(mockText)
 
     return <svg
         ref={ref}

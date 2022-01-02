@@ -16,9 +16,12 @@ export function PictureElementComponent(props: PictureElementProps) {
         return null;
     }
 
-    return <img
+    return <image
         ref={ref}
-        src={element.src}
-        alt={element.alt}
+        href={element.src}
+        x={props.element.startPoint.x}
+        y={props.element.startPoint.y}
+        width={props.element.size.width}
+        height={props.element.size.height}
     />
 }

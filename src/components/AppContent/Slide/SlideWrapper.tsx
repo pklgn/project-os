@@ -7,7 +7,6 @@ import { SlideComponent } from "./SlideComponent";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/reducers/rootReducer";
-import { Slide } from "../../../model/types";
 
 const SlideParams = {
     ASPECT_RATIO: 1.62,
@@ -45,7 +44,7 @@ export function SlideWrapper() {
             ref={ref}
             inlist={'slide-list'}
         >
-            <SlideComponent id={`${currSlideIndex + 1}`}slide={currSlide} />
+            <SlideComponent id={`${currSlideIndex + 1}`} slide={currSlide} />
         </div>
     </div>
 }

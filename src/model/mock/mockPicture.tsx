@@ -5,15 +5,15 @@ const mockPicture: SlideElement = {
     id: generateUUId(),
     startPoint: {
         x: 0,
-        y: 100,
+        y: 0,
     },
     size: {
-        width: 100,
-        height: 100,
+        width: 50,
+        height: 50,
     },
     opacity: 1,
     content: {
-        src: 'C:\\Users\\pk_er\\OneDrive\\Рабочий стол\test.png',
+        src: 'C:/Users/pk_er/OneDrive/Изображения/test.png',
         alt: '',
     }
 }
