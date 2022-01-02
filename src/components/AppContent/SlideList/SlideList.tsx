@@ -149,7 +149,8 @@ export function SlideList(props: SlideListProps) {
         const handlerMouseUp = (event: MouseEvent) => {
             if (isMouseReadyToDrag &&
                 event.target instanceof Element &&
-                event.target.getAttributeNames().includes("id")
+                event.target.getAttributeNames().includes("id") &&
+                !event.ctrlKey
             ) {
                 const element = event.target as Element;
 
@@ -362,23 +363,17 @@ export function SlideList(props: SlideListProps) {
                     if (event.target.getAttribute("id")) {
                         const itemIndex: number =
                             event.target.getAttribute("id") - 1;
+
                         changeActiveSlideIndex(itemIndex);
                         changeLastChosenSlideIndex(itemIndex);
 
-                        let amountOfSlidesCanBeDisabled = 0;
-                        itemActiveStatusList.forEach(status => {
-                            if (status) {
-                                amountOfSlidesCanBeDisabled =
-                                    amountOfSlidesCanBeDisabled + 1;
-                            }
-                        });
+                        const amountOfSlidesCanBeDisabled = itemActiveStatusList
+                            .filter(status => status).length;
 
                         const newItemActiveStatusList: boolean[] =
                             itemActiveStatusList.map((itemStatus, index) => {
                                 if (index === itemIndex) {
                                     if (amountOfSlidesCanBeDisabled > 1) {
-                                        amountOfSlidesCanBeDisabled =
-                                            amountOfSlidesCanBeDisabled - 1;
                                         return !itemStatus;
                                     } else {
                                         return true;
@@ -388,10 +383,15 @@ export function SlideList(props: SlideListProps) {
                                 }
                             });
 
-                        const newSelectedSlidesIds = [
-                            ...getActiveSlidesIds(),
-                            props.slidesList[itemIndex].id
-                        ];
+                        const newSelectedSlidesIds = newItemActiveStatusList
+                            .map((status, index) => {
+                                if (status) {
+                                    return props.slidesList[index].id;
+                                } else {
+                                    return '';
+                                }
+                            })
+                            .filter(id => id !== '');
 
                         changeActiveStatusItemList(newItemActiveStatusList);
 
