@@ -1,6 +1,6 @@
 export enum ActionType {
     //EditorActions
-    SET_SELECTED_ID_IN_EDITOR = "SET_SELECTED_ID_IN_EDITOR",
+    SET_SELECTED_ID_IN_EDITOR = 'SET_SELECTED_ID_IN_EDITOR',
     //EditorActions
 
     //HistoryActions
@@ -14,8 +14,8 @@ export enum ActionType {
     //PresentationActions
 
     //SlideActions
-    ADD_SLIDE = "ADD_SLIDE",
-    DELETE_SELECTED_SLIDES = "DELETE_SELECTED_SLIDES",
+    ADD_SLIDE = 'ADD_SLIDE',
+    DELETE_SELECTED_SLIDES = 'DELETE_SELECTED_SLIDES',
     INSERT_SELECTED_SLIDES_AT_INDEX = 'INSERT_SELECTED_SLIDES_AT_INDEX',
     //SlideActions
 

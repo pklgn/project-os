@@ -1,5 +1,5 @@
-import {FigureShape, SlideElement} from "../types";
-import {generateUUId} from "../utils/uuid";
+import { FigureShape, SlideElement } from '../types';
+import { generateUUId } from '../utils/uuid';
 
 const mockCircleFigureElement: SlideElement = {
     id: generateUUId(),
@@ -17,8 +17,8 @@ const mockCircleFigureElement: SlideElement = {
         figureColor: '#fe3499',
         borderWidth: 1,
         borderColor: '#000000',
-    }
-}
+    },
+};
 
 const mockRectangleFigureElement: SlideElement = {
     id: generateUUId(),
@@ -36,8 +36,8 @@ const mockRectangleFigureElement: SlideElement = {
         figureColor: '#fe3499',
         borderWidth: 1,
         borderColor: '#000000',
-    }
-}
+    },
+};
 
 const mockTriangleFigureElement: SlideElement = {
     id: generateUUId(),
@@ -55,11 +55,11 @@ const mockTriangleFigureElement: SlideElement = {
         figureColor: '#fe3499',
         borderWidth: 1,
         borderColor: '#000000',
-    }
-}
+    },
+};
 
 export {
     mockCircleFigureElement,
     mockRectangleFigureElement,
     mockTriangleFigureElement,
-}
+};

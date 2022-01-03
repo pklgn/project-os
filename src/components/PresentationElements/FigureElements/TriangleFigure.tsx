@@ -1,14 +1,14 @@
-import {FigureProps} from "../FigureElementComponent";
-import {useRef, useState} from "react";
-import {joinClassNames} from "../../utils/joinClassNames";
-import commonStyles from "./CommonFigureStyle.module.css"
-import {useDragAndDrop} from "../../utils/useDragAndDrop";
+import { FigureProps } from '../FigureElementComponent';
+import { useRef, useState } from 'react';
+import { joinClassNames } from '../../utils/joinClassNames';
+import commonStyles from './CommonFigureStyle.module.css';
+import { useDragAndDrop } from '../../utils/useDragAndDrop';
 
 function TriangleFigure(props: FigureProps) {
     const [position, setPosition] = useState({
         x: props.startPoint.x,
         y: props.startPoint.y,
-    })
+    });
 
     const leftVertex = {
         x: position.x,
@@ -22,22 +22,20 @@ function TriangleFigure(props: FigureProps) {
         x: position.x + props.size.width,
         y: position.y + props.size.height,
     };
-    const pointsString = `${leftVertex.x},${leftVertex.y} ${topVertex.x},${topVertex.y} ${rightVertex.x},${rightVertex.y}`
-    const ref = useRef<SVGPolygonElement>(null)
-    useDragAndDrop(ref.current, position, setPosition)
+    const pointsString = `${leftVertex.x},${leftVertex.y} ${topVertex.x},${topVertex.y} ${rightVertex.x},${rightVertex.y}`;
+    const ref = useRef<SVGPolygonElement>(null);
+    useDragAndDrop(ref.current, position, setPosition);
 
-    return <polygon
-        ref={ref}
-        fill={props.content.figureColor}
-        stroke={props.content.borderColor}
-        strokeWidth={props.content.borderWidth}
-        points={pointsString}
-        className={joinClassNames([
-            commonStyles.figure,
-        ])}
-    />
+    return (
+        <polygon
+            ref={ref}
+            fill={props.content.figureColor}
+            stroke={props.content.borderColor}
+            strokeWidth={props.content.borderWidth}
+            points={pointsString}
+            className={joinClassNames([commonStyles.figure])}
+        />
+    );
 }
 
-export {
-    TriangleFigure,
-}
+export { TriangleFigure };

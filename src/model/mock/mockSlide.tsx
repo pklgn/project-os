@@ -1,7 +1,10 @@
-import {Slide} from "../types";
-import {generateUUId} from "../utils/uuid";
-import {mockCircleFigureElement, mockRectangleFigureElement} from "./mockFigures";
-import {mockText} from "./mockEditor";
+import { Slide } from '../types';
+import { generateUUId } from '../utils/uuid';
+import {
+    mockCircleFigureElement,
+    mockRectangleFigureElement,
+} from './mockFigures';
+import { mockText } from './mockEditor';
 
 const mockSlide: Slide = {
     id: generateUUId(),
@@ -14,9 +17,7 @@ const mockSlide: Slide = {
         mockRectangleFigureElement,
         mockRectangleFigureElement,
         mockText,
-    ]
-}
+    ],
+};
 
-export {
-    mockSlide,
-}
+export { mockSlide };

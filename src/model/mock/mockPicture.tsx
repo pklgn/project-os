@@ -1,5 +1,5 @@
-import {SlideElement} from "../types";
-import {generateUUId} from "../utils/uuid";
+import { SlideElement } from '../types';
+import { generateUUId } from '../utils/uuid';
 
 const mockPicture: SlideElement = {
     id: generateUUId(),
@@ -15,9 +15,7 @@ const mockPicture: SlideElement = {
     content: {
         src: 'C:/Users/pk_er/OneDrive/Изображения/test.png',
         alt: '',
-    }
-}
+    },
+};
 
-export {
-    mockPicture,
-}
+export { mockPicture };

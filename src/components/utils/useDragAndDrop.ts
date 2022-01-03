@@ -1,7 +1,7 @@
-import { Coordinates } from "../../model/types";
-import { useEffect } from "react";
+import { Coordinates } from '../../model/types';
+import { useEffect } from 'react';
 
-const INITIAL_SCALE = 1
+const INITIAL_SCALE = 1;
 
 export function useDragAndDrop(
     element: SVGGeometryElement | null,
@@ -9,12 +9,14 @@ export function useDragAndDrop(
     setPosition: (coordinates: Coordinates) => void,
 ): void {
     let startPosition: Coordinates;
-    const scale = parseFloat(element?.parentElement?.dataset.scale ?? `${INITIAL_SCALE}`);
+    const scale = parseFloat(
+        element?.parentElement?.dataset.scale ?? `${INITIAL_SCALE}`,
+    );
     function onMouseDown(event: MouseEvent) {
         startPosition = {
             x: event.pageX,
             y: event.pageY,
-        }
+        };
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
     }
@@ -28,11 +30,11 @@ export function useDragAndDrop(
         const delta = {
             x: e.pageX - startPosition.x,
             y: e.pageY - startPosition.y,
-        }
+        };
         const newPosition = {
             x: position.x + delta.x / scale,
             y: position.y + delta.y / scale,
-        }
+        };
 
         setPosition(newPosition);
     }
@@ -45,7 +47,6 @@ export function useDragAndDrop(
             if (element) {
                 element.removeEventListener('mousedown', onMouseDown);
             }
-        }
+        };
     });
-
 }

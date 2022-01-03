@@ -1,23 +1,27 @@
-import { ActionType } from "../action-types/types";
+import { ActionType } from '../action-types/types';
 
 interface SelectedIdAction {
-    type: ActionType.SET_SELECTED_ID_IN_EDITOR,
+    type: ActionType.SET_SELECTED_ID_IN_EDITOR;
     payload: {
-        selectedSlidesIds: string[],
-        selectedSlideElementsIds: string[]
-    }
+        selectedSlidesIds: string[];
+        selectedSlideElementsIds: string[];
+    };
 }
 
 interface KeepHistoryAction {
-    type: ActionType.KEEP
+    type: ActionType.KEEP;
 }
 
 interface UndoHistoryAction {
-    type: ActionType.UNDO
+    type: ActionType.UNDO;
 }
 
 interface RedoHistoryAction {
-    type: ActionType.REDO
+    type: ActionType.REDO;
 }
 
-export type EditorActions = SelectedIdAction | KeepHistoryAction | UndoHistoryAction | RedoHistoryAction;
+export type EditorActions =
+    | SelectedIdAction
+    | KeepHistoryAction
+    | UndoHistoryAction
+    | RedoHistoryAction;

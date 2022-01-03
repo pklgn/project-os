@@ -1,35 +1,33 @@
-import {useCallback, useState, RefObject, useLayoutEffect} from "react";
+import { useCallback, useState, RefObject, useLayoutEffect } from 'react';
 
-function useResize(ref: RefObject<HTMLElement|SVGSVGElement>) {
-    const [width, setWidth] = useState(0)
-    const [height, setHeight] = useState(0)
+function useResize(ref: RefObject<HTMLElement | SVGSVGElement>) {
+    const [width, setWidth] = useState(0);
+    const [height, setHeight] = useState(0);
     const trackResize = useCallback((entries: ResizeObserverEntry[]) => {
         if (!Array.isArray(entries)) {
             return null;
         }
 
-        const element = entries[0]
-        setWidth(element.contentRect.width)
-        setHeight(element.contentRect.height)
-    }, [])
+        const element = entries[0];
+        setWidth(element.contentRect.width);
+        setHeight(element.contentRect.height);
+    }, []);
 
     useLayoutEffect(() => {
         if (!ref.current) {
             return;
         }
 
-        const customResizeObserver = new ResizeObserver((entries => {
-            trackResize(entries)
-        }))
+        const customResizeObserver = new ResizeObserver((entries) => {
+            trackResize(entries);
+        });
 
-        customResizeObserver.observe(ref.current)
+        customResizeObserver.observe(ref.current);
 
-        return () => customResizeObserver.disconnect()
-    }, [ref, trackResize])
+        return () => customResizeObserver.disconnect();
+    }, [ref, trackResize]);
 
-    return [width, height]
+    return [width, height];
 }
 
-export {
-    useResize,
-}
+export { useResize };

@@ -1,20 +1,20 @@
-import { Editor, Presentation, History } from "./types"
+import { Editor, Presentation, History } from './types';
 
 export function initEditor(): Editor {
     return {
-        mode: "edit",
+        mode: 'edit',
         presentation: initPresentation(),
         history: initHistory(),
         selectedSlidesIds: [],
         selectedSlideElementsIds: [],
-    }
+    };
 }
 
 function initPresentation(): Presentation {
     return {
-        name: "Оладушек",
+        name: 'Оладушек',
         slidesList: [],
-    }
+    };
 }
 
 function initHistory(): History {
@@ -23,5 +23,5 @@ function initHistory(): History {
         currState: 0,
         selectedSlidesIdsStates: [[]],
         selectedSlideElementsIdsStates: [[]],
-    }
+    };
 }
