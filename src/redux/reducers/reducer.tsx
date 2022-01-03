@@ -22,6 +22,7 @@ import {
     changeElementsSize,
     changeElementsOpacity,
     changeElementsPosition,
+    removeSelectedElements,
 } from '../../model/elementActions';
 
 export const allReducers = (

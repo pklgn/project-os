@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { LocaleContext } from '../../../App';
 import { getL18nObject } from '../../../l18n/l18n';
 import { Button } from '../Button/Button';

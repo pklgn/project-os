@@ -70,8 +70,9 @@ export function SlideList(props: SlideListProps) {
                         entries[0].target.scrollHeight,
                     );
 
-                    const yToScroll =
-                        (slideAtTop) ? -1.5 * slideHeight : 1.5 * slideHeight;
+                    const yToScroll = slideAtTop
+                        ? -1.5 * slideHeight
+                        : 1.5 * slideHeight;
 
                     ref.current?.scrollBy(0, yToScroll);
                 }
@@ -157,10 +158,10 @@ export function SlideList(props: SlideListProps) {
                     const handlerType = !(event.ctrlKey || event.shiftKey)
                         ? 'default'
                         : event.ctrlKey
-                            ? 'ctrlPressed'
-                            : event.shiftKey
-                                ? 'shiftPressed'
-                                : 'default';
+                        ? 'ctrlPressed'
+                        : event.shiftKey
+                        ? 'shiftPressed'
+                        : 'default';
 
                     if (handlerType === 'default') {
                         const newActiveSlideIndex =
@@ -169,12 +170,14 @@ export function SlideList(props: SlideListProps) {
                                     ? activeSlideIndex - 1
                                     : activeSlideIndex
                                 : activeSlideIndex < props.slidesList.length - 1
-                                    ? activeSlideIndex + 1
-                                    : activeSlideIndex;
+                                ? activeSlideIndex + 1
+                                : activeSlideIndex;
 
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            ref.current?.getElementsByTagName('svg')[newActiveSlideIndex * 2] as Element
+                            ref.current?.getElementsByTagName('svg')[
+                                newActiveSlideIndex * 2
+                            ] as Element,
                         );
 
                         changeActiveSlideIndex(newActiveSlideIndex);
@@ -212,14 +215,16 @@ export function SlideList(props: SlideListProps) {
                                     ? lastChosenSlideIndex - 1
                                     : lastChosenSlideIndex
                                 : lastChosenSlideIndex <
-                                    props.slidesList.length - 1
-                                    ? lastChosenSlideIndex + 1
-                                    : lastChosenSlideIndex;
+                                  props.slidesList.length - 1
+                                ? lastChosenSlideIndex + 1
+                                : lastChosenSlideIndex;
                         changeLastChosenSlideIndex(newChosenSlideIndex);
 
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            ref.current?.getElementsByTagName('svg')[newChosenSlideIndex * 2] as Element
+                            ref.current?.getElementsByTagName('svg')[
+                                newChosenSlideIndex * 2
+                            ] as Element,
                         );
 
                         const newActiveItemStatusList: boolean[] =
@@ -267,17 +272,29 @@ export function SlideList(props: SlideListProps) {
                                     ? activeSlideIndex - 1
                                     : activeSlideIndex
                                 : activeSlideIndex < props.slidesList.length - 1
-                                    ? activeSlideIndex + 1
-                                    : activeSlideIndex;
+                                ? activeSlideIndex + 1
+                                : activeSlideIndex;
 
                         changeActiveSlideIndex(indexToInsertSelectedSlides);
                         changeLastChosenSlideIndex(indexToInsertSelectedSlides);
-                        console.log(`active:${activeSlideIndex} insertIndex:${indexToInsertSelectedSlides}`);
-                        console.log(ref.current?.getElementsByTagName('svg')[activeSlideIndex * 2]);
-                        console.log(ref.current?.getElementsByTagName('svg')[indexToInsertSelectedSlides * 2]);
+                        console.log(
+                            `active:${activeSlideIndex} insertIndex:${indexToInsertSelectedSlides}`,
+                        );
+                        console.log(
+                            ref.current?.getElementsByTagName('svg')[
+                                activeSlideIndex * 2
+                            ],
+                        );
+                        console.log(
+                            ref.current?.getElementsByTagName('svg')[
+                                indexToInsertSelectedSlides * 2
+                            ],
+                        );
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            ref.current?.getElementsByTagName('svg')[activeSlideIndex * 2] as Element
+                            ref.current?.getElementsByTagName('svg')[
+                                activeSlideIndex * 2
+                            ] as Element,
                         );
 
                         changeActiveStatusSlideList(
@@ -322,8 +339,8 @@ export function SlideList(props: SlideListProps) {
             const handlerType = event.ctrlKey
                 ? 'ctrlPressed'
                 : event.shiftKey
-                    ? 'shiftPressed'
-                    : 'default';
+                ? 'shiftPressed'
+                : 'default';
 
             const chosenSlideIndex =
                 parseInt(event.target.getAttribute('id')!) - 1;
@@ -349,36 +366,36 @@ export function SlideList(props: SlideListProps) {
             const newItemActiveStatusList: boolean[] =
                 handlerType === 'default'
                     ? slideActiveStatusList.map((_, index) => {
-                        if (index == chosenSlideIndex) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    })
+                          if (index == chosenSlideIndex) {
+                              return true;
+                          } else {
+                              return false;
+                          }
+                      })
                     : handlerType === 'ctrlPressed'
-                        ? slideActiveStatusList.map((itemStatus, index) => {
-                            if (index === chosenSlideIndex) {
-                                if (amountOfSlidesCanBeDisabled > 1) {
-                                    return !itemStatus;
-                                } else {
-                                    return true;
-                                }
-                            } else {
-                                return itemStatus;
-                            }
-                        })
-                        : slideActiveStatusList.map((_, index) => {
-                            if (
-                                (index <= activeSlideIndex &&
-                                    index >= chosenSlideIndex) ||
-                                (index >= activeSlideIndex &&
-                                    index <= chosenSlideIndex)
-                            ) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
+                    ? slideActiveStatusList.map((itemStatus, index) => {
+                          if (index === chosenSlideIndex) {
+                              if (amountOfSlidesCanBeDisabled > 1) {
+                                  return !itemStatus;
+                              } else {
+                                  return true;
+                              }
+                          } else {
+                              return itemStatus;
+                          }
+                      })
+                    : slideActiveStatusList.map((_, index) => {
+                          if (
+                              (index <= activeSlideIndex &&
+                                  index >= chosenSlideIndex) ||
+                              (index >= activeSlideIndex &&
+                                  index <= chosenSlideIndex)
+                          ) {
+                              return true;
+                          } else {
+                              return false;
+                          }
+                      });
 
             changeActiveStatusSlideList(newItemActiveStatusList);
 
@@ -390,15 +407,15 @@ export function SlideList(props: SlideListProps) {
             } else {
                 const ctrlIds = choosedNewSlide
                     ? [
-                        ...getActiveSlidesIds().slice(0),
-                        props.slidesList[chosenSlideIndex].id,
-                    ]
+                          ...getActiveSlidesIds().slice(0),
+                          props.slidesList[chosenSlideIndex].id,
+                      ]
                     : getActiveSlidesIds()
-                        .slice(0)
-                        .filter(
-                            (id) =>
-                                id !== props.slidesList[chosenSlideIndex].id,
-                        );
+                          .slice(0)
+                          .filter(
+                              (id) =>
+                                  id !== props.slidesList[chosenSlideIndex].id,
+                          );
 
                 const idsChoosedByShift = [
                     ...props.slidesList
@@ -474,53 +491,55 @@ export function SlideList(props: SlideListProps) {
                 }),
             );
         }
-    }
+    };
 
     const onWheelListHandler = () => {
         intersectionObserver.disconnect();
-    }
+    };
 
-    return <ul
-        className={`${styles.list} ${styles['list-wrapper']}`}
-        ref={ref}
-        onClick={onClickListHandler}
-        onMouseUp={onMouseUpListHandler}
-        onMouseOver={onMouseOverListHandler}
-        onWheel={onWheelListHandler}
-    >
-        {
-            props.slidesList.map((slide, index) => {
-                return <li className={styles['slide-list-item']} key={index}>
-                    <div
-                        className={
-                            (slideHrStatus[index])
-                                ? styles['before-list-element-hr-active']
-                                : styles['before-list-element-hr-disabled']
-                        }
-                        id={`${index}`}
-                        key={index}
-                    ></div>
+    return (
+        <ul
+            className={`${styles.list} ${styles['list-wrapper']}`}
+            ref={ref}
+            onClick={onClickListHandler}
+            onMouseUp={onMouseUpListHandler}
+            onMouseOver={onMouseOverListHandler}
+            onWheel={onWheelListHandler}
+        >
+            {props.slidesList.map((slide, index) => {
+                return (
+                    <li className={styles['slide-list-item']} key={index}>
+                        <div
+                            className={
+                                slideHrStatus[index]
+                                    ? styles['before-list-element-hr-active']
+                                    : styles['before-list-element-hr-disabled']
+                            }
+                            id={`${index}`}
+                            key={index}
+                        ></div>
 
-                    <SlideListItem
-                        item={slide}
-                        itemIndex={index}
-                        status={slideActiveStatusList[index]}
-                        key={slide.id}
-                    />
+                        <SlideListItem
+                            item={slide}
+                            itemIndex={index}
+                            status={slideActiveStatusList[index]}
+                            key={slide.id}
+                        />
 
-                    <div
-                        className={
-                            (slideHrStatus[index + 1])
-                                ? styles['after-list-element-hr-active']
-                                : styles['after-list-element-hr-disabled']
-                        }
-                        id={`${index + 1}`}
-                        key={index + 1}
-                    ></div>
-                </li>;
-            })
-        }
-    </ul>;
+                        <div
+                            className={
+                                slideHrStatus[index + 1]
+                                    ? styles['after-list-element-hr-active']
+                                    : styles['after-list-element-hr-disabled']
+                            }
+                            id={`${index + 1}`}
+                            key={index + 1}
+                        ></div>
+                    </li>
+                );
+            })}
+        </ul>
+    );
 }
 
 function getActiveSlideIndex(props: SlideListProps): number {

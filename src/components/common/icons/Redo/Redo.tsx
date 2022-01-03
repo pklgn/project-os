@@ -1,5 +1,3 @@
-import styles from './Redo.module.css';
-
 export function Redo(): JSX.Element {
     return (
         <svg
