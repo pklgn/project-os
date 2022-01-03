@@ -1,7 +1,13 @@
-import { isFigure } from "../utils/tools";
-import { generateUUId } from "../utils/uuid";
-import { getCurrentSlide, applySlideChanges } from "../slidesActions";
-import { Editor, FigureShape, Slide, FigureElement, SlideElement } from "../types";
+import { isFigure } from '../utils/tools';
+import { generateUUId } from '../utils/uuid';
+import { getCurrentSlide, applySlideChanges } from '../slidesActions';
+import {
+    Editor,
+    FigureShape,
+    Slide,
+    FigureElement,
+    SlideElement,
+} from '../types';
 
 export function addFigureElement(
     editor: Editor,
@@ -9,7 +15,7 @@ export function addFigureElement(
     x = 1,
     y = 1,
 ): Editor {
-    const currSlide: Slide|undefined = getCurrentSlide(editor);
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
         return editor;
@@ -20,7 +26,7 @@ export function addFigureElement(
         figureColor: '#ffffff',
         borderWidth: 1,
         borderColor: '#000000',
-    }
+    };
 
     const element: SlideElement = {
         id: generateUUId(),
@@ -34,23 +40,21 @@ export function addFigureElement(
         },
         opacity: 1,
         content: figureElement,
-
-    }
+    };
 
     const updatedSlide: Slide = {
         ...currSlide,
-        elementsList: [
-            ...currSlide.elementsList,
-            element,
-        ]
-    }
+        elementsList: [...currSlide.elementsList, element],
+    };
 
-    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide) => {
-        if (currSlide.id === slide.id) {
-            return updatedSlide;
-        }
-        return slide;
-    })
+    const updatedSlideList: Slide[] = editor.presentation.slidesList.map(
+        (slide) => {
+            if (currSlide.id === slide.id) {
+                return updatedSlide;
+            }
+            return slide;
+        },
+    );
 
     return {
         ...editor,
@@ -60,128 +64,152 @@ export function addFigureElement(
         },
         selectedSlidesIds: [currSlide.id],
         selectedSlideElementsIds: [element.id],
-    }
+    };
 }
 
-export function changeFiguresColor(editor: Editor, figureColor: string): Editor {
-    const currSlide: Slide|undefined = getCurrentSlide(editor);
+export function changeFiguresColor(
+    editor: Editor,
+    figureColor: string,
+): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
         return editor;
     }
 
-    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
         return item.id === currSlide.id;
-    })
+    });
 
     if (!currSlide.elementsList.length) {
         return editor;
     }
 
-    const updatedElementsList: SlideElement[] = currSlide.elementsList.map(item => {
-        if (editor.selectedSlideElementsIds.includes(item.id) && isFigure(item.content)) {
-            return {
-                ...item,
-                content: {
-                    ...item.content,
-                    figureColor
-                }
+    const updatedElementsList: SlideElement[] = currSlide.elementsList.map(
+        (item) => {
+            if (
+                editor.selectedSlideElementsIds.includes(item.id) &&
+                isFigure(item.content)
+            ) {
+                return {
+                    ...item,
+                    content: {
+                        ...item.content,
+                        figureColor,
+                    },
+                };
             }
-        }
 
-        return item;
-    })
+            return item;
+        },
+    );
 
     const updatedSlide: Slide = {
         ...currSlide,
         elementsList: updatedElementsList,
-    }
+    };
     const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
 
     return {
         ...updatedEditor,
-        selectedSlidesIds: [currSlide.id]
-    }
+        selectedSlidesIds: [currSlide.id],
+    };
 }
 
-export function changeFiguresBorderColor(editor: Editor, borderColor: string): Editor {
-    const currSlide: Slide|undefined = getCurrentSlide(editor);
+export function changeFiguresBorderColor(
+    editor: Editor,
+    borderColor: string,
+): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
         return editor;
     }
 
-    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
         return item.id === currSlide.id;
-    })
+    });
 
     if (!currSlide.elementsList.length) {
         return editor;
     }
 
-    const updatedElementsList: SlideElement[] = currSlide.elementsList.map(item => {
-        if (editor.selectedSlideElementsIds.includes(item.id) && isFigure(item.content)) {
-            return {
-                ...item,
-                content: {
-                    ...item.content,
-                    borderColor
-                }
+    const updatedElementsList: SlideElement[] = currSlide.elementsList.map(
+        (item) => {
+            if (
+                editor.selectedSlideElementsIds.includes(item.id) &&
+                isFigure(item.content)
+            ) {
+                return {
+                    ...item,
+                    content: {
+                        ...item.content,
+                        borderColor,
+                    },
+                };
             }
-        }
 
-        return item;
-    })
+            return item;
+        },
+    );
 
     const updatedSlide: Slide = {
         ...currSlide,
         elementsList: updatedElementsList,
-    }
+    };
     const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
 
     return {
         ...updatedEditor,
-        selectedSlidesIds: [currSlide.id]
-    }
+        selectedSlidesIds: [currSlide.id],
+    };
 }
 
-export function changeFiguresBorderWidth(editor: Editor, borderWidth: number): Editor {
-    const currSlide: Slide|undefined = getCurrentSlide(editor);
+export function changeFiguresBorderWidth(
+    editor: Editor,
+    borderWidth: number,
+): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
         return editor;
     }
 
-    const slideIndex = editor.presentation.slidesList.findIndex(item => {
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
         return item.id === currSlide.id;
-    })
+    });
 
     if (!currSlide.elementsList.length) {
         return editor;
     }
 
-    const updatedElementsList: SlideElement[] = currSlide.elementsList.map(item => {
-        if (editor.selectedSlideElementsIds.includes(item.id) && isFigure(item.content)) {
-            return {
-                ...item,
-                content: {
-                    ...item.content,
-                    borderWidth
-                }
+    const updatedElementsList: SlideElement[] = currSlide.elementsList.map(
+        (item) => {
+            if (
+                editor.selectedSlideElementsIds.includes(item.id) &&
+                isFigure(item.content)
+            ) {
+                return {
+                    ...item,
+                    content: {
+                        ...item.content,
+                        borderWidth,
+                    },
+                };
             }
-        }
 
-        return item;
-    })
+            return item;
+        },
+    );
 
     const updatedSlide: Slide = {
         ...currSlide,
         elementsList: updatedElementsList,
-    }
+    };
     const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
 
     return {
         ...updatedEditor,
-        selectedSlidesIds: [currSlide.id]
-    }
+        selectedSlidesIds: [currSlide.id],
+    };
 }

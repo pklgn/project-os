@@ -1,19 +1,25 @@
-import {Coordinates, FigureElement, FigureShape, Size, SlideElement} from "../../model/types";
-import {isFigure} from "../../model/utils/tools";
-import {CircleFigure} from "./FigureElements/CircleFigure";
-import {RectangleFigure} from "./FigureElements/RectangleFigure";
-import {TriangleFigure} from "./FigureElements/TriangleFigure";
+import {
+    Coordinates,
+    FigureElement,
+    FigureShape,
+    Size,
+    SlideElement,
+} from '../../model/types';
+import { isFigure } from '../../model/utils/tools';
+import { CircleFigure } from './FigureElements/CircleFigure';
+import { RectangleFigure } from './FigureElements/RectangleFigure';
+import { TriangleFigure } from './FigureElements/TriangleFigure';
 
 type FigureElementProps = {
-    element: SlideElement,
-}
+    element: SlideElement;
+};
 
 export type FigureProps = {
-    startPoint: Coordinates,
-    size: Size,
-    opacity: number,
-    content: FigureElement,
-}
+    startPoint: Coordinates;
+    size: Size;
+    opacity: number;
+    content: FigureElement;
+};
 
 function getFigureElement(element: SlideElement): FigureElement | undefined {
     let figureElement: FigureElement | undefined;
@@ -28,7 +34,7 @@ function getFigureElement(element: SlideElement): FigureElement | undefined {
 }
 
 function FigureElementComponent(props: FigureElementProps) {
-    const figureElement = getFigureElement(props.element)
+    const figureElement = getFigureElement(props.element);
 
     if (!figureElement) {
         return null;
@@ -39,8 +45,8 @@ function FigureElementComponent(props: FigureElementProps) {
         size: props.element.size,
         opacity: props.element.opacity,
         content: figureElement,
-    }
-    const figureShape = figureElement.figureType
+    };
+    const figureShape = figureElement.figureType;
 
     switch (figureShape) {
         case FigureShape.Circle:
@@ -52,6 +58,4 @@ function FigureElementComponent(props: FigureElementProps) {
     }
 }
 
-export {
-    FigureElementComponent,
-}
+export { FigureElementComponent };

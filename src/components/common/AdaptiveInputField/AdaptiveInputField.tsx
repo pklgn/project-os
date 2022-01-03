@@ -1,9 +1,9 @@
 import { BaseSyntheticEvent } from 'react';
-import styles from './AdaptiveInputField.module.css'
+import styles from './AdaptiveInputField.module.css';
 
 export function AdaptiveInputField(props: {
-    value: string,
-    onChange: (_: BaseSyntheticEvent) => void
+    value: string;
+    onChange: (_: BaseSyntheticEvent) => void;
 }): JSX.Element {
     return (
         <input

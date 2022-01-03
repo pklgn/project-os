@@ -1,44 +1,51 @@
-import { Editor } from "./types";
+import { Editor } from './types';
 
 export function undo(editor: Editor): Editor {
     if (editor.history.currState > 0) {
-        const currState = editor.history.currState - 1
+        const currState = editor.history.currState - 1;
         const history = {
             ...editor.history,
-            currState: currState
-        }
+            currState: currState,
+        };
         const presentation = editor.history.presentationStates[currState];
-        const selectedSlidesIds = editor.history.selectedSlidesIdsStates[currState];
-        const selectedSlideElementsIds = editor.history.selectedSlideElementsIdsStates[currState];
+        const selectedSlidesIds =
+            editor.history.selectedSlidesIdsStates[currState];
+        const selectedSlideElementsIds =
+            editor.history.selectedSlideElementsIdsStates[currState];
         return {
             ...editor,
             presentation,
             history,
             selectedSlideElementsIds,
             selectedSlidesIds,
-        }
+        };
     }
 
     return editor;
 }
 
 export function redo(editor: Editor): Editor {
-    if (editor.history.currState < editor.history.presentationStates.length - 1) {
-        const currState = editor.history.currState + 1
+    if (
+        editor.history.currState <
+        editor.history.presentationStates.length - 1
+    ) {
+        const currState = editor.history.currState + 1;
         const history = {
             ...editor.history,
-            currState: currState
-        }
+            currState: currState,
+        };
         const presentation = editor.history.presentationStates[currState];
-        const selectedSlidesIds = editor.history.selectedSlidesIdsStates[currState];
-        const selectedSlideElementsIds = editor.history.selectedSlideElementsIdsStates[currState];
+        const selectedSlidesIds =
+            editor.history.selectedSlidesIdsStates[currState];
+        const selectedSlideElementsIds =
+            editor.history.selectedSlideElementsIdsStates[currState];
         return {
             ...editor,
             presentation,
             history,
             selectedSlideElementsIds,
             selectedSlidesIds,
-        }
+        };
     }
 
     return editor;
@@ -57,7 +64,9 @@ export function keep(editor: Editor): Editor {
     editor.history.selectedSlidesIdsStates.push(selectedSlidesIds);
 
     editor.history.selectedSlideElementsIdsStates.splice(spliceStart);
-    editor.history.selectedSlideElementsIdsStates.push(selectedSlideElementsIds);
+    editor.history.selectedSlideElementsIdsStates.push(
+        selectedSlideElementsIds,
+    );
 
     editor.history.currState = editor.history.presentationStates.length - 1;
 
