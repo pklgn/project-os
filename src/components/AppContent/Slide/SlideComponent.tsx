@@ -1,23 +1,21 @@
 import styles from './Slide.module.css';
-import { TextElementComponent } from '../../PresentationElements/TextElementComponent';
-import { FigureElementComponent } from '../../PresentationElements/FigureElementComponent';
-import { PictureElementComponent } from '../../PresentationElements/PictureElementComponent';
-import { useRef } from 'react';
-import { Slide } from '../../../model/types';
+
+import { FigureElementComponent } from '../../SlideElements/FigureElements/FigureElementComponent';
 import { getSlideElementType } from '../../../model/utils/tools';
-import { mockPicture } from '../../../model/mock/mockPicture';
-import { mockText } from '../../../model/mock/mockEditor';
+import { PictureElementComponent } from '../../SlideElements/Picture/PictureElementComponent';
+import { Slide } from '../../../model/types';
+import { TextElementComponent } from '../../SlideElements/Text/TextElementComponent';
+import { useRef } from 'react';
 
 type SlideProps = {
-    id: string | undefined;
-    slide: Slide | undefined;
+    id: string | undefined,
+    slide: Slide | undefined,
 };
 
 export function SlideComponent(props: SlideProps) {
     const ref = useRef<SVGSVGElement>(null);
     const height = ref.current?.getBoundingClientRect().height ?? 100;
     const scale = height / 100;
-    props.slide?.elementsList.push(mockText);
 
     return (
         <svg
@@ -32,7 +30,6 @@ export function SlideComponent(props: SlideProps) {
             data-scale={scale}
             id={props.id}
         >
-            <text y={100}>{props.slide?.id}</text>
             {props.slide !== undefined ? (
                 props.slide.elementsList.map((element) => {
                     switch (getSlideElementType(element.content)) {

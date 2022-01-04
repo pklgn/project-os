@@ -1,5 +1,5 @@
-import { PictureElement, SlideElement } from '../../model/types';
-import { isPicture } from '../../model/utils/tools';
+import { isPicture } from '../../../model/utils/tools';
+import { PictureElement, SlideElement } from '../../../model/types';
 import { useRef } from 'react';
 
 type PictureElementProps = {

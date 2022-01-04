@@ -1,6 +1,7 @@
-import { SlideElement, TextElement } from '../../model/types';
-import { isText } from '../../model/utils/tools';
 import styles from './TextElementComponent.module.css';
+
+import { isText } from '../../../model/utils/tools';
+import { SlideElement, TextElement } from '../../../model/types';
 import { useRef } from 'react';
 
 type TextElementProps = {

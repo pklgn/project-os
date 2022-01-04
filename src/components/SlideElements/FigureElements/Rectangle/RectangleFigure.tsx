@@ -1,7 +1,8 @@
-import { FigureProps } from '../FigureElementComponent';
-import { joinClassNames } from '../../utils/joinClassNames';
 import commonStyles from './CommonFigureStyle.module.css';
-import { useDragAndDrop } from '../../utils/useDragAndDrop';
+
+import { FigureProps } from '../FigureElementComponent';
+import { joinClassNames } from '../../../utils/joinClassNames';
+import { useDragAndDrop } from '../../../utils/useDragAndDrop';
 import { useRef, useState } from 'react';
 
 function RectangleFigure(props: FigureProps) {

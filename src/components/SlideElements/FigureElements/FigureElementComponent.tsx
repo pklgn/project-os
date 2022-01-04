@@ -4,22 +4,22 @@ import {
     FigureShape,
     Size,
     SlideElement,
-} from '../../model/types';
-import { isFigure } from '../../model/utils/tools';
-import { CircleFigure } from './FigureElements/CircleFigure';
-import { RectangleFigure } from './FigureElements/RectangleFigure';
-import { TriangleFigure } from './FigureElements/TriangleFigure';
+} from '../../../model/types';
+import { isFigure } from '../../../model/utils/tools';
+import { CircleFigure } from './Circle/CircleFigure';
+import { RectangleFigure } from './Rectangle/RectangleFigure';
+import { TriangleFigure } from './Triangle/TriangleFigure';
 
 type FigureElementProps = {
-    element: SlideElement;
-};
+    element: SlideElement,
+}
 
 export type FigureProps = {
-    startPoint: Coordinates;
-    size: Size;
-    opacity: number;
-    content: FigureElement;
-};
+    startPoint: Coordinates,
+    size: Size,
+    opacity: number,
+    content: FigureElement,
+}
 
 function getFigureElement(element: SlideElement): FigureElement | undefined {
     let figureElement: FigureElement | undefined;
@@ -58,4 +58,4 @@ function FigureElementComponent(props: FigureElementProps) {
     }
 }
 
-export { FigureElementComponent };
+export { FigureElementComponent }

@@ -1,9 +1,10 @@
-import { Coordinates, Size } from '../../../model/types';
-import { FigureProps } from '../FigureElementComponent';
 import commonStyles from './CommonFigureStyle.module.css';
-import { joinClassNames } from '../../utils/joinClassNames';
+
+import { Coordinates, Size } from '../../../../model/types';
+import { FigureProps } from '../FigureElementComponent';
+import { joinClassNames } from '../../../utils/joinClassNames';
 import { useRef, useState } from 'react';
-import { useDragAndDrop } from '../../utils/useDragAndDrop';
+import { useDragAndDrop } from '../../../utils/useDragAndDrop';
 
 function getCenterPointCoordinates(
     startPoint: Coordinates,
@@ -18,7 +19,7 @@ function getCenterPointCoordinates(
     };
 }
 
-function CircleFigure(props: FigureProps) {
+function CircleFigure(props: FigureProps): JSX.Element | null {
     const { startPoint, size, opacity, content } = props;
 
     const [position, setPosition] = useState(

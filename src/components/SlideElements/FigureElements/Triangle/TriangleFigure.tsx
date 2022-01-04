@@ -1,8 +1,9 @@
-import { FigureProps } from '../FigureElementComponent';
-import { useRef, useState } from 'react';
-import { joinClassNames } from '../../utils/joinClassNames';
 import commonStyles from './CommonFigureStyle.module.css';
-import { useDragAndDrop } from '../../utils/useDragAndDrop';
+
+import { FigureProps } from '../FigureElementComponent';
+import { joinClassNames } from '../../../utils/joinClassNames';
+import { useDragAndDrop } from '../../../utils/useDragAndDrop';
+import { useRef, useState } from 'react';
 
 function TriangleFigure(props: FigureProps) {
     const [position, setPosition] = useState({
@@ -22,7 +23,11 @@ function TriangleFigure(props: FigureProps) {
         x: position.x + props.size.width,
         y: position.y + props.size.height,
     };
-    const pointsString = `${leftVertex.x},${leftVertex.y} ${topVertex.x},${topVertex.y} ${rightVertex.x},${rightVertex.y}`;
+    const pointsString = 
+        `${leftVertex.x},
+         ${leftVertex.y} ${topVertex.x},
+         ${topVertex.y} ${rightVertex.x},
+         ${rightVertex.y}`;
     const ref = useRef<SVGPolygonElement>(null);
     useDragAndDrop(ref.current, position, setPosition);
 
