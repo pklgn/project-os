@@ -95,7 +95,12 @@ export function SlideList(props: SlideListProps) {
         changeActiveSlideIndex(getActiveSlideIndex(props));
         changeLastChosenSlideIndex(getActiveSlideIndex(props));
         setHotkeysMode(true);
-    }, [props.slidesList.length, isMouseReadyToDrag]);
+    }, [
+        props.slidesList.length,
+        isMouseReadyToDrag,
+        intersectionObserver,
+        props,
+    ]);
 
     useEffect(() => {
         const handlerMouseDown = (event: MouseEvent) => {

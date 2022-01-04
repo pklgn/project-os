@@ -1,5 +1,3 @@
-import styles from './Undo.module.css';
-
 export function Undo(): JSX.Element {
     return (
         <svg

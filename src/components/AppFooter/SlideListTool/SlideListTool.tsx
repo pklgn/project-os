@@ -57,7 +57,7 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
         return () => {
             document.removeEventListener('keydown', onKeyDownHandler);
         };
-    }, []);
+    }, [dispatchAddSlideAction, dispatchKeepModelAction]);
 
     return (
         <div className={styles['slides-list-tools']}>

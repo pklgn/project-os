@@ -1,7 +1,7 @@
 import styles from './ElementListTool.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Delete } from '../../common/icons/Delete/Delete';
