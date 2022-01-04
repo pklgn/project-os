@@ -8,8 +8,8 @@ import { TextElementComponent } from '../../SlideElements/Text/TextElementCompon
 import { useRef } from 'react';
 
 type SlideProps = {
-    id: string | undefined,
-    slide: Slide | undefined,
+    id: string | undefined;
+    slide: Slide | undefined;
 };
 
 export function SlideComponent(props: SlideProps) {

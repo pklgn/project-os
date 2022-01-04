@@ -1,4 +1,4 @@
-import commonStyles from './CommonFigureStyle.module.css';
+import commonStyles from '../CommonFigureStyle.module.css';
 
 import { FigureProps } from '../FigureElementComponent';
 import { joinClassNames } from '../../../utils/joinClassNames';
@@ -23,11 +23,10 @@ function TriangleFigure(props: FigureProps) {
         x: position.x + props.size.width,
         y: position.y + props.size.height,
     };
-    const pointsString = 
-        `${leftVertex.x},
-         ${leftVertex.y} ${topVertex.x},
-         ${topVertex.y} ${rightVertex.x},
-         ${rightVertex.y}`;
+    const pointsString = `${leftVertex.x},
+        ${leftVertex.y} ${topVertex.x},
+        ${topVertex.y}  ${rightVertex.x},
+        ${rightVertex.y}`;
     const ref = useRef<SVGPolygonElement>(null);
     useDragAndDrop(ref.current, position, setPosition);
 

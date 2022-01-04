@@ -11,15 +11,15 @@ import { RectangleFigure } from './Rectangle/RectangleFigure';
 import { TriangleFigure } from './Triangle/TriangleFigure';
 
 type FigureElementProps = {
-    element: SlideElement,
-}
+    element: SlideElement;
+};
 
 export type FigureProps = {
-    startPoint: Coordinates,
-    size: Size,
-    opacity: number,
-    content: FigureElement,
-}
+    startPoint: Coordinates;
+    size: Size;
+    opacity: number;
+    content: FigureElement;
+};
 
 function getFigureElement(element: SlideElement): FigureElement | undefined {
     let figureElement: FigureElement | undefined;
@@ -58,4 +58,4 @@ function FigureElementComponent(props: FigureElementProps) {
     }
 }
 
-export { FigureElementComponent }
+export { FigureElementComponent };

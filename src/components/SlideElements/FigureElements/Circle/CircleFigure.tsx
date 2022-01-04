@@ -1,4 +1,4 @@
-import commonStyles from './CommonFigureStyle.module.css';
+import commonStyles from '../CommonFigureStyle.module.css';
 
 import { Coordinates, Size } from '../../../../model/types';
 import { FigureProps } from '../FigureElementComponent';
