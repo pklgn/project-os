@@ -27,10 +27,14 @@
         "@typescript-eslint",
         "prettier"
     ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "rules": {
         "react/react-in-jsx-scope": "off",
         "no-extra-parens": "off",
-        "no-multiple-empty-lines": "error",
-        "max-statements-per-line": [1]
+        "no-multiple-empty-lines": "error"
     }
 }
