@@ -22,6 +22,7 @@ import {
     changeElementsSize,
     changeElementsOpacity,
     changeElementsPosition,
+    removeSelectedElements,
 } from '../../model/elementActions';
 
 export const allReducers = (
@@ -61,8 +62,8 @@ export const allReducers = (
             );
         case ActionType.CHANGE_ELEMENTS_OPACITY:
             return changeElementsOpacity(state, action.payload);
-        //case ActionType.REMOVE_SELECTED_ELEMENTS:
-        //return removeSelectedElements(state);
+        case ActionType.REMOVE_SELECTED_ELEMENTS:
+            return removeSelectedElements(state);
         case ActionType.CHANGE_ELEMENTS_POSITION:
             return changeElementsPosition(
                 state,

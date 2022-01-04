@@ -29,6 +29,8 @@
     ],
     "rules": {
         "react/react-in-jsx-scope": "off",
-        "no-extra-parens": "off"
+        "no-extra-parens": "off",
+        "no-multiple-empty-lines": "error",
+        "max-statements-per-line": [1]
     }
 }
