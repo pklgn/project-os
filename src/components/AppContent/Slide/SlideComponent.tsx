@@ -17,7 +17,6 @@ export function SlideComponent(props: SlideProps) {
     const ref = useRef<SVGSVGElement>(null);
     const height = ref.current?.getBoundingClientRect().height ?? 100;
     const scale = height / 100;
-    props.slide?.elementsList.push(mockPicture);
     props.slide?.elementsList.push(mockText);
 
     return (
