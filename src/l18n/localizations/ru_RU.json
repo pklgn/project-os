@@ -36,6 +36,8 @@
     "regular-text-format": "Обычный текст (.txt)",
     "send-to-email": "Отправить по почте",
     "slide-show": "Показ слайдов",
+    "slide-show-start-first-slide": "С первого слайда",
+    "slide-show-start-current-slide": "С текущего слайда",
     "upload-from-computer": "Загрузить с компьютера",
     "write-to-co-authors": "Написать соавторам",
 

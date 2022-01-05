@@ -359,13 +359,39 @@ export function ToolBar() {
                         />,
                     ]}
                 />
-                <Button
-                    text={localeContext.locale.localization['slide-show']}
-                    state="default"
-                    shouldStopPropagation={false}
-                    contentType="text"
-                    content={undefined}
-                    foo={func}
+                <DropdownMenu
+                    summoningButtonText={
+                        localeContext.locale.localization['slide-show']
+                    }
+                    summoningButtonType={'text'}
+                    summoningButtonPlace={'above'}
+                    bottomBorderAfterElement={undefined}
+                    elementsArray={[
+                        <Button
+                            text={
+                                localeContext.locale.localization[
+                                    'slide-show-start-first-slide'
+                                ]
+                            }
+                            state="disabled"
+                            shouldStopPropagation={false}
+                            contentType="textInSubMenu"
+                            content={undefined}
+                            foo={func}
+                        />,
+                        <Button
+                            text={
+                                localeContext.locale.localization[
+                                    'slide-show-start-current-slide'
+                                ]
+                            }
+                            state="disabled"
+                            shouldStopPropagation={false}
+                            contentType="textInSubMenu"
+                            content={undefined}
+                            foo={func}
+                        />,
+                    ]}
                 />
                 <Button
                     text={localeContext.locale.localization['change-locale']}

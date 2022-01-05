@@ -30,6 +30,9 @@ export function SlideComponent(props: SlideProps) {
             data-scale={scale}
             id={props.id}
         >
+            <text y={100}>
+                {props.slide?.id}
+            </text>
             {props.slide !== undefined ? (
                 props.slide.elementsList.map((element) => {
                     switch (getSlideElementType(element.content)) {

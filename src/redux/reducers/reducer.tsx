@@ -20,10 +20,7 @@ import {
     deleteSelectedSlides,
     insertSelectedSlides,
 } from '../../model/slidesActions';
-import {
-    changePresentationName,
-    setSelectedIdInEditor,
-} from '../../model/presentationActions';
+import { changePresentationName } from '../../model/presentationActions';
 import { keep, redo, undo } from '../../model/historyActions';
 import {
     moveElementsToBackgroundOrForeground,
@@ -32,6 +29,10 @@ import {
     changeElementsPosition,
     removeSelectedElements,
 } from '../../model/elementActions';
+import {
+    setSelectedIdInEditor,
+    toggleEditorMode,
+} from '../../model/editorActions';
 
 type ModelActions =
     | SlideAction
@@ -45,6 +46,8 @@ export const allReducers = (
     action: ModelActions,
 ): Editor => {
     switch (action.type) {
+        case ActionType.TOGGLE_EDITOR_MODE:
+            return toggleEditorMode(state);
         case ActionType.SET_SELECTED_ID_IN_EDITOR:
             return setSelectedIdInEditor(
                 state,

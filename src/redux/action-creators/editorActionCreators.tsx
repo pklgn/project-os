@@ -3,6 +3,14 @@ import { EditorActions } from '../actions/editorActions';
 
 import { Dispatch } from 'react';
 
+export const toggleEditorMode = () => {
+    return (dispatch: Dispatch<EditorActions>) => {
+        dispatch({
+            type: ActionType.TOGGLE_EDITOR_MODE,
+        });
+    };
+};
+
 export const setSelectedIdInEditor = (payload: {
     selectedSlidesIds: string[];
     selectedSlideElementsIds: string[];

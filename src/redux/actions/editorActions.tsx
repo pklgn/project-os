@@ -1,5 +1,17 @@
 import { ActionType } from '../action-types/types';
 
+interface ToggleEditorModeAction {
+    type: ActionType.TOGGLE_EDITOR_MODE;
+}
+
+interface KeepHistoryAction {
+    type: ActionType.KEEP;
+}
+
+interface RedoHistoryAction {
+    type: ActionType.REDO;
+}
+
 interface SelectedIdAction {
     type: ActionType.SET_SELECTED_ID_IN_EDITOR;
     payload: {
@@ -8,20 +20,14 @@ interface SelectedIdAction {
     };
 }
 
-interface KeepHistoryAction {
-    type: ActionType.KEEP;
-}
-
 interface UndoHistoryAction {
     type: ActionType.UNDO;
 }
 
-interface RedoHistoryAction {
-    type: ActionType.REDO;
-}
 
 export type EditorActions =
-    | SelectedIdAction
+    | ToggleEditorModeAction
     | KeepHistoryAction
-    | UndoHistoryAction
-    | RedoHistoryAction;
+    | RedoHistoryAction
+    | SelectedIdAction
+    | UndoHistoryAction;

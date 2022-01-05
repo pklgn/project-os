@@ -3,9 +3,9 @@ import { ActionType } from '../action-types/types';
 interface TextAddAction {
     type: ActionType.ADD_TEXT_AT_SELECTED_SLIDE;
     payload: {
-        x: number,
-        y: number,
-    }
+        x: number;
+        y: number;
+    };
 }
 
 interface ChangeTextColorAction {
