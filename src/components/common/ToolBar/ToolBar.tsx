@@ -12,6 +12,7 @@ import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../redux/store';
+import { getSlideAmount } from '../../../model/slidesActions';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -33,7 +34,7 @@ export function ToolBar() {
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
 
     const addTextButtonFunction = () => {
-        if (store.getState().model.presentation.slidesList.length === 0) {
+        if (getSlideAmount(store.getState().model) === 0) {
             dispatchAddSlideAction();
         }
         dispatchAddTextAction({

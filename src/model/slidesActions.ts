@@ -216,3 +216,7 @@ export function insertSelectedSlides(
         selectedSlideElementsIds: [],
     };
 }
+
+export function getSlideAmount(editor: Editor): number {
+    return editor.presentation.slidesList.length;
+}
