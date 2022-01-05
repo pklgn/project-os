@@ -30,5 +30,20 @@
     "rules": {
         "react/react-in-jsx-scope": "off",
         "no-extra-parens": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        },
+        "import/core-modules": [
+            "csstype"
+        ]
     }
 }

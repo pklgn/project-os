@@ -1,12 +1,14 @@
 import { ActionType } from '../action-types/types';
 import { EditorActions } from '../actions/editorActions';
+import { PresentationMode } from '../../model/types';
 
 import { Dispatch } from 'react';
 
-export const toggleEditorMode = () => {
+export const setEditorMode = (payload: PresentationMode) => {
     return (dispatch: Dispatch<EditorActions>) => {
         dispatch({
-            type: ActionType.TOGGLE_EDITOR_MODE,
+            type: ActionType.SET_EDITOR_MODE,
+            payload,
         });
     };
 };

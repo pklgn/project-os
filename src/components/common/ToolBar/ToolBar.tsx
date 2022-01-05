@@ -10,9 +10,10 @@ import { useContext } from 'react';
 import { addText } from '../../../redux/action-creators/textActionCreators';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
-import { useDispatch } from 'react-redux';
-import { store } from '../../../redux/store';
 import { getSlideAmount } from '../../../model/slidesActions';
+import { setEditorMode } from '../../../redux/action-creators/editorActionCreators';
+import { store } from '../../../redux/store';
+import { useDispatch } from 'react-redux';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -32,6 +33,7 @@ export function ToolBar() {
     const dispatch = useDispatch();
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
+    const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
 
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {
@@ -41,6 +43,18 @@ export function ToolBar() {
             x: 25,
             y: 25,
         });
+    };
+
+    const startSlideShowFromFirstSlideButtonFunction = () => {
+        if (getSlideAmount(store.getState().model) !== 0) {
+            dispatchSetEditorAction('show-from-first-slide');
+        }
+    };
+
+    const startSlideShowFromCurrentSlideButtonFunction = () => {
+        if (getSlideAmount(store.getState().model) !== 0) {
+            dispatchSetEditorAction('show-from-current-slide');
+        }
     };
 
     /* eslint-disable react/jsx-key */
@@ -377,7 +391,7 @@ export function ToolBar() {
                             shouldStopPropagation={false}
                             contentType="textInSubMenu"
                             content={undefined}
-                            foo={func}
+                            foo={startSlideShowFromFirstSlideButtonFunction}
                         />,
                         <Button
                             text={
@@ -389,7 +403,7 @@ export function ToolBar() {
                             shouldStopPropagation={false}
                             contentType="textInSubMenu"
                             content={undefined}
-                            foo={func}
+                            foo={startSlideShowFromCurrentSlideButtonFunction}
                         />,
                     ]}
                 />

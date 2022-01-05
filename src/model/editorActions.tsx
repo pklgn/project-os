@@ -1,7 +1,19 @@
 import { Editor, PresentationMode } from './types';
 
-export function toggleEditorMode(editor: Editor): Editor {
-    const mode: PresentationMode = editor.mode === 'edit' ? 'show' : 'edit';
+export function getCurrentEditorMode(editor: Editor): PresentationMode {
+    return editor.mode;
+}
+
+export function toggleEditorMode(
+    editor: Editor,
+    key: PresentationMode,
+): Editor {
+    const mode: PresentationMode =
+        key === 'edit'
+            ? 'edit'
+            : key === 'show-from-first-slide'
+            ? 'show-from-first-slide'
+            : 'show-from-current-slide';
 
     return {
         ...editor,

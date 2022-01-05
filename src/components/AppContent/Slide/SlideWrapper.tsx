@@ -21,7 +21,7 @@ export function SlideWrapper() {
     const [currSlide, changeCurrSlide] = useState(
         getCurrentSlide(store.getState().model) as Slide | undefined,
     );
-    const [currSlideIndex, changeCurrSlideIndex] = useState(
+    const [currSlideId, changeCurrSlideId] = useState(
         getCurrentSlide(store.getState().model)?.id as string | undefined,
     );
 
@@ -39,18 +39,18 @@ export function SlideWrapper() {
     }, [ref, width, maxHeight]);
 
     const handleChange = () => {
-        const previousValue = currSlideIndex;
+        const previousValue = currSlideId;
         const currSlide = getCurrentSlide(store.getState().model);
         if (currSlide !== undefined) {
             const currValue = currSlide.id;
 
             if (previousValue !== currValue) {
                 changeCurrSlide(currSlide);
-                changeCurrSlideIndex(currValue);
+                changeCurrSlideId(currValue);
             }
         } else {
             changeCurrSlide(undefined);
-            changeCurrSlideIndex(undefined);
+            changeCurrSlideId(undefined);
         }
     };
     store.subscribe(handleChange);
@@ -59,7 +59,7 @@ export function SlideWrapper() {
         <div className={wrapperStyles.wrapper}>
             <div className={styles.slide} ref={ref} inlist={'slide-list'}>
                 <SlideComponent
-                    id={`${parseInt(currSlideIndex!) + 1}`}
+                    id={`${parseInt(currSlideId!) + 1}`}
                     slide={currSlide}
                 />
             </div>

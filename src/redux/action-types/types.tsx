@@ -1,7 +1,7 @@
 export enum ActionType {
     //EditorActions
     SET_SELECTED_ID_IN_EDITOR = 'SET_SELECTED_ID_IN_EDITOR',
-    TOGGLE_EDITOR_MODE = 'TOGGLE_EDITOR_MODE',
+    SET_EDITOR_MODE = 'SET_EDITOR_MODE',
     //EditorActions
 
     //HistoryActions

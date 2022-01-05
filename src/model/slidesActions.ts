@@ -178,6 +178,46 @@ export function getCurrentSlide(editor: Editor): Slide | undefined {
     return slideList[slideIndex];
 }
 
+export function getFirstSlide(editor: Editor): Slide | undefined {
+    if (editor.presentation.slidesList.length === 0) {
+        return undefined;
+    } else {
+        return editor.presentation.slidesList[0];
+    }
+}
+
+export function getSlideAmount(editor: Editor): number {
+    return editor.presentation.slidesList.length;
+}
+
+export function getSlideIndex(editor: Editor, searchSlide: Slide): number {
+    return editor.presentation.slidesList.findIndex((slide) => {
+        return slide.id === searchSlide.id;
+    });
+}
+
+export function getNextToSlide(
+    editor: Editor,
+    startSlide: Slide,
+    key: 'next' | 'prev',
+): Slide | undefined {
+    if (editor.presentation.slidesList.length === 0) {
+        return undefined;
+    }
+
+    const startSlideIndex = getSlideIndex(editor, startSlide);
+    const nextSlideIndex =
+        key === 'next'
+            ? startSlideIndex !== editor.presentation.slidesList.length - 1
+                ? startSlideIndex + 1
+                : startSlideIndex
+            : startSlideIndex > 0
+            ? startSlideIndex - 1
+            : startSlideIndex;
+    const res = editor.presentation.slidesList.at(nextSlideIndex) as Slide;
+    return res;
+}
+
 export function insertSelectedSlides(
     editor: Editor,
     insertIndex: number,
@@ -215,8 +255,4 @@ export function insertSelectedSlides(
         presentation: updatedPresentation,
         selectedSlideElementsIds: [],
     };
-}
-
-export function getSlideAmount(editor: Editor): number {
-    return editor.presentation.slidesList.length;
 }

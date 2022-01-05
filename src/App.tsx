@@ -2,6 +2,7 @@ import React, { useState, createContext } from 'react';
 import './App.css';
 
 import { PresentationEditor } from './components/PresentationEditor/PresentationEditor';
+import { PresentationViewer } from './components/PresentationViewer/PresentationViewer';
 
 import { getL18nObject, l18nType } from './l18n/l18n';
 
@@ -27,6 +28,7 @@ function App() {
         <Provider store={store}>
             <LocaleContext.Provider value={{ locale, changeLocale }}>
                 <PresentationEditor />
+                <PresentationViewer />
             </LocaleContext.Provider>
         </Provider>
     );

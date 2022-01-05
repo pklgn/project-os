@@ -46,8 +46,8 @@ export const allReducers = (
     action: ModelActions,
 ): Editor => {
     switch (action.type) {
-        case ActionType.TOGGLE_EDITOR_MODE:
-            return toggleEditorMode(state);
+        case ActionType.SET_EDITOR_MODE:
+            return toggleEditorMode(state, action.payload);
         case ActionType.SET_SELECTED_ID_IN_EDITOR:
             return setSelectedIdInEditor(
                 state,

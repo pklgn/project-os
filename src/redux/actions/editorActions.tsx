@@ -1,7 +1,9 @@
 import { ActionType } from '../action-types/types';
+import { PresentationMode } from '../../model/types';
 
-interface ToggleEditorModeAction {
-    type: ActionType.TOGGLE_EDITOR_MODE;
+interface SetEditorModeAction {
+    type: ActionType.SET_EDITOR_MODE;
+    payload: PresentationMode;
 }
 
 interface KeepHistoryAction {
@@ -24,9 +26,8 @@ interface UndoHistoryAction {
     type: ActionType.UNDO;
 }
 
-
 export type EditorActions =
-    | ToggleEditorModeAction
+    | SetEditorModeAction
     | KeepHistoryAction
     | RedoHistoryAction
     | SelectedIdAction
