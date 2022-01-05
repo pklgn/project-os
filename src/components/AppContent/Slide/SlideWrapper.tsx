@@ -10,7 +10,7 @@ import { getCurrentSlide } from '../../../model/slidesActions';
 import { Slide } from '../../../model/types';
 
 const SlideParams = {
-    ASPECT_RATIO: 1.62,
+    ASPECT_RATIO: 16 / 9,
     MAX_PAGE_HEIGHT_RATIO: 0.8,
 };
 

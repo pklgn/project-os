@@ -267,19 +267,6 @@ export function SlideList(props: SlideListProps) {
 
                         changeActiveSlideIndex(indexToInsertSelectedSlides);
                         changeLastChosenSlideIndex(indexToInsertSelectedSlides);
-                        console.log(
-                            `active:${activeSlideIndex} insertIndex:${indexToInsertSelectedSlides}`,
-                        );
-                        console.log(
-                            ref.current?.getElementsByTagName('svg')[
-                                activeSlideIndex * 2
-                            ],
-                        );
-                        console.log(
-                            ref.current?.getElementsByTagName('svg')[
-                                indexToInsertSelectedSlides * 2
-                            ],
-                        );
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
                             ref.current?.getElementsByTagName('svg')[
@@ -395,6 +382,14 @@ export function SlideList(props: SlideListProps) {
                               (id) =>
                                   id !== props.slidesList[chosenSlideIndex].id,
                           );
+                if (!choosedNewSlide) {
+                    const newChosenSlideId = ctrlIds.slice(-1)[0];
+                    const newChosenSlideIndex = props.slidesList.findIndex(
+                        (slide) => slide.id === newChosenSlideId,
+                    );
+                    changeActiveSlideIndex(newChosenSlideIndex);
+                    changeLastChosenSlideIndex(newChosenSlideIndex);
+                }
 
                 const idsChoosedByShift = [
                     ...props.slidesList
