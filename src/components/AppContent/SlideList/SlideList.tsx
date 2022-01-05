@@ -84,10 +84,7 @@ export function SlideList(props: SlideListProps) {
     useEffect(() => {
         changeActiveStatusSlideList(
             props.slidesList.map((_, index) => {
-                if (getChosenSlidesIndexes(props).includes(index)) {
-                    return true;
-                }
-                return false;
+                return getChosenSlidesIndexes(props).includes(index);
             }),
         );
         changeSlideHrStatus([
@@ -99,7 +96,12 @@ export function SlideList(props: SlideListProps) {
         changeActiveSlideIndex(getActiveSlideIndex(props));
         changeLastChosenSlideIndex(getActiveSlideIndex(props));
         setHotkeysMode(true);
-    }, [props.slidesList.length, isMouseReadyToDrag]);
+    }, [
+        props.slidesList.length,
+        isMouseReadyToDrag,
+        intersectionObserver,
+        props,
+    ]);
 
     useEffect(() => {
         const handlerMouseDown = (event: MouseEvent) => {
@@ -127,11 +129,7 @@ export function SlideList(props: SlideListProps) {
 
                 changeActiveStatusSlideList(
                     slideActiveStatusList.map((_, index) => {
-                        if (index === activeSlideIndex) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return index === activeSlideIndex;
                     }),
                 );
 
@@ -184,11 +182,7 @@ export function SlideList(props: SlideListProps) {
                         changeLastChosenSlideIndex(newActiveSlideIndex);
                         const newActiveItemStatusList: boolean[] =
                             slideActiveStatusList.map((_, index) => {
-                                if (index === newActiveSlideIndex) {
-                                    return true;
-                                } else {
-                                    return false;
-                                }
+                                return index === newActiveSlideIndex;
                             });
                         changeActiveStatusSlideList(newActiveItemStatusList);
 
@@ -229,16 +223,12 @@ export function SlideList(props: SlideListProps) {
 
                         const newActiveItemStatusList: boolean[] =
                             slideActiveStatusList.map((_, index) => {
-                                if (
+                                return (
                                     (activeSlideIndex >= index &&
                                         index >= newChosenSlideIndex) ||
                                     (activeSlideIndex <= index &&
                                         index <= newChosenSlideIndex)
-                                ) {
-                                    return true;
-                                } else {
-                                    return false;
-                                }
+                                );
                             });
                         changeActiveStatusSlideList(newActiveItemStatusList);
 
@@ -299,10 +289,7 @@ export function SlideList(props: SlideListProps) {
 
                         changeActiveStatusSlideList(
                             slideActiveStatusList.map((_, index) => {
-                                if (index === indexToInsertSelectedSlides) {
-                                    return true;
-                                }
-                                return false;
+                                return index === indexToInsertSelectedSlides;
                             }),
                         );
 
@@ -366,11 +353,7 @@ export function SlideList(props: SlideListProps) {
             const newItemActiveStatusList: boolean[] =
                 handlerType === 'default'
                     ? slideActiveStatusList.map((_, index) => {
-                          if (index == chosenSlideIndex) {
-                              return true;
-                          } else {
-                              return false;
-                          }
+                          return index == chosenSlideIndex;
                       })
                     : handlerType === 'ctrlPressed'
                     ? slideActiveStatusList.map((itemStatus, index) => {
@@ -385,16 +368,12 @@ export function SlideList(props: SlideListProps) {
                           }
                       })
                     : slideActiveStatusList.map((_, index) => {
-                          if (
+                          return (
                               (index <= activeSlideIndex &&
                                   index >= chosenSlideIndex) ||
                               (index >= activeSlideIndex &&
                                   index <= chosenSlideIndex)
-                          ) {
-                              return true;
-                          } else {
-                              return false;
-                          }
+                          );
                       });
 
             changeActiveStatusSlideList(newItemActiveStatusList);
@@ -484,10 +463,7 @@ export function SlideList(props: SlideListProps) {
 
             changeSlideHrStatus(
                 slideHrStatus.map((_, index) => {
-                    if (index == insertIndex) {
-                        return true;
-                    }
-                    return false;
+                    return index == insertIndex;
                 }),
             );
         }
@@ -553,7 +529,7 @@ function getActiveSlideIndex(props: SlideListProps): number {
 function getChosenSlidesIndexes(props: SlideListProps): number[] {
     const slidesIds: string[] = store.getState().model.selectedSlidesIds;
 
-    const result: number[] = props.slidesList
+    return props.slidesList
         .map((slide, index) => {
             if (slidesIds.includes(slide.id)) {
                 return index;
@@ -561,8 +537,6 @@ function getChosenSlidesIndexes(props: SlideListProps): number[] {
             return -1;
         })
         .filter((index) => index !== -1);
-
-    return result;
 }
 
 function getActiveSlidesIds(): string[] {

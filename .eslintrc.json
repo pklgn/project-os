@@ -27,11 +27,10 @@
         "@typescript-eslint",
         "prettier"
     ],
-    "rules": {
-        "react/react-in-jsx-scope": "off",
-        "no-extra-parens": "off"
-    },
     "settings": {
+        "react": {
+            "version": "detect"
+        },
         "import/resolver": {
             "node": {
                 "extensions": [
@@ -44,6 +43,13 @@
         },
         "import/core-modules": [
             "csstype"
-        ]
+        ],
+        "no-extra-parens": "off",
+        "no-multiple-empty-lines": "error",
+        "no-extra-semi": "error"
+    },
+    "rules": {
+        "react/react-in-jsx-scope": "off",
+        "no-extra-parens": "off"
     }
 }
