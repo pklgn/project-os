@@ -55,6 +55,88 @@ export function addTextElement(editor: Editor, x = 1, y = 1): Editor {
     };
 }
 
+export function changeTextsColor(editor: Editor, fontColor: string): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
+        return item.id === currSlide.id;
+    });
+
+    const elementsList: SlideElement[] = currSlide.elementsList;
+
+    if (!elementsList.length) {
+        return editor;
+    }
+
+    const newElementsList: SlideElement[] = elementsList.map((item) => {
+        if (
+            editor.selectedSlideElementsIds.includes(item.id) &&
+            isText(item.content)
+        ) {
+            return {
+                ...item,
+                content: {
+                    ...item.content,
+                    fontColor,
+                },
+            };
+        }
+        return item;
+    });
+
+    const newSlide: Slide = {
+        ...currSlide,
+        elementsList: newElementsList,
+    };
+
+    return applySlideChanges(editor, newSlide, slideIndex);
+}
+
+export function changeTextsContent(editor: Editor, content: string): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
+        return item.id === currSlide.id;
+    });
+
+    const elementsList: SlideElement[] = currSlide.elementsList;
+
+    if (!elementsList.length) {
+        return editor;
+    }
+
+    const newElementsList: SlideElement[] = elementsList.map((item) => {
+        if (
+            editor.selectedSlideElementsIds.includes(item.id) &&
+            isText(item.content)
+        ) {
+            return {
+                ...item,
+                content: {
+                    ...item.content,
+                    content,
+                },
+            };
+        }
+        return item;
+    });
+
+    const newSlide: Slide = {
+        ...currSlide,
+        elementsList: newElementsList,
+    };
+
+    return applySlideChanges(editor, newSlide, slideIndex);
+}
+
 export function changeTextsSize(editor: Editor, fontSize: number): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
@@ -101,47 +183,6 @@ export function changeTextsSize(editor: Editor, fontSize: number): Editor {
     };
 }
 
-export function changeTextsColor(editor: Editor, fontColor: string): Editor {
-    const currSlide: Slide | undefined = getCurrentSlide(editor);
-
-    if (!currSlide) {
-        return editor;
-    }
-
-    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
-        return item.id === currSlide.id;
-    });
-
-    const elementsList: SlideElement[] = currSlide.elementsList;
-
-    if (!elementsList.length) {
-        return editor;
-    }
-
-    const newElementsList: SlideElement[] = elementsList.map((item) => {
-        if (
-            editor.selectedSlideElementsIds.includes(item.id) &&
-            isText(item.content)
-        ) {
-            return {
-                ...item,
-                content: {
-                    ...item.content,
-                    fontColor,
-                },
-            };
-        }
-        return item;
-    });
-
-    const newSlide: Slide = {
-        ...currSlide,
-        elementsList: newElementsList,
-    };
-
-    return applySlideChanges(editor, newSlide, slideIndex);
-}
-
 export function changeTextsStyle(editor: Editor, fontStyle: string): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
@@ -169,47 +210,6 @@ export function changeTextsStyle(editor: Editor, fontStyle: string): Editor {
                 content: {
                     ...item.content,
                     fontStyle,
-                },
-            };
-        }
-        return item;
-    });
-
-    const newSlide: Slide = {
-        ...currSlide,
-        elementsList: newElementsList,
-    };
-
-    return applySlideChanges(editor, newSlide, slideIndex);
-}
-
-export function changeTextsContent(editor: Editor, content: string): Editor {
-    const currSlide: Slide | undefined = getCurrentSlide(editor);
-
-    if (!currSlide) {
-        return editor;
-    }
-
-    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
-        return item.id === currSlide.id;
-    });
-
-    const elementsList: SlideElement[] = currSlide.elementsList;
-
-    if (!elementsList.length) {
-        return editor;
-    }
-
-    const newElementsList: SlideElement[] = elementsList.map((item) => {
-        if (
-            editor.selectedSlideElementsIds.includes(item.id) &&
-            isText(item.content)
-        ) {
-            return {
-                ...item,
-                content: {
-                    ...item.content,
-                    content,
                 },
             };
         }

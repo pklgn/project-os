@@ -3,10 +3,18 @@ import { EditorActions } from '../actions/editorActions';
 import { ElementAction } from '../actions/elementActions';
 import { PresentationActions } from '../actions/presentationActions';
 import { SlideAction } from '../actions/slidesActions';
+import { TextActions } from '../actions/textActions';
 
 import { Editor } from '../../model/types';
 import { initEditor } from '../../model/initModelActions';
 
+import {
+    addTextElement,
+    changeTextsColor,
+    changeTextsContent,
+    changeTextsSize,
+    changeTextsStyle,
+} from '../../model/specifiedActions/textActions';
 import {
     addSlide,
     deleteSelectedSlides,
@@ -25,9 +33,16 @@ import {
     removeSelectedElements,
 } from '../../model/elementActions';
 
+type ModelActions =
+    | SlideAction
+    | PresentationActions
+    | ElementAction
+    | EditorActions
+    | TextActions;
+
 export const allReducers = (
     state: Editor = initEditor(),
-    action: SlideAction | PresentationActions | ElementAction | EditorActions,
+    action: ModelActions,
 ): Editor => {
     switch (action.type) {
         case ActionType.SET_SELECTED_ID_IN_EDITOR:
@@ -70,6 +85,17 @@ export const allReducers = (
                 action.payload.dx,
                 action.payload.dy,
             );
+
+        case ActionType.ADD_TEXT_AT_SELECTED_SLIDE:
+            return addTextElement(state);
+        case ActionType.CHANGE_SELECTED_TEXTS_COLOR:
+            return changeTextsColor(state, action.payload);
+        case ActionType.CHANGE_SELECTED_TEXT_CONTENT:
+            return changeTextsContent(state, action.payload);
+        case ActionType.CHANGE_SELECTED_TEXTS_SIZE:
+            return changeTextsSize(state, action.payload);
+        case ActionType.CHANGE_SELECTED_TEXTS_STYLE:
+            return changeTextsStyle(state, action.payload);
 
         default:
             return state;
