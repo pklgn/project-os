@@ -35,6 +35,7 @@
     "rules": {
         "react/react-in-jsx-scope": "off",
         "no-extra-parens": "off",
-        "no-multiple-empty-lines": "error"
+        "no-multiple-empty-lines": "error",
+        "no-extra-semi": "error"
     }
 }
