@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import { setEditorMode } from '../../redux/action-creators/editorActionCreators';
 import { store } from '../../redux/store';
 
-import { getCurrentEditorMode } from '../../model/editorActions';
 import {
     getCurrentSlide,
     getFirstSlide,
@@ -14,16 +13,18 @@ import {
 } from '../../model/slidesActions';
 import { Slide } from '../../model/types';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SlideComponent } from '../AppContent/Slide/SlideComponent';
 
 export function PresentationViewer() {
+    const ref = useRef<HTMLDivElement>(null);
     const [slideInShow, setSlideInShow] = useState(
         undefined as Slide | undefined,
     );
-    const [currEditorMode, setEditorModeState] = useState(
-        getCurrentEditorMode(store.getState().model),
-    );
+
+    const [visibilityStyle, setVisibilityStyle] = useState({
+        display: 'none',
+    } as CSS.Properties);
 
     const dispatch = useDispatch();
     const dispatchSetEditorModeAction = bindActionCreators(
@@ -35,6 +36,11 @@ export function PresentationViewer() {
         const onKeyDownHandler = (event: KeyboardEvent) => {
             if (event.code === 'Escape') {
                 dispatchSetEditorModeAction('edit');
+                setSlideInShow(undefined);
+                setVisibilityStyle({
+                    display: 'none',
+                });
+                ref.current?.requestFullscreen();
             }
             if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
                 if (slideInShow !== undefined) {
@@ -67,12 +73,17 @@ export function PresentationViewer() {
                             : getCurrentSlide(editor);
                     if (slideToShow !== undefined) {
                         setSlideInShow(slideToShow);
+                        setVisibilityStyle({
+                            display: 'inherit',
+                        });
+                        ref.current?.requestFullscreen();
                     }
-                    setEditorModeState(editor.mode);
                 }
             } else {
                 setSlideInShow(undefined);
-                setEditorModeState('edit');
+                setVisibilityStyle({
+                    display: 'none',
+                });
             }
         };
         const unsubscribe = store.subscribe(handleChange);
@@ -83,7 +94,7 @@ export function PresentationViewer() {
             document.removeEventListener('keydown', onKeyDownHandler);
             unsubscribe();
         };
-    }, [currEditorMode, slideInShow, dispatchSetEditorModeAction]);
+    }, [slideInShow, dispatchSetEditorModeAction]);
 
     const onClickNextSlideSelectorHandler = (
         event: React.MouseEvent<HTMLDivElement>,
@@ -100,13 +111,8 @@ export function PresentationViewer() {
         }
     };
 
-    const visibilityStyle: CSS.Properties =
-        slideInShow === undefined
-            ? { display: 'none' }
-            : { display: 'inherit' };
-
     return (
-        <div className={styles.viewer} style={visibilityStyle}>
+        <div className={styles.viewer} style={visibilityStyle} ref={ref}>
             <div
                 className={styles['to-previous-slide-area-selector']}
                 onClick={onClickNextSlideSelectorHandler}
