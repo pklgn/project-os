@@ -1,14 +1,20 @@
-import { useContext } from 'react';
-import { LocaleContext } from '../../../App';
-import { getL18nObject } from '../../../l18n/l18n';
-import { Button } from '../Button/Button';
-import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
 import styles from './ToolBar.module.css';
 
+import { Button } from '../Button/Button';
+import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
+
+import { getL18nObject } from '../../../l18n/l18n';
+import { LocaleContext } from '../../../App';
+import { useContext } from 'react';
+
+import { addText } from '../../../redux/action-creators/textActionCreators';
+import { addSlide } from '../../../redux/action-creators/slideActionCreators';
+import { bindActionCreators } from 'redux';
+import { useDispatch } from 'react-redux';
+import { store } from '../../../redux/store';
+
 export function ToolBar() {
-    const func = () => {
-        console.log('ok!');
-    };
+    const func = () => undefined;
 
     const localeContext = useContext(LocaleContext);
 
@@ -21,6 +27,21 @@ export function ToolBar() {
             }
         }
     };
+
+    const dispatch = useDispatch();
+    const dispatchAddTextAction = bindActionCreators(addText, dispatch);
+    const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
+
+    const addTextButtonFunction = () => {
+        if (store.getState().model.presentation.slidesList.length === 0) {
+            dispatchAddSlideAction();
+        }
+        dispatchAddTextAction({
+            x: 25,
+            y: 25,
+        });
+    };
+
     /* eslint-disable react/jsx-key */
     return (
         <div className={styles['top-bar']}>
@@ -289,7 +310,7 @@ export function ToolBar() {
                             shouldStopPropagation={false}
                             contentType="textInSubMenu"
                             content={undefined}
-                            foo={func}
+                            foo={addTextButtonFunction}
                         />,
                         <DropdownMenu
                             summoningButtonText={

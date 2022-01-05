@@ -28,6 +28,7 @@ function TextElementComponent(props: TextElementProps) {
     if (!elementText) {
         return null;
     }
+    console.log(`x:${element.startPoint.x} y:${element.startPoint.y}`);
 
     return (
         <text

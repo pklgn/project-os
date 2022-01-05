@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import styles from './DropdownMenu.module.css';
+
 import { Button } from '../Button/Button';
 import { Triangle } from '../icons/Triangle/Triangle';
-import styles from './DropdownMenu.module.css';
+
+import { useEffect, useRef, useState } from 'react';
 
 type DropdownMenuProps = {
     summoningButtonPlace: 'above' | 'left' | 'default';

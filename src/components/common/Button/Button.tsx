@@ -1,5 +1,6 @@
-import { BaseSyntheticEvent, useEffect, useState } from 'react';
 import styles from './Button.module.css';
+
+import { BaseSyntheticEvent, useEffect, useState } from 'react';
 
 type ButtonProps = {
     text: string;

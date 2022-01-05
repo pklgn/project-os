@@ -87,7 +87,7 @@ export const allReducers = (
             );
 
         case ActionType.ADD_TEXT_AT_SELECTED_SLIDE:
-            return addTextElement(state);
+            return addTextElement(state, action.payload.x, action.payload.y);
         case ActionType.CHANGE_SELECTED_TEXTS_COLOR:
             return changeTextsColor(state, action.payload);
         case ActionType.CHANGE_SELECTED_TEXT_CONTENT:
