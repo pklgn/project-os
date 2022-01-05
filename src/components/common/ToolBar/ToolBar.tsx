@@ -14,6 +14,8 @@ import { getSlideAmount } from '../../../model/slidesActions';
 import { setEditorMode } from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
+import { initEditor } from '../../../model/initModelActions';
+import { downloadObjectAsJson } from '../../../model/editorActions';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -29,6 +31,11 @@ export function ToolBar() {
             }
         }
     };
+
+    const saveAsJSONFunction = () => downloadObjectAsJson({
+        ...initEditor(),
+        presentation: store.getState().model.presentation
+    }, "qwertyuiop")
 
     const dispatch = useDispatch();
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
@@ -233,7 +240,7 @@ export function ToolBar() {
                                     shouldStopPropagation={false}
                                     contentType="textInSubMenu"
                                     content={undefined}
-                                    foo={func}
+                                    foo={saveAsJSONFunction}
                                 />,
                             ]}
                         />,
