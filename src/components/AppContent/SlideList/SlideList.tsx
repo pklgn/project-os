@@ -382,7 +382,7 @@ export function SlideList(props: SlideListProps) {
                               (id) =>
                                   id !== props.slidesList[chosenSlideIndex].id,
                           );
-                if (!choosedNewSlide) {
+                if (!choosedNewSlide && handlerType === 'ctrlPressed') {
                     const newChosenSlideId = ctrlIds.slice(-1)[0];
                     const newChosenSlideIndex = props.slidesList.findIndex(
                         (slide) => slide.id === newChosenSlideId,
