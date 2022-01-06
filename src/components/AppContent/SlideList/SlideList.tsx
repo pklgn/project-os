@@ -54,9 +54,10 @@ export function SlideList(props: SlideListProps) {
     );
 
     useEffect(() => {
+        const chosenSlideIndexes = getChosenSlidesIndexes(props);
         changeActiveStatusSlideList(
             props.slidesList.map((_, index) => {
-                return getChosenSlidesIndexes(props).includes(index);
+                return chosenSlideIndexes.includes(index);
             }),
         );
         changeSlideHrStatus([
@@ -209,9 +210,6 @@ export function SlideList(props: SlideListProps) {
 
                         changeActiveSlideIndex(indexToInsertSelectedSlides);
                         changeLastChosenSlideIndex(indexToInsertSelectedSlides);
-                        console.log(`active:${activeSlideIndex} insertIndex:${indexToInsertSelectedSlides}`);
-                        console.log(ref.current?.getElementsByTagName('svg')[activeSlideIndex * 2]);
-                        console.log(ref.current?.getElementsByTagName('svg')[indexToInsertSelectedSlides * 2]);
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
                             ref.current?.getElementsByTagName('svg')[activeSlideIndex * 2] as Element,
@@ -229,6 +227,20 @@ export function SlideList(props: SlideListProps) {
                             dispatchInsertSelectedSlides(indexToInsertSelectedSlides + 1);
                         }
                         dispatchKeepModelAction();
+                    }
+                } else if (event.ctrlKey && event.code === 'KeyA') {
+                    event.preventDefault();
+                    const newActiveItemStatusList: boolean[] =
+                        slideActiveStatusList.map((_) => {
+                            return true;
+                        });
+                    changeActiveStatusSlideList(newActiveItemStatusList);
+
+                    if (props.slidesList.length) {
+                        dispatchSetIdAction({
+                            selectedSlidesIds: getAllSlidesIds(),
+                            selectedSlideElementsIds: [],
+                        });
                     }
                 }
             }
@@ -300,7 +312,18 @@ export function SlideList(props: SlideListProps) {
                     ? [...getActiveSlidesIds().slice(0), props.slidesList[chosenSlideIndex].id]
                     : getActiveSlidesIds()
                           .slice(0)
-                          .filter((id) => id !== props.slidesList[chosenSlideIndex].id);
+                          .filter(
+                              (id) =>
+                                  id !== props.slidesList[chosenSlideIndex].id,
+                          );
+                if (!choosedNewSlide && handlerType === 'ctrlPressed') {
+                    const newChosenSlideId = ctrlIds.slice(-1)[0];
+                    const newChosenSlideIndex = props.slidesList.findIndex(
+                        (slide) => slide.id === newChosenSlideId,
+                    );
+                    changeActiveSlideIndex(newChosenSlideIndex);
+                    changeLastChosenSlideIndex(newChosenSlideIndex);
+                }
 
                 const idsChoosedByShift = [
                     ...props.slidesList
@@ -433,4 +456,10 @@ function getChosenSlidesIndexes(props: SlideListProps): number[] {
 
 function getActiveSlidesIds(): string[] {
     return store.getState().model.selectedSlidesIds;
+}
+
+function getAllSlidesIds(): string[] {
+    return store.getState().model.presentation.slidesList.map((slide) => {
+        return slide.id;
+    });
 }

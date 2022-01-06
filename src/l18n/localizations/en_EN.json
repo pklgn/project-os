@@ -55,5 +55,11 @@
     "reorder_word": "Reorder",
     "undo_word": "Undo",
 
-    "SLIDE_TOOL_BAR_BLOCK_END": ""
+    "SLIDE_TOOL_BAR_BLOCK_END": "",
+
+    "PRESENTATION_VIEWER_BLOCK": "",
+
+    "no-slides-to-show-info": "Are your slides not as hard workers as you? They are not in the workplace!",
+
+    "PRESENTATION_VIEWER_BLOCK_END": ""
 }
