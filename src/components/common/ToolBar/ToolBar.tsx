@@ -56,10 +56,21 @@ export function ToolBar() {
     };
 
     const addPictureButtonFunction = (event: BaseSyntheticEvent) => {
-        dispatchAddPictureAction({
-            src: event.target.files[0],
-            alt: '',
-        });
+        const reader = new FileReader();
+        const image = new Image();
+        reader.onload = function () {
+            console.log(event.target.files[0]);
+            image.onload = function () {
+                dispatchAddPictureAction({
+                    src: URL.createObjectURL(event.target.files[0]),
+                    alt: '',
+                    width: image.width / 7,
+                    height: image.height / 7,
+                });
+            };
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+        reader.readAsDataURL(event.target.files[0]);
     };
 
     /* eslint-disable react/jsx-key */

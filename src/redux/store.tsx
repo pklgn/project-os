@@ -5,10 +5,6 @@ import reducers from './reducers/rootReducer';
 
 const composedDevTools = composeWithDevTools({ trace: false, traceLimit: 50 });
 
-export const store = createStore(
-    reducers,
-    {},
-    composedDevTools(applyMiddleware(thunk)),
-);
+export const store = createStore(reducers, {}, composedDevTools(applyMiddleware(thunk)));
 
 export type StoreType = typeof store;

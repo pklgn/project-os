@@ -230,10 +230,9 @@ export function SlideList(props: SlideListProps) {
                     }
                 } else if (event.ctrlKey && event.code === 'KeyA') {
                     event.preventDefault();
-                    const newActiveItemStatusList: boolean[] =
-                        slideActiveStatusList.map((_) => {
-                            return true;
-                        });
+                    const newActiveItemStatusList: boolean[] = slideActiveStatusList.map((_) => {
+                        return true;
+                    });
                     changeActiveStatusSlideList(newActiveItemStatusList);
 
                     if (props.slidesList.length) {
@@ -312,15 +311,10 @@ export function SlideList(props: SlideListProps) {
                     ? [...getActiveSlidesIds().slice(0), props.slidesList[chosenSlideIndex].id]
                     : getActiveSlidesIds()
                           .slice(0)
-                          .filter(
-                              (id) =>
-                                  id !== props.slidesList[chosenSlideIndex].id,
-                          );
+                          .filter((id) => id !== props.slidesList[chosenSlideIndex].id);
                 if (!choosedNewSlide && handlerType === 'ctrlPressed') {
                     const newChosenSlideId = ctrlIds.slice(-1)[0];
-                    const newChosenSlideIndex = props.slidesList.findIndex(
-                        (slide) => slide.id === newChosenSlideId,
-                    );
+                    const newChosenSlideIndex = props.slidesList.findIndex((slide) => slide.id === newChosenSlideId);
                     changeActiveSlideIndex(newChosenSlideIndex);
                     changeLastChosenSlideIndex(newChosenSlideIndex);
                 }
