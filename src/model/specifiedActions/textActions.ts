@@ -35,14 +35,12 @@ export function addTextElement(editor: Editor, x = 1, y = 1): Editor {
         elementsList: [...currSlide.elementsList, element],
     };
 
-    const updatedSlideList: Slide[] = editor.presentation.slidesList.map(
-        (slide) => {
-            if (slide.id === currSlide.id) {
-                return updatedSlide;
-            }
-            return slide;
-        },
-    );
+    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide) => {
+        if (slide.id === currSlide.id) {
+            return updatedSlide;
+        }
+        return slide;
+    });
 
     return {
         ...editor,
@@ -73,10 +71,7 @@ export function changeTextsColor(editor: Editor, fontColor: string): Editor {
     }
 
     const newElementsList: SlideElement[] = elementsList.map((item) => {
-        if (
-            editor.selectedSlideElementsIds.includes(item.id) &&
-            isText(item.content)
-        ) {
+        if (editor.selectedSlideElementsIds.includes(item.id) && isText(item.content)) {
             return {
                 ...item,
                 content: {
@@ -114,10 +109,7 @@ export function changeTextsContent(editor: Editor, content: string): Editor {
     }
 
     const newElementsList: SlideElement[] = elementsList.map((item) => {
-        if (
-            editor.selectedSlideElementsIds.includes(item.id) &&
-            isText(item.content)
-        ) {
+        if (editor.selectedSlideElementsIds.includes(item.id) && isText(item.content)) {
             return {
                 ...item,
                 content: {
@@ -155,10 +147,7 @@ export function changeTextsSize(editor: Editor, fontSize: number): Editor {
     }
 
     const newElementsList: SlideElement[] = elementsList.map((element) => {
-        if (
-            editor.selectedSlideElementsIds.includes(element.id) &&
-            isText(element.content)
-        ) {
+        if (editor.selectedSlideElementsIds.includes(element.id) && isText(element.content)) {
             return {
                 ...element,
                 content: {
@@ -201,10 +190,7 @@ export function changeTextsStyle(editor: Editor, fontStyle: string): Editor {
     }
 
     const newElementsList: SlideElement[] = elementsList.map((item) => {
-        if (
-            editor.selectedSlideElementsIds.includes(item.id) &&
-            isText(item.content)
-        ) {
+        if (editor.selectedSlideElementsIds.includes(item.id) && isText(item.content)) {
             return {
                 ...item,
                 content: {

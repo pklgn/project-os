@@ -9,8 +9,7 @@ export type l18nType = {
 };
 
 export function getL18nObject(key: l18nLocale): l18nType {
-    const localizationFile: typeof ru_RU | typeof en_EN =
-        key === 'ru_RU' ? ru_RU : en_EN;
+    const localizationFile: typeof ru_RU | typeof en_EN = key === 'ru_RU' ? ru_RU : en_EN;
 
     return {
         localization: localizationFile,

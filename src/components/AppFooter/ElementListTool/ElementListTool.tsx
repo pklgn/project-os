@@ -14,10 +14,7 @@ import { Undo } from '../../common/icons/Undo/Undo';
 
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
-import {
-    undoModelAction,
-    redoModelAction,
-} from '../../../redux/action-creators/editorActionCreators';
+import { undoModelAction, redoModelAction } from '../../../redux/action-creators/editorActionCreators';
 
 type ElementListToolProps = {
     foo: () => void | undefined;
@@ -27,14 +24,8 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
-    const dispatchSetPreviousModelStateAction = bindActionCreators(
-        undoModelAction,
-        dispatch,
-    );
-    const dispatchTurnBackModelStateAction = bindActionCreators(
-        redoModelAction,
-        dispatch,
-    );
+    const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
+    const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
 
     const undoPressButtonHandler = () => {
         dispatchSetPreviousModelStateAction();

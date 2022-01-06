@@ -14,8 +14,8 @@ type SlideProps = {
 
 export function SlideComponent(props: SlideProps) {
     const ref = useRef<SVGSVGElement>(null);
-    const height = ref.current?.getBoundingClientRect().height ?? 100;
-    const scale = height / 100;
+    const height = ref.current?.getBoundingClientRect().height ?? 90;
+    const scale = height / 90;
 
     return (
         <svg
@@ -30,7 +30,7 @@ export function SlideComponent(props: SlideProps) {
             data-scale={scale}
             id={props.id}
         >
-            <text y={40}>{props.slide?.id}</text>
+            <text y={90}>{props.slide?.id}</text>
             {props.slide !== undefined ? (
                 props.slide.elementsList.map((element) => {
                     switch (getSlideElementType(element.content)) {
@@ -39,9 +39,7 @@ export function SlideComponent(props: SlideProps) {
                         case 'FIGURE':
                             return <FigureElementComponent element={element} />;
                         case 'PICTURE':
-                            return (
-                                <PictureElementComponent element={element} />
-                            );
+                            return <PictureElementComponent element={element} />;
                     }
                 })
             ) : (

@@ -13,7 +13,4 @@ interface InsertSelectedSlidesAtIndexAction {
     payload: number;
 }
 
-export type SlideAction =
-    | SlideAddAction
-    | DeleteSelectedSlideAction
-    | InsertSelectedSlidesAtIndexAction;
+export type SlideAction = SlideAddAction | DeleteSelectedSlideAction | InsertSelectedSlidesAtIndexAction;
