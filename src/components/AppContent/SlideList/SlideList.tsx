@@ -82,9 +82,10 @@ export function SlideList(props: SlideListProps) {
     );
 
     useEffect(() => {
+        const chosenSlideIndexes = getChosenSlidesIndexes(props);
         changeActiveStatusSlideList(
             props.slidesList.map((_, index) => {
-                return getChosenSlidesIndexes(props).includes(index);
+                return chosenSlideIndexes.includes(index);
             }),
         );
         changeSlideHrStatus([
@@ -290,6 +291,20 @@ export function SlideList(props: SlideListProps) {
                             );
                         }
                         dispatchKeepModelAction();
+                    }
+                } else if (event.ctrlKey && event.code === 'KeyA') {
+                    event.preventDefault();
+                    const newActiveItemStatusList: boolean[] =
+                        slideActiveStatusList.map((_) => {
+                            return true;
+                        });
+                    changeActiveStatusSlideList(newActiveItemStatusList);
+
+                    if (props.slidesList.length) {
+                        dispatchSetIdAction({
+                            selectedSlidesIds: getAllSlidesIds(),
+                            selectedSlideElementsIds: [],
+                        });
                     }
                 }
             }
@@ -536,4 +551,10 @@ function getChosenSlidesIndexes(props: SlideListProps): number[] {
 
 function getActiveSlidesIds(): string[] {
     return store.getState().model.selectedSlidesIds;
+}
+
+function getAllSlidesIds(): string[] {
+    return store.getState().model.presentation.slidesList.map((slide) => {
+        return slide.id;
+    });
 }
