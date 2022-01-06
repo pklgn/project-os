@@ -13,10 +13,7 @@ export const setEditorMode = (payload: PresentationMode) => {
     };
 };
 
-export const setSelectedIdInEditor = (payload: {
-    selectedSlidesIds: string[];
-    selectedSlideElementsIds: string[];
-}) => {
+export const setSelectedIdInEditor = (payload: { selectedSlidesIds: string[]; selectedSlideElementsIds: string[] }) => {
     return (dispatch: Dispatch<EditorActions>) => {
         dispatch({
             type: ActionType.SET_SELECTED_ID_IN_EDITOR,

@@ -7,29 +7,18 @@ import { setEditorMode } from '../../redux/action-creators/editorActionCreators'
 import { store } from '../../redux/store';
 
 import { getCurrentEditorMode } from '../../model/editorActions';
-import {
-    getCurrentSlide,
-    getFirstSlide,
-    getNextToSlide,
-} from '../../model/slidesActions';
+import { getCurrentSlide, getFirstSlide, getNextToSlide } from '../../model/slidesActions';
 import { Slide } from '../../model/types';
 
 import { useEffect, useState } from 'react';
 import { SlideComponent } from '../AppContent/Slide/SlideComponent';
 
 export function PresentationViewer() {
-    const [slideInShow, setSlideInShow] = useState(
-        undefined as Slide | undefined,
-    );
-    const [currEditorMode, setEditorModeState] = useState(
-        getCurrentEditorMode(store.getState().model),
-    );
+    const [slideInShow, setSlideInShow] = useState(undefined as Slide | undefined);
+    const [currEditorMode, setEditorModeState] = useState(getCurrentEditorMode(store.getState().model));
 
     const dispatch = useDispatch();
-    const dispatchSetEditorModeAction = bindActionCreators(
-        setEditorMode,
-        dispatch,
-    );
+    const dispatchSetEditorModeAction = bindActionCreators(setEditorMode, dispatch);
 
     useEffect(() => {
         const onKeyDownHandler = (event: KeyboardEvent) => {
@@ -39,9 +28,7 @@ export function PresentationViewer() {
             if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
                 if (slideInShow !== undefined) {
                     const nextSlide =
-                        event.code === 'ArrowLeft'
-                            ? getPrevSlideTo(slideInShow)
-                            : getNextSlideTo(slideInShow);
+                        event.code === 'ArrowLeft' ? getPrevSlideTo(slideInShow) : getNextSlideTo(slideInShow);
                     if (nextSlide !== undefined) {
                         setSlideInShow(nextSlide);
                     }
@@ -85,9 +72,7 @@ export function PresentationViewer() {
         };
     }, [currEditorMode, slideInShow, dispatchSetEditorModeAction]);
 
-    const onClickNextSlideSelectorHandler = (
-        event: React.MouseEvent<HTMLDivElement>,
-    ) => {
+    const onClickNextSlideSelectorHandler = (event: React.MouseEvent<HTMLDivElement>) => {
         const target = event.target;
         if (slideInShow !== undefined && target instanceof Element) {
             const nextSlide =
@@ -100,26 +85,14 @@ export function PresentationViewer() {
         }
     };
 
-    const visibilityStyle: CSS.Properties =
-        slideInShow === undefined
-            ? { display: 'none' }
-            : { display: 'inherit' };
+    const visibilityStyle: CSS.Properties = slideInShow === undefined ? { display: 'none' } : { display: 'inherit' };
 
     return (
         <div className={styles.viewer} style={visibilityStyle}>
-            <div
-                className={styles['to-previous-slide-area-selector']}
-                onClick={onClickNextSlideSelectorHandler}
-            ></div>
-            <SlideComponent
-                slide={slideInShow}
-                id={slideInShow !== undefined ? slideInShow.id : undefined}
-            />
+            <div className={styles['to-previous-slide-area-selector']} onClick={onClickNextSlideSelectorHandler}></div>
+            <SlideComponent slide={slideInShow} id={slideInShow !== undefined ? slideInShow.id : undefined} />
             <svg className={styles['prevent-pointer-events']}></svg>
-            <div
-                className={styles['to-next-slide-area-selector']}
-                onClick={onClickNextSlideSelectorHandler}
-            ></div>
+            <div className={styles['to-next-slide-area-selector']} onClick={onClickNextSlideSelectorHandler}></div>
         </div>
     );
 }

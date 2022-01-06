@@ -8,10 +8,7 @@ import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
 
-import {
-    addSlide,
-    deleteSelectedSlides,
-} from '../../../redux/action-creators/slideActionCreators';
+import { addSlide, deleteSelectedSlides } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { keepModelAction } from '../../../redux/action-creators/editorActionCreators';
 import { useDispatch } from 'react-redux';
@@ -25,14 +22,8 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
 
     const dispatch = useDispatch();
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
-    const dispatchDeleteSlideAction = bindActionCreators(
-        deleteSelectedSlides,
-        dispatch,
-    );
-    const dispatchKeepModelAction = bindActionCreators(
-        keepModelAction,
-        dispatch,
-    );
+    const dispatchDeleteSlideAction = bindActionCreators(deleteSelectedSlides, dispatch);
+    const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
 
     const addSlideButtonFunction = () => {
         dispatchAddSlideAction();

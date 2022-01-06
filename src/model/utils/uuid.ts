@@ -5,8 +5,7 @@ export function generateUUId(): string {
         if (symbol !== 'x' && symbol !== 'y') {
             return symbol;
         }
-        const currHalfByte =
-            symbol === 'x' ? Math.floor(value) : (value & 0x3) | 0x8;
+        const currHalfByte = symbol === 'x' ? Math.floor(value) : (value & 0x3) | 0x8;
 
         return currHalfByte.toString(16);
     });

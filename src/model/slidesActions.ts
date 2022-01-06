@@ -6,8 +6,7 @@ export function addSlide(editor: Editor): Editor {
 
     const activeSlideId: string = editor.selectedSlidesIds.slice(-1)[0];
 
-    const insertIndex =
-        slideList.findIndex((item) => item.id === activeSlideId) + 1;
+    const insertIndex = slideList.findIndex((item) => item.id === activeSlideId) + 1;
 
     const background: Background = {
         color: '#ffffff',
@@ -20,11 +19,7 @@ export function addSlide(editor: Editor): Editor {
         elementsList: [],
     };
 
-    const newSlideList: Slide[] = [
-        ...slideList.slice(0, insertIndex),
-        newSlide,
-        ...slideList.slice(insertIndex),
-    ];
+    const newSlideList: Slide[] = [...slideList.slice(0, insertIndex), newSlide, ...slideList.slice(insertIndex)];
 
     const updatedPresentation: Presentation = {
         ...editor.presentation,
@@ -47,13 +42,8 @@ export function deleteSelectedSlides(editor: Editor): Editor {
 
     const selectedSlidesIds: string[] = editor.selectedSlidesIds;
 
-    const lastSelectedSlideId: string =
-        selectedSlidesIds[selectedSlidesIds.length - 1];
-    const nextSelectedSlideId: string[] = getNextUnselectedSlideId(
-        slideList,
-        selectedSlidesIds,
-        lastSelectedSlideId,
-    );
+    const lastSelectedSlideId: string = selectedSlidesIds[selectedSlidesIds.length - 1];
+    const nextSelectedSlideId: string[] = getNextUnselectedSlideId(slideList, selectedSlidesIds, lastSelectedSlideId);
 
     function getNextUnselectedSlideId(
         slideList: Slide[],
@@ -65,16 +55,10 @@ export function deleteSelectedSlides(editor: Editor): Editor {
             return [];
         }
 
-        const lastSelectedSlideIndex: number = slideList.findIndex(
-            (slide) => slide.id === lastSelectedSlideId,
-        );
+        const lastSelectedSlideIndex: number = slideList.findIndex((slide) => slide.id === lastSelectedSlideId);
 
         let slideId = '';
-        for (
-            let index = lastSelectedSlideIndex;
-            index < slideList.length;
-            index++
-        ) {
+        for (let index = lastSelectedSlideIndex; index < slideList.length; index++) {
             slideId = slideList[index].id;
             if (!selectedSlidesIds.includes(slideId)) {
                 result = slideId;
@@ -93,9 +77,7 @@ export function deleteSelectedSlides(editor: Editor): Editor {
         return [result];
     }
 
-    const newSlideList: Slide[] = slideList.filter(
-        (slide) => !selectedSlidesIds.includes(slide.id),
-    );
+    const newSlideList: Slide[] = slideList.filter((slide) => !selectedSlidesIds.includes(slide.id));
 
     const updatedPresentation: Presentation = {
         ...editor.presentation,
@@ -110,11 +92,7 @@ export function deleteSelectedSlides(editor: Editor): Editor {
     };
 }
 
-export function changeSelectedSlidesBackground(
-    editor: Editor,
-    src = '',
-    color = '#ffffff',
-): Editor {
+export function changeSelectedSlidesBackground(editor: Editor, src = '', color = '#ffffff'): Editor {
     const selectedSlidesIds: string[] = editor.selectedSlidesIds;
     if (!selectedSlidesIds) {
         return editor;
@@ -143,11 +121,7 @@ export function changeSelectedSlidesBackground(
     };
 }
 
-export function applySlideChanges(
-    editor: Editor,
-    updatedSlide: Slide,
-    updatedSlideIndex: number,
-): Editor {
+export function applySlideChanges(editor: Editor, updatedSlide: Slide, updatedSlideIndex: number): Editor {
     return {
         ...editor,
         presentation: {
@@ -164,8 +138,7 @@ export function applySlideChanges(
 export function getCurrentSlide(editor: Editor): Slide | undefined {
     const selectedSlidesIds = editor.selectedSlidesIds;
     const slideList: Slide[] = editor.presentation.slidesList;
-    const selectedSlideId: string | undefined =
-        selectedSlidesIds[selectedSlidesIds.length - 1];
+    const selectedSlideId: string | undefined = selectedSlidesIds[selectedSlidesIds.length - 1];
 
     if (!selectedSlideId) {
         return undefined;
@@ -196,11 +169,7 @@ export function getSlideIndex(editor: Editor, searchSlide: Slide): number {
     });
 }
 
-export function getNextToSlide(
-    editor: Editor,
-    startSlide: Slide,
-    key: 'next' | 'prev',
-): Slide | undefined {
+export function getNextToSlide(editor: Editor, startSlide: Slide, key: 'next' | 'prev'): Slide | undefined {
     if (editor.presentation.slidesList.length === 0) {
         return undefined;
     }
@@ -218,10 +187,7 @@ export function getNextToSlide(
     return res;
 }
 
-export function insertSelectedSlides(
-    editor: Editor,
-    insertIndex: number,
-): Editor {
+export function insertSelectedSlides(editor: Editor, insertIndex: number): Editor {
     const slidesList = editor.presentation.slidesList;
     const selectedSlides = slidesList.filter((slide) => {
         return editor.selectedSlidesIds.includes(slide.id);
