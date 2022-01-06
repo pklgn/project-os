@@ -13,10 +13,15 @@ import {
 } from '../../model/slidesActions';
 import { Slide } from '../../model/types';
 
-import { useEffect, useRef, useState } from 'react';
 import { SlideComponent } from '../AppContent/Slide/SlideComponent';
 
+import { useContext, useEffect, useRef, useState } from 'react';
+
+import { LocaleContext } from '../../App';
+
 export function PresentationViewer() {
+    const localeContext = useContext(LocaleContext);
+
     const ref = useRef<HTMLDivElement>(null);
     const [slideInShow, setSlideInShow] = useState(
         undefined as Slide | undefined,
@@ -34,14 +39,6 @@ export function PresentationViewer() {
 
     useEffect(() => {
         const onKeyDownHandler = (event: KeyboardEvent) => {
-            if (event.code === 'Escape') {
-                dispatchSetEditorModeAction('edit');
-                setSlideInShow(undefined);
-                setVisibilityStyle({
-                    display: 'none',
-                });
-                ref.current?.requestFullscreen();
-            }
             if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
                 if (slideInShow !== undefined) {
                     const nextSlide =
@@ -63,6 +60,20 @@ export function PresentationViewer() {
             }
         };
 
+        const onFullScreenHandler = (_: Event) => {
+            if (document.fullscreenElement) {
+                setVisibilityStyle({
+                    display: 'inherit',
+                });
+            } else {
+                dispatchSetEditorModeAction('edit');
+                setSlideInShow(undefined);
+                setVisibilityStyle({
+                    display: 'none',
+                });
+            }
+        };
+
         const handleChange = () => {
             const editor = store.getState().model;
             if (editor.mode !== 'edit') {
@@ -73,25 +84,23 @@ export function PresentationViewer() {
                             : getCurrentSlide(editor);
                     if (slideToShow !== undefined) {
                         setSlideInShow(slideToShow);
-                        setVisibilityStyle({
-                            display: 'inherit',
-                        });
-                        ref.current?.requestFullscreen();
                     }
+                    ref.current?.requestFullscreen();
                 }
-            } else {
-                setSlideInShow(undefined);
-                setVisibilityStyle({
-                    display: 'none',
-                });
             }
         };
+
         const unsubscribe = store.subscribe(handleChange);
 
         document.addEventListener('keydown', onKeyDownHandler);
+        document.addEventListener('fullscreenchange', onFullScreenHandler);
 
         return () => {
             document.removeEventListener('keydown', onKeyDownHandler);
+            document.removeEventListener(
+                'fullscreenchange',
+                onFullScreenHandler,
+            );
             unsubscribe();
         };
     }, [slideInShow, dispatchSetEditorModeAction]);
@@ -113,19 +122,35 @@ export function PresentationViewer() {
 
     return (
         <div className={styles.viewer} style={visibilityStyle} ref={ref}>
-            <div
-                className={styles['to-previous-slide-area-selector']}
-                onClick={onClickNextSlideSelectorHandler}
-            ></div>
-            <SlideComponent
-                slide={slideInShow}
-                id={slideInShow !== undefined ? slideInShow.id : undefined}
-            />
-            <svg className={styles['prevent-pointer-events']}></svg>
-            <div
-                className={styles['to-next-slide-area-selector']}
-                onClick={onClickNextSlideSelectorHandler}
-            ></div>
+            {slideInShow !== undefined ? (
+                <>
+                    <div
+                        className={styles['to-previous-slide-area-selector']}
+                        onClick={onClickNextSlideSelectorHandler}
+                    ></div>
+                    <SlideComponent
+                        slide={slideInShow}
+                        id={
+                            slideInShow !== undefined
+                                ? slideInShow.id
+                                : undefined
+                        }
+                    />
+                    <svg className={styles['prevent-pointer-events']}></svg>
+                    <div
+                        className={styles['to-next-slide-area-selector']}
+                        onClick={onClickNextSlideSelectorHandler}
+                    ></div>
+                </>
+            ) : (
+                <div className={styles['empty-slide-in-show']}>
+                    {
+                        localeContext.locale.localization[
+                            'no-slides-to-show-info'
+                        ]
+                    }
+                </div>
+            )}
         </div>
     );
 }

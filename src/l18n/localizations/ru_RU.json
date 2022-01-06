@@ -55,5 +55,11 @@
     "reorder_word": "Сдвинуть",
     "undo_word": "Отменить действие",
 
-    "SLIDE_TOOL_BAR_BLOCK_END": ""
+    "SLIDE_TOOL_BAR_BLOCK_END": "",
+
+    "PRESENTATION_VIEWER_BLOCK": "",
+
+    "no-slides-to-show-info": "Ваши слайды не настолько работяги как вы? Их нет на рабочем месте!",
+
+    "PRESENTATION_VIEWER_BLOCK_END": ""
 }

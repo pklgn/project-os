@@ -46,15 +46,11 @@ export function ToolBar() {
     };
 
     const startSlideShowFromFirstSlideButtonFunction = () => {
-        if (getSlideAmount(store.getState().model) !== 0) {
-            dispatchSetEditorAction('show-from-first-slide');
-        }
+        dispatchSetEditorAction('show-from-first-slide');
     };
 
     const startSlideShowFromCurrentSlideButtonFunction = () => {
-        if (getSlideAmount(store.getState().model) !== 0) {
-            dispatchSetEditorAction('show-from-current-slide');
-        }
+        dispatchSetEditorAction('show-from-current-slide');
     };
 
     /* eslint-disable react/jsx-key */
