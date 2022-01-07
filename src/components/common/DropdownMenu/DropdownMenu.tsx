@@ -140,7 +140,7 @@ export function DropdownMenu(
 
     return (
         <div className={styles.dropdown} ref={menuRef}>
-            <div ref={summoningButtonRef}>
+            {/* <div ref={summoningButtonRef}>
                 <Button
                     text={summoningButtonText}
                     state={buttonCurrentState}
@@ -171,7 +171,7 @@ export function DropdownMenu(
                 )
             ) : (
                 ''
-            )}
+            )} */}
         </div>
     );
 }

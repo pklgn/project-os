@@ -46,7 +46,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
 
     return (
         <div className={styles['element-tools']}>
-            <Button
+            {/* <Button
                 text={localeContext.locale.localization.undo_word}
                 state="disabled"
                 shouldStopPropagation={false}
@@ -98,7 +98,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <Fullscreen /> }}
                 foo={() => undefined}
-            />
+            /> */}
         </div>
     );
 }

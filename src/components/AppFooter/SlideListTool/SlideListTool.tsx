@@ -52,7 +52,7 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
 
     return (
         <div className={styles['slides-list-tools']}>
-            <Button
+            {/* <Button
                 text={localeContext.locale.localization.add_word}
                 state="disabled"
                 shouldStopPropagation={false}
@@ -68,7 +68,7 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <RemoveSlide /> }}
                 foo={deleteSelectedSlidesButtonFunction}
-            />
+            /> */}
         </div>
     );
 }

@@ -1,8 +1,8 @@
 .top-bar {
   grid-area: top;
   display: grid;
-  grid-template-columns: 1fr 14fr 6fr;
-  grid-template-areas: "logo top-bar presentation-name-input-field";
+  grid-template-columns: 1fr 20fr;
+  grid-template-areas: "logo tool-bar";
   background-color: rgba(190, 189, 189, 0.75);
   border-radius: 0.2rem;
   max-height: 45px;

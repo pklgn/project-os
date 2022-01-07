@@ -1,142 +1,77 @@
 import styles from './Button.module.css';
 
-import { BaseSyntheticEvent, useEffect, useState } from 'react';
+import { Triangle } from '../icons/Triangle/Triangle';
+import CSS from 'csstype';
 
-type ButtonProps = {
-    text: string;
-    state: 'disabled' | 'active' | 'focused' | 'default';
-    shouldStopPropagation: boolean;
-    contentType:
-        | 'text'
-        | 'icon'
-        | 'leftSideIconAndTextInSubMenu'
-        | 'rightSideIconAndTextInSubMenu'
-        | 'rightSideHotKeyInfoAndTextInSubMenu'
-        | 'textInSubMenu';
-    content:
-        | {
-              hotkeyInfo: string;
-              icon: JSX.Element;
-          }
-        | undefined;
+export type ButtonContentType =
+    | 'text'
+    | 'icon'
+    | 'textInSubMenu'
+    | 'textInSubMenu'
+    | 'iconAndTextInSubMenu'
+    | 'iconAndTextInSubMenuAndHotkeyInfo'
+    | 'subMenuSummoner'
+    | 'iconAndSubMenuSummoner';
+
+type ButtonState = 'disabled' | 'active';
+
+type ButtonShapeType = 'square' | 'circle';
+
+export type ButtonProps = {
+    textInfo: string;
+    hotKeyText: string | undefined;
+    icon: JSX.Element | undefined;
+    state: ButtonState;
+    contentType: ButtonContentType;
+    shape: ButtonShapeType;
     foo: () => void | undefined;
 };
 
+const TEXT = 'TEXT';
+const ICON = 'ICON';
+const SUMMONER = 'SUMMONER';
+const HOTKEY = 'HOTKEY';
+
 export function Button(
     props: ButtonProps = {
-        text: '',
+        textInfo: '',
+        hotKeyText: undefined,
+        icon: undefined,
         state: 'disabled',
-        shouldStopPropagation: false,
         contentType: 'text',
-        content: undefined,
+        shape: 'square',
         foo: () => undefined,
     },
 ): JSX.Element {
-    const { text, content, contentType, state, foo } = props;
+    const { textInfo, hotKeyText, icon, state, contentType, shape, foo } = props;
 
-    const onClickHandler = (_: BaseSyntheticEvent) => {
+    const buttonStyle = getButtonStyleByContentTypeAndState(contentType, state);
+
+    const onClickHandler = () => {
         if (foo !== undefined) {
             foo();
         }
     };
 
-    const [buttonStyle, setButtonStyle] = useState(styles.default);
-
-    useEffect(() => {
-        if (state !== 'default') {
-            const style =
-                contentType === 'icon'
-                    ? state === 'disabled'
-                        ? styles.icon
-                        : state === 'active'
-                        ? styles['icon-pressed']
-                        : styles['icon-focused']
-                    : contentType === 'leftSideIconAndTextInSubMenu'
-                    ? state === 'disabled'
-                        ? styles.button
-                        : state === 'active'
-                        ? styles['button-pressed']
-                        : styles['button-focused']
-                    : contentType === 'rightSideIconAndTextInSubMenu'
-                    ? state === 'disabled'
-                        ? styles.button
-                        : state === 'active'
-                        ? styles['button-pressed']
-                        : styles['button-focused']
-                    : contentType === 'rightSideHotKeyInfoAndTextInSubMenu'
-                    ? state === 'disabled'
-                        ? styles.button
-                        : state === 'active'
-                        ? styles['button-pressed']
-                        : styles['button-focused']
-                    : contentType === 'textInSubMenu'
-                    ? state === 'disabled'
-                        ? styles['button-in-submenu']
-                        : state === 'active'
-                        ? styles['button-pressed']
-                        : styles['button-focused']
-                    : contentType === 'text'
-                    ? state === 'disabled'
-                        ? styles.button
-                        : state === 'active'
-                        ? styles['button-pressed']
-                        : styles['button-focused']
-                    : styles.button;
-            setButtonStyle(style);
-        }
-    }, [state, contentType]);
-
-    const [preventingMouseUp, setPreventMouseUpStatus] = useState(false);
-
-    const onMouseDownHandler =
-        state === 'default'
-            ? (event: BaseSyntheticEvent) => {
-                  if (props.shouldStopPropagation) {
-                      event.stopPropagation();
-                  }
-                  setButtonStyle(styles['default-pressed']);
-              }
-            : (event: BaseSyntheticEvent) => {
-                  if (props.shouldStopPropagation) {
-                      event.stopPropagation();
-                  }
-                  return undefined;
-              };
-
-    const onMouseUpHandler =
-        state === 'default'
-            ? (event: BaseSyntheticEvent) => {
-                  setButtonStyle(styles.default);
-                  if (preventingMouseUp) {
-                      setPreventMouseUpStatus(false);
-                      event.target.blur();
-                  } else {
-                      setPreventMouseUpStatus(true);
-                  }
-              }
-            : (_: BaseSyntheticEvent) => {
-                  return undefined;
-              };
+    const cssShapeStyle: CSS.Properties = shape === 'circle' ? { borderRadius: '50%' } : { borderRadius: 0 };
 
     const button: JSX.Element = (
-        <button
-            className={buttonStyle}
-            onMouseDown={onMouseDownHandler}
-            onMouseUp={onMouseUpHandler}
-            onClick={onClickHandler}
-        >
-            {text}
-            {content !== undefined ? (
-                content.hotkeyInfo === '' ? (
-                    content.icon
-                ) : (
-                    <div className="hotkey-info">{content.hotkeyInfo}</div>
-                )
-            ) : (
-                ''
-            )}
+        <button className={styles[buttonStyle]} style={cssShapeStyle}>
+            {contentType.toUpperCase().includes(ICON) ? <div className={styles.icon}>{icon}</div> : <></>}
+            {contentType.toUpperCase().includes(TEXT) ? <div className={styles.text}>{textInfo}</div> : <></>}
+            {contentType.toUpperCase().includes(SUMMONER) ? <Triangle width={10} height={10} color="grey" /> : <></>}
+            {contentType.toUpperCase().includes(HOTKEY) ? <div className={styles.hotkey}>{hotKeyText}</div> : <></>}
         </button>
     );
 
     return button;
+}
+
+function getButtonStyleByContentTypeAndState(contentType: ButtonContentType, state: ButtonState): string {
+    const upperContentType = contentType.toUpperCase();
+
+    if (upperContentType.includes(ICON) && !upperContentType.includes(TEXT) && !upperContentType.includes(SUMMONER)) {
+        return 'button-with-icon';
+    }
+    return 'default';
 }

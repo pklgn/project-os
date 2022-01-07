@@ -1,108 +1,11 @@
-.default {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  background-color: transparent;
-  padding: 3px 10px 3px 10px;
-}
-
-.default:hover {
-  background-color: rgba(153, 153, 153, 0.4);
-}
-
-.default:focus {
-  background-color: #f6ea6a;
-}
-
-.default-pressed {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  background-color: #e4d429;
-  padding: 3px 10px 3px 10px;
-}
-
-.button {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  background-color: transparent;
-  padding: 3px 10px 3px 10px;
-}
-
-.button:hover {
-  background-color: rgba(153, 153, 153, 0.4);
-}
-
-.button-pressed {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  background-color: #e4d429;
-  padding: 3px 10px 3px 10px;
-}
-
-.button-focused {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  background-color: #f6ea6a;
-  padding: 3px 10px 3px 10px;
-}
-
-.button-in-submenu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: none;
-  font: inherit;
-  color: inherit;
-  background-color: transparent;
-  cursor: pointer;
-  min-width: 240px;
-  min-height: 35px;
-  padding: 0 10px 0 25px;
-  outline: none;
-}
-
-.button-in-submenu:hover {
-  background-color: #bebdbdbf;
-}
-
-.button-in-submenu-active {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: none;
-  font: inherit;
-  color: inherit;
-  background-color: #bebdbdbf;
-  cursor: pointer;
-  min-width: 240px;
-  min-height: 35px;
-  padding: 0 10px 0 25px;
-  outline: none;
-}
-
 .icon {
-  border: none;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  background-color: rgba(190, 189, 189, 0);
-  border-radius: 0.2rem;
+
 }
 
-.icon:hover {
-  background-color: rgba(153, 153, 153, 0.4);
+.button-with-icon {
+  cursor: pointer;
+}
+
+.button-with-icon:focus {
+  filter: invert(100%);
 }

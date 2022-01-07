@@ -2,6 +2,7 @@ import styles from './ToolBar.module.css';
 
 import { Button } from '../Button/Button';
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
+import { GlobeIcon } from '../icons/GlobeInternationalization/GlobeInternationalizationIcon';
 
 import { getL18nObject } from '../../../l18n/l18n';
 import { LocaleContext } from '../../../App';
@@ -15,6 +16,8 @@ import { setEditorMode } from '../../../redux/action-creators/editorActionCreato
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { addPicture } from '../../../redux/action-creators/pictureActionCreators';
+import { AdaptiveInputField } from '../AdaptiveInputField/AdaptiveInputField';
+import { changePresentationTitle } from '../../../redux/action-creators/presentationActionCreators';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -62,10 +65,27 @@ export function ToolBar() {
         });
     };
 
+    const dispatchPresentationName = bindActionCreators(changePresentationTitle, dispatch);
+
+    const onChangeHandler = (event: BaseSyntheticEvent) => {
+        dispatchPresentationName(event.target.value);
+        document.title = event.target.value + ' - Oladies&Slides';
+    };
+
     /* eslint-disable react/jsx-key */
     return (
-        <div className={styles['top-bar']}>
-            <div className={styles['top-bar__button-list']}>
+        <div className={styles['tool-bar']}>
+            <AdaptiveInputField value={store.getState().model.presentation.name} onChange={onChangeHandler} />
+            <Button
+                textInfo={localeContext.locale.localization['choose-language']}
+                hotKeyText={undefined}
+                icon={<GlobeIcon />}
+                state="disabled"
+                contentType="icon"
+                shape="circle"
+                foo={() => undefined}
+            />
+            {/* <div className={styles['top-bar__button-list']}>
                 <DropdownMenu
                     summoningButtonText={localeContext.locale.localization.file_word}
                     summoningButtonType="text"
@@ -334,7 +354,7 @@ export function ToolBar() {
                     foo={toggleLocaleContext}
                 />
                 <input type="file" className="fileUpload" onChange={addPictureButtonFunction} />
-            </div>
+            </div> */}
         </div>
     );
     /* eslint-enable */

@@ -19,7 +19,7 @@ export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
 
     return (
         <div className={styles['reorder-tools']}>
-            <Button
+            {/* <Button
                 text={localeContext.locale.localization.backward_word}
                 state="disabled"
                 shouldStopPropagation={false}
@@ -53,7 +53,7 @@ export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <LayerForeground /> }}
                 foo={props.foo}
-            />
+            /> */}
         </div>
     );
 }
