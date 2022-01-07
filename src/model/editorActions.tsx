@@ -53,16 +53,29 @@ export function savePresentationAsJson(editor: Editor) {
 
 export function uploadPresentationFromJson(): Editor {
     const fileInput = document.createElement("input");
-    document.body.appendChild(fileInput); // required for firefox
     fileInput.type = "file";
-    fileInput.click()
+    document.body.appendChild(fileInput); // required for firefox
+    fileInput.click();
     
-    const file = fileInput.files[0];
-    const reader = new FileReader()
-    reader.onload = e => {
-        fileInput.remove()
-        return JSON.parse(reader.readAsText(file));
-    };
-    return initEditor()
-}
+    const reader = new FileReader();
+    console.log("0")
+    reader.onloadend = () => {
+        console.log("1")
+        if (!fileInput.files) return initEditor();
+        
+        const file = fileInput.files[0];
+        reader.readAsText(file);
+        fileInput.remove();
+        console.log("2")
+        if (!reader.result) return initEditor();
 
+
+        if (typeof reader.result === 'string') {
+            console.log(JSON.parse(reader.result));
+        }
+        console.log("ArrayBuffer:");
+        console.log(reader.result);
+        return initEditor();
+    };
+    return initEditor();
+}

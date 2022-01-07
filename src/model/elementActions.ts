@@ -219,11 +219,3 @@ export function changeElementsPosition(
         selectedSlidesIds: [currSlide.id],
     };
 }
-
-export function uploadImgSrc(input): string {
-    let file = input.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    return input.result
-}

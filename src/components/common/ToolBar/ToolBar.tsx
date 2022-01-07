@@ -15,7 +15,7 @@ import { setEditorMode } from '../../../redux/action-creators/editorActionCreato
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { initEditor } from '../../../model/initModelActions';
-import { savePresentationAsJson } from '../../../model/editorActions';
+import { savePresentationAsJson, uploadPresentationFromJson } from '../../../model/editorActions';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -41,6 +41,12 @@ export function ToolBar() {
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
+    const dispatchUploadPresentationFromJSONAction = 
+        bindActionCreators(uploadPresentationFromJson, dispatch);
+
+    const uploadPresentationFromJsonFunction = () => {
+        dispatchUploadPresentationFromJSONAction()
+    }
 
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {
@@ -128,7 +134,7 @@ export function ToolBar() {
                                 hotkeyInfo: 'Ctrl+O',
                                 icon: <div></div>,
                             }}
-                            foo={func}
+                            foo={uploadPresentationFromJsonFunction}
                         />,
                         <DropdownMenu
                             summoningButtonText={

@@ -56,7 +56,7 @@ export const allReducers = (
                 action.payload.selectedSlideElementsIds,
             );
         case ActionType.UPLOAD_PRESENTATION_FROM_JSON:
-            return uploadPresentationFromJson()
+            return uploadPresentationFromJson();
         case ActionType.KEEP:
             return keep(state);
         case ActionType.REDO:
