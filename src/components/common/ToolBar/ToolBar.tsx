@@ -64,8 +64,8 @@ export function ToolBar() {
                 dispatchAddPictureAction({
                     src: URL.createObjectURL(event.target.files[0]),
                     alt: '',
-                    width: image.width / 7,
-                    height: image.height / 7,
+                    width: image.width,
+                    height: image.height,
                 });
             };
             image.src = URL.createObjectURL(event.target.files[0]);
