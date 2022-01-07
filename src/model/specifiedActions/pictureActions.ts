@@ -1,9 +1,15 @@
 import { isPicture } from '../utils/tools';
 import { generateUUId } from '../utils/uuid';
 import { getCurrentSlide, applySlideChanges } from '../slidesActions';
-import { Editor, Slide, PictureElement, SlideElement } from '../types';
-
-export function addPictureElement(editor: Editor, src: string, alt = '', x = 1, y = 1, width = 1, height = 1): Editor {
+export function addPictureElement(
+    editor: Editor,
+    src: string,
+    alt = '',
+    width = 10,
+    height = 10,
+    x = 0,
+    y = 0,
+): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
@@ -50,6 +56,8 @@ export function addPictureElement(editor: Editor, src: string, alt = '', x = 1, 
         selectedSlideElementsIds: [element.id],
     };
 }
+
+import { Editor, Slide, PictureElement, SlideElement } from '../types';
 
 export function changePicture(editor: Editor, src: string): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);

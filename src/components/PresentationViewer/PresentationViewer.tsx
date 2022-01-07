@@ -11,7 +11,7 @@ import { Slide } from '../../model/types';
 
 import { SlideComponent } from '../AppContent/Slide/SlideComponent';
 
-import { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { LocaleContext } from '../../App';
 
@@ -49,7 +49,7 @@ export function PresentationViewer() {
             }
         };
 
-        const onFullScreenHandler = (_: Event) => {
+        const onFullScreenHandler = () => {
             if (document.fullscreenElement) {
                 setVisibilityStyle({
                     display: 'inherit',
@@ -111,13 +111,10 @@ export function PresentationViewer() {
                     <div
                         className={styles['to-previous-slide-area-selector']}
                         onClick={onClickNextSlideSelectorHandler}
-                    ></div>
-                    <SlideComponent slide={slideInShow} id={slideInShow !== undefined ? slideInShow.id : undefined} />
-                    <svg className={styles['prevent-pointer-events']}></svg>
-                    <div
-                        className={styles['to-next-slide-area-selector']}
-                        onClick={onClickNextSlideSelectorHandler}
-                    ></div>
+                    />
+                    <SlideComponent slide={slideInShow} id={slideInShow.id} />
+                    <svg className={styles['prevent-pointer-events']} />
+                    <div className={styles['to-next-slide-area-selector']} onClick={onClickNextSlideSelectorHandler} />
                 </>
             ) : (
                 <div className={styles['empty-slide-in-show']}>
