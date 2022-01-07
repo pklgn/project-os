@@ -48,3 +48,11 @@ export const keepModelAction = () => {
         });
     };
 };
+
+export const uploadPresentationAsJson = () => {
+    return (dispatch: Dispatch<EditorActions>) => {
+        dispatch({
+            type: ActionType.UPLOAD_PRESENTATION_FROM_JSON,
+        });
+    };
+}

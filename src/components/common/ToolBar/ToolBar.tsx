@@ -15,7 +15,7 @@ import { setEditorMode } from '../../../redux/action-creators/editorActionCreato
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { initEditor } from '../../../model/initModelActions';
-import { downloadObjectAsJson } from '../../../model/editorActions';
+import { savePresentationAsJson } from '../../../model/editorActions';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -32,10 +32,10 @@ export function ToolBar() {
         }
     };
 
-    const saveAsJSONFunction = () => downloadObjectAsJson({
+    const saveAsJSONFunction = () => savePresentationAsJson({
         ...initEditor(),
         presentation: store.getState().model.presentation
-    }, "qwertyuiop")
+    })
 
     const dispatch = useDispatch();
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);

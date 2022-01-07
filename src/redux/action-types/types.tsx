@@ -12,6 +12,7 @@ export enum ActionType {
 
     //PresentationActions
     CHANGE_PRESENTATION_TITLE = 'CHANGE_PRESENTATION_TITLE',
+    UPLOAD_PRESENTATION_FROM_JSON = 'UPLOAD_PRESENTATION_FROM_JSON',
     //PresentationActions
 
     //SlideActions

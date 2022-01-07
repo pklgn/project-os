@@ -32,6 +32,7 @@ import {
 import {
     setSelectedIdInEditor,
     toggleEditorMode,
+    uploadPresentationFromJson,
 } from '../../model/editorActions';
 
 type ModelActions =
@@ -54,6 +55,8 @@ export const allReducers = (
                 action.payload.selectedSlidesIds,
                 action.payload.selectedSlideElementsIds,
             );
+        case ActionType.UPLOAD_PRESENTATION_FROM_JSON:
+            return uploadPresentationFromJson()
         case ActionType.KEEP:
             return keep(state);
         case ActionType.REDO:
