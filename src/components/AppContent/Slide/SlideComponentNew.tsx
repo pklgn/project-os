@@ -8,12 +8,14 @@ import { TextElementComponent } from '../../SlideElements/Text/TextElementCompon
 import { createContext, useEffect, useRef, useState } from 'react';
 
 type SlideProps = {
+    width: number;
+    height: number;
     slide: Slide | undefined;
 };
 const defaultScaleValue = 1;
 export const ScaleContext = createContext(defaultScaleValue);
 
-export function SlideComponent(props: SlideProps) {
+export function SlideComponentNew(props: SlideProps) {
     const ref = useRef<SVGSVGElement>(null);
     const [scale, setScale] = useState(defaultScaleValue);
     useEffect(() => {
@@ -26,8 +28,8 @@ export function SlideComponent(props: SlideProps) {
         <ScaleContext.Provider value={scale}>
             <svg
                 ref={ref}
-                width={'100%'}
-                height={'100%'}
+                width={props.width}
+                height={props.height}
                 className={styles['slide-container']}
                 viewBox={'0 0 160 90'}
                 preserveAspectRatio={'xMinYMin meet'}

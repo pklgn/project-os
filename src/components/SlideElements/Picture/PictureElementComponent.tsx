@@ -1,12 +1,14 @@
 import { isPicture } from '../../../model/utils/tools';
 import { PictureElement, SlideElement } from '../../../model/types';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
+import { ScaleContext } from '../../AppContent/Slide/SlideComponent';
 
 type PictureElementProps = {
     element: SlideElement;
 };
 
 export function PictureElementComponent(props: PictureElementProps) {
+    const scale = useContext(ScaleContext);
     const ref = useRef(null);
     let element: PictureElement;
     if (isPicture(props.element.content)) {
@@ -19,10 +21,10 @@ export function PictureElementComponent(props: PictureElementProps) {
         <image
             ref={ref}
             href={element.src}
+            width={props.element.size.width / scale}
+            height={props.element.size.height / scale}
             x={props.element.startPoint.x}
             y={props.element.startPoint.y}
-            width={props.element.size.width}
-            height={props.element.size.height}
         />
     );
 }
