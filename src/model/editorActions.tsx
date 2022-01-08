@@ -52,30 +52,40 @@ export function savePresentationAsJson(editor: Editor) {
 }
 
 export function uploadPresentationFromJson(): Editor {
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    document.body.appendChild(fileInput); // required for firefox
-    fileInput.click();
+    // const fileInput = document.createElement("input");
+    // fileInput.type = "file";
+    // const reader = new FileReader();
+    // fileInput.click();
     
-    const reader = new FileReader();
-    console.log("0")
-    reader.onloadend = () => {
-        console.log("1")
-        if (!fileInput.files) return initEditor();
-        
-        const file = fileInput.files[0];
-        reader.readAsText(file);
-        fileInput.remove();
-        console.log("2")
-        if (!reader.result) return initEditor();
 
+    // console.log("0")
+    // if (!fileInput.files) return initEditor();
+    // console.log(fileInput)
+    // console.log(fileInput.files)
+    // const file = fileInput.files[0];
+    // reader.readAsText(file);
 
-        if (typeof reader.result === 'string') {
-            console.log(JSON.parse(reader.result));
-        }
-        console.log("ArrayBuffer:");
-        console.log(reader.result);
-        return initEditor();
-    };
+    // fileInput.remove();
+    // if (!reader.result) return initEditor();
+    // console.log("2")
+    // if (typeof reader.result === 'string') {
+    //     return JSON.parse(reader.result);
+    // }
+    const file = pick()
+    console.log(file);
     return initEditor();
+}
+
+async function pick(): Promise<string> {
+    const filepicker = document.createElement("input");
+    filepicker.setAttribute("type","file");
+    filepicker.click();
+    return new Promise((resolve, reject) => {
+      filepicker.onchange = e => {
+        const reader = new FileReader();
+        reader.addEventListener('load', file => resolve(file.target.result));
+        reader.addEventListener('error', reject);
+        reader.readAsText(e.target.files[0]);
+      };
+    });
 }

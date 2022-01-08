@@ -11,11 +11,11 @@ import { addText } from '../../../redux/action-creators/textActionCreators';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { getSlideAmount } from '../../../model/slidesActions';
-import { setEditorMode } from '../../../redux/action-creators/editorActionCreators';
+import { setEditorMode, uploadPresentationFromJSON } from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { initEditor } from '../../../model/initModelActions';
-import { savePresentationAsJson, uploadPresentationFromJson } from '../../../model/editorActions';
+import { savePresentationAsJson } from '../../../model/editorActions';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -42,7 +42,7 @@ export function ToolBar() {
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
     const dispatchUploadPresentationFromJSONAction = 
-        bindActionCreators(uploadPresentationFromJson, dispatch);
+        bindActionCreators(uploadPresentationFromJSON, dispatch);
 
     const uploadPresentationFromJsonFunction = () => {
         dispatchUploadPresentationFromJSONAction()
