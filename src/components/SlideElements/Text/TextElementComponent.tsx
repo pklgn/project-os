@@ -3,6 +3,7 @@ import styles from './TextElementComponent.module.css';
 import { isText } from '../../../model/utils/tools';
 import { SlideElement, TextElement } from '../../../model/types';
 import { useEffect, useRef } from 'react';
+import { useDragAndDrop } from '../../utils/useDragAndDrop';
 
 type TextElementProps = {
     element: SlideElement;
