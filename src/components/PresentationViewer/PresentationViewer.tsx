@@ -9,7 +9,7 @@ import { store } from '../../redux/store';
 import { getCurrentSlide, getFirstSlide, getNextToSlide } from '../../model/slidesActions';
 import { Slide } from '../../model/types';
 
-import { SlideComponent } from '../AppContent/Slide/SlideComponent';
+import { SlideComponent } from '../AppContent/Slide/SlideComponentOld';
 
 import React, { useContext, useEffect, useRef, useState } from 'react';
 

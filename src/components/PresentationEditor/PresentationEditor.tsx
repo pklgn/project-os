@@ -4,9 +4,8 @@ import styles from './PresentationEditor.module.css';
 import { ElementListTool } from '../AppFooter/ElementListTool/ElementListTool';
 import { ReorderListTool } from '../AppFooter/ReorderList Tool/ReorderListTool';
 import { SlideListTool } from '../AppFooter/SlideListTool/SlideListTool';
-import { SlideWrapper } from '../AppContent/Slide/SlideWrapper';
 import { SidePanel } from '../AppContent/SidePanel/SidePanel';
-import { SlideWorkspace } from '../AppContent/Slide/SlideWorkspace';
+import { WorkSpaceComponent } from '../AppContent/Slide/WorkSpaceComponent';
 
 export function PresentationEditor(): JSX.Element {
     const [menuSwitcher, setMenuSwitcher] = useState(true);
@@ -15,7 +14,7 @@ export function PresentationEditor(): JSX.Element {
         <div className={styles.editor}>
             <AppTop />
             <SidePanel />
-            <SlideWorkspace />
+            <WorkSpaceComponent />
             <SlideListTool foo={() => undefined} />
             {menuSwitcher ? <ElementListTool foo={handleToggleView} /> : <ReorderListTool foo={handleToggleView} />}
         </div>

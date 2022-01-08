@@ -3,7 +3,7 @@ import wrapperStyles from './SlideWrapper.module.css';
 
 import { useResize } from '../../utils/useResize';
 import { useEffect, useRef, useState } from 'react';
-import { SlideComponent } from './SlideComponent';
+import { SlideComponent } from './SlideComponentOld';
 
 import { store } from '../../../redux/store';
 import { getCurrentSlide } from '../../../model/slidesActions';

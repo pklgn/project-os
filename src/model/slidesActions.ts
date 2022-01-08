@@ -1,5 +1,5 @@
 import { generateUUId } from './utils/uuid';
-import { Editor, Slide, Background, Presentation } from './types';
+import { Editor, Slide, Background, Presentation, Size } from './types';
 
 export function addSlide(editor: Editor): Editor {
     const slideList: Slide[] = [...editor.presentation.slidesList];
@@ -222,3 +222,8 @@ export function insertSelectedSlides(editor: Editor, insertIndex: number): Edito
         selectedSlideElementsIds: [],
     };
 }
+
+// export function getWorkspaceSize(slide: Slide): Size {
+//     if (slide.elementsList.le)
+//     let { minX, minY } =,
+// }
