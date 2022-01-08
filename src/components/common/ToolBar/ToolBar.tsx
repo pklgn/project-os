@@ -11,11 +11,11 @@ import { addText } from '../../../redux/action-creators/textActionCreators';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { getSlideAmount } from '../../../model/slidesActions';
-import { setEditorMode } from '../../../redux/action-creators/editorActionCreators';
+import { setEditorMode, uploadPresentationFromJson } from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { initEditor } from '../../../model/initModelActions';
-import { savePresentationAsJson, uploadPresentationFromJson } from '../../../model/editorActions';
+import { savePresentationAsJson } from '../../../model/editorActions';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -36,6 +36,25 @@ export function ToolBar() {
         ...initEditor(),
         presentation: store.getState().model.presentation
     })
+    
+    const uploadPresentationFromJsonFunction = () => {
+        const fileInput = document.createElement("input");
+        fileInput.setAttribute("type","file");
+
+        fileInput.click();
+        const reader = new FileReader();
+        reader.addEventListener('load', function(e) {
+
+            if (typeof reader.result === 'string') {
+                console.log("aafwWF")
+                uploadPresentationFromJson(reader.result)
+            }
+        });
+
+        if (fileInput.files) {
+            reader.readAsText(fileInput.files[0])
+        }
+    }
 
     const dispatch = useDispatch();
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
@@ -44,9 +63,9 @@ export function ToolBar() {
     const dispatchUploadPresentationFromJSONAction = 
         bindActionCreators(uploadPresentationFromJson, dispatch);
 
-    const uploadPresentationFromJsonFunction = () => {
-        dispatchUploadPresentationFromJSONAction()
-    }
+    // const uploadPresentationFromJsonFunction = () => {
+    //     dispatchUploadPresentationFromJSONAction()
+    // }
 
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {

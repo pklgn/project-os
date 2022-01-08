@@ -51,31 +51,37 @@ export function savePresentationAsJson(editor: Editor) {
     downloadAnchorNode.remove();
 }
 
-export function uploadPresentationFromJson(): Editor {
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    document.body.appendChild(fileInput); // required for firefox
-    fileInput.click();
+export function uploadPresentationFromJson(s: string): Editor {
+    // const fileInput = document.createElement("input");
+    // fileInput.type = "file";
     
-    const reader = new FileReader();
-    console.log("0")
-    reader.onloadend = () => {
-        console.log("1")
-        if (!fileInput.files) return initEditor();
+    // const reader = new FileReader();
+
+    // reader.onload = () => {
+    //     console.log("1")
+    //     if (!fileInput.files) return initEditor();
         
-        const file = fileInput.files[0];
-        reader.readAsText(file);
-        fileInput.remove();
-        console.log("2")
-        if (!reader.result) return initEditor();
+    //     const file = fileInput.files[0];
+    //     reader.readAsText(file);
+    //     fileInput.remove();
+    //     console.log("2")
+    //     if (!reader.result) return initEditor();
+        
+        
+    //     if (typeof reader.result === 'string') {
+    //         console.log(JSON.parse(reader.result));
+    //     }
+    //     console.log("ArrayBuffer:");
+    //     console.log(reader.result);
+    //     return initEditor();
+    // };
 
+    // fileInput.click();
 
-        if (typeof reader.result === 'string') {
-            console.log(JSON.parse(reader.result));
-        }
-        console.log("ArrayBuffer:");
-        console.log(reader.result);
-        return initEditor();
-    };
-    return initEditor();
+    // console.log("return")
+    // return initEditor();
+    return {
+        ...initEditor(),
+        presentation: JSON.parse(s)
+    }
 }
