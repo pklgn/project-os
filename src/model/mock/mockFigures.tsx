@@ -58,8 +58,4 @@ const mockTriangleFigureElement: SlideElement = {
     },
 };
 
-export {
-    mockCircleFigureElement,
-    mockRectangleFigureElement,
-    mockTriangleFigureElement,
-};
+export { mockCircleFigureElement, mockRectangleFigureElement, mockTriangleFigureElement };

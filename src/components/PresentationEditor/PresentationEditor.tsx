@@ -16,11 +16,7 @@ export function PresentationEditor(): JSX.Element {
             <SidePanel />
             <SlideWrapper />
             <SlideListTool foo={() => undefined} />
-            {menuSwitcher ? (
-                <ElementListTool foo={handleToggleView} />
-            ) : (
-                <ReorderListTool foo={handleToggleView} />
-            )}
+            {menuSwitcher ? <ElementListTool foo={handleToggleView} /> : <ReorderListTool foo={handleToggleView} />}
         </div>
     );
 }

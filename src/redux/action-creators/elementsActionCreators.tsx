@@ -10,10 +10,7 @@ export const removeSelectedElements = () => {
     };
 };
 
-export const changeSelectedElementsPosition = (payload: {
-    dx: number;
-    dy: number;
-}) => {
+export const changeSelectedElementsPosition = (payload: { dx: number; dy: number }) => {
     return (dispatch: Dispatch<ElementAction>) => {
         dispatch({
             type: ActionType.CHANGE_ELEMENTS_POSITION,
@@ -31,10 +28,7 @@ export const changeSelectedElementsOpacity = (payload: number) => {
     };
 };
 
-export const changeSelectedElementsSize = (payload: {
-    scaleX: number;
-    scaleY: number;
-}) => {
+export const changeSelectedElementsSize = (payload: { scaleX: number; scaleY: number }) => {
     return (dispatch: Dispatch<ElementAction>) => {
         dispatch({
             type: ActionType.CHANGE_ELEMENTS_SIZE,
@@ -43,9 +37,7 @@ export const changeSelectedElementsSize = (payload: {
     };
 };
 
-export const moveSelectedElementsToBackgroundOrForeground = (
-    payload: boolean,
-) => {
+export const moveSelectedElementsToBackgroundOrForeground = (payload: boolean) => {
     return (dispatch: Dispatch<ElementAction>) => {
         dispatch({
             type: ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND,

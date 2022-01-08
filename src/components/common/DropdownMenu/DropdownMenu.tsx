@@ -24,27 +24,21 @@ export function DropdownMenu(
         bottomBorderAfterElement: undefined,
     },
 ): JSX.Element {
-    const {
-        summoningButtonPlace,
-        summoningButtonType,
-        summoningButtonText,
-        elementsArray,
-        bottomBorderAfterElement,
-    } = props;
+    const { summoningButtonPlace, summoningButtonType, summoningButtonText, elementsArray, bottomBorderAfterElement } =
+        props;
 
     const [menuRender, setMenuRender] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const summoningButtonRef = useRef<HTMLDivElement>(null);
     const rightSideSubMenuRef = useRef<HTMLDivElement>(null);
     const bottomSideSubMenuRef = useRef<HTMLDivElement>(null);
-    const [
-        buttonDisabledState,
-        buttonActiveState,
-        buttonFocusedState,
-    ]: buttonState[] = ['disabled', 'active', 'focused'];
+    const [buttonDisabledState, buttonActiveState, buttonFocusedState]: buttonState[] = [
+        'disabled',
+        'active',
+        'focused',
+    ];
 
-    const [buttonCurrentState, setButtonCurrentState] =
-        useState(buttonDisabledState);
+    const [buttonCurrentState, setButtonCurrentState] = useState(buttonDisabledState);
 
     const mouseDownOnSummoningButtonHandler = (event: MouseEvent) => {
         const target = event.target as Node;
@@ -89,10 +83,7 @@ export function DropdownMenu(
 
     const clickHandler = (event: MouseEvent) => {
         const target = event.target as Node;
-        if (
-            rightSideSubMenuRef.current?.contains(target) ||
-            bottomSideSubMenuRef.current?.contains(target)
-        ) {
+        if (rightSideSubMenuRef.current?.contains(target) || bottomSideSubMenuRef.current?.contains(target)) {
             let isNodeSummoningSubMenu = false;
             target.childNodes.forEach((value) => {
                 if (typeof value.lastChild?.nodeValue === 'object') {
@@ -108,49 +99,25 @@ export function DropdownMenu(
 
     useEffect(() => {
         if (summoningButtonPlace === 'above') {
-            document.addEventListener(
-                'mousedown',
-                mouseDownOnSummoningButtonHandler,
-            );
-            document.addEventListener(
-                'mouseup',
-                mouseUpOnSummoningButtonHandler,
-            );
+            document.addEventListener('mousedown', mouseDownOnSummoningButtonHandler);
+            document.addEventListener('mouseup', mouseUpOnSummoningButtonHandler);
             document.addEventListener('click', clickHandler);
         }
 
         if (summoningButtonPlace === 'left') {
-            document.addEventListener(
-                'mouseover',
-                mouseOverOnSummoningButtonHandler,
-            );
-            document.addEventListener(
-                'mouseout',
-                mouseOutOnSummoningButtonHandler,
-            );
+            document.addEventListener('mouseover', mouseOverOnSummoningButtonHandler);
+            document.addEventListener('mouseout', mouseOutOnSummoningButtonHandler);
             document.addEventListener('click', clickHandler);
         }
 
         return () => {
             if (summoningButtonPlace === 'above') {
-                document.removeEventListener(
-                    'mousedown',
-                    mouseDownOnSummoningButtonHandler,
-                );
-                document.removeEventListener(
-                    'mouseup',
-                    mouseUpOnSummoningButtonHandler,
-                );
+                document.removeEventListener('mousedown', mouseDownOnSummoningButtonHandler);
+                document.removeEventListener('mouseup', mouseUpOnSummoningButtonHandler);
             }
             if (summoningButtonPlace === 'left') {
-                document.removeEventListener(
-                    'mouseover',
-                    mouseOverOnSummoningButtonHandler,
-                );
-                document.removeEventListener(
-                    'mouseout',
-                    mouseOutOnSummoningButtonHandler,
-                );
+                document.removeEventListener('mouseover', mouseOverOnSummoningButtonHandler);
+                document.removeEventListener('mouseout', mouseOutOnSummoningButtonHandler);
                 document.removeEventListener('click', clickHandler);
             }
         };
@@ -185,13 +152,7 @@ export function DropdownMenu(
                             : summoningButtonType === 'textInSubMenu'
                             ? {
                                   hotkeyInfo: '',
-                                  icon: (
-                                      <Triangle
-                                          width={10}
-                                          height={10}
-                                          color="grey"
-                                      />
-                                  ),
+                                  icon: <Triangle width={10} height={10} color="grey" />,
                               }
                             : undefined
                     }
@@ -200,17 +161,11 @@ export function DropdownMenu(
             </div>
             {menuRender ? (
                 props.summoningButtonPlace === 'above' ? (
-                    <div
-                        className={styles['dropdown-menu']}
-                        ref={bottomSideSubMenuRef}
-                    >
+                    <div className={styles['dropdown-menu']} ref={bottomSideSubMenuRef}>
                         {menu}
                     </div>
                 ) : (
-                    <div
-                        className={styles['dropdown-menu-rightside']}
-                        ref={rightSideSubMenuRef}
-                    >
+                    <div className={styles['dropdown-menu-rightside']} ref={rightSideSubMenuRef}>
                         {menu}
                     </div>
                 )
