@@ -23,17 +23,6 @@ export function SlideWrapper() {
         getCurrentSlide(store.getState().model)?.id as string | undefined,
     );
 
-    useEffect(() => {
-        const height = width / SlideParams.ASPECT_RATIO;
-        if (ref.current) {
-            ref.current.style.height = `${Math.min(height, maxHeight)}px`;
-
-            if (Math.min(height, maxHeight) === maxHeight) {
-                ref.current.style.maxWidth = `${maxHeight * SlideParams.ASPECT_RATIO}px`;
-            }
-        }
-    }, [ref, width, maxHeight]);
-
     const handleChange = () => {
         const previousValue = currSlideId;
         const currSlide = getCurrentSlide(store.getState().model);

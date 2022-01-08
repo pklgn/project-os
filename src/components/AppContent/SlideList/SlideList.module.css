@@ -19,18 +19,21 @@
 }
 
 .slide-list-item {
+    width: 100%;
     position: relative;
     display: inline-grid;
     margin-bottom: -11px;
+
 }
 
 .item-number-disabled {
     position: absolute;
+    top: 15px;
+    left: -10px;
     background-color: #6f1700;
     border-radius: 50%;
     height: 18px;
     width: 18px;
-    margin: 11px 0 0 -10px;
     font-size: 12px;
     text-align: center;
     font-weight: 900;
@@ -41,11 +44,12 @@
 
 .item-number-active {
     position: absolute;
+    top: 15px;
+    left: -10px;
     background-color: #ff6d01;
     border-radius: 50%;
     height: 18px;
     width: 18px;
-    margin: 11px 0 0 -10px;
     font-size: 12px;
     text-align: center;
     font-weight: 900;
@@ -58,6 +62,8 @@
     position: relative;
     list-style-type: none;
     display: inline-grid;
+    overflow: hidden;
+    border-radius: 5px;
 }
 
 .list-item-active {
@@ -65,6 +71,8 @@
     list-style-type: none;
     display: inline-grid;
     box-shadow: 2px 2px black;
+    overflow: hidden;
+    border-radius: 5px;
 }
 
 .list-item-wrapper-disabled,

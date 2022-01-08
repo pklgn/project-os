@@ -14,10 +14,12 @@ export function SlideListItem(props: SlideListItemProps) {
     const itemNumberStyle = props.status ? styles['item-number-active'] : styles['item-number-disabled'];
 
     return (
-        <div className={itemWrapperStyle}>
+        <>
+            <div className={itemWrapperStyle}>
+                <SlideComponent slide={props.item} />
+                <svg className={styles['prevent-pointer-events']} id={`${props.itemIndex + 1}`} />
+            </div>
             <div className={itemNumberStyle}>{props.itemIndex + 1}</div>
-            <SlideComponent slide={props.item} />
-            <svg className={styles['prevent-pointer-events']} id={`${props.itemIndex + 1}`} />
-        </div>
+        </>
     );
 }

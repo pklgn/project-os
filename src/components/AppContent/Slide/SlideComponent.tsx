@@ -7,6 +7,13 @@ import { Slide } from '../../../model/types';
 import { TextElementComponent } from '../../SlideElements/Text/TextElementComponent';
 import { createContext, useEffect, useRef, useState } from 'react';
 
+const VIEWBOX = {
+    x_min: 0,
+    y_min: 0,
+    width: 160,
+    height: 90,
+};
+
 type SlideProps = {
     slide: Slide | undefined;
 };
@@ -26,10 +33,9 @@ export function SlideComponent(props: SlideProps) {
         <ScaleContext.Provider value={scale}>
             <svg
                 ref={ref}
-                width={'100%'}
                 height={'100%'}
                 className={styles['slide-container']}
-                viewBox={'0 0 160 90'}
+                viewBox={`${Object.values(VIEWBOX).join(' ')}`}
                 preserveAspectRatio={'xMinYMin meet'}
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -51,7 +57,6 @@ export function SlideComponent(props: SlideProps) {
                 ) : (
                     <></>
                 )}
-                <rect className={styles['visible-workspace']} width={80} height={40} />
             </svg>
         </ScaleContext.Provider>
     );
