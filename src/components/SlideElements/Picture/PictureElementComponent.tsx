@@ -21,8 +21,8 @@ export function PictureElementComponent(props: PictureElementProps) {
         <image
             ref={ref}
             href={element.src}
-            width={(viewbox.width * props.element.size.width) / window.screen.width}
-            height={(viewbox.height * props.element.size.height) / window.screen.height}
+            width={props.element.size.width}
+            height={props.element.size.height}
             x={props.element.startPoint.x}
             y={props.element.startPoint.y}
         />

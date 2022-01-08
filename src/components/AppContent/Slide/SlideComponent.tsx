@@ -6,12 +6,13 @@ import { PictureElementComponent } from '../../SlideElements/Picture/PictureElem
 import { Slide } from '../../../model/types';
 import { TextElementComponent } from '../../SlideElements/Text/TextElementComponent';
 import { createContext, useRef } from 'react';
+import { mockText } from '../../../model/mock/mockEditor';
 
 const VIEWBOX = {
     x_min: 0,
     y_min: 0,
-    width: 160,
-    height: 90,
+    width: window.screen.width,
+    height: window.screen.height,
 };
 
 type SlideProps = {
@@ -34,8 +35,8 @@ export function SlideComponent(props: SlideProps) {
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
             >
-                <text x={-10} y={90}>
-                    {props.slide?.id}
+                <text x={0} y={90} fontSize={16}>
+                    {[props.slide?.id]}
                 </text>
                 {props.slide !== undefined ? (
                     props.slide.elementsList.map((element) => {
