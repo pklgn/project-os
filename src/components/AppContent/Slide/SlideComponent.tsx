@@ -1,11 +1,11 @@
-import styles from './Slide.module.css';
+import styles from './SlideComponent.module.css';
 
 import { FigureElementComponent } from '../../SlideElements/FigureElements/FigureElementComponent';
 import { getSlideElementType } from '../../../model/utils/tools';
 import { PictureElementComponent } from '../../SlideElements/Picture/PictureElementComponent';
 import { Slide } from '../../../model/types';
 import { TextElementComponent } from '../../SlideElements/Text/TextElementComponent';
-import { createContext, useEffect, useRef, useState } from 'react';
+import { createContext, useRef } from 'react';
 
 const VIEWBOX = {
     x_min: 0,
@@ -17,20 +17,14 @@ const VIEWBOX = {
 type SlideProps = {
     slide: Slide | undefined;
 };
-const defaultScaleValue = 1;
-export const ScaleContext = createContext(defaultScaleValue);
+
+export const ScaleContext = createContext(VIEWBOX);
 
 export function SlideComponent(props: SlideProps) {
     const ref = useRef<SVGSVGElement>(null);
-    const [scale, setScale] = useState(defaultScaleValue);
-    useEffect(() => {
-        const height = ref.current?.getBoundingClientRect().height ?? 90;
-        setScale(height / 90);
-        console.log(height / 90);
-    }, [ref]);
 
     return (
-        <ScaleContext.Provider value={scale}>
+        <ScaleContext.Provider value={VIEWBOX}>
             <svg
                 ref={ref}
                 height={'100%'}
