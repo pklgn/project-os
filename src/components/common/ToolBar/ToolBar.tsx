@@ -21,6 +21,9 @@ import { useDispatch } from 'react-redux';
 import { initEditor } from '../../../model/initModelActions';
 import { savePresentationAsJson } from '../../../model/editorActions';
 import { addPicture } from '../../../redux/action-creators/pictureActionCreators';
+import { generateUUId } from '../../../model/utils/uuid';
+import { UploadPresentationInput } from './UploadPresentationInput';
+import { UploadPictureInput } from './UploadPictureInput';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -37,37 +40,15 @@ export function ToolBar() {
         }
     };
 
-    const saveAsJSONFunction = () =>
-        savePresentationAsJson({
-            ...initEditor(),
-            presentation: store.getState().model.presentation,
-        });
-
-    const uploadPresentationFromJsonFunction = (e: BaseSyntheticEvent) => {
-        const reader = new FileReader();
-
-        reader.onload = function () {
-            if (typeof reader.result === 'string') dispatchUploadPresentationFromJSONAction(reader.result);
-        };
-
-        reader.readAsText(e.target.files[0]);
-    };
-    // Create a reference to the hidden file input element
-    const uploadFileInputRef = useRef<HTMLInputElement>(null);
-
-    // Programatically click the hidden file input element
-    // when the Button component is clicked
-    const handleClick = () => {
-        uploadFileInputRef.current?.click();
+    const uploadPresentationInputRef = useRef<HTMLInputElement>(null);
+    const handleUploadPresentationClick = () => {
+        uploadPresentationInputRef.current?.click();
     };
 
     const dispatch = useDispatch();
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
-    const dispatchAddPictureAction = bindActionCreators(addPicture, dispatch);
-    const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
-    const dispatchUploadPresentationFromJSONAction = bindActionCreators(uploadPresentationFromJson, dispatch);
 
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {
@@ -87,33 +68,16 @@ export function ToolBar() {
         dispatchSetEditorAction('show-from-current-slide');
     };
 
-    const addPictureButtonFunction = (event: BaseSyntheticEvent) => {
-        const reader = new FileReader();
-        const image = new Image();
-        reader.onload = function () {
-            console.log(event.target.files[0]);
-            image.onload = function () {
-                dispatchAddPictureAction({
-                    src: URL.createObjectURL(event.target.files[0]),
-                    alt: '',
-                    width: image.width,
-                    height: image.height,
-                });
-                dispatchKeepModelAction();
-            };
-            image.src = URL.createObjectURL(event.target.files[0]);
-        };
-        console.log(event.target);
-        reader.readAsDataURL(event.target.files[0]);
-    };
-
-    // Create a reference to the hidden file input element
     const uploadImageInputRef = useRef<HTMLInputElement>(null);
-
-    const handleChange = (event: BaseSyntheticEvent) => {
-        event.target.parentElement;
-        addPictureButtonFunction(event);
+    const handleUploadImageClick = () => {
+        uploadImageInputRef.current?.click();
     };
+
+    const saveAsJSONFunction = () =>
+        savePresentationAsJson({
+            ...initEditor(),
+            presentation: store.getState().model.presentation,
+        });
 
     /* eslint-disable react/jsx-key */
     return (
@@ -166,7 +130,7 @@ export function ToolBar() {
                                 hotkeyInfo: 'Ctrl+O',
                                 icon: <div></div>,
                             }}
-                            foo={handleClick}
+                            foo={handleUploadPresentationClick}
                         />,
                         <DropdownMenu
                             summoningButtonText={localeContext.locale.localization['create-copy']}
@@ -222,14 +186,6 @@ export function ToolBar() {
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
-                                <Button
-                                    text={localeContext.locale.localization['powerpoint-file-format']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={func}
-                                />,
                                 <Button
                                     text={localeContext.locale.localization['pdf-file-format']}
                                     state="disabled"
@@ -292,7 +248,7 @@ export function ToolBar() {
                                     shouldStopPropagation={false}
                                     contentType="textInSubMenu"
                                     content={undefined}
-                                    foo={func}
+                                    foo={handleUploadImageClick}
                                 />,
                                 <Button
                                     text={localeContext.locale.localization['put-url']}
@@ -300,9 +256,8 @@ export function ToolBar() {
                                     shouldStopPropagation={false}
                                     contentType="textInSubMenu"
                                     content={undefined}
-                                    foo={handleClick}
+                                    foo={handleUploadPresentationClick}
                                 />,
-                                <input type="file" accept={'.png, .jpeg'} onChange={addPictureButtonFunction} />,
                             ]}
                         />,
                         <Button
@@ -380,12 +335,8 @@ export function ToolBar() {
                     foo={toggleLocaleContext}
                 />
             </div>
-            <input
-                ref={uploadFileInputRef}
-                type="file"
-                onChange={uploadPresentationFromJsonFunction}
-                style={{ visibility: 'hidden', width: '0', height: '0' }}
-            />
+            <UploadPresentationInput key={generateUUId()} inputRef={uploadPresentationInputRef} />
+            <UploadPictureInput key={generateUUId()} inputRef={uploadImageInputRef} />
         </div>
     );
     /* eslint-enable */
