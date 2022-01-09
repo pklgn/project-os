@@ -11,7 +11,7 @@ import { addText } from '../../../redux/action-creators/textActionCreators';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { getSlideAmount } from '../../../model/slidesActions';
-import { setEditorMode } from '../../../redux/action-creators/editorActionCreators';
+import { keepModelAction, setEditorMode } from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { addPicture } from '../../../redux/action-creators/pictureActionCreators';
@@ -36,6 +36,7 @@ export function ToolBar() {
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
     const dispatchAddPictureAction = bindActionCreators(addPicture, dispatch);
+    const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
 
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {
@@ -67,9 +68,11 @@ export function ToolBar() {
                     width: image.width,
                     height: image.height,
                 });
+                dispatchKeepModelAction();
             };
             image.src = URL.createObjectURL(event.target.files[0]);
         };
+        console.log(event.target);
         reader.readAsDataURL(event.target.files[0]);
     };
 
@@ -81,9 +84,8 @@ export function ToolBar() {
     const handleClick = () => {
         uploadImageInputRef.current?.click();
     };
-    // Call a function (passed as a prop from the parent component)
-    // to handle the user-selected file
     const handleChange = (event: BaseSyntheticEvent) => {
+        event.target.parentElement;
         addPictureButtonFunction(event);
     };
 
@@ -274,12 +276,7 @@ export function ToolBar() {
                                     content={undefined}
                                     foo={handleClick}
                                 />,
-                                <input
-                                    type={'file'}
-                                    ref={uploadImageInputRef}
-                                    onChange={handleChange}
-                                    style={{ display: 'none' }}
-                                />,
+                                <input type="file" accept={'.png, .jpeg'} onChange={addPictureButtonFunction} />,
                             ]}
                         />,
                         <Button
@@ -356,7 +353,6 @@ export function ToolBar() {
                     content={undefined}
                     foo={toggleLocaleContext}
                 />
-                <input type="file" accept={'.png, .jpeg'} className="fileUpload" onChange={addPictureButtonFunction} />
             </div>
         </div>
     );
