@@ -5,7 +5,7 @@ import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
 
 import { getL18nObject } from '../../../l18n/l18n';
 import { LocaleContext } from '../../../App';
-import { useContext } from 'react';
+import { BaseSyntheticEvent, useContext, useRef } from 'react';
 
 import { addText } from '../../../redux/action-creators/textActionCreators';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
@@ -37,7 +37,7 @@ export function ToolBar() {
         presentation: store.getState().model.presentation
     })
     
-    const uploadPresentationFromJsonFunction = () => {
+    const uploadPresentationFromJsonFunction = (e: BaseSyntheticEvent) => {
         const fileInput = document.createElement("input");
         const reader = new FileReader();
         fileInput.setAttribute("type","file");
@@ -48,23 +48,23 @@ export function ToolBar() {
             if (fileInput.files) reader.readAsText(fileInput.files[0])
             if (typeof reader.result === 'string') dispatchUploadPresentationFromJSONAction(reader.result)
         };
-    }
 
-    // var inputFiles = document.getElementsByTagName("input")[0];
-    // inputFiles.onchange = function(){
-    //   var promise = Promise.resolve();
-    //   inputFiles.files.map( file => promise.then(()=> pFileReader(file)));
-    //   promise.then(() => console.log('all done...'));
-    // }
-    
-    // function pFileReader(file){
-    //   return new Promise((resolve, reject) => {
-    //     var fr = new FileReader();  
-    //     fr.onload = resolve;  // CHANGE to whatever function you want which would eventually call resolve
-    //     fr.onerror = reject;
-    //     fr.readAsDataURL(file);
-    //   });
-    // }
+        reader.readAsText(e.target.files[0])
+    }
+    // Create a reference to the hidden file input element
+    const uploadImageInputRef = useRef<HTMLInputElement>(null);
+
+    // Programatically click the hidden file input element
+    // when the Button component is clicked
+    const handleClick = () => {
+        uploadImageInputRef.current?.click();
+    };
+    // Call a function (passed as a prop from the parent component)
+    // to handle the user-selected file
+    const handleChange = (event: BaseSyntheticEvent) => {
+        uploadPresentationFromJsonFunction(event);
+    };
+
 
     const dispatch = useDispatch();
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
