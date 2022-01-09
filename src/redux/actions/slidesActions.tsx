@@ -1,7 +1,12 @@
 import { ActionType } from '../action-types/types';
 
-interface SlideAddAction {
+interface AddSlideAction {
     type: ActionType.ADD_SLIDE;
+}
+
+interface ChangeSlideBackgroundAction {
+    type: ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND_COLOR,
+    payload: string
 }
 
 interface DeleteSelectedSlideAction {
@@ -13,4 +18,8 @@ interface InsertSelectedSlidesAtIndexAction {
     payload: number;
 }
 
-export type SlideAction = SlideAddAction | DeleteSelectedSlideAction | InsertSelectedSlidesAtIndexAction;
+export type SlideAction =
+    | AddSlideAction
+    | ChangeSlideBackgroundAction
+    | DeleteSelectedSlideAction
+    | InsertSelectedSlidesAtIndexAction;

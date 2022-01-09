@@ -11,6 +11,15 @@ export const addSlide = () => {
     };
 };
 
+export const changeSlidesBackground = (payload: string) => {
+    return (dispatch: Dispatch<SlideAction>) => {
+        dispatch({
+            type: ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND_COLOR,
+            payload,
+        });
+    };
+};
+
 export const deleteSelectedSlides = () => {
     return (dispatch: Dispatch<SlideAction>) => {
         dispatch({

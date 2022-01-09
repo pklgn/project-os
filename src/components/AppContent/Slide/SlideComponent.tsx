@@ -52,6 +52,7 @@ export function SlideComponent(props: SlideProps) {
                 ref={ref}
                 height={'100%'}
                 className={styles['slide-container']}
+                style={{ background: `${props.slide.background.color}` }}
                 viewBox={`${Object.values(VIEWBOX).join(' ')}`}
                 preserveAspectRatio={'xMinYMin meet'}
                 xmlns="http://www.w3.org/2000/svg"

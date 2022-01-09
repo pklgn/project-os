@@ -16,7 +16,12 @@ import {
     changeTextsSize,
     changeTextsStyle,
 } from '../../model/specifiedActions/textActions';
-import { addSlide, deleteSelectedSlides, insertSelectedSlides } from '../../model/slidesActions';
+import {
+    addSlide,
+    changeSelectedSlidesBackground,
+    deleteSelectedSlides,
+    insertSelectedSlides,
+} from '../../model/slidesActions';
 import { changePresentationName } from '../../model/presentationActions';
 import { keep, redo, undo } from '../../model/historyActions';
 import {
@@ -33,6 +38,8 @@ type ModelActions = SlideAction | PresentationActions | ElementAction | EditorAc
 
 export const allReducers = (state: Editor = initEditor(), action: ModelActions): Editor => {
     switch (action.type) {
+        case ActionType.CHANGE_PRESENTATION_TITLE:
+            return changePresentationName(state, action.payload);
         case ActionType.SET_EDITOR_MODE:
             return toggleEditorMode(state, action.payload);
         case ActionType.SET_SELECTED_ID_IN_EDITOR:
@@ -52,8 +59,8 @@ export const allReducers = (state: Editor = initEditor(), action: ModelActions):
 
         case ActionType.ADD_SLIDE:
             return addSlide(state);
-        case ActionType.CHANGE_PRESENTATION_TITLE:
-            return changePresentationName(state, action.payload);
+        case ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND_COLOR:
+            return changeSelectedSlidesBackground(state, '', action.payload);
         case ActionType.DELETE_SELECTED_SLIDES:
             return deleteSelectedSlides(state);
         case ActionType.INSERT_SELECTED_SLIDES_AT_INDEX:
