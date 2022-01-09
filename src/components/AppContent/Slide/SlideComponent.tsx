@@ -5,8 +5,15 @@ import { getSlideElementType } from '../../../model/utils/tools';
 import { PictureElementComponent } from '../../SlideElements/Picture/PictureElementComponent';
 import { Slide } from '../../../model/types';
 import { TextElementComponent } from '../../SlideElements/Text/TextElementComponent';
-import { createContext, useRef } from 'react';
+import { createContext, useContext, useRef } from 'react';
 import { mockText } from '../../../model/mock/mockEditor';
+
+import { LocaleContext } from '../../../App';
+
+import { addSlide } from '../../../redux/action-creators/slideActionCreators';
+import { bindActionCreators } from 'redux';
+import { useDispatch } from 'react-redux';
+import { keepModelAction } from '../../../redux/action-creators/editorActionCreators';
 
 const VIEWBOX = {
     x_min: 0,
@@ -24,7 +31,22 @@ export const ScaleContext = createContext(VIEWBOX);
 export function SlideComponent(props: SlideProps) {
     const ref = useRef<SVGSVGElement>(null);
 
-    return (
+    const localeContext = useContext(LocaleContext);
+
+    const dispatch = useDispatch();
+    const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
+    const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
+
+    const emptySlideClickHandler = () => {
+        dispatchAddSlideAction();
+        dispatchKeepModelAction();
+    };
+
+    return props.slide === undefined ? (
+        <div className={styles['empty-slide-container']} onClick={emptySlideClickHandler}>
+            {localeContext.locale.localization['empty-slide-info']}
+        </div>
+    ) : (
         <ScaleContext.Provider value={VIEWBOX}>
             <svg
                 ref={ref}
