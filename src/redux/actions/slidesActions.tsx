@@ -1,3 +1,4 @@
+import { Background } from '../../model/types';
 import { ActionType } from '../action-types/types';
 
 interface AddSlideAction {
@@ -5,8 +6,8 @@ interface AddSlideAction {
 }
 
 interface ChangeSlideBackgroundAction {
-    type: ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND_COLOR,
-    payload: string
+    type: ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND,
+    payload: Background,
 }
 
 interface DeleteSelectedSlideAction {

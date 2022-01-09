@@ -48,7 +48,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const onColorChangeHandler = (e: BaseSyntheticEvent) => {
         e.stopPropagation();
         const el = e.target as HTMLInputElement;
-        dispatchSetSlideBackgroundColorAction(el.value);
+        dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
     };
     const onMouseDownHandler = (e: React.MouseEvent<HTMLInputElement>) => {
         e.stopPropagation();

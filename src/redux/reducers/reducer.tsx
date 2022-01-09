@@ -59,8 +59,8 @@ export const allReducers = (state: Editor = initEditor(), action: ModelActions):
 
         case ActionType.ADD_SLIDE:
             return addSlide(state);
-        case ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND_COLOR:
-            return changeSelectedSlidesBackground(state, '', action.payload);
+        case ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND:
+            return changeSelectedSlidesBackground(state, action.payload.src, action.payload.color);
         case ActionType.DELETE_SELECTED_SLIDES:
             return deleteSelectedSlides(state);
         case ActionType.INSERT_SELECTED_SLIDES_AT_INDEX:

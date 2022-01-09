@@ -2,6 +2,7 @@ import { ActionType } from '../action-types/types';
 import { SlideAction } from '../actions/slidesActions';
 
 import { Dispatch } from 'redux';
+import { Background } from '../../model/types';
 
 export const addSlide = () => {
     return (dispatch: Dispatch<SlideAction>) => {
@@ -11,10 +12,10 @@ export const addSlide = () => {
     };
 };
 
-export const changeSlidesBackground = (payload: string) => {
+export const changeSlidesBackground = (payload: Background) => {
     return (dispatch: Dispatch<SlideAction>) => {
         dispatch({
-            type: ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND_COLOR,
+            type: ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND,
             payload,
         });
     };
