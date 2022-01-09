@@ -47,6 +47,7 @@
 
     "backward_word": "На задний план",
     "back_word": "Переместить назад",
+    "change-color": "Изменить цвет",
     "forward_word": "На передний план",
     "front_word": "Переместить вперёд",
     "fullscreen_word": "Полный экран",
@@ -61,5 +62,11 @@
 
     "no-slides-to-show-info": "Ваши слайды не настолько работяги как вы? Их нет на рабочем месте!",
 
-    "PRESENTATION_VIEWER_BLOCK_END": ""
+    "PRESENTATION_VIEWER_BLOCK_END": "",
+
+    "SLIDE_BLOCK": "",
+
+    "empty-slide-info": "Нажмите, чтобы добавить новый слайд",
+
+    "SLIDE_BLOCK_END": ""
 }

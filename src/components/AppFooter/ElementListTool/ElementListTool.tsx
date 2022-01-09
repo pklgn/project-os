@@ -1,11 +1,10 @@
 import styles from './ElementListTool.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext } from 'react';
+import React, { BaseSyntheticEvent, useContext, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Delete } from '../../common/icons/Delete/Delete';
-import { Fullscreen } from '../../common/icons/Fullscreen/Fullscreen';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { Redo } from '../../common/icons/Redo/Redo';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
@@ -13,8 +12,9 @@ import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 import { Undo } from '../../common/icons/Undo/Undo';
 
 import { bindActionCreators } from 'redux';
-import { useDispatch } from 'react-redux';
+import { changeSlidesBackground } from '../../../redux/action-creators/slideActionCreators';
 import { undoModelAction, redoModelAction } from '../../../redux/action-creators/editorActionCreators';
+import { useDispatch } from 'react-redux';
 
 type ElementListToolProps = {
     foo: () => void | undefined;
@@ -26,6 +26,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const dispatch = useDispatch();
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
     const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
+    const dispatchSetSlideBackgroundColorAction = bindActionCreators(changeSlidesBackground, dispatch);
 
     const undoPressButtonHandler = () => {
         dispatchSetPreviousModelStateAction();
@@ -35,6 +36,8 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
         dispatchTurnBackModelStateAction();
     };
 
+    const [timeOuted, setTimeOuted] = useState(false);
+
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
             undoPressButtonHandler();
@@ -43,6 +46,20 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
             redoButtonPressHandler();
         }
     });
+
+    const onColorInputHandler = (e: BaseSyntheticEvent) => {
+        if (!timeOuted) {
+            setTimeOuted(true);
+            setTimeout(() => {
+                const el = e.target as HTMLInputElement;
+                dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
+                setTimeOuted(false);
+            }, 50);
+        }
+    };
+    const onMouseDownHandler = (e: React.MouseEvent<HTMLInputElement>) => {
+        e.stopPropagation();
+    };
 
     return (
         <div className={styles['element-tools']}>
@@ -91,13 +108,13 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 foo={() => undefined}
             />
             <VerticalLine />
-            <Button
-                text={localeContext.locale.localization.fullscreen_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Fullscreen /> }}
-                foo={() => undefined}
+            <input
+                type="color"
+                id="color-picker"
+                className={styles['color-picker']}
+                defaultValue={'#ffffff'}
+                onInput={onColorInputHandler}
+                onMouseDown={onMouseDownHandler}
             />
         </div>
     );

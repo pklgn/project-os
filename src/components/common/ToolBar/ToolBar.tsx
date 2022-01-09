@@ -334,6 +334,7 @@ export function ToolBar() {
                     content={undefined}
                     foo={toggleLocaleContext}
                 />
+                <input type="file" accept={'.png, .jpeg'} className="fileUpload" onChange={addPictureButtonFunction} />
             </div>
             <UploadPresentationInput key={generateUUId()} inputRef={uploadPresentationInputRef} />
             <UploadPictureInput key={generateUUId()} inputRef={uploadImageInputRef} />
