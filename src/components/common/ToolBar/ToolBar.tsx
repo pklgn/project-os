@@ -39,22 +39,34 @@ export function ToolBar() {
     
     const uploadPresentationFromJsonFunction = () => {
         const fileInput = document.createElement("input");
-        fileInput.setAttribute("type","file");
-
-        fileInput.click();
         const reader = new FileReader();
-        reader.addEventListener('load', function(e) {
+        fileInput.setAttribute("type","file");
+        fileInput.click();
 
-            if (typeof reader.result === 'string') {
-                console.log("aafwWF")
-                uploadPresentationFromJson(reader.result)
+
+        fileInput.onload = function() {
+            reader.onload = (e: ProgressEvent<FileReader>) => {
+                if (fileInput.files) e.target?.readAsText(fileInput.files[0])
+                if (typeof reader.result === 'string') dispatchUploadPresentationFromJSONAction(reader.result)
             }
-        });
-
-        if (fileInput.files) {
-            reader.readAsText(fileInput.files[0])
-        }
+        };
     }
+
+    // var inputFiles = document.getElementsByTagName("input")[0];
+    // inputFiles.onchange = function(){
+    //   var promise = Promise.resolve();
+    //   inputFiles.files.map( file => promise.then(()=> pFileReader(file)));
+    //   promise.then(() => console.log('all done...'));
+    // }
+    
+    // function pFileReader(file){
+    //   return new Promise((resolve, reject) => {
+    //     var fr = new FileReader();  
+    //     fr.onload = resolve;  // CHANGE to whatever function you want which would eventually call resolve
+    //     fr.onerror = reject;
+    //     fr.readAsDataURL(file);
+    //   });
+    // }
 
     const dispatch = useDispatch();
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
@@ -62,10 +74,7 @@ export function ToolBar() {
     const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
     const dispatchUploadPresentationFromJSONAction = 
         bindActionCreators(uploadPresentationFromJson, dispatch);
-
-    // const uploadPresentationFromJsonFunction = () => {
-    //     dispatchUploadPresentationFromJSONAction()
-    // }
+    
 
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {
