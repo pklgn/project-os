@@ -45,10 +45,11 @@ export type Size = {
 };
 
 export type TextElement = {
-    content: string;
+    content: string[];
     fontSize: number;
     fontColor: string;
     fontStyle: string;
+    fontFamily: string;
 };
 
 export type PictureElement = {

@@ -8,7 +8,7 @@ type PictureElementProps = {
 };
 
 export function PictureElementComponent(props: PictureElementProps) {
-    const scale = useContext(ScaleContext);
+    const viewbox = useContext(ScaleContext);
     const ref = useRef(null);
     let element: PictureElement;
     if (isPicture(props.element.content)) {
@@ -21,8 +21,8 @@ export function PictureElementComponent(props: PictureElementProps) {
         <image
             ref={ref}
             href={element.src}
-            width={props.element.size.width / scale}
-            height={props.element.size.height / scale}
+            width={props.element.size.width}
+            height={props.element.size.height}
             x={props.element.startPoint.x}
             y={props.element.startPoint.y}
         />
