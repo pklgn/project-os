@@ -45,3 +45,12 @@ export const keepModelAction = () => {
         });
     };
 };
+
+export const uploadPresentationFromJson = (payload: string) => {
+    return (dispatch: Dispatch<EditorActions>) => {
+        dispatch({
+            type: ActionType.UPLOAD_PRESENTATION_FROM_JSON,
+            payload,
+        });
+    };
+}

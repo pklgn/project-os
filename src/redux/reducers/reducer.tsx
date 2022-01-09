@@ -26,7 +26,11 @@ import {
     moveElementsToBackgroundOrForeground,
     removeSelectedElements,
 } from '../../model/elementActions';
-import { setSelectedIdInEditor, toggleEditorMode } from '../../model/editorActions';
+import {
+    setSelectedIdInEditor,
+    toggleEditorMode,
+    uploadPresentationFromJson,
+} from '../../model/editorActions';
 import { addPictureElement } from '../../model/specifiedActions/pictureActions';
 
 type ModelActions = SlideAction | PresentationActions | ElementAction | EditorActions | TextActions | PictureActions;
@@ -41,6 +45,8 @@ export const allReducers = (state: Editor = initEditor(), action: ModelActions):
                 action.payload.selectedSlidesIds,
                 action.payload.selectedSlideElementsIds,
             );
+        case ActionType.UPLOAD_PRESENTATION_FROM_JSON:
+            return uploadPresentationFromJson(action.payload);
         case ActionType.KEEP:
             return keep(state);
         case ActionType.REDO:
