@@ -1,5 +1,7 @@
 import { initEditor } from './initModelActions';
 import { Editor, PresentationMode } from './types';
+import { keepModelAction } from '../redux/action-creators/editorActionCreators';
+import { store } from '../redux/store';
 
 export function getCurrentEditorMode(editor: Editor): PresentationMode {
     return editor.mode;

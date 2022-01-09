@@ -17,7 +17,6 @@ function UploadPictureInput(props: UploadPictureInputProps) {
         const reader = new FileReader();
         const image = new Image();
         reader.onload = function () {
-            console.log(event.target.files[0]);
             image.onload = function () {
                 dispatchAddPictureAction({
                     src: URL.createObjectURL(event.target.files[0]),
@@ -29,7 +28,6 @@ function UploadPictureInput(props: UploadPictureInputProps) {
             };
             image.src = URL.createObjectURL(event.target.files[0]);
         };
-        console.log(event.target);
         reader.readAsDataURL(event.target.files[0]);
     };
 
