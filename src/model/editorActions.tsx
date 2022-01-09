@@ -1,7 +1,5 @@
 import { initEditor } from './initModelActions';
 import { Editor, PresentationMode } from './types';
-import { keepModelAction } from '../redux/action-creators/editorActionCreators';
-import { store } from '../redux/store';
 
 export function getCurrentEditorMode(editor: Editor): PresentationMode {
     return editor.mode;
@@ -23,11 +21,9 @@ export function setSelectedIdInEditor(
     selectedSlideElementsIds: string[] = [],
 ): Editor {
     const nextSelectedSlidesIds: string[] = selectedSlidesIds.length ? selectedSlidesIds : editor.selectedSlidesIds;
-    const nextSelectedElementsIds: string[] = selectedSlideElementsIds.length
+    editor.selectedSlideElementsIds = selectedSlideElementsIds.length
         ? selectedSlideElementsIds
         : editor.selectedSlideElementsIds;
-
-    editor.selectedSlideElementsIds = nextSelectedElementsIds;
     editor.selectedSlidesIds = nextSelectedSlidesIds;
 
     return editor;
