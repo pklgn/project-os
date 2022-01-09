@@ -21,7 +21,7 @@ export const changeTextsColor = (payload: string) => {
     };
 };
 
-export const changeTextContent = (payload: string) => {
+export const changeTextContent = (payload: string[]) => {
     return (dispatch: Dispatch<TextActions>) => {
         dispatch({
             type: ActionType.CHANGE_SELECTED_TEXT_CONTENT,

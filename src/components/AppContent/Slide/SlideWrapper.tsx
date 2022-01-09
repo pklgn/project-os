@@ -1,4 +1,4 @@
-import styles from './Slide.module.css';
+import styles from './SlideComponent.module.css';
 import wrapperStyles from './SlideWrapper.module.css';
 
 import { useResize } from '../../utils/useResize';

@@ -15,7 +15,7 @@ interface ChangeTextColorAction {
 
 interface ChangeTextContentAction {
     type: ActionType.CHANGE_SELECTED_TEXT_CONTENT;
-    payload: string;
+    payload: string[];
 }
 
 interface ChangeTextSizeAction {

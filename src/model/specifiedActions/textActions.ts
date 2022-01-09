@@ -11,10 +11,11 @@ export function addTextElement(editor: Editor, x = 1, y = 1): Editor {
     }
 
     const textElement: TextElement = {
-        content: 'Введите текст',
+        content: ['Введите текст'],
         fontSize: 10,
         fontColor: '#ffffff',
         fontStyle: 'italic',
+        fontFamily: 'sans-serif',
     };
     const element: SlideElement = {
         id: generateUUId(),
@@ -91,7 +92,7 @@ export function changeTextsColor(editor: Editor, fontColor: string): Editor {
     return applySlideChanges(editor, newSlide, slideIndex);
 }
 
-export function changeTextsContent(editor: Editor, content: string): Editor {
+export function changeTextsContent(editor: Editor, content: string[]): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
@@ -114,7 +115,10 @@ export function changeTextsContent(editor: Editor, content: string): Editor {
                 ...item,
                 content: {
                     ...item.content,
-                    content,
+                    content: {
+                        ...item.content.content,
+                        ...content,
+                    },
                 },
             };
         }

@@ -5,7 +5,7 @@ import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
 
 import { getL18nObject } from '../../../l18n/l18n';
 import { LocaleContext } from '../../../App';
-import { BaseSyntheticEvent, useContext } from 'react';
+import { BaseSyntheticEvent, useContext, useRef } from 'react';
 
 import { addText } from '../../../redux/action-creators/textActionCreators';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
@@ -90,6 +90,20 @@ export function ToolBar() {
             image.src = URL.createObjectURL(event.target.files[0]);
         };
         reader.readAsDataURL(event.target.files[0]);
+    };
+
+    // Create a reference to the hidden file input element
+    const uploadImageInputRef = useRef<HTMLInputElement>(null);
+
+    // Programatically click the hidden file input element
+    // when the Button component is clicked
+    const handleClick = () => {
+        uploadImageInputRef.current?.click();
+    };
+    // Call a function (passed as a prop from the parent component)
+    // to handle the user-selected file
+    const handleChange = (event: BaseSyntheticEvent) => {
+        addPictureButtonFunction(event);
     };
 
     /* eslint-disable react/jsx-key */
@@ -272,20 +286,18 @@ export function ToolBar() {
                                     foo={func}
                                 />,
                                 <Button
-                                    text={localeContext.locale.localization['add-from-google-drive']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={func}
-                                />,
-                                <Button
                                     text={localeContext.locale.localization['put-url']}
                                     state="disabled"
                                     shouldStopPropagation={false}
                                     contentType="textInSubMenu"
                                     content={undefined}
-                                    foo={func}
+                                    foo={handleClick}
+                                />,
+                                <input
+                                    type={'file'}
+                                    ref={uploadImageInputRef}
+                                    onChange={handleChange}
+                                    style={{ display: 'none' }}
                                 />,
                             ]}
                         />,
@@ -363,7 +375,7 @@ export function ToolBar() {
                     content={undefined}
                     foo={toggleLocaleContext}
                 />
-                <input type="file" className="fileUpload" onChange={addPictureButtonFunction} />
+                <input type="file" accept={'.png, .jpeg'} className="fileUpload" onChange={addPictureButtonFunction} />
             </div>
         </div>
     );
