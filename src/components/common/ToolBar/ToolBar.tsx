@@ -5,22 +5,17 @@ import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
 
 import { getL18nObject } from '../../../l18n/l18n';
 import { LocaleContext } from '../../../App';
-import { BaseSyntheticEvent, useContext, useRef } from 'react';
+import { useContext, useRef } from 'react';
 
 import { addText } from '../../../redux/action-creators/textActionCreators';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { getSlideAmount } from '../../../model/slidesActions';
-import {
-    keepModelAction,
-    setEditorMode,
-    uploadPresentationFromJson,
-} from '../../../redux/action-creators/editorActionCreators';
+import { setEditorMode } from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { initEditor } from '../../../model/initModelActions';
 import { savePresentationAsJson } from '../../../model/editorActions';
-import { addPicture } from '../../../redux/action-creators/pictureActionCreators';
 import { generateUUId } from '../../../model/utils/uuid';
 import { UploadPresentationInput } from './UploadPresentationInput';
 import { UploadPictureInput } from './UploadPictureInput';
@@ -334,7 +329,6 @@ export function ToolBar() {
                     content={undefined}
                     foo={toggleLocaleContext}
                 />
-                <input type="file" accept={'.png, .jpeg'} className="fileUpload" onChange={addPictureButtonFunction} />
             </div>
             <UploadPresentationInput key={generateUUId()} inputRef={uploadPresentationInputRef} />
             <UploadPictureInput key={generateUUId()} inputRef={uploadImageInputRef} />
