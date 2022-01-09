@@ -104,6 +104,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
             <input
                 type="color"
                 id="color-picker"
+                className={styles['color-picker']}
                 defaultValue={'#ffffff'}
                 onChange={onColorChangeHandler}
                 onMouseDown={onMouseDownHandler}
