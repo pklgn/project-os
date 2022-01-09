@@ -7,11 +7,7 @@ function withMods(className: string, mods: { [key: string]: Value }): string {
             return '';
         }
 
-        return typeof value === 'boolean'
-            ? value
-                ? `${className}_${key}`
-                : ''
-            : `${className}_${key}_${value}`;
+        return typeof value === 'boolean' ? (value ? `${className}_${key}` : '') : `${className}_${key}_${value}`;
     });
 
     return [className, ...modsList].join(' ');

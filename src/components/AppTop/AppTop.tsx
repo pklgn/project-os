@@ -14,10 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
-    const dispatchPresentationName = bindActionCreators(
-        changePresentationTitle,
-        dispatch,
-    );
+    const dispatchPresentationName = bindActionCreators(changePresentationTitle, dispatch);
 
     const onChangeHandler = (event: BaseSyntheticEvent) => {
         dispatchPresentationName(event.target.value);
@@ -30,10 +27,7 @@ export function AppTop(): JSX.Element {
                 <AppLogoPng width={55} height={55} type={'default'} />
             </div>
             <ToolBar />
-            <AdaptiveInputField
-                value={state.model.presentation.name}
-                onChange={onChangeHandler}
-            />
+            <AdaptiveInputField value={state.model.presentation.name} onChange={onChangeHandler} />
         </div>
     );
 }

@@ -6,42 +6,34 @@ import { useDispatch } from 'react-redux';
 import { setEditorMode } from '../../redux/action-creators/editorActionCreators';
 import { store } from '../../redux/store';
 
-import { getCurrentEditorMode } from '../../model/editorActions';
-import {
-    getCurrentSlide,
-    getFirstSlide,
-    getNextToSlide,
-} from '../../model/slidesActions';
+import { getCurrentSlide, getFirstSlide, getNextToSlide } from '../../model/slidesActions';
 import { Slide } from '../../model/types';
 
-import { useEffect, useState } from 'react';
 import { SlideComponent } from '../AppContent/Slide/SlideComponent';
 
+import React, { useContext, useEffect, useRef, useState } from 'react';
+
+import { LocaleContext } from '../../App';
+
 export function PresentationViewer() {
-    const [slideInShow, setSlideInShow] = useState(
-        undefined as Slide | undefined,
-    );
-    const [currEditorMode, setEditorModeState] = useState(
-        getCurrentEditorMode(store.getState().model),
-    );
+    const localeContext = useContext(LocaleContext);
+
+    const ref = useRef<HTMLDivElement>(null);
+    const [slideInShow, setSlideInShow] = useState(undefined as Slide | undefined);
+
+    const [visibilityStyle, setVisibilityStyle] = useState({
+        display: 'none',
+    } as CSS.Properties);
 
     const dispatch = useDispatch();
-    const dispatchSetEditorModeAction = bindActionCreators(
-        setEditorMode,
-        dispatch,
-    );
+    const dispatchSetEditorModeAction = bindActionCreators(setEditorMode, dispatch);
 
     useEffect(() => {
         const onKeyDownHandler = (event: KeyboardEvent) => {
-            if (event.code === 'Escape') {
-                dispatchSetEditorModeAction('edit');
-            }
             if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
                 if (slideInShow !== undefined) {
                     const nextSlide =
-                        event.code === 'ArrowLeft'
-                            ? getPrevSlideTo(slideInShow)
-                            : getNextSlideTo(slideInShow);
+                        event.code === 'ArrowLeft' ? getPrevSlideTo(slideInShow) : getNextSlideTo(slideInShow);
                     if (nextSlide !== undefined) {
                         setSlideInShow(nextSlide);
                     }
@@ -57,6 +49,20 @@ export function PresentationViewer() {
             }
         };
 
+        const onFullScreenHandler = () => {
+            if (document.fullscreenElement) {
+                setVisibilityStyle({
+                    display: 'inherit',
+                });
+            } else {
+                dispatchSetEditorModeAction('edit');
+                setSlideInShow(undefined);
+                setVisibilityStyle({
+                    display: 'none',
+                });
+            }
+        };
+
         const handleChange = () => {
             const editor = store.getState().model;
             if (editor.mode !== 'edit') {
@@ -68,26 +74,24 @@ export function PresentationViewer() {
                     if (slideToShow !== undefined) {
                         setSlideInShow(slideToShow);
                     }
-                    setEditorModeState(editor.mode);
+                    ref.current?.requestFullscreen();
                 }
-            } else {
-                setSlideInShow(undefined);
-                setEditorModeState('edit');
             }
         };
+
         const unsubscribe = store.subscribe(handleChange);
 
         document.addEventListener('keydown', onKeyDownHandler);
+        document.addEventListener('fullscreenchange', onFullScreenHandler);
 
         return () => {
             document.removeEventListener('keydown', onKeyDownHandler);
+            document.removeEventListener('fullscreenchange', onFullScreenHandler);
             unsubscribe();
         };
-    }, [currEditorMode, slideInShow, dispatchSetEditorModeAction]);
+    }, [slideInShow, dispatchSetEditorModeAction]);
 
-    const onClickNextSlideSelectorHandler = (
-        event: React.MouseEvent<HTMLDivElement>,
-    ) => {
+    const onClickNextSlideSelectorHandler = (event: React.MouseEvent<HTMLDivElement>) => {
         const target = event.target;
         if (slideInShow !== undefined && target instanceof Element) {
             const nextSlide =
@@ -100,26 +104,23 @@ export function PresentationViewer() {
         }
     };
 
-    const visibilityStyle: CSS.Properties =
-        slideInShow === undefined
-            ? { display: 'none' }
-            : { display: 'inherit' };
-
     return (
-        <div className={styles.viewer} style={visibilityStyle}>
-            <div
-                className={styles['to-previous-slide-area-selector']}
-                onClick={onClickNextSlideSelectorHandler}
-            ></div>
-            <SlideComponent
-                slide={slideInShow}
-                id={slideInShow !== undefined ? slideInShow.id : undefined}
-            />
-            <svg className={styles['prevent-pointer-events']}></svg>
-            <div
-                className={styles['to-next-slide-area-selector']}
-                onClick={onClickNextSlideSelectorHandler}
-            ></div>
+        <div className={styles.viewer} style={visibilityStyle} ref={ref}>
+            {slideInShow !== undefined ? (
+                <>
+                    <div
+                        className={styles['to-previous-slide-area-selector']}
+                        onClick={onClickNextSlideSelectorHandler}
+                    />
+                    <SlideComponent slide={slideInShow} />
+                    <svg className={styles['prevent-pointer-events']} />
+                    <div className={styles['to-next-slide-area-selector']} onClick={onClickNextSlideSelectorHandler} />
+                </>
+            ) : (
+                <div className={styles['empty-slide-in-show']}>
+                    {localeContext.locale.localization['no-slides-to-show-info']}
+                </div>
+            )}
         </div>
     );
 }

@@ -1,16 +1,14 @@
 import { isPicture } from '../utils/tools';
 import { generateUUId } from '../utils/uuid';
 import { getCurrentSlide, applySlideChanges } from '../slidesActions';
-import { Editor, Slide, PictureElement, SlideElement } from '../types';
-
 export function addPictureElement(
     editor: Editor,
     src: string,
     alt = '',
-    x = 1,
-    y = 1,
-    width = 1,
-    height = 1,
+    width = 10,
+    height = 10,
+    x = 0,
+    y = 0,
 ): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
@@ -41,14 +39,12 @@ export function addPictureElement(
         ...currSlide,
         elementsList: [...currSlide.elementsList, element],
     };
-    const updatedSlideList: Slide[] = editor.presentation.slidesList.map(
-        (slide) => {
-            if (currSlide.id === slide.id) {
-                return updatedSlide;
-            }
-            return slide;
-        },
-    );
+    const updatedSlideList: Slide[] = editor.presentation.slidesList.map((slide) => {
+        if (currSlide.id === slide.id) {
+            return updatedSlide;
+        }
+        return slide;
+    });
 
     return {
         ...editor,
@@ -60,6 +56,8 @@ export function addPictureElement(
         selectedSlideElementsIds: [element.id],
     };
 }
+
+import { Editor, Slide, PictureElement, SlideElement } from '../types';
 
 export function changePicture(editor: Editor, src: string): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
@@ -76,23 +74,18 @@ export function changePicture(editor: Editor, src: string): Editor {
         return editor;
     }
 
-    const newElementsList: SlideElement[] = currSlide.elementsList.filter(
-        (item) => {
-            if (
-                editor.selectedSlideElementsIds.includes(item.id) &&
-                isPicture(item.content)
-            ) {
-                return {
-                    ...item,
-                    content: {
-                        ...item.content,
-                        src,
-                    },
-                };
-            }
-            return item;
-        },
-    );
+    const newElementsList: SlideElement[] = currSlide.elementsList.filter((item) => {
+        if (editor.selectedSlideElementsIds.includes(item.id) && isPicture(item.content)) {
+            return {
+                ...item,
+                content: {
+                    ...item.content,
+                    src,
+                },
+            };
+        }
+        return item;
+    });
 
     const newSlide: Slide = {
         ...currSlide,

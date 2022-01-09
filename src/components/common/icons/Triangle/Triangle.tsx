@@ -13,10 +13,7 @@ export function Triangle(props: TriangleProps): JSX.Element {
             viewBox="0 0 81.601 90.666"
             fill={`${props.color}`}
         >
-            <path
-                d="M91.2,53.333,9.6,98.666V8Z"
-                transform="translate(-9.6 -8)"
-            />
+            <path d="M91.2,53.333,9.6,98.666V8Z" transform="translate(-9.6 -8)" />
         </svg>
     );
 }

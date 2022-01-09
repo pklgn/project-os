@@ -1,20 +1,13 @@
 import { initEditor } from './initModelActions';
-import { Editor, PresentationMode } from './types';
+import { Editor, Presentation, PresentationMode } from './types';
 
 export function getCurrentEditorMode(editor: Editor): PresentationMode {
     return editor.mode;
 }
 
-export function toggleEditorMode(
-    editor: Editor,
-    key: PresentationMode,
-): Editor {
+export function toggleEditorMode(editor: Editor, key: PresentationMode): Editor {
     const mode: PresentationMode =
-        key === 'edit'
-            ? 'edit'
-            : key === 'show-from-first-slide'
-            ? 'show-from-first-slide'
-            : 'show-from-current-slide';
+        key === 'edit' ? 'edit' : key === 'show-from-first-slide' ? 'show-from-first-slide' : 'show-from-current-slide';
 
     return {
         ...editor,
@@ -27,9 +20,7 @@ export function setSelectedIdInEditor(
     selectedSlidesIds: string[] = [],
     selectedSlideElementsIds: string[] = [],
 ): Editor {
-    const nextSelectedSlidesIds: string[] = selectedSlidesIds.length
-        ? selectedSlidesIds
-        : editor.selectedSlidesIds;
+    const nextSelectedSlidesIds: string[] = selectedSlidesIds.length ? selectedSlidesIds : editor.selectedSlidesIds;
     const nextSelectedElementsIds: string[] = selectedSlideElementsIds.length
         ? selectedSlideElementsIds
         : editor.selectedSlideElementsIds;
@@ -52,36 +43,15 @@ export function savePresentationAsJson(editor: Editor) {
 }
 
 export function uploadPresentationFromJson(s: string): Editor {
-    // const fileInput = document.createElement("input");
-    // fileInput.type = "file";
-    
-    // const reader = new FileReader();
+    const presentation: Presentation = JSON.parse(s);
 
-    // reader.onload = () => {
-    //     console.log("1")
-    //     if (!fileInput.files) return initEditor();
-        
-    //     const file = fileInput.files[0];
-    //     reader.readAsText(file);
-    //     fileInput.remove();
-    //     console.log("2")
-    //     if (!reader.result) return initEditor();
-        
-        
-    //     if (typeof reader.result === 'string') {
-    //         console.log(JSON.parse(reader.result));
-    //     }
-    //     console.log("ArrayBuffer:");
-    //     console.log(reader.result);
-    //     return initEditor();
-    // };
+    const selectedSlidesIds = (presentation.slidesList[0].id)
+    ? [presentation.slidesList[0].id]
+    : []
 
-    // fileInput.click();
-
-    // console.log("return")
-    // return initEditor();
     return {
         ...initEditor(),
-        presentation: JSON.parse(s)
+        selectedSlidesIds,
+        presentation: presentation
     }
 }

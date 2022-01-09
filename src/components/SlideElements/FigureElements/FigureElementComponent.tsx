@@ -1,10 +1,4 @@
-import {
-    Coordinates,
-    FigureElement,
-    FigureShape,
-    Size,
-    SlideElement,
-} from '../../../model/types';
+import { Coordinates, FigureElement, FigureShape, Size, SlideElement } from '../../../model/types';
 import { isFigure } from '../../../model/utils/tools';
 import { CircleFigure } from './Circle/CircleFigure';
 import { RectangleFigure } from './Rectangle/RectangleFigure';

@@ -241,10 +241,11 @@ const mockText: SlideElement = {
     },
     opacity: 1,
     content: {
-        content: 'Привет, мир',
+        content: ['Привет, мир', 'пока мир'],
         fontSize: 20,
         fontColor: '#ff0000',
         fontStyle: 'italic',
+        fontFamily: 'sans-serif',
     },
 };
 

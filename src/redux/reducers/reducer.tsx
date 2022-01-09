@@ -4,6 +4,7 @@ import { ElementAction } from '../actions/elementActions';
 import { PresentationActions } from '../actions/presentationActions';
 import { SlideAction } from '../actions/slidesActions';
 import { TextActions } from '../actions/textActions';
+import { PictureActions } from '../actions/pictureActions';
 
 import { Editor } from '../../model/types';
 import { initEditor } from '../../model/initModelActions';
@@ -15,18 +16,14 @@ import {
     changeTextsSize,
     changeTextsStyle,
 } from '../../model/specifiedActions/textActions';
-import {
-    addSlide,
-    deleteSelectedSlides,
-    insertSelectedSlides,
-} from '../../model/slidesActions';
+import { addSlide, deleteSelectedSlides, insertSelectedSlides } from '../../model/slidesActions';
 import { changePresentationName } from '../../model/presentationActions';
 import { keep, redo, undo } from '../../model/historyActions';
 import {
-    moveElementsToBackgroundOrForeground,
-    changeElementsSize,
     changeElementsOpacity,
     changeElementsPosition,
+    changeElementsSize,
+    moveElementsToBackgroundOrForeground,
     removeSelectedElements,
 } from '../../model/elementActions';
 import {
@@ -34,18 +31,11 @@ import {
     toggleEditorMode,
     uploadPresentationFromJson,
 } from '../../model/editorActions';
+import { addPictureElement } from '../../model/specifiedActions/pictureActions';
 
-type ModelActions =
-    | SlideAction
-    | PresentationActions
-    | ElementAction
-    | EditorActions
-    | TextActions;
+type ModelActions = SlideAction | PresentationActions | ElementAction | EditorActions | TextActions | PictureActions;
 
-export const allReducers = (
-    state: Editor = initEditor(),
-    action: ModelActions,
-): Editor => {
+export const allReducers = (state: Editor = initEditor(), action: ModelActions): Editor => {
     switch (action.type) {
         case ActionType.SET_EDITOR_MODE:
             return toggleEditorMode(state, action.payload);
@@ -76,21 +66,13 @@ export const allReducers = (
         case ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND:
             return moveElementsToBackgroundOrForeground(state, action.payload);
         case ActionType.CHANGE_ELEMENTS_SIZE:
-            return changeElementsSize(
-                state,
-                action.payload.scaleX,
-                action.payload.scaleY,
-            );
+            return changeElementsSize(state, action.payload.scaleX, action.payload.scaleY);
         case ActionType.CHANGE_ELEMENTS_OPACITY:
             return changeElementsOpacity(state, action.payload);
         case ActionType.REMOVE_SELECTED_ELEMENTS:
             return removeSelectedElements(state);
         case ActionType.CHANGE_ELEMENTS_POSITION:
-            return changeElementsPosition(
-                state,
-                action.payload.dx,
-                action.payload.dy,
-            );
+            return changeElementsPosition(state, action.payload.dx, action.payload.dy);
 
         case ActionType.ADD_TEXT_AT_SELECTED_SLIDE:
             return addTextElement(state, action.payload.x, action.payload.y);
@@ -102,6 +84,15 @@ export const allReducers = (
             return changeTextsSize(state, action.payload);
         case ActionType.CHANGE_SELECTED_TEXTS_STYLE:
             return changeTextsStyle(state, action.payload);
+
+        case ActionType.ADD_PICTURE_AT_SELECTED_SLIDE:
+            return addPictureElement(
+                state,
+                action.payload.src,
+                action.payload.alt,
+                action.payload.width,
+                action.payload.height,
+            );
 
         default:
             return state;

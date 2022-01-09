@@ -9,9 +9,7 @@ export function useDragAndDrop(
     setPosition: (coordinates: Coordinates) => void,
 ): void {
     let startPosition: Coordinates;
-    const scale = parseFloat(
-        element?.parentElement?.dataset.scale ?? `${INITIAL_SCALE}`,
-    );
+    const scale = parseFloat(element?.parentElement?.dataset.scale ?? `${INITIAL_SCALE}`);
     function onMouseDown(event: MouseEvent) {
         startPosition = {
             x: event.pageX,

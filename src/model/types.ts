@@ -6,10 +6,7 @@ export type Editor = {
     selectedSlideElementsIds: string[];
 };
 
-export type PresentationMode =
-    | 'edit'
-    | 'show-from-first-slide'
-    | 'show-from-current-slide';
+export type PresentationMode = 'edit' | 'show-from-first-slide' | 'show-from-current-slide';
 
 export type History = {
     currState: number;
@@ -48,10 +45,11 @@ export type Size = {
 };
 
 export type TextElement = {
-    content: string;
+    content: string[];
     fontSize: number;
     fontColor: string;
     fontStyle: string;
+    fontFamily: string;
 };
 
 export type PictureElement = {
