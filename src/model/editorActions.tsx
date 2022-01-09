@@ -43,33 +43,6 @@ export function savePresentationAsJson(editor: Editor) {
 }
 
 export function uploadPresentationFromJson(s: string): Editor {
-    // const fileInput = document.createElement("input");
-    // fileInput.type = "file";
-
-    // const reader = new FileReader();
-
-    // reader.onload = () => {
-    //     console.log("1")
-    //     if (!fileInput.files) return initEditor();
-
-    //     const file = fileInput.files[0];
-    //     reader.readAsText(file);
-    //     fileInput.remove();
-    //     console.log("2")
-    //     if (!reader.result) return initEditor();
-
-    //     if (typeof reader.result === 'string') {
-    //         console.log(JSON.parse(reader.result));
-    //     }
-    //     console.log("ArrayBuffer:");
-    //     console.log(reader.result);
-    //     return initEditor();
-    // };
-
-    // fileInput.click();
-
-    // console.log("return")
-    // return initEditor();
     return {
         ...initEditor(),
         presentation: JSON.parse(s),
