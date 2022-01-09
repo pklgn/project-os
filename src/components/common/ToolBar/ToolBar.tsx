@@ -36,35 +36,24 @@ export function ToolBar() {
         ...initEditor(),
         presentation: store.getState().model.presentation
     })
-    
-    const uploadPresentationFromJsonFunction = (e: BaseSyntheticEvent) => {
-        const fileInput = document.createElement("input");
-        const reader = new FileReader();
-        fileInput.setAttribute("type","file");
-        fileInput.click();
 
+    const uploadPresentationFromJsonFunction = (e: BaseSyntheticEvent) => {
+        const reader = new FileReader();
 
         reader.onload = function() {
-            if (fileInput.files) reader.readAsText(fileInput.files[0])
             if (typeof reader.result === 'string') dispatchUploadPresentationFromJSONAction(reader.result)
         };
 
         reader.readAsText(e.target.files[0])
     }
     // Create a reference to the hidden file input element
-    const uploadImageInputRef = useRef<HTMLInputElement>(null);
+    const uploadFileInputRef = useRef<HTMLInputElement>(null);
 
     // Programatically click the hidden file input element
     // when the Button component is clicked
     const handleClick = () => {
-        uploadImageInputRef.current?.click();
+        uploadFileInputRef.current?.click();
     };
-    // Call a function (passed as a prop from the parent component)
-    // to handle the user-selected file
-    const handleChange = (event: BaseSyntheticEvent) => {
-        uploadPresentationFromJsonFunction(event);
-    };
-
 
     const dispatch = useDispatch();
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
@@ -160,7 +149,7 @@ export function ToolBar() {
                                 hotkeyInfo: 'Ctrl+O',
                                 icon: <div></div>,
                             }}
-                            foo={uploadPresentationFromJsonFunction}
+                            foo={handleClick}
                         />,
                         <DropdownMenu
                             summoningButtonText={
@@ -455,6 +444,7 @@ export function ToolBar() {
                     foo={toggleLocaleContext}
                 />
             </div>
+            <input ref={uploadFileInputRef} type="file" onChange={uploadPresentationFromJsonFunction} style={{visibility:'hidden', width: '0', height: '0'}}/>
         </div>
     );
     /* eslint-enable */
