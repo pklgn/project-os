@@ -12,8 +12,11 @@ import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { getSlideAmount } from '../../../model/slidesActions';
 import { keepModelAction, setEditorMode } from '../../../redux/action-creators/editorActionCreators';
+import { setEditorMode, uploadPresentationFromJson } from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
+import { initEditor } from '../../../model/initModelActions';
+import { savePresentationAsJson } from '../../../model/editorActions';
 import { addPicture } from '../../../redux/action-creators/pictureActionCreators';
 
 export function ToolBar() {
@@ -31,12 +34,38 @@ export function ToolBar() {
         }
     };
 
+    const saveAsJSONFunction = () => savePresentationAsJson({
+        ...initEditor(),
+        presentation: store.getState().model.presentation
+    })
+
+    const uploadPresentationFromJsonFunction = (e: BaseSyntheticEvent) => {
+        const reader = new FileReader();
+
+        reader.onload = function() {
+            if (typeof reader.result === 'string') dispatchUploadPresentationFromJSONAction(reader.result)
+        };
+
+        reader.readAsText(e.target.files[0])
+    }
+    // Create a reference to the hidden file input element
+    const uploadFileInputRef = useRef<HTMLInputElement>(null);
+
+    // Programatically click the hidden file input element
+    // when the Button component is clicked
+    const handleClick = () => {
+        uploadFileInputRef.current?.click();
+    };
+
     const dispatch = useDispatch();
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
     const dispatchAddPictureAction = bindActionCreators(addPicture, dispatch);
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
+    const dispatchUploadPresentationFromJSONAction =
+        bindActionCreators(uploadPresentationFromJson, dispatch);
+
 
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {
@@ -140,7 +169,7 @@ export function ToolBar() {
                                 hotkeyInfo: 'Ctrl+O',
                                 icon: <div></div>,
                             }}
-                            foo={func}
+                            foo={handleClick}
                         />,
                         <DropdownMenu
                             summoningButtonText={localeContext.locale.localization['create-copy']}
@@ -218,7 +247,7 @@ export function ToolBar() {
                                     shouldStopPropagation={false}
                                     contentType="textInSubMenu"
                                     content={undefined}
-                                    foo={func}
+                                    foo={saveAsJSONFunction}
                                 />,
                             ]}
                         />,
@@ -354,6 +383,7 @@ export function ToolBar() {
                     foo={toggleLocaleContext}
                 />
             </div>
+            <input ref={uploadFileInputRef} type="file" onChange={uploadPresentationFromJsonFunction} style={{visibility:'hidden', width: '0', height: '0'}}/>
         </div>
     );
     /* eslint-enable */
