@@ -33,20 +33,21 @@ export function ToolBar() {
         }
     };
 
-    const saveAsJSONFunction = () => savePresentationAsJson({
-        ...initEditor(),
-        presentation: store.getState().model.presentation
-    })
+    const saveAsJSONFunction = () =>
+        savePresentationAsJson({
+            ...initEditor(),
+            presentation: store.getState().model.presentation,
+        });
 
     const uploadPresentationFromJsonFunction = (e: BaseSyntheticEvent) => {
         const reader = new FileReader();
 
-        reader.onload = function() {
-            if (typeof reader.result === 'string') dispatchUploadPresentationFromJSONAction(reader.result)
+        reader.onload = function () {
+            if (typeof reader.result === 'string') dispatchUploadPresentationFromJSONAction(reader.result);
         };
 
-        reader.readAsText(e.target.files[0])
-    }
+        reader.readAsText(e.target.files[0]);
+    };
     // Create a reference to the hidden file input element
     const uploadFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -61,9 +62,7 @@ export function ToolBar() {
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
     const dispatchAddPictureAction = bindActionCreators(addPicture, dispatch);
-    const dispatchUploadPresentationFromJSONAction = 
-        bindActionCreators(uploadPresentationFromJson, dispatch);
-    
+    const dispatchUploadPresentationFromJSONAction = bindActionCreators(uploadPresentationFromJson, dispatch);
 
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {
@@ -386,7 +385,12 @@ export function ToolBar() {
                 />
                 <input type="file" accept={'.png, .jpeg'} className="fileUpload" onChange={addPictureButtonFunction} />
             </div>
-            <input ref={uploadFileInputRef} type="file" onChange={uploadPresentationFromJsonFunction} style={{visibility:'hidden', width: '0', height: '0'}}/>
+            <input
+                ref={uploadFileInputRef}
+                type="file"
+                onChange={uploadPresentationFromJsonFunction}
+                style={{ visibility: 'hidden', width: '0', height: '0' }}
+            />
         </div>
     );
     /* eslint-enable */

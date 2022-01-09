@@ -32,11 +32,11 @@ export function setSelectedIdInEditor(
 }
 
 export function savePresentationAsJson(editor: Editor) {
-    const presentation = editor.presentation
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(presentation));
+    const presentation = editor.presentation;
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(presentation));
     const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href",     dataStr);
-    downloadAnchorNode.setAttribute("download", editor.presentation.name + ".json");
+    downloadAnchorNode.setAttribute('href', dataStr);
+    downloadAnchorNode.setAttribute('download', editor.presentation.name + '.json');
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
@@ -45,20 +45,19 @@ export function savePresentationAsJson(editor: Editor) {
 export function uploadPresentationFromJson(s: string): Editor {
     // const fileInput = document.createElement("input");
     // fileInput.type = "file";
-    
+
     // const reader = new FileReader();
 
     // reader.onload = () => {
     //     console.log("1")
     //     if (!fileInput.files) return initEditor();
-        
+
     //     const file = fileInput.files[0];
     //     reader.readAsText(file);
     //     fileInput.remove();
     //     console.log("2")
     //     if (!reader.result) return initEditor();
-        
-        
+
     //     if (typeof reader.result === 'string') {
     //         console.log(JSON.parse(reader.result));
     //     }
@@ -73,6 +72,6 @@ export function uploadPresentationFromJson(s: string): Editor {
     // return initEditor();
     return {
         ...initEditor(),
-        presentation: JSON.parse(s)
-    }
+        presentation: JSON.parse(s),
+    };
 }

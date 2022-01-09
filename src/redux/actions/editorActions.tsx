@@ -26,9 +26,9 @@ interface UndoHistoryAction {
     type: ActionType.UNDO;
 }
 
-interface UploadPresentationFromJSON{
+interface UploadPresentationFromJSON {
     type: ActionType.UPLOAD_PRESENTATION_FROM_JSON;
-    payload: string
+    payload: string;
 }
 
 export type EditorActions =
