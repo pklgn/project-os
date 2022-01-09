@@ -44,11 +44,9 @@ export function ToolBar() {
         fileInput.click();
 
 
-        fileInput.onload = function() {
-            reader.onload = (e: ProgressEvent<FileReader>) => {
-                if (fileInput.files) e.target?.readAsText(fileInput.files[0])
-                if (typeof reader.result === 'string') dispatchUploadPresentationFromJSONAction(reader.result)
-            }
+        reader.onload = function() {
+            if (fileInput.files) reader.readAsText(fileInput.files[0])
+            if (typeof reader.result === 'string') dispatchUploadPresentationFromJSONAction(reader.result)
         };
     }
 
