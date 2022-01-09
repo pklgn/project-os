@@ -58,7 +58,7 @@ export function SlideComponent(props: SlideProps) {
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
             >
-                <text x={0} y={90} fontSize={16}>
+                <text x={-100} y={90} fontSize={16}>
                     {[props.slide?.id]}
                 </text>
                 {props.slide !== undefined ? (

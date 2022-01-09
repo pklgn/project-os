@@ -1,7 +1,7 @@
 import styles from './ElementListTool.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import React, { BaseSyntheticEvent, useContext } from 'react';
+import React, { BaseSyntheticEvent, useContext, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Delete } from '../../common/icons/Delete/Delete';
@@ -36,6 +36,8 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
         dispatchTurnBackModelStateAction();
     };
 
+    const [timeOuted, setTimeOuted] = useState(false);
+
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
             undoPressButtonHandler();
@@ -45,10 +47,15 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
         }
     });
 
-    const onColorChangeHandler = (e: BaseSyntheticEvent) => {
-        e.stopPropagation();
-        const el = e.target as HTMLInputElement;
-        dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
+    const onColorInputHandler = (e: BaseSyntheticEvent) => {
+        if (!timeOuted) {
+            setTimeOuted(true);
+            setTimeout(() => {
+                const el = e.target as HTMLInputElement;
+                dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
+                setTimeOuted(false);
+            }, 50);
+        }
     };
     const onMouseDownHandler = (e: React.MouseEvent<HTMLInputElement>) => {
         e.stopPropagation();
@@ -106,7 +113,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 id="color-picker"
                 className={styles['color-picker']}
                 defaultValue={'#ffffff'}
-                onChange={onColorChangeHandler}
+                onInput={onColorInputHandler}
                 onMouseDown={onMouseDownHandler}
             />
         </div>
