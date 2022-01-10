@@ -9,7 +9,7 @@ export function Delete(): JSX.Element {
             viewBox="0 0 512 512"
             enableBackground="new 0 0 512 512"
         >
-            <rect height="100%" width="100%" fill="#582C1E" rx="107" ry="107"/>
+            <rect height="100%" width="100%" fill="#582C1E" rx="107" ry="107" />
             <polygon fill="#c78952" points="190.551,495.523 117.226,495.523 87.886,113.866 190.551,113.866 	" />
             <polygon fill="#c78952" points="394.773,495.523 321.448,495.523 321.448,113.866 424.112,113.866 	" />
             <path
