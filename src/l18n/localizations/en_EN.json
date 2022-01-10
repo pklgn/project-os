@@ -47,6 +47,7 @@
 
     "backward_word": "Backward",
     "back_word": "Back",
+    "change-color": "Change color",
     "forward_word": "Forward",
     "front_word": "Front",
     "fullscreen_word": "Fullscreen",
@@ -61,5 +62,11 @@
 
     "no-slides-to-show-info": "Are your slides not as hard workers as you? They are not in the workplace!",
 
-    "PRESENTATION_VIEWER_BLOCK_END": ""
+    "PRESENTATION_VIEWER_BLOCK_END": "",
+
+    "SLIDE_BLOCK": "",
+
+    "empty-slide-info": "Click to add new slide",
+
+    "SLIDE_BLOCK_END": ""
 }

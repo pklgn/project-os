@@ -5,8 +5,30 @@
     min-width: 640px;
 }
 
+.empty-slide-container {
+    background: transparent;
+    box-sizing: border-box;
+    color: #999;
+    font-size: x-large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-width: 640px;
+    border: medium dashed orange;
+    cursor: pointer;
+}
+
 .slide-container {
-    background: white;
     box-sizing: border-box;
     overflow: visible;
+}
+
+.select-area {
+    fill: transparent;
+    stroke: lightcoral;
+    stroke-width: 5px;
+    stroke-dasharray: 20, 5;
+    stroke-linejoin: round;
+    cursor: pointer;
 }

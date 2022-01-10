@@ -42,8 +42,8 @@ export function SlideWrapper() {
 
     return (
         <div className={wrapperStyles.wrapper}>
-            <div className={styles.slide} ref={ref} inlist={'slide-list'}>
-                <SlideComponent slide={currSlide} />
+            <div className={styles.slide} ref={ref}>
+                <SlideComponent renderType="mainSlide" slide={currSlide} />
             </div>
         </div>
     );

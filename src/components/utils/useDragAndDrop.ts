@@ -1,17 +1,17 @@
-import { Coordinates } from '../../model/types';
+import { Coordinates, SelectedAreaLocation } from '../../model/types';
 import { useEffect } from 'react';
 
-const INITIAL_SCALE = 1;
+const INITIAL_SCALE = 2;
 
 export function useDragAndDrop(
-    element: SVGGeometryElement | null,
-    position: Coordinates,
-    setPosition: (coordinates: Coordinates) => void,
+    element: SVGRectElement | null,
+    position: SelectedAreaLocation,
+    setPosition: (coordinates: SelectedAreaLocation) => void,
 ): void {
-    let startPosition: Coordinates;
+    let startDragPosition: Coordinates;
     const scale = parseFloat(element?.parentElement?.dataset.scale ?? `${INITIAL_SCALE}`);
     function onMouseDown(event: MouseEvent) {
-        startPosition = {
+        startDragPosition = {
             x: event.pageX,
             y: event.pageY,
         };
@@ -26,15 +26,20 @@ export function useDragAndDrop(
 
     function onMouseMove(e: MouseEvent) {
         const delta = {
-            x: e.pageX - startPosition.x,
-            y: e.pageY - startPosition.y,
+            x: e.pageX - startDragPosition.x,
+            y: e.pageY - startDragPosition.y,
         };
         const newPosition = {
-            x: position.x + delta.x / scale,
-            y: position.y + delta.y / scale,
+            x: position.xy.x + delta.x,
+            y: position.xy.y + delta.y,
         };
 
-        setPosition(newPosition);
+        const newSelectedAreaLocation: SelectedAreaLocation = {
+            xy: newPosition,
+            dimensions: position.dimensions,
+        };
+
+        setPosition(newSelectedAreaLocation);
     }
 
     useEffect(() => {

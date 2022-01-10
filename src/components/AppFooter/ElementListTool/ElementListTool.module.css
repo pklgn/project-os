@@ -27,3 +27,13 @@
         transform: translateY(0);
     }
 }
+
+.color-picker {
+    border: none;
+    background-color: transparent;
+    justify-content: center;
+    align-self: center;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 50%;
+}

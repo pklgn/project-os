@@ -1,5 +1,5 @@
 import { ActionType } from '../action-types/types';
-import { PresentationMode } from '../../model/types';
+import { PresentationMode, SelectedAreaLocation } from '../../model/types';
 
 interface SetEditorModeAction {
     type: ActionType.SET_EDITOR_MODE;
@@ -26,15 +26,15 @@ interface UndoHistoryAction {
     type: ActionType.UNDO;
 }
 
-interface UploadPresentationFromJSON{
+interface UploadPresentationFromJSON {
     type: ActionType.UPLOAD_PRESENTATION_FROM_JSON;
-    payload: string
+    payload: string;
 }
 
 export type EditorActions =
-    | SetEditorModeAction
     | KeepHistoryAction
     | RedoHistoryAction
     | SelectedIdAction
+    | SetEditorModeAction
     | UndoHistoryAction
     | UploadPresentationFromJSON;

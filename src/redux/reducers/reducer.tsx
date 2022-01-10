@@ -1,6 +1,7 @@
 import { ActionType } from '../action-types/types';
 import { EditorActions } from '../actions/editorActions';
 import { ElementAction } from '../actions/elementActions';
+import { FigureActions } from '../actions/figureActions';
 import { PresentationActions } from '../actions/presentationActions';
 import { SlideAction } from '../actions/slidesActions';
 import { TextActions } from '../actions/textActions';
@@ -16,7 +17,12 @@ import {
     changeTextsSize,
     changeTextsStyle,
 } from '../../model/specifiedActions/textActions';
-import { addSlide, deleteSelectedSlides, insertSelectedSlides } from '../../model/slidesActions';
+import {
+    addSlide,
+    changeSelectedSlidesBackground,
+    deleteSelectedSlides,
+    insertSelectedSlides,
+} from '../../model/slidesActions';
 import { changePresentationName } from '../../model/presentationActions';
 import { keep, redo, undo } from '../../model/historyActions';
 import {
@@ -32,10 +38,26 @@ import {
     uploadPresentationFromJson,
 } from '../../model/editorActions';
 import { addPictureElement } from '../../model/specifiedActions/pictureActions';
-type ModelActions = SlideAction | PresentationActions | ElementAction | EditorActions | TextActions | PictureActions;
+import {
+    addFigureElement,
+    changeFiguresBorderColor,
+    changeFiguresBorderWidth,
+    changeFiguresColor,
+} from '../../model/specifiedActions/figureActions';
+
+type ModelActions =
+    | EditorActions
+    | ElementAction
+    | FigureActions
+    | PictureActions
+    | PresentationActions
+    | SlideAction
+    | TextActions;
 
 export const allReducers = (state: Editor = initEditor(), action: ModelActions): Editor => {
     switch (action.type) {
+        case ActionType.CHANGE_PRESENTATION_TITLE:
+            return changePresentationName(state, action.payload);
         case ActionType.SET_EDITOR_MODE:
             return toggleEditorMode(state, action.payload);
         case ActionType.SET_SELECTED_ID_IN_EDITOR:
@@ -55,8 +77,8 @@ export const allReducers = (state: Editor = initEditor(), action: ModelActions):
 
         case ActionType.ADD_SLIDE:
             return addSlide(state);
-        case ActionType.CHANGE_PRESENTATION_TITLE:
-            return changePresentationName(state, action.payload);
+        case ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND:
+            return changeSelectedSlidesBackground(state, action.payload.src, action.payload.color);
         case ActionType.DELETE_SELECTED_SLIDES:
             return deleteSelectedSlides(state);
         case ActionType.INSERT_SELECTED_SLIDES_AT_INDEX:
@@ -92,6 +114,15 @@ export const allReducers = (state: Editor = initEditor(), action: ModelActions):
                 action.payload.width,
                 action.payload.height,
             );
+
+        case ActionType.ADD_FIGURE_ELEMENT:
+            return addFigureElement(state, action.payload.shape, action.payload.x, action.payload.y);
+        case ActionType.CHANGE_FIGURES_BORDER_COLOR:
+            return changeFiguresBorderColor(state, action.payload);
+        case ActionType.CHANGE_FIGURES_BORDER_WIDTH:
+            return changeFiguresBorderWidth(state, action.payload);
+        case ActionType.CHANGE_FIGURES_COLOR:
+            return changeFiguresColor(state, action.payload);
 
         default:
             return state;

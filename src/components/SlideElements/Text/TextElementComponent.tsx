@@ -2,11 +2,10 @@ import styles from './TextElementComponent.module.css';
 
 import { isText } from '../../../model/utils/tools';
 import { SlideElement, TextElement } from '../../../model/types';
-import { useEffect, useRef } from 'react';
-import { useDragAndDrop } from '../../utils/useDragAndDrop';
 
 type TextElementProps = {
     element: SlideElement;
+    elementIndex: number;
 };
 
 function getTextElementContent(element: SlideElement): TextElement | undefined {
@@ -24,7 +23,6 @@ function getTextElementContent(element: SlideElement): TextElement | undefined {
 function TextElementComponent(props: TextElementProps) {
     const element: SlideElement = props.element;
     const elementText: TextElement | undefined = getTextElementContent(element);
-    const ref = useRef(null);
 
     if (!elementText) {
         return null;
@@ -32,7 +30,7 @@ function TextElementComponent(props: TextElementProps) {
 
     return (
         <text
-            ref={ref}
+            id={`${props.elementIndex}`}
             className={styles.element}
             x={element.startPoint.x}
             y={element.startPoint.y}
@@ -40,7 +38,6 @@ function TextElementComponent(props: TextElementProps) {
             fontSize={elementText.fontSize}
             fontStyle={elementText.fontStyle}
             fill={elementText.fontColor}
-            textAnchor={'middle'}
         >
             {elementText.content.map((line, index) => {
                 return (
