@@ -167,14 +167,31 @@ export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): Se
             if (elXY.y < minY) {
                 minY = elXY.y;
             }
-            if (Math.abs(elXY.x) + elDimen.width > maxDimenX) {
-                maxDimenX = Math.abs(elXY.x) + elDimen.width;
+            if (elXY.x + elDimen.width > maxDimenX) {
+                maxDimenX = elXY.x + elDimen.width;
             }
-            if (Math.abs(elXY.y) + elDimen.height > maxDimenY) {
-                maxDimenY = Math.abs(elXY.y) + elDimen.height;
+            if (elXY.y + elDimen.height > maxDimenY) {
+                maxDimenY = elXY.y + elDimen.height;
             }
 
             index = index - 1;
+        }
+
+        let width = 0;
+        let height = 0;
+        if (minX >= 0 && minY >= 0) {
+            width = maxDimenX - minX;
+            height = maxDimenY - minY;
+        } else if (minX >= 0 && minY < 0) {
+            width = Math.abs(maxDimenX) - Math.abs(minX);
+            height = maxDimenY;
+        } else if (minX < 0 && minY >= 0) {
+            console.log(`x:${minX} dim:${maxDimenX}`);
+            width = Math.min(minX - maxDimenX, Math.max(maxDimenX - minX, maxDimenX));
+            height = maxDimenY - minY;
+        } else {
+            width = maxDimenX;
+            height = maxDimenY;
         }
 
         return {
@@ -183,8 +200,8 @@ export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): Se
                 y: minY,
             },
             dimensions: {
-                width: maxDimenX - Math.abs(minX),
-                height: maxDimenY - Math.abs(minY),
+                width,
+                height,
             },
         };
     }
