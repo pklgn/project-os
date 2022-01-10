@@ -68,5 +68,7 @@
 
     "empty-slide-info": "Нажмите, чтобы добавить новый слайд",
 
-    "SLIDE_BLOCK_END": ""
+    "SLIDE_BLOCK_END": "",
+
+    "error_no_slides": "Нельзя сохранить пустую презентацию"
 }

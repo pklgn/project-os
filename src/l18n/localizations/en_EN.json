@@ -68,5 +68,7 @@
 
     "empty-slide-info": "Click to add new slide",
 
-    "SLIDE_BLOCK_END": ""
+    "SLIDE_BLOCK_END": "",
+
+    "error_no_slides": "You can't save an empty presentation"
 }

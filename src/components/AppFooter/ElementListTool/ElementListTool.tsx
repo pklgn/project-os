@@ -1,7 +1,7 @@
 import styles from './ElementListTool.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import React, { BaseSyntheticEvent, useContext, useState } from 'react';
+import React, { BaseSyntheticEvent, useContext, useEffect, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Delete } from '../../common/icons/Delete/Delete';
@@ -13,7 +13,7 @@ import { Undo } from '../../common/icons/Undo/Undo';
 
 import { bindActionCreators } from 'redux';
 import { changeSlidesBackground } from '../../../redux/action-creators/slideActionCreators';
-import { undoModelAction, redoModelAction } from '../../../redux/action-creators/editorActionCreators';
+import { undoModelAction, redoModelAction, keepModelAction } from '../../../redux/action-creators/editorActionCreators';
 import { useDispatch } from 'react-redux';
 
 type ElementListToolProps = {
@@ -27,6 +27,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
     const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
     const dispatchSetSlideBackgroundColorAction = bindActionCreators(changeSlidesBackground, dispatch);
+    const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
 
     const undoPressButtonHandler = () => {
         dispatchSetPreviousModelStateAction();
@@ -38,14 +39,22 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
 
     const [timeOuted, setTimeOuted] = useState(false);
 
-    document.addEventListener('keydown', function (event) {
-        if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
-            undoPressButtonHandler();
-        }
-        if (event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
-            redoButtonPressHandler();
-        }
-    });
+    useEffect(() => {
+        const historyActionsHandler = (event: KeyboardEvent) => {
+            if (event.code == 'KeyZ' && event.ctrlKey) {
+                undoPressButtonHandler();
+            }
+            if (event.code == 'KeyY' && event.ctrlKey) {
+                redoButtonPressHandler();
+            }
+        };
+
+        document.addEventListener('keydown', historyActionsHandler);
+
+        return () => {
+            document.removeEventListener('keydown', historyActionsHandler);
+        };
+    }, [undoPressButtonHandler]);
 
     const onColorInputHandler = (e: BaseSyntheticEvent) => {
         if (!timeOuted) {
@@ -53,6 +62,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
             setTimeout(() => {
                 const el = e.target as HTMLInputElement;
                 dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
+                dispatchKeepModelAction();
                 setTimeOuted(false);
             }, 50);
         }

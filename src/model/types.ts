@@ -55,6 +55,7 @@ export type TextElement = {
 export type PictureElement = {
     src: string;
     alt: string;
+    raw: string | undefined;
 };
 
 export type FigureElement = {
