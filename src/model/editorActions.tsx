@@ -21,9 +21,7 @@ export function setSelectedIdInEditor(
     selectedSlideElementsIds: string[] = [],
 ): Editor {
     const nextSelectedSlidesIds: string[] = selectedSlidesIds.length ? selectedSlidesIds : editor.selectedSlidesIds;
-    const nextSelectedElementsIds: string[] = selectedSlideElementsIds.length
-        ? selectedSlideElementsIds
-        : editor.selectedSlideElementsIds;
+    const nextSelectedElementsIds: string[] = selectedSlideElementsIds;
 
     editor.selectedSlideElementsIds = nextSelectedElementsIds;
     editor.selectedSlidesIds = nextSelectedSlidesIds;

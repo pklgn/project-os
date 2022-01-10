@@ -31,6 +31,16 @@ export type Background = {
     color: string;
 };
 
+export type SelectedAreaDimensions = {
+    width: number;
+    height: number;
+};
+
+export type SelectedAreaLocation = {
+    xy: Coordinates;
+    dimensions: SelectedAreaDimensions;
+};
+
 export type SlideElement = {
     readonly id: string;
     startPoint: Coordinates;

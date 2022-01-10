@@ -1,5 +1,5 @@
 import { getCurrentSlide, applySlideChanges } from './slidesActions';
-import { Editor, Size, Slide, SlideElement } from './types';
+import { Coordinates, Editor, SelectedAreaLocation, Size, Slide, SlideElement } from './types';
 
 export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolean): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
@@ -124,6 +124,74 @@ export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
         ...updatedEditor,
         selectedSlidesIds: [currSlide.id],
     };
+}
+
+export function getActiveElementsIds(editor: Editor): string[] {
+    return editor.selectedSlideElementsIds;
+}
+
+export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): SelectedAreaLocation {
+    type elementLocationInfo = {
+        coords: Coordinates;
+        dimensions: Size;
+    };
+
+    const elementsLocationInfo: (elementLocationInfo | undefined)[] = slide.elementsList
+        .map((element) => {
+            if (elementsIds.includes(element.id)) {
+                return {
+                    coords: element.startPoint,
+                    dimensions: element.size,
+                };
+            }
+            return undefined;
+        })
+        .filter((item) => item !== undefined);
+
+    function getSelectedAreaLocation(arr: elementLocationInfo[]): SelectedAreaLocation {
+        let index = arr.length - 1;
+        const el = arr[index];
+
+        let minX = el.coords.x,
+            minY = el.coords.y,
+            maxDimenX = el.dimensions.width,
+            maxDimenY = el.dimensions.height;
+
+        while (index >= 0) {
+            const elXY = arr[index].coords;
+            const elDimen = arr[index].dimensions;
+
+            if (elXY.x < minX) {
+                minX = elXY.x;
+            }
+            if (elXY.y < minY) {
+                minY = elXY.y;
+            }
+            if (elXY.x + elDimen.width > maxDimenX) {
+                maxDimenX = elXY.x + elDimen.width;
+            }
+            if (elXY.y + elDimen.height > maxDimenY) {
+                maxDimenY = elXY.y + elDimen.height;
+            }
+
+            index = index - 1;
+        }
+
+        return {
+            xy: {
+                x: minX,
+                y: minY,
+            },
+            dimensions: {
+                width: maxDimenX - minX,
+                height: maxDimenY - minY,
+            },
+        };
+    }
+
+    const res = getSelectedAreaLocation(elementsLocationInfo as elementLocationInfo[]);
+
+    return res;
 }
 
 export function removeSelectedElements(editor: Editor): Editor {

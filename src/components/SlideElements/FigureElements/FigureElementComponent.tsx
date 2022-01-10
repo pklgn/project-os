@@ -6,9 +6,11 @@ import { TriangleFigure } from './Triangle/TriangleFigure';
 
 type FigureElementProps = {
     element: SlideElement;
+    elementIndex: number;
 };
 
 export type FigureProps = {
+    elementIndex: number;
     startPoint: Coordinates;
     size: Size;
     opacity: number;
@@ -35,6 +37,7 @@ function FigureElementComponent(props: FigureElementProps) {
     }
 
     const figureProps: FigureProps = {
+        elementIndex: props.elementIndex,
         startPoint: props.element.startPoint,
         size: props.element.size,
         opacity: props.element.opacity,

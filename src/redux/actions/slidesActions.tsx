@@ -6,8 +6,8 @@ interface AddSlideAction {
 }
 
 interface ChangeSlideBackgroundAction {
-    type: ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND,
-    payload: Background,
+    type: ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND;
+    payload: Background;
 }
 
 interface DeleteSelectedSlideAction {
