@@ -18,7 +18,7 @@ type ReorderListToolProps = {
 export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
-    const elementListButton = () => props.foo(listName.ELEMENT_LIST);
+    const elementListButton = () => props.foo(listName.ELEMENT_LIST)
 
     return (
         <div className={styles['reorder-tools']}>

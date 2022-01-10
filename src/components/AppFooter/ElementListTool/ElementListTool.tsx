@@ -30,6 +30,10 @@ type ElementListToolProps = {
 
 export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
+    
+    const reorderListButton = () => props.foo(listName.REORDER_LIST);
+    const textToolsListButton = () => props.foo(listName.TEXT_TOOLS_LIST_BUTTON);
+    const figureToolsListButton = () => props.foo(listName.FIGURE_TOOLS_LIST_BUTTON);
 
     const reorderListButton = () => props.foo(listName.REORDER_LIST);
     const textToolsListButton = () => props.foo(listName.TEXT_TOOLS_LIST_BUTTON);
@@ -142,6 +146,30 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 foo={deleteElementsButtonFunction}
             />
             <VerticalLine />
+            <Button
+                text={localeContext.locale.localization.undo_word}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <Undo /> }}
+                foo={undoPressButtonHandler}
+            />
+            <Button
+                text={localeContext.locale.localization.redo_word}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <Redo /> }}
+                foo={redoButtonPressHandler}
+            />
+            <Button
+                text={localeContext.locale.localization.fullscreen_word}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <Fullscreen /> }}
+                foo={() => undefined}
+            />
             <Button
                 text={localeContext.locale.localization.undo_word}
                 state="disabled"
