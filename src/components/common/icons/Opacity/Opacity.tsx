@@ -12,7 +12,7 @@ export function Opacity(): JSX.Element {
             enableBackground="0 0 24 24"
             opacity={styles.opacity}
         >
-            <rect height="100%" width="100%" fill="#582C1E" rx="5" ry="5"/>
+            <rect height="100%" width="100%" fill="#582C1E" rx="5" ry="5" />
             <path d="M24 0H0v24h24V0zm0 0H0v24h24V0zM0 24h24V0H0v24z" fill="none" />
             <path
                 d="M17.66 8L12 2.35 6.34 8C4.78 9.56 4 11.64 4 13.64s.78 4.11 2.34 5.67 3.61 2.35 5.66 2.35 

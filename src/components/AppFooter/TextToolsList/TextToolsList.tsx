@@ -22,16 +22,16 @@ type TextToolsListProps = {
 
 export function TextToolsList(props: TextToolsListProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
-    
-    const elementListToolButton = () => props.foo(listName.ELEMENT_LIST)
+
+    const elementListToolButton = () => props.foo(listName.ELEMENT_LIST);
 
     const dispatch = useDispatch();
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
     const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
-    const dispatchChangeTextColor = bindActionCreators(changeTextsColor, dispatch)
-    const dispatchChangeTextContent = bindActionCreators(changeTextContent, dispatch)
+    const dispatchChangeTextColor = bindActionCreators(changeTextsColor, dispatch);
+    const dispatchChangeTextContent = bindActionCreators(changeTextContent, dispatch);
 
     const undoPressButtonHandler = () => {
         dispatchSetPreviousModelStateAction();
@@ -42,19 +42,19 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
     };
 
     const addTextHandler = () => {
-        dispatchAddTextAction({ x: 20, y: 30});
+        dispatchAddTextAction({ x: 20, y: 30 });
         dispatchKeepModelAction();
-    }
+    };
 
     const changeTextColorHandler = () => {
-        dispatchChangeTextColor("black");
+        dispatchChangeTextColor('black');
         dispatchKeepModelAction();
-    }
+    };
 
     const changeTextContentHandler = () => {
-        dispatchChangeTextContent([""]);
+        dispatchChangeTextContent(['']);
         dispatchKeepModelAction();
-    }
+    };
 
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {

@@ -30,7 +30,7 @@ type ElementListToolProps = {
 
 export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
-    
+
     const reorderListButton = () => props.foo(listName.REORDER_LIST);
     const textToolsListButton = () => props.foo(listName.TEXT_TOOLS_LIST_BUTTON);
     const figureToolsListButton = () => props.foo(listName.FIGURE_TOOLS_LIST_BUTTON);

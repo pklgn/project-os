@@ -19,7 +19,7 @@ type FigureToolsListProps = {
 export function FigureToolsList(props: FigureToolsListProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
-    const elementListToolButton = () => props.foo(listName.ELEMENT_LIST)
+    const elementListToolButton = () => props.foo(listName.ELEMENT_LIST);
 
     const dispatch = useDispatch();
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);

@@ -12,7 +12,11 @@ import { addText } from '../../../redux/action-creators/textActionCreators';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { getSlideAmount } from '../../../model/slidesActions';
-import { keepModelAction, setEditorMode, uploadPresentationFromJson } from '../../../redux/action-creators/editorActionCreators';
+import {
+    keepModelAction,
+    setEditorMode,
+    uploadPresentationFromJson,
+} from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { initEditor } from '../../../model/initModelActions';
@@ -42,12 +46,12 @@ export function ToolBar() {
     // Create a reference to the hidden file input element
     // Programatically click the hidden file input element
     const uploadPresentationInputRef = useRef<HTMLInputElement>(null);
-    
+
     // when the Button component is clicked
     const handleUploadPresentationClick = () => {
         uploadPresentationInputRef.current?.click();
     };
-    
+
     const dispatch = useDispatch();
     const dispatchAddFigureAction = bindActionCreators(addFigure, dispatch);
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
