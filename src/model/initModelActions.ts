@@ -7,6 +7,7 @@ export function initEditor(): Editor {
         history: initHistory(),
         selectedSlidesIds: [],
         selectedSlideElementsIds: [],
+        selectedAreasLocation: undefined,
     };
 }
 
@@ -23,5 +24,6 @@ function initHistory(): History {
         currState: 0,
         selectedSlidesIdsStates: [[]],
         selectedSlideElementsIdsStates: [[]],
+        selectedAreasLocation: [],
     };
 }

@@ -1,5 +1,5 @@
 import { initEditor } from './initModelActions';
-import { Editor, PresentationMode } from './types';
+import { Editor, PresentationMode, SelectedAreaLocation } from './types';
 
 export function getCurrentEditorMode(editor: Editor): PresentationMode {
     return editor.mode;

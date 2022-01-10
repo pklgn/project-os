@@ -28,6 +28,7 @@ const VIEWBOX = {
 
 type SlideProps = {
     slide: Slide | undefined;
+    renderType: 'default' | 'mainSlide';
 };
 
 export const ScaleContext = createContext(VIEWBOX);
@@ -42,7 +43,7 @@ export function SlideComponent(props: SlideProps) {
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
     const dispatchSetIdAction = bindActionCreators(setSelectedIdInEditor, dispatch);
-    const changeElementsPosition = bindActionCreators(changeSelectedElementsPosition, dispatch);
+    const dispatchSetElementsPoistionAction = bindActionCreators(changeSelectedElementsPosition, dispatch);
 
     const emptySlideClickHandler = () => {
         dispatchAddSlideAction();
@@ -52,6 +53,7 @@ export function SlideComponent(props: SlideProps) {
     const [isSlideActive, setSlideActiveStatus] = useState(false);
     const [selectedAreaLocation, setSelectedAreaLocation] = useState(undefined as SelectedAreaLocation | undefined);
     const [selectedAreaStartPoint, setSelectedAreaStartPoint] = useState(undefined as Coordinates | undefined);
+    const [isReadyToDrop, setIsReadyToDrop] = useState(false);
 
     useEffect(() => {
         const onMouseDownHandler = (event: MouseEvent) => {
@@ -66,6 +68,7 @@ export function SlideComponent(props: SlideProps) {
                 const missClicked = !el.getAttribute('id') && isSlideActive;
 
                 setSlideActiveStatus(true);
+                setIsReadyToDrop(true);
 
                 if (pressedOnElement) {
                     const elementIndex = elDomIndex - 1;
@@ -130,14 +133,41 @@ export function SlideComponent(props: SlideProps) {
         };
     }, [isSlideActive]);
 
+    useEffect(() => {
+        if (props.slide?.elementsList.length) {
+            const selectedElementsIds = getActiveElementsIds(store.getState().model);
+            const selectedElementsArea = getElementsAreaLoaction(
+                getCurrentSlide(store.getState().model)!,
+                selectedElementsIds,
+            );
+            setSelectedAreaLocation(selectedElementsArea);
+            setSelectedAreaStartPoint(selectedElementsArea.xy);
+        } else {
+            setSelectedAreaLocation(undefined);
+            setSelectedAreaStartPoint(undefined);
+        }
+    }, [props.slide?.elementsList.length]);
+
     useDragAndDrop(refSelectedArea.current, selectedAreaLocation!, setSelectedAreaLocation);
 
     useEffect(() => {
-        if (selectedAreaLocation && selectedAreaStartPoint) {
-            const dx = selectedAreaLocation.xy.x - selectedAreaStartPoint.x;
-            const dy = selectedAreaLocation.xy.y - selectedAreaStartPoint.y;
-            changeElementsPosition({ dx: dx, dy: dy });
-        }
+        const onMouseUpHandler = () => {
+            if (isReadyToDrop) {
+                if (selectedAreaLocation && selectedAreaStartPoint) {
+                    const dx = selectedAreaLocation.xy.x - selectedAreaStartPoint.x;
+                    const dy = selectedAreaLocation.xy.y - selectedAreaStartPoint.y;
+                    dispatchSetElementsPoistionAction({ dx: dx, dy: dy });
+                    setSelectedAreaStartPoint(selectedAreaLocation.xy);
+                    dispatchKeepModelAction();
+                }
+            }
+            setIsReadyToDrop(false);
+        };
+        document.addEventListener('mouseup', onMouseUpHandler);
+
+        return () => {
+            document.removeEventListener('mouseup', onMouseUpHandler);
+        };
     }, [selectedAreaLocation]);
 
     let elementIndex = 0;
@@ -190,7 +220,7 @@ export function SlideComponent(props: SlideProps) {
                 ) : (
                     <></>
                 )}
-                {selectedAreaLocation !== undefined ? (
+                {selectedAreaLocation !== undefined && props.renderType === 'mainSlide' ? (
                     <rect
                         ref={refSelectedArea}
                         x={selectedAreaLocation.xy.x}

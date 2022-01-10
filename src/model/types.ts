@@ -4,6 +4,7 @@ export type Editor = {
     history: History;
     selectedSlidesIds: string[];
     selectedSlideElementsIds: string[];
+    selectedAreasLocation: SelectedAreaLocation | undefined;
 };
 
 export type PresentationMode = 'edit' | 'show-from-first-slide' | 'show-from-current-slide';
@@ -13,6 +14,7 @@ export type History = {
     presentationStates: Presentation[];
     selectedSlidesIdsStates: string[][];
     selectedSlideElementsIdsStates: string[][];
+    selectedAreasLocation: SelectedAreaLocation[];
 };
 
 export type Presentation = {
