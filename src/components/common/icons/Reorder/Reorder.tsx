@@ -10,25 +10,23 @@ export function Reorder(): JSX.Element {
             height={styles.height}
             opacity={styles.opacity}
             viewBox="0 0 280.168 280.168"
-            enableBackground="new 0 0 280.168 280.168"
+            fill="#EAA363"
         >
-            <g>
+                <rect height="100%" width="100%" fill="#582C1E" rx="62" ry="62"/>
                 <path
-                    fill="#1A7492"
                     d="M0,183.842l140.084-70.042l140.084,70.033l-140.084,
             70.042L0,183.842z"
                 />
                 <path
-                    fill="#208EB2"
+                    fill="#bb7b42"
                     d="M0,140.079l140.084-70.033l140.084,70.042l-140.084,
             70.024L0,140.079z"
                 />
                 <path
-                    fill="#26A6D1"
+                    fill="#aa5b16"
                     d="M0,96.326l140.084-70.033l140.084,70.042l-140.084,
             70.024L0,96.326z"
                 />
-            </g>
         </svg>
     );
 }

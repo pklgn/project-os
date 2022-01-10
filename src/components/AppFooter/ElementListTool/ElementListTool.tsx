@@ -10,6 +10,7 @@ import { Redo } from '../../common/icons/Redo/Redo';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 import { Undo } from '../../common/icons/Undo/Undo';
+import { listName } from '../../PresentationEditor/PresentationEditor';
 
 import { bindActionCreators } from 'redux';
 import { changeSlidesBackground } from '../../../redux/action-creators/slideActionCreators';
@@ -19,13 +20,20 @@ import { removeSelectedElements } from '../../../redux/action-creators/elementsA
 import { store } from '../../../redux/store';
 import { undoModelAction, redoModelAction, keepModelAction } from '../../../redux/action-creators/editorActionCreators';
 import { useDispatch } from 'react-redux';
+import { TextTools } from '../../common/icons/TextTools/TextTools';
+import { Fullscreen } from '../../common/icons/Fullscreen/Fullscreen';
+import { AddFigure } from '../../common/icons/AddFigure/AddFigure';
 
 type ElementListToolProps = {
-    foo: () => void | undefined;
+    foo: (listName: listName) => void | undefined;
 };
 
 export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
+    
+    const reorderListButton = () => props.foo(listName.REORDER_LIST);
+    const textToolsListButton = () => props.foo(listName.TEXT_TOOLS_LIST_BUTTON);
+    const figureToolsListButton = () => props.foo(listName.FIGURE_TOOLS_LIST_BUTTON);
 
     const dispatch = useDispatch();
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
@@ -90,21 +98,21 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
     return (
         <div className={styles['element-tools']}>
             <Button
-                text={localeContext.locale.localization.undo_word}
+                text={localeContext.locale.localization.text_word}
                 state="disabled"
                 shouldStopPropagation={false}
                 contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Undo /> }}
-                foo={undoPressButtonHandler}
+                content={{ hotkeyInfo: '', icon: <TextTools /> }}
+                foo={textToolsListButton}
             />
             <VerticalLine />
             <Button
-                text={localeContext.locale.localization.redo_word}
+                text={localeContext.locale.localization.add_word}
                 state="disabled"
                 shouldStopPropagation={false}
                 contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Redo /> }}
-                foo={redoButtonPressHandler}
+                content={{ hotkeyInfo: '', icon: <AddFigure /> }}
+                foo={figureToolsListButton}
             />
             <VerticalLine />
             <Button
@@ -113,7 +121,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 shouldStopPropagation={false}
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <Reorder /> }}
-                foo={props.foo}
+                foo={reorderListButton}
             />
             <VerticalLine />
             <Button
@@ -141,6 +149,30 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 defaultValue={'#ffffff'}
                 onInput={onColorInputHandler}
                 onMouseDown={onMouseDownHandler}
+            />
+            <Button
+                text={localeContext.locale.localization.undo_word}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <Undo /> }}
+                foo={undoPressButtonHandler}
+            />
+            <Button
+                text={localeContext.locale.localization.redo_word}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <Redo /> }}
+                foo={redoButtonPressHandler}
+            />
+            <Button
+                text={localeContext.locale.localization.fullscreen_word}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <Fullscreen /> }}
+                foo={() => undefined}
             />
         </div>
     );
