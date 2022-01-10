@@ -22,7 +22,6 @@ function CircleFigure(props: FigureProps): JSX.Element | null {
             stroke={content.borderColor}
             strokeWidth={content.borderWidth}
             opacity={opacity}
-            className={joinClassNames([commonStyles.figure])}
         />
     );
 }

@@ -38,7 +38,6 @@ function TextElementComponent(props: TextElementProps) {
             fontSize={elementText.fontSize}
             fontStyle={elementText.fontStyle}
             fill={elementText.fontColor}
-            textAnchor={'middle'}
         >
             {elementText.content.map((line, index) => {
                 return (

@@ -15,6 +15,9 @@ import { bindActionCreators } from 'redux';
 import { changeSlidesBackground } from '../../../redux/action-creators/slideActionCreators';
 import { undoModelAction, redoModelAction, keepModelAction } from '../../../redux/action-creators/editorActionCreators';
 import { useDispatch } from 'react-redux';
+import { changeFiguresColor } from '../../../redux/action-creators/figureActionCreators';
+import { store } from '../../../redux/store';
+import { getActiveElementsIds } from '../../../model/elementActions';
 
 type ElementListToolProps = {
     foo: () => void | undefined;
@@ -24,10 +27,11 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
-    const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
-    const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
-    const dispatchSetSlideBackgroundColorAction = bindActionCreators(changeSlidesBackground, dispatch);
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
+    const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
+    const dispatchSetElementsColorAction = bindActionCreators(changeFiguresColor, dispatch);
+    const dispatchSetSlideBackgroundColorAction = bindActionCreators(changeSlidesBackground, dispatch);
+    const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
 
     const undoPressButtonHandler = () => {
         dispatchSetPreviousModelStateAction();
@@ -61,7 +65,11 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
             setTimeOuted(true);
             setTimeout(() => {
                 const el = e.target as HTMLInputElement;
-                dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
+                if (getActiveElementsIds(store.getState().model).length) {
+                    dispatchSetElementsColorAction(el.value);
+                } else {
+                    dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
+                }
                 dispatchKeepModelAction();
                 setTimeOuted(false);
             }, 50);
