@@ -154,8 +154,8 @@ export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): Se
 
         let minX = el.coords.x,
             minY = el.coords.y,
-            maxDimenX = el.dimensions.width,
-            maxDimenY = el.dimensions.height;
+            maxDimenX = el.dimensions.width + minX,
+            maxDimenY = el.dimensions.height + minY;
 
         while (index >= 0) {
             const elXY = arr[index].coords;
@@ -177,22 +177,8 @@ export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): Se
             index = index - 1;
         }
 
-        let width = 0;
-        let height = 0;
-        if (minX >= 0 && minY >= 0) {
-            width = maxDimenX - minX;
-            height = maxDimenY - minY;
-        } else if (minX >= 0 && minY < 0) {
-            width = Math.abs(maxDimenX) - Math.abs(minX);
-            height = maxDimenY;
-        } else if (minX < 0 && minY >= 0) {
-            console.log(`x:${minX} dim:${maxDimenX}`);
-            width = Math.min(minX - maxDimenX, Math.max(maxDimenX - minX, maxDimenX));
-            height = maxDimenY - minY;
-        } else {
-            width = maxDimenX;
-            height = maxDimenY;
-        }
+        const width = maxDimenX - minX;
+        const height = maxDimenY - minY;
 
         return {
             xy: {
