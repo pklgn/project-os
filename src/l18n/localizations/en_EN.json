@@ -36,6 +36,8 @@
     "regular-text-format": "Regular text (.txt)",
     "send-to-email": "Send email",
     "slide-show": "Slide show",
+    "slide-show-start-first-slide": "Start from beginning",
+    "slide-show-start-current-slide": "Start from current slide",
     "upload-from-computer": "Upload from device",
     "write-to-co-authors": "Write to co-authors",
 
@@ -45,6 +47,7 @@
 
     "backward_word": "Backward",
     "back_word": "Back",
+    "change-color": "Change color",
     "forward_word": "Forward",
     "front_word": "Front",
     "fullscreen_word": "Fullscreen",
@@ -53,5 +56,17 @@
     "reorder_word": "Reorder",
     "undo_word": "Undo",
 
-    "SLIDE_TOOL_BAR_BLOCK_END": ""
+    "SLIDE_TOOL_BAR_BLOCK_END": "",
+
+    "PRESENTATION_VIEWER_BLOCK": "",
+
+    "no-slides-to-show-info": "Are your slides not as hard workers as you? They are not in the workplace!",
+
+    "PRESENTATION_VIEWER_BLOCK_END": "",
+
+    "SLIDE_BLOCK": "",
+
+    "empty-slide-info": "Click to add new slide",
+
+    "SLIDE_BLOCK_END": ""
 }

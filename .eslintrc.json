@@ -4,6 +4,13 @@
         "es2021": true
     },
     "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript",
+        "plugin:prettier/recommended",
+        "prettier",
         "plugin:react/jsx-runtime",
         "plugin:react/recommended"
     ],
@@ -17,9 +24,32 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "prettier"
     ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        },
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        },
+        "import/core-modules": [
+            "csstype"
+        ],
+        "no-extra-parens": "off",
+        "no-multiple-empty-lines": "error",
+        "no-extra-semi": "error"
+    },
     "rules": {
-        "react/react-in-jsx-scope": "off"
+        "react/react-in-jsx-scope": "off",
+        "no-extra-parens": "off"
     }
 }

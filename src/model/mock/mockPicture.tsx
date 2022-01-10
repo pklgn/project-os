@@ -1,11 +1,11 @@
-import {SlideElement} from "../types";
-import {generateUUId} from "../utils/uuid";
+import { SlideElement } from '../types';
+import { generateUUId } from '../utils/uuid';
 
 const mockPicture: SlideElement = {
     id: generateUUId(),
     startPoint: {
-        x: 0,
-        y: 0,
+        x: 25,
+        y: 25,
     },
     size: {
         width: 50,
@@ -13,11 +13,9 @@ const mockPicture: SlideElement = {
     },
     opacity: 1,
     content: {
-        src: 'C:/Users/pk_er/OneDrive/Изображения/test.png',
+        src: 'D:/downloads/browser/1.jpg',
         alt: '',
-    }
-}
+    },
+};
 
-export {
-    mockPicture,
-}
+export { mockPicture };

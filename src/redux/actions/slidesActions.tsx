@@ -1,19 +1,26 @@
-import { ActionType } from "../action-types/types";
+import { Background } from '../../model/types';
+import { ActionType } from '../action-types/types';
 
-interface SlideAddAction {
-    type: ActionType.ADD_SLIDE
+interface AddSlideAction {
+    type: ActionType.ADD_SLIDE;
+}
+
+interface ChangeSlideBackgroundAction {
+    type: ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND,
+    payload: Background,
 }
 
 interface DeleteSelectedSlideAction {
-    type: ActionType.DELETE_SELECTED_SLIDES
+    type: ActionType.DELETE_SELECTED_SLIDES;
 }
 
 interface InsertSelectedSlidesAtIndexAction {
-    type: ActionType.INSERT_SELECTED_SLIDES_AT_INDEX,
-    payload: number
+    type: ActionType.INSERT_SELECTED_SLIDES_AT_INDEX;
+    payload: number;
 }
 
 export type SlideAction =
-  SlideAddAction |
-  DeleteSelectedSlideAction |
-  InsertSelectedSlidesAtIndexAction;
+    | AddSlideAction
+    | ChangeSlideBackgroundAction
+    | DeleteSelectedSlideAction
+    | InsertSelectedSlidesAtIndexAction;

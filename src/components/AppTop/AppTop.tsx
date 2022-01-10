@@ -19,13 +19,11 @@ export function AppTop(): JSX.Element {
     const onChangeHandler = (event: BaseSyntheticEvent) => {
         dispatchPresentationName(event.target.value);
         document.title = event.target.value + ' - Oladies&Slides';
-    }
+    };
 
     return (
-        <div
-            className={styles['top-bar']}
-        >
-            <div className={styles["logo-container"]}>
+        <div className={styles['top-bar']}>
+            <div className={styles['logo-container']}>
                 <AppLogoPng width={55} height={55} type={'default'} />
             </div>
             <ToolBar />

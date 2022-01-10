@@ -1,4 +1,4 @@
-import {SlideElement} from "../types";
+import { SlideElement } from '../types';
 
 const mockEditor = {
     mode: 'edit',
@@ -38,8 +38,8 @@ const mockEditor = {
                             x: 15,
                             y: 38,
                         },
-                    }
-                ]
+                    },
+                ],
             },
             {
                 background: {
@@ -74,9 +74,9 @@ const mockEditor = {
                             x: 15,
                             y: 38,
                         },
-                    }
-                ]
-            }
+                    },
+                ],
+            },
         ],
     },
 
@@ -119,8 +119,8 @@ const mockEditor = {
                                     x: 15,
                                     y: 38,
                                 },
-                            }
-                        ]
+                            },
+                        ],
                     },
                     {
                         background: {
@@ -155,9 +155,9 @@ const mockEditor = {
                                     x: 15,
                                     y: 38,
                                 },
-                            }
-                        ]
-                    }
+                            },
+                        ],
+                    },
                 ],
             },
             {
@@ -196,8 +196,8 @@ const mockEditor = {
                                     x: 15,
                                     y: 38,
                                 },
-                            }
-                        ]
+                            },
+                        ],
                     },
                     {
                         background: {
@@ -218,16 +218,16 @@ const mockEditor = {
                                     x: 5,
                                     y: 8,
                                 },
-                            }
-                        ]
-                    }
+                            },
+                        ],
+                    },
                 ],
-            }
+            },
         ],
     },
     selectedSlidesIndexes: [0],
     selectedSlideElementsIndexes: [1],
-}
+};
 
 const mockText: SlideElement = {
     id: '1',
@@ -241,14 +241,12 @@ const mockText: SlideElement = {
     },
     opacity: 1,
     content: {
-        content: 'Привет, мир',
+        content: ['Привет, мир', 'пока мир'],
         fontSize: 20,
         fontColor: '#ff0000',
-        fontStyle: 'italic'
-    }
-}
+        fontStyle: 'italic',
+        fontFamily: 'sans-serif',
+    },
+};
 
-export {
-    mockEditor,
-    mockText,
-}
+export { mockEditor, mockText };

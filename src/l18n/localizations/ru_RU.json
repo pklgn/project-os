@@ -36,6 +36,8 @@
     "regular-text-format": "Обычный текст (.txt)",
     "send-to-email": "Отправить по почте",
     "slide-show": "Показ слайдов",
+    "slide-show-start-first-slide": "С первого слайда",
+    "slide-show-start-current-slide": "С текущего слайда",
     "upload-from-computer": "Загрузить с компьютера",
     "write-to-co-authors": "Написать соавторам",
 
@@ -45,6 +47,7 @@
 
     "backward_word": "На задний план",
     "back_word": "Переместить назад",
+    "change-color": "Изменить цвет",
     "forward_word": "На передний план",
     "front_word": "Переместить вперёд",
     "fullscreen_word": "Полный экран",
@@ -53,5 +56,17 @@
     "reorder_word": "Сдвинуть",
     "undo_word": "Отменить действие",
 
-    "SLIDE_TOOL_BAR_BLOCK_END": ""
+    "SLIDE_TOOL_BAR_BLOCK_END": "",
+
+    "PRESENTATION_VIEWER_BLOCK": "",
+
+    "no-slides-to-show-info": "Ваши слайды не настолько работяги как вы? Их нет на рабочем месте!",
+
+    "PRESENTATION_VIEWER_BLOCK_END": "",
+
+    "SLIDE_BLOCK": "",
+
+    "empty-slide-info": "Нажмите, чтобы добавить новый слайд",
+
+    "SLIDE_BLOCK_END": ""
 }

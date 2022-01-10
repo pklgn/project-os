@@ -5,7 +5,4 @@ import App from './App';
 
 const rootElement: HTMLElement | null = document.getElementById('root');
 
-ReactDOM.render(
-  <App />,
-  rootElement
-);
+ReactDOM.render(<App />, rootElement);

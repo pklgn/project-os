@@ -1,0 +1,25 @@
+.slide {
+    box-sizing: border-box;
+    padding: 20px;
+    height: 100%;
+    min-width: 640px;
+}
+
+.empty-slide-container {
+    background: transparent;
+    box-sizing: border-box;
+    color: #999;
+    font-size: x-large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-width: 640px;
+    border: medium dashed orange;
+    cursor: pointer;
+}
+
+.slide-container {
+    box-sizing: border-box;
+    overflow: visible;
+}

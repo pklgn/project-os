@@ -1,4 +1,4 @@
-import { TextElement, FigureElement, PictureElement } from "../types";
+import { TextElement, FigureElement, PictureElement } from '../types';
 
 export type SlideElementType = 'TEXT' | 'FIGURE' | 'PICTURE';
 
@@ -16,12 +16,10 @@ export function isPicture(element: TextElement | FigureElement | PictureElement)
 
 export function getSlideElementType(element: TextElement | FigureElement | PictureElement): SlideElementType {
     if (isText(element)) {
-        return 'TEXT'
-    }
-    else if (isFigure(element)) {
-        return 'FIGURE'
-    }
-    else {
-        return 'PICTURE'
+        return 'TEXT';
+    } else if (isFigure(element)) {
+        return 'FIGURE';
+    } else {
+        return 'PICTURE';
     }
 }

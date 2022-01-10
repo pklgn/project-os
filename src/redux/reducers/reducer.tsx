@@ -1,21 +1,55 @@
-import { ActionType } from "../action-types/types";
-import { EditorActions } from "../actions/editorActions";
-import { ElementAction } from "../actions/elementActions";
-import { PresentationActions } from "../actions/presentationActions";
-import { SlideAction } from "../actions/slidesActions";
+import { ActionType } from '../action-types/types';
+import { EditorActions } from '../actions/editorActions';
+import { ElementAction } from '../actions/elementActions';
+import { PresentationActions } from '../actions/presentationActions';
+import { SlideAction } from '../actions/slidesActions';
+import { TextActions } from '../actions/textActions';
+import { PictureActions } from '../actions/pictureActions';
 
-import { Editor } from "../../model/types";
-import { initEditor } from "../../model/initModelActions";
+import { Editor } from '../../model/types';
+import { initEditor } from '../../model/initModelActions';
 
-import { addSlide, deleteSelectedSlides, insertSelectedSlides } from "../../model/slidesActions";
-import { changePresentationName, setSelectedIdInEditor } from "../../model/presentationActions";
-import { keep, redo, undo } from "../../model/historyActions";
-import { moveElementsToBackgroundOrForeground, changeElementsSize, changeElementsOpacity, changeElementsPosition } from "../../model/elementActions";
+import {
+    addTextElement,
+    changeTextsColor,
+    changeTextsContent,
+    changeTextsSize,
+    changeTextsStyle,
+} from '../../model/specifiedActions/textActions';
+import {
+    addSlide,
+    changeSelectedSlidesBackground,
+    deleteSelectedSlides,
+    insertSelectedSlides,
+} from '../../model/slidesActions';
+import { changePresentationName } from '../../model/presentationActions';
+import { keep, redo, undo } from '../../model/historyActions';
+import {
+    changeElementsOpacity,
+    changeElementsPosition,
+    changeElementsSize,
+    moveElementsToBackgroundOrForeground,
+    removeSelectedElements,
+} from '../../model/elementActions';
+import { setSelectedIdInEditor, toggleEditorMode, uploadPresentationFromJson } from '../../model/editorActions';
+import { addPictureElement } from '../../model/specifiedActions/pictureActions';
 
-export const allReducers = (state: Editor = initEditor(), action: SlideAction | PresentationActions | ElementAction | EditorActions): Editor => {
+type ModelActions = SlideAction | PresentationActions | ElementAction | EditorActions | TextActions | PictureActions;
+
+export const allReducers = (state: Editor = initEditor(), action: ModelActions): Editor => {
     switch (action.type) {
+        case ActionType.CHANGE_PRESENTATION_TITLE:
+            return changePresentationName(state, action.payload);
+        case ActionType.SET_EDITOR_MODE:
+            return toggleEditorMode(state, action.payload);
         case ActionType.SET_SELECTED_ID_IN_EDITOR:
-            return setSelectedIdInEditor(state, action.payload.selectedSlidesIds, action.payload.selectedSlideElementsIds);
+            return setSelectedIdInEditor(
+                state,
+                action.payload.selectedSlidesIds,
+                action.payload.selectedSlideElementsIds,
+            );
+        case ActionType.UPLOAD_PRESENTATION_FROM_JSON:
+            return uploadPresentationFromJson(action.payload);
         case ActionType.KEEP:
             return keep(state);
         case ActionType.REDO:
@@ -25,8 +59,8 @@ export const allReducers = (state: Editor = initEditor(), action: SlideAction | 
 
         case ActionType.ADD_SLIDE:
             return addSlide(state);
-        case ActionType.CHANGE_PRESENTATION_TITLE:
-            return changePresentationName(state, action.payload);
+        case ActionType.CHANGE_SELECTED_SLIDES_BACKGROUND:
+            return changeSelectedSlidesBackground(state, action.payload.src, action.payload.color);
         case ActionType.DELETE_SELECTED_SLIDES:
             return deleteSelectedSlides(state);
         case ActionType.INSERT_SELECTED_SLIDES_AT_INDEX:
@@ -38,12 +72,32 @@ export const allReducers = (state: Editor = initEditor(), action: SlideAction | 
             return changeElementsSize(state, action.payload.scaleX, action.payload.scaleY);
         case ActionType.CHANGE_ELEMENTS_OPACITY:
             return changeElementsOpacity(state, action.payload);
-        //case ActionType.REMOVE_SELECTED_ELEMENTS:
-        //return removeSelectedElements(state);
+        case ActionType.REMOVE_SELECTED_ELEMENTS:
+            return removeSelectedElements(state);
         case ActionType.CHANGE_ELEMENTS_POSITION:
             return changeElementsPosition(state, action.payload.dx, action.payload.dy);
 
+        case ActionType.ADD_TEXT_AT_SELECTED_SLIDE:
+            return addTextElement(state, action.payload.x, action.payload.y);
+        case ActionType.CHANGE_SELECTED_TEXTS_COLOR:
+            return changeTextsColor(state, action.payload);
+        case ActionType.CHANGE_SELECTED_TEXT_CONTENT:
+            return changeTextsContent(state, action.payload);
+        case ActionType.CHANGE_SELECTED_TEXTS_SIZE:
+            return changeTextsSize(state, action.payload);
+        case ActionType.CHANGE_SELECTED_TEXTS_STYLE:
+            return changeTextsStyle(state, action.payload);
+
+        case ActionType.ADD_PICTURE_AT_SELECTED_SLIDE:
+            return addPictureElement(
+                state,
+                action.payload.src,
+                action.payload.alt,
+                action.payload.width,
+                action.payload.height,
+            );
+
         default:
-            return state
+            return state;
     }
-}
+};

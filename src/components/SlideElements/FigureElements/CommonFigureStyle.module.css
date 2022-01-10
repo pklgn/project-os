@@ -1,0 +1,9 @@
+.figure {
+    cursor: pointer;
+}
+
+.figure:hover {
+    stroke: #f6ea6a;
+    stroke-width: 2px;
+    fill-opacity: 0.8;
+}
