@@ -1,8 +1,6 @@
 import { initEditor } from './initModelActions';
 import { Editor, Presentation, PresentationMode, Slide, SlideElement } from './types';
 import { isPicture } from './utils/tools';
-import { BaseSyntheticEvent } from 'react';
-import { SelectedAreaLocation } from './types';
 
 export function getCurrentEditorMode(editor: Editor): PresentationMode {
     return editor.mode;
@@ -41,7 +39,7 @@ async function getBase64(src: string) {
         base64data = ev.target?.result;
         console.log(base64data);
     };
-    if base64data.is
+    // if base64data.is
     return base64data;
 }
 
@@ -85,8 +83,17 @@ export function savePresentationAsJson(editor: Editor) {
 }
 
 export function uploadPresentationFromJson(s: string): Editor {
+    const uploadedPresentation: Presentation = JSON.parse(s);
+
     return {
         ...initEditor(),
-        presentation: JSON.parse(s),
+        history: {
+            ...initEditor().history,
+            currState: 0,
+            selectedSlidesIdsStates: [[uploadedPresentation.slidesList[0].id]],
+            presentationStates: [uploadedPresentation],
+        },
+        selectedSlidesIds: [uploadedPresentation.slidesList[0].id],
+        presentation: uploadedPresentation,
     };
 }
