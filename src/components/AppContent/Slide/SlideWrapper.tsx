@@ -1,7 +1,7 @@
 import styles from './SlideComponent.module.css';
 import wrapperStyles from './SlideWrapper.module.css';
 
-import { LegacyRef, useState } from 'react';
+import { useState, LegacyRef } from 'react';
 import { SlideComponent } from './SlideComponent';
 
 import { store } from '../../../redux/store';

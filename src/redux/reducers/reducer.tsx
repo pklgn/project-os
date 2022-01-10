@@ -103,13 +103,7 @@ export const allReducers = (state: Editor = initEditor(), action: ModelActions):
             return changeTextsStyle(state, action.payload);
 
         case ActionType.ADD_PICTURE_AT_SELECTED_SLIDE:
-            return addPictureElement(
-                state,
-                action.payload.src,
-                action.payload.alt,
-                action.payload.width,
-                action.payload.height,
-            );
+            return addPictureElement(state, action.payload);
 
         case ActionType.ADD_FIGURE_ELEMENT:
             return addFigureElement(state, action.payload.shape, action.payload.x, action.payload.y);

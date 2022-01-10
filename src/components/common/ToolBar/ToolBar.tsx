@@ -105,12 +105,14 @@ export function ToolBar() {
                     bottomBorderAfterElement={[2, 4]}
                     elementsArray={[
                         <DropdownMenu
+                            key={generateUUId()}
                             summoningButtonText={localeContext.locale.localization.create_word}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization.presentation_word}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -119,6 +121,7 @@ export function ToolBar() {
                                     foo={func}
                                 />,
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization.document_word}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -127,6 +130,7 @@ export function ToolBar() {
                                     foo={func}
                                 />,
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization.spreadsheet_word}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -137,6 +141,7 @@ export function ToolBar() {
                             ]}
                         />,
                         <Button
+                            key={generateUUId()}
                             text={localeContext.locale.localization.open_word}
                             state="disabled"
                             shouldStopPropagation={false}
@@ -148,12 +153,14 @@ export function ToolBar() {
                             foo={handleUploadPresentationClick}
                         />,
                         <DropdownMenu
+                            key={generateUUId()}
                             summoningButtonText={localeContext.locale.localization['create-copy']}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization['all-presentation']}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -162,6 +169,7 @@ export function ToolBar() {
                                     foo={func}
                                 />,
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization['chosen-slides']}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -172,12 +180,14 @@ export function ToolBar() {
                             ]}
                         />,
                         <DropdownMenu
+                            key={generateUUId()}
                             summoningButtonText={localeContext.locale.localization.email}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization['send-to-email']}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -186,6 +196,7 @@ export function ToolBar() {
                                     foo={func}
                                 />,
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization['write-to-co-authors']}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -196,12 +207,14 @@ export function ToolBar() {
                             ]}
                         />,
                         <DropdownMenu
+                            key={generateUUId()}
                             summoningButtonText={localeContext.locale.localization.download_word}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization['pdf-file-format']}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -210,6 +223,7 @@ export function ToolBar() {
                                     foo={func}
                                 />,
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization['regular-text-format']}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -220,6 +234,7 @@ export function ToolBar() {
                             ]}
                         />,
                         <Button
+                            key={generateUUId()}
                             text={localeContext.locale.localization.rename_word}
                             state="disabled"
                             shouldStopPropagation={false}
@@ -228,6 +243,7 @@ export function ToolBar() {
                             foo={func}
                         />,
                         <Button
+                            key={generateUUId()}
                             text={localeContext.locale.localization.relocate_word}
                             state="disabled"
                             shouldStopPropagation={false}
@@ -236,6 +252,7 @@ export function ToolBar() {
                             foo={func}
                         />,
                         <Button
+                            key={generateUUId()}
                             text={localeContext.locale.localization.delete_word}
                             state="disabled"
                             shouldStopPropagation={false}
@@ -252,12 +269,14 @@ export function ToolBar() {
                     bottomBorderAfterElement={undefined}
                     elementsArray={[
                         <DropdownMenu
+                            key={generateUUId()}
                             summoningButtonText={localeContext.locale.localization.image_word}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization['upload-from-computer']}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -266,6 +285,7 @@ export function ToolBar() {
                                     foo={handleUploadImageClick}
                                 />,
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization['put-url']}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -276,6 +296,7 @@ export function ToolBar() {
                             ]}
                         />,
                         <Button
+                            key={generateUUId()}
                             text={localeContext.locale.localization.text_word}
                             state="disabled"
                             shouldStopPropagation={false}
@@ -284,12 +305,14 @@ export function ToolBar() {
                             foo={addTextButtonFunction}
                         />,
                         <DropdownMenu
+                            key={generateUUId()}
                             summoningButtonText={localeContext.locale.localization.figures_word}
                             summoningButtonType="textInSubMenu"
                             summoningButtonPlace="left"
                             bottomBorderAfterElement={undefined}
                             elementsArray={[
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization.circle_word}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -298,6 +321,7 @@ export function ToolBar() {
                                     foo={addCircleButtonFunction}
                                 />,
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization.triangle_word}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -306,6 +330,7 @@ export function ToolBar() {
                                     foo={addTriangleButtonFunction}
                                 />,
                                 <Button
+                                    key={generateUUId()}
                                     text={localeContext.locale.localization['square-figure_word']}
                                     state="disabled"
                                     shouldStopPropagation={false}
@@ -324,6 +349,7 @@ export function ToolBar() {
                     bottomBorderAfterElement={undefined}
                     elementsArray={[
                         <Button
+                            key={generateUUId()}
                             text={localeContext.locale.localization['slide-show-start-first-slide']}
                             state="disabled"
                             shouldStopPropagation={false}
@@ -332,6 +358,7 @@ export function ToolBar() {
                             foo={startSlideShowFromFirstSlideButtonFunction}
                         />,
                         <Button
+                            key={generateUUId()}
                             text={localeContext.locale.localization['slide-show-start-current-slide']}
                             state="disabled"
                             shouldStopPropagation={false}
