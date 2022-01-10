@@ -11,20 +11,17 @@ import { Redo } from '../../common/icons/Redo/Redo';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 import { Undo } from '../../common/icons/Undo/Undo';
-import { listName } from '../../PresentationEditor/PresentationEditor';
 
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { undoModelAction, redoModelAction } from '../../../redux/action-creators/editorActionCreators';
 
 type ElementListToolProps = {
-    foo: (listName: listName) => void | undefined;
+    foo: () => void | undefined;
 };
 
 export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
-    
-    const reorderListButton = () => props.foo(listName.REORDER_LIST)
 
     const dispatch = useDispatch();
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
@@ -73,7 +70,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 shouldStopPropagation={false}
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <Reorder /> }}
-                foo={reorderListButton}
+                foo={props.foo}
             />
             <VerticalLine />
             <Button
