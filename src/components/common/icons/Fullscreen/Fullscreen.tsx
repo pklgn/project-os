@@ -1,13 +1,7 @@
 export function Fullscreen(): JSX.Element {
     return (
-        <svg
-            x="0px"
-            y="0px"
-            width="25px"
-            height="25px"
-            viewBox="0 0 512.001 512.001"
-        >
-            <rect height="100%" width="100%" fill="#582C1E" rx="107" ry="107"/>
+        <svg x="0px" y="0px" width="25px" height="25px" viewBox="0 0 512.001 512.001">
+            <rect height="100%" width="100%" fill="#582C1E" rx="107" ry="107" />
             <path
                 fill="#EAA363"
                 d="M505.183,239.546l-58.182-58.182c-6.654-6.658-16.669-8.645-25.363-5.046

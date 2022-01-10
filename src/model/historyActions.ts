@@ -49,7 +49,6 @@ export function keep(editor: Editor): Editor {
 
     const selectedSlidesIds = editor.selectedSlidesIds;
     const selectedSlideElementsIds = editor.selectedSlideElementsIds;
-    const selectedArea = editor.selectedAreasLocation;
 
     editor.history.presentationStates.splice(spliceStart);
     editor.history.presentationStates.push(editor.presentation);
@@ -59,11 +58,6 @@ export function keep(editor: Editor): Editor {
 
     editor.history.selectedSlideElementsIdsStates.splice(spliceStart);
     editor.history.selectedSlideElementsIdsStates.push(selectedSlideElementsIds);
-
-    if (selectedArea) {
-        editor.history.selectedAreasLocation.splice(spliceStart);
-        editor.history.selectedAreasLocation.push(selectedArea);
-    }
 
     editor.history.currState = editor.history.presentationStates.length - 1;
 
