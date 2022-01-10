@@ -9,10 +9,12 @@ import { listName } from '../../PresentationEditor/PresentationEditor';
 
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
-import { undoModelAction, redoModelAction } from '../../../redux/action-creators/editorActionCreators';
-import { addText } from '../../../redux/action-creators/textActionCreators';
+import { undoModelAction, redoModelAction, keepModelAction } from '../../../redux/action-creators/editorActionCreators';
+import { addText, changeTextsColor, changeTextContent } from '../../../redux/action-creators/textActionCreators';
 import { AddText } from '../../common/icons/AddText/AddText';
 import { Clear } from '../../common/icons/Cancel/Clear';
+import { TextColor } from '../../common/icons/TextColor/TextColor';
+import { ChangeText } from '../../common/icons/ChangeText/ChangeText';
 
 type TextToolsListProps = {
     foo: (listName: listName) => void | undefined;
@@ -24,9 +26,12 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
     const elementListToolButton = () => props.foo(listName.ELEMENT_LIST)
 
     const dispatch = useDispatch();
+    const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
     const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
+    const dispatchChangeTextColor = bindActionCreators(changeTextsColor, dispatch)
+    const dispatchChangeTextContent = bindActionCreators(changeTextContent, dispatch)
 
     const undoPressButtonHandler = () => {
         dispatchSetPreviousModelStateAction();
@@ -37,11 +42,20 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
     };
 
     const addTextHandler = () => {
-        dispatchAddTextAction({
-            x: 20,
-            y: 30
-        });
+        dispatchAddTextAction({ x: 20, y: 30});
+        dispatchKeepModelAction();
     }
+
+    const changeTextColorHandler = () => {
+        dispatchChangeTextColor("black");
+        dispatchKeepModelAction();
+    }
+
+    const changeTextContentHandler = () => {
+        dispatchChangeTextContent([""]);
+        dispatchKeepModelAction();
+    }
+
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
             undoPressButtonHandler();
@@ -60,6 +74,24 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <AddText /> }}
                 foo={addTextHandler}
+            />
+            <VerticalLine />
+            <Button
+                text={localeContext.locale.localization.change_text}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <ChangeText /> }}
+                foo={changeTextContentHandler}
+            />
+            <VerticalLine />
+            <Button
+                text={localeContext.locale.localization['change-color']}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <TextColor /> }}
+                foo={changeTextColorHandler}
             />
             <VerticalLine />
             <Button

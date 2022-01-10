@@ -40,16 +40,10 @@ export function ToolBar() {
     };
 
     // Create a reference to the hidden file input element
-    const uploadFileInputRef = useRef<HTMLInputElement>(null);
-    
     // Programatically click the hidden file input element
-    // when the Button component is clicked
-    const handleFileInputClick = () => {
-        uploadFileInputRef.current?.click();
-    }
-
     const uploadPresentationInputRef = useRef<HTMLInputElement>(null);
-
+    
+    // when the Button component is clicked
     const handleUploadPresentationClick = () => {
         uploadPresentationInputRef.current?.click();
     };
@@ -60,29 +54,7 @@ export function ToolBar() {
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
     const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
-    
-    // const dispatchUploadPresentationFromJSONAction = 
-    //     bindActionCreators(uploadPresentationFromJson, dispatch);
-    
-    // const dispatchAddPictureAction = bindActionCreators(addPicture, dispatch);
-    const dispatchUploadPresentationFromJSONAction = 
-    bindActionCreators(uploadPresentationFromJson, dispatch);
-    
-    // const uploadPresentationFromJsonFunction = () => {
-        //     dispatchUploadPresentationFromJSONAction()
-        // }
-        
-    const dispatchAddPictureAction = bindActionCreators(addPicture, dispatch);
-    const uploadPresentationFromJsonFunction = (e: BaseSyntheticEvent) => {
-        const reader = new FileReader();
 
-        reader.onload = function() {
-            if (typeof reader.result === 'string') dispatchUploadPresentationFromJSONAction(reader.result)
-        };
-
-        reader.readAsText(e.target.files[0])
-    }
-        
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {
             dispatchAddSlideAction();
@@ -178,7 +150,6 @@ export function ToolBar() {
                                 hotkeyInfo: 'Ctrl+O',
                                 icon: <div></div>,
                             }}
-                            // foo={handleFileInputClick}
                             foo={handleUploadPresentationClick}
                         />,
                         <DropdownMenu
