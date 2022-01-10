@@ -7,7 +7,6 @@ export function initEditor(): Editor {
         history: initHistory(),
         selectedSlidesIds: [],
         selectedSlideElementsIds: [],
-        selectedAreasLocation: undefined,
     };
 }
 
