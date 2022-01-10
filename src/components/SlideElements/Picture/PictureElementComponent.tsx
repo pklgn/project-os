@@ -5,11 +5,10 @@ import { ScaleContext } from '../../AppContent/Slide/SlideComponent';
 
 type PictureElementProps = {
     element: SlideElement;
+    elementIndex: number;
 };
 
 export function PictureElementComponent(props: PictureElementProps) {
-    const viewbox = useContext(ScaleContext);
-    const ref = useRef(null);
     let element: PictureElement;
     if (isPicture(props.element.content)) {
         element = props.element.content;
@@ -19,7 +18,7 @@ export function PictureElementComponent(props: PictureElementProps) {
 
     return (
         <image
-            ref={ref}
+            id={`${props.elementIndex}`}
             href={element.src}
             width={props.element.size.width}
             height={props.element.size.height}

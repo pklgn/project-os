@@ -2,6 +2,7 @@ import { initEditor } from './initModelActions';
 import { Editor, Presentation, PresentationMode, Slide, SlideElement } from './types';
 import { isPicture } from './utils/tools';
 import { BaseSyntheticEvent } from 'react';
+import { SelectedAreaLocation } from './types';
 
 export function getCurrentEditorMode(editor: Editor): PresentationMode {
     return editor.mode;
