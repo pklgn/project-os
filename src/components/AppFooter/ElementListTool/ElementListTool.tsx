@@ -13,11 +13,12 @@ import { Undo } from '../../common/icons/Undo/Undo';
 
 import { bindActionCreators } from 'redux';
 import { changeSlidesBackground } from '../../../redux/action-creators/slideActionCreators';
+import { changeFiguresColor } from '../../../redux/action-creators/figureActionCreators';
+import { getActiveElementsIds } from '../../../model/elementActions';
+import { removeSelectedElements } from '../../../redux/action-creators/elementsActionCreators';
+import { store } from '../../../redux/store';
 import { undoModelAction, redoModelAction, keepModelAction } from '../../../redux/action-creators/editorActionCreators';
 import { useDispatch } from 'react-redux';
-import { changeFiguresColor } from '../../../redux/action-creators/figureActionCreators';
-import { store } from '../../../redux/store';
-import { getActiveElementsIds } from '../../../model/elementActions';
 
 type ElementListToolProps = {
     foo: () => void | undefined;
@@ -28,6 +29,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
 
     const dispatch = useDispatch();
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
+    const dispatchRemoveSelectedElementsAction = bindActionCreators(removeSelectedElements, dispatch);
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
     const dispatchSetElementsColorAction = bindActionCreators(changeFiguresColor, dispatch);
     const dispatchSetSlideBackgroundColorAction = bindActionCreators(changeSlidesBackground, dispatch);
@@ -75,8 +77,14 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
             }, 50);
         }
     };
+
     const onMouseDownHandler = (e: React.MouseEvent<HTMLInputElement>) => {
         e.stopPropagation();
+    };
+
+    const deleteElementsButtonFunction = () => {
+        dispatchRemoveSelectedElementsAction();
+        dispatchKeepModelAction();
     };
 
     return (
@@ -120,10 +128,10 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
             <Button
                 text={localeContext.locale.localization.delete_word}
                 state="disabled"
-                shouldStopPropagation={false}
+                shouldStopPropagation={true}
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <Delete /> }}
-                foo={() => undefined}
+                foo={deleteElementsButtonFunction}
             />
             <VerticalLine />
             <input
