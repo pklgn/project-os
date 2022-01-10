@@ -130,7 +130,15 @@ export function getActiveElementsIds(editor: Editor): string[] {
     return editor.selectedSlideElementsIds;
 }
 
-export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): SelectedAreaLocation {
+export function getElementsCoordinates(editor: Editor): Coordinates[] | undefined {
+    const activeSlide = getCurrentSlide(editor);
+
+    return activeSlide?.elementsList.map((element) => {
+        return element.startPoint;
+    });
+}
+
+export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): SelectedAreaLocation | undefined {
     type elementLocationInfo = {
         coords: Coordinates;
         dimensions: Size;
@@ -148,9 +156,13 @@ export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): Se
         })
         .filter((item) => item !== undefined);
 
-    function getSelectedAreaLocation(arr: elementLocationInfo[]): SelectedAreaLocation {
+    function getSelectedAreaLocation(arr: elementLocationInfo[]): SelectedAreaLocation | undefined {
         let index = arr.length - 1;
         const el = arr[index];
+
+        if (el === undefined) {
+            return undefined;
+        }
 
         let minX = el.coords.x,
             minY = el.coords.y,

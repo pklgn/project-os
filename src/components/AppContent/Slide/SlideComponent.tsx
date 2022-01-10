@@ -12,7 +12,7 @@ import { LocaleContext } from '../../../App';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { changeSelectedElementsPosition } from '../../../redux/action-creators/elementsActionCreators';
-import { getActiveElementsIds, getElementsAreaLoaction } from '../../../model/elementActions';
+import { getActiveElementsIds, getElementsAreaLoaction, getElementsCoordinates } from '../../../model/elementActions';
 import { getActiveSlidesIds, getCurrentSlide } from '../../../model/slidesActions';
 import { keepModelAction, setSelectedIdInEditor } from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
@@ -104,8 +104,10 @@ export function SlideComponent(props: SlideProps) {
                         getActiveElementsIds(store.getState().model),
                     );
 
-                    setSelectedAreaLocation(selectedElementsArea);
-                    setSelectedAreaStartPoint(selectedElementsArea.xy);
+                    if (selectedElementsArea) {
+                        setSelectedAreaLocation(selectedElementsArea);
+                        setSelectedAreaStartPoint(selectedElementsArea.xy);
+                    }
                 }
                 if (missClicked) {
                     dispatchSetIdAction({
@@ -133,19 +135,36 @@ export function SlideComponent(props: SlideProps) {
         };
     }, [isSlideActive]);
 
+    const [currentElementsCoordinates, setElementsCoordinates] = useState(undefined as Coordinates[] | undefined);
+
     useEffect(() => {
-        if (props.slide?.elementsList.length) {
-            const selectedElementsIds = getActiveElementsIds(store.getState().model);
-            const selectedElementsArea = getElementsAreaLoaction(
-                getCurrentSlide(store.getState().model)!,
-                selectedElementsIds,
-            );
-            setSelectedAreaLocation(selectedElementsArea);
-            setSelectedAreaStartPoint(selectedElementsArea.xy);
-        } else {
-            setSelectedAreaLocation(undefined);
-            setSelectedAreaStartPoint(undefined);
-        }
+        const onElementsPositionChangeHandler = () => {
+            const prevElementsCoordinates = currentElementsCoordinates;
+            const newElementsCoordinates = getElementsCoordinates(store.getState().model);
+            setElementsCoordinates(newElementsCoordinates);
+
+            if (prevElementsCoordinates !== newElementsCoordinates && newElementsCoordinates !== undefined) {
+                if (getCurrentSlide(store.getState().model)?.elementsList.length) {
+                    const selectedElementsIds = getActiveElementsIds(store.getState().model);
+                    const selectedElementsArea = getElementsAreaLoaction(
+                        getCurrentSlide(store.getState().model)!,
+                        selectedElementsIds,
+                    );
+                    if (selectedElementsArea) {
+                        setSelectedAreaLocation(selectedElementsArea);
+                        setSelectedAreaStartPoint(selectedElementsArea.xy);
+                    }
+                } else {
+                    setSelectedAreaLocation(undefined);
+                    setSelectedAreaStartPoint(undefined);
+                }
+            }
+        };
+        const unsubscribeElementsPosition = store.subscribe(onElementsPositionChangeHandler);
+
+        return () => {
+            unsubscribeElementsPosition();
+        };
     }, [props.slide?.elementsList.length]);
 
     useDragAndDrop(refSelectedArea.current, selectedAreaLocation!, setSelectedAreaLocation);
