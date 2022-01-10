@@ -5,23 +5,18 @@ import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
 
 import { getL18nObject } from '../../../l18n/l18n';
 import { LocaleContext } from '../../../App';
-import { BaseSyntheticEvent, useContext, useRef } from 'react';
+import { useContext, useRef } from 'react';
 
 import { addFigure } from '../../../redux/action-creators/figureActionCreators';
 import { addText } from '../../../redux/action-creators/textActionCreators';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { getSlideAmount } from '../../../model/slidesActions';
-import {
-    keepModelAction,
-    setEditorMode,
-    uploadPresentationFromJson,
-} from '../../../redux/action-creators/editorActionCreators';
+import { keepModelAction, setEditorMode } from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { initEditor } from '../../../model/initModelActions';
 import { savePresentationAsJson } from '../../../model/editorActions';
-import { addPicture } from '../../../redux/action-creators/pictureActionCreators';
 import { generateUUId } from '../../../model/utils/uuid';
 import { UploadPresentationInput } from './UploadPresentationInput';
 import { UploadPictureInput } from './UploadPictureInput';
@@ -43,11 +38,7 @@ export function ToolBar() {
         }
     };
 
-    // Create a reference to the hidden file input element
-    // Programatically click the hidden file input element
     const uploadPresentationInputRef = useRef<HTMLInputElement>(null);
-
-    // when the Button component is clicked
     const handleUploadPresentationClick = () => {
         uploadPresentationInputRef.current?.click();
     };

@@ -71,5 +71,6 @@
 
     "SLIDE_BLOCK_END": "",
 
-    "error_no_slides": "You can't save an empty presentation"
+    "error_no_slides": "You can't save an empty presentation",
+    "error_cannot_load_an_image": "Error while loading an image"
 }
