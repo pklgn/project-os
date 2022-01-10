@@ -72,7 +72,7 @@ export function SlideComponent(props: SlideProps) {
         return () => {
             unsubscribeElementsAmount();
         };
-    })
+    });
 
     useEffect(() => {
         const onMouseDownHandler = (event: MouseEvent) => {
