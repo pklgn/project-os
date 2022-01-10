@@ -16,6 +16,7 @@ import { listName } from '../../PresentationEditor/PresentationEditor';
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { undoModelAction, redoModelAction } from '../../../redux/action-creators/editorActionCreators';
+import { TextTools } from '../../common/icons/TextTools/TextTools';
 
 type ElementListToolProps = {
     foo: (listName: listName) => void | undefined;
@@ -25,6 +26,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
     
     const reorderListButton = () => props.foo(listName.REORDER_LIST)
+    const textToolsListButton = () => props.foo(listName.TEXT_TOOLS_LIST_BUTTON)
 
     const dispatch = useDispatch();
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
@@ -50,21 +52,12 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
     return (
         <div className={styles['element-tools']}>
             <Button
-                text={localeContext.locale.localization.undo_word}
+                text={localeContext.locale.localization.text_word}
                 state="disabled"
                 shouldStopPropagation={false}
                 contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Undo /> }}
-                foo={undoPressButtonHandler}
-            />
-            <VerticalLine />
-            <Button
-                text={localeContext.locale.localization.redo_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Redo /> }}
-                foo={redoButtonPressHandler}
+                content={{ hotkeyInfo: '', icon: <TextTools /> }}
+                foo={textToolsListButton}
             />
             <VerticalLine />
             <Button
@@ -94,6 +87,22 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 foo={() => undefined}
             />
             <VerticalLine />
+            <Button
+                text={localeContext.locale.localization.undo_word}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <Undo /> }}
+                foo={undoPressButtonHandler}
+            />
+            <Button
+                text={localeContext.locale.localization.redo_word}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <Redo /> }}
+                foo={redoButtonPressHandler}
+            />
             <Button
                 text={localeContext.locale.localization.fullscreen_word}
                 state="disabled"
