@@ -60,7 +60,6 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
                 content={{ hotkeyInfo: '', icon: <AddSlide /> }}
                 foo={addSlideButtonFunction}
             />
-            <VerticalLine />
             <Button
                 text={localeContext.locale.localization.delete_word}
                 state="disabled"

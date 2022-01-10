@@ -22,6 +22,7 @@ import { undoModelAction, redoModelAction, keepModelAction } from '../../../redu
 import { useDispatch } from 'react-redux';
 import { TextTools } from '../../common/icons/TextTools/TextTools';
 import { Fullscreen } from '../../common/icons/Fullscreen/Fullscreen';
+import { AddFigure } from '../../common/icons/AddFigure/AddFigure';
 
 type ElementListToolProps = {
     foo: (listName: listName) => void | undefined;
@@ -30,8 +31,9 @@ type ElementListToolProps = {
 export function ElementListTool(props: ElementListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
     
-    const reorderListButton = () => props.foo(listName.REORDER_LIST)
-    const textToolsListButton = () => props.foo(listName.TEXT_TOOLS_LIST_BUTTON)
+    const reorderListButton = () => props.foo(listName.REORDER_LIST);
+    const textToolsListButton = () => props.foo(listName.TEXT_TOOLS_LIST_BUTTON);
+    const figureToolsListButton = () => props.foo(listName.FIGURE_TOOLS_LIST_BUTTON);
 
     const dispatch = useDispatch();
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
@@ -102,6 +104,15 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <TextTools /> }}
                 foo={textToolsListButton}
+            />
+            <VerticalLine />
+            <Button
+                text={localeContext.locale.localization.add_word}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <AddFigure /> }}
+                foo={figureToolsListButton}
             />
             <VerticalLine />
             <Button

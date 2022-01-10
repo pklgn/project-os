@@ -38,7 +38,15 @@ export function ToolBar() {
         }
     };
 
+<<<<<<< HEAD
     const uploadPresentationInputRef = useRef<HTMLInputElement>(null);
+=======
+    // Create a reference to the hidden file input element
+    // Programatically click the hidden file input element
+    const uploadPresentationInputRef = useRef<HTMLInputElement>(null);
+    
+    // when the Button component is clicked
+>>>>>>> b041d72 (icons in Footer)
     const handleUploadPresentationClick = () => {
         uploadPresentationInputRef.current?.click();
     };
