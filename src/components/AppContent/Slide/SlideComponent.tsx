@@ -89,6 +89,7 @@ export function SlideComponent(props: SlideProps) {
                     }
 
                     if (ctrlClick && !getActiveElementsIds(store.getState().model).includes(elementId)) {
+                        setSelectedAreaStartPoint(undefined);
                         dispatchSetIdAction({
                             selectedSlidesIds: [slideId],
                             selectedSlideElementsIds: [...getActiveElementsIds(store.getState().model), elementId],

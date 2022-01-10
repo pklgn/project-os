@@ -167,11 +167,11 @@ export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): Se
             if (elXY.y < minY) {
                 minY = elXY.y;
             }
-            if (elXY.x + elDimen.width > maxDimenX) {
-                maxDimenX = elXY.x + elDimen.width;
+            if (Math.abs(elXY.x) + elDimen.width > maxDimenX) {
+                maxDimenX = Math.abs(elXY.x) + elDimen.width;
             }
-            if (elXY.y + elDimen.height > maxDimenY) {
-                maxDimenY = elXY.y + elDimen.height;
+            if (Math.abs(elXY.y) + elDimen.height > maxDimenY) {
+                maxDimenY = Math.abs(elXY.y) + elDimen.height;
             }
 
             index = index - 1;
@@ -183,8 +183,8 @@ export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): Se
                 y: minY,
             },
             dimensions: {
-                width: maxDimenX - minX,
-                height: maxDimenY - minY,
+                width: maxDimenX - Math.abs(minX),
+                height: maxDimenY - Math.abs(minY),
             },
         };
     }
