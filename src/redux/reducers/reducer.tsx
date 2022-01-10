@@ -32,7 +32,6 @@ import {
     uploadPresentationFromJson,
 } from '../../model/editorActions';
 import { addPictureElement } from '../../model/specifiedActions/pictureActions';
-
 type ModelActions = SlideAction | PresentationActions | ElementAction | EditorActions | TextActions | PictureActions;
 
 export const allReducers = (state: Editor = initEditor(), action: ModelActions): Editor => {

@@ -60,9 +60,18 @@ export function ToolBar() {
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
+
+    // const dispatchUploadPresentationFromJSONAction = 
+    //     bindActionCreators(uploadPresentationFromJson, dispatch);
+    
+    // const dispatchAddPictureAction = bindActionCreators(addPicture, dispatch);
     const dispatchUploadPresentationFromJSONAction = 
         bindActionCreators(uploadPresentationFromJson, dispatch);
-    
+
+    // const uploadPresentationFromJsonFunction = () => {
+    //     dispatchUploadPresentationFromJSONAction()
+    // }
+
     const dispatchAddPictureAction = bindActionCreators(addPicture, dispatch);
 
     const addTextButtonFunction = () => {
