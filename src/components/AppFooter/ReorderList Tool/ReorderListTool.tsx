@@ -9,13 +9,16 @@ import { LayerBackward } from '../../common/icons/LayerBackward/LayerBackward';
 import { LayerBackground } from '../../common/icons/LayerBackground/LayerBackground';
 import { LayerForward } from '../../common/icons/LayerForward/LayerForward';
 import { LayerForeground } from '../../common/icons/LayerForeground/LayerForeground';
+import { listName } from '../../PresentationEditor/PresentationEditor';
 
 type ReorderListToolProps = {
-    foo: () => void | undefined;
+    foo: (listName: listName) => void | undefined;
 };
 
 export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
+
+    const elementListButton = () => props.foo(listName.ELEMENT_LIST)
 
     return (
         <div className={styles['reorder-tools']}>
@@ -25,7 +28,7 @@ export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
                 shouldStopPropagation={false}
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <LayerBackward /> }}
-                foo={props.foo}
+                foo={elementListButton}
             />
             <VerticalLine />
             <Button
@@ -34,7 +37,7 @@ export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
                 shouldStopPropagation={false}
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <LayerBackground /> }}
-                foo={props.foo}
+                foo={elementListButton}
             />
             <VerticalLine />
             <Button
@@ -43,7 +46,7 @@ export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
                 shouldStopPropagation={false}
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <LayerForward /> }}
-                foo={props.foo}
+                foo={elementListButton}
             />
             <VerticalLine />
             <Button
@@ -52,7 +55,7 @@ export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
                 shouldStopPropagation={false}
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <LayerForeground /> }}
-                foo={props.foo}
+                foo={elementListButton}
             />
         </div>
     );

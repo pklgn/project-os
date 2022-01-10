@@ -32,7 +32,11 @@ import {
     moveElementsToBackgroundOrForeground,
     removeSelectedElements,
 } from '../../model/elementActions';
-import { setSelectedIdInEditor, toggleEditorMode, uploadPresentationFromJson } from '../../model/editorActions';
+import {
+    setSelectedIdInEditor,
+    toggleEditorMode,
+    uploadPresentationFromJson,
+} from '../../model/editorActions';
 import { addPictureElement } from '../../model/specifiedActions/pictureActions';
 import {
     addFigureElement,
