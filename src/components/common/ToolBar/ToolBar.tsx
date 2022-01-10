@@ -7,11 +7,12 @@ import { getL18nObject } from '../../../l18n/l18n';
 import { LocaleContext } from '../../../App';
 import { useContext, useRef } from 'react';
 
+import { addFigure } from '../../../redux/action-creators/figureActionCreators';
 import { addText } from '../../../redux/action-creators/textActionCreators';
 import { addSlide } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { getSlideAmount } from '../../../model/slidesActions';
-import { setEditorMode } from '../../../redux/action-creators/editorActionCreators';
+import { keepModelAction, setEditorMode } from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { initEditor } from '../../../model/initModelActions';
@@ -19,6 +20,8 @@ import { savePresentationAsJson } from '../../../model/editorActions';
 import { generateUUId } from '../../../model/utils/uuid';
 import { UploadPresentationInput } from './UploadPresentationInput';
 import { UploadPictureInput } from './UploadPictureInput';
+
+import { FigureShape } from '../../../model/types';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -41,8 +44,10 @@ export function ToolBar() {
     };
 
     const dispatch = useDispatch();
+    const dispatchAddFigureAction = bindActionCreators(addFigure, dispatch);
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
+    const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
     const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
 
     const addTextButtonFunction = () => {
@@ -61,6 +66,21 @@ export function ToolBar() {
 
     const startSlideShowFromCurrentSlideButtonFunction = () => {
         dispatchSetEditorAction('show-from-current-slide');
+    };
+
+    const addCircleButtonFunction = () => {
+        dispatchAddFigureAction({ shape: FigureShape.Circle, x: 0, y: 0 });
+        dispatchKeepModelAction();
+    };
+
+    const addRectangleButtonFunction = () => {
+        dispatchAddFigureAction({ shape: FigureShape.Rectangle, x: 0, y: 0 });
+        dispatchKeepModelAction();
+    };
+
+    const addTriangleButtonFunction = () => {
+        dispatchAddFigureAction({ shape: FigureShape.Triangle, x: 0, y: 0 });
+        dispatchKeepModelAction();
     };
 
     const uploadImageInputRef = useRef<HTMLInputElement>(null);
@@ -275,7 +295,7 @@ export function ToolBar() {
                                     shouldStopPropagation={false}
                                     contentType="textInSubMenu"
                                     content={undefined}
-                                    foo={func}
+                                    foo={addCircleButtonFunction}
                                 />,
                                 <Button
                                     text={localeContext.locale.localization.triangle_word}
@@ -283,7 +303,7 @@ export function ToolBar() {
                                     shouldStopPropagation={false}
                                     contentType="textInSubMenu"
                                     content={undefined}
-                                    foo={func}
+                                    foo={addTriangleButtonFunction}
                                 />,
                                 <Button
                                     text={localeContext.locale.localization['square-figure_word']}
@@ -291,7 +311,7 @@ export function ToolBar() {
                                     shouldStopPropagation={false}
                                     contentType="textInSubMenu"
                                     content={undefined}
-                                    foo={func}
+                                    foo={addRectangleButtonFunction}
                                 />,
                             ]}
                         />,

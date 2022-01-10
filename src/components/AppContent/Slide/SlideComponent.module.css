@@ -23,3 +23,12 @@
     box-sizing: border-box;
     overflow: visible;
 }
+
+.select-area {
+    fill: transparent;
+    stroke: lightcoral;
+    stroke-width: 5px;
+    stroke-dasharray: 20, 5;
+    stroke-linejoin: round;
+    cursor: pointer;
+}

@@ -16,7 +16,7 @@ export function SlideListItem(props: SlideListItemProps) {
     return (
         <>
             <div className={itemWrapperStyle}>
-                <SlideComponent slide={props.item} />
+                <SlideComponent renderType="default" slide={props.item} />
                 <svg className={styles['prevent-pointer-events']} id={`${props.itemIndex + 1}`} />
             </div>
             <div className={itemNumberStyle}>{props.itemIndex + 1}</div>

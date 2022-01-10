@@ -112,7 +112,7 @@ export function PresentationViewer() {
                         className={styles['to-previous-slide-area-selector']}
                         onClick={onClickNextSlideSelectorHandler}
                     />
-                    <SlideComponent slide={slideInShow} />
+                    <SlideComponent renderType="default" slide={slideInShow} />
                     <svg className={styles['prevent-pointer-events']} />
                     <div className={styles['to-next-slide-area-selector']} onClick={onClickNextSlideSelectorHandler} />
                 </>

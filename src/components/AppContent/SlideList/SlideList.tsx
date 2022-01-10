@@ -96,7 +96,7 @@ export function SlideList(props: SlideListProps) {
                     }),
                 );
 
-                if (props.slidesList.length) {
+                if (props.slidesList.length && isMouseReadyToDrag) {
                     dispatchSetIdAction({
                         selectedSlidesIds: [props.slidesList[activeSlideIndex].id],
                         selectedSlideElementsIds: [],

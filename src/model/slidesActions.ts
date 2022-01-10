@@ -135,6 +135,10 @@ export function applySlideChanges(editor: Editor, updatedSlide: Slide, updatedSl
     };
 }
 
+export function getActiveSlidesIds(editor: Editor): string[] {
+    return editor.selectedSlidesIds;
+}
+
 export function getCurrentSlide(editor: Editor): Slide | undefined {
     const selectedSlidesIds = editor.selectedSlidesIds;
     const slideList: Slide[] = editor.presentation.slidesList;

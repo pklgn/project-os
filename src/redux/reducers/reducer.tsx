@@ -1,6 +1,7 @@
 import { ActionType } from '../action-types/types';
 import { EditorActions } from '../actions/editorActions';
 import { ElementAction } from '../actions/elementActions';
+import { FigureActions } from '../actions/figureActions';
 import { PresentationActions } from '../actions/presentationActions';
 import { SlideAction } from '../actions/slidesActions';
 import { TextActions } from '../actions/textActions';
@@ -33,8 +34,21 @@ import {
 } from '../../model/elementActions';
 import { setSelectedIdInEditor, toggleEditorMode, uploadPresentationFromJson } from '../../model/editorActions';
 import { addPictureElement } from '../../model/specifiedActions/pictureActions';
+import {
+    addFigureElement,
+    changeFiguresBorderColor,
+    changeFiguresBorderWidth,
+    changeFiguresColor,
+} from '../../model/specifiedActions/figureActions';
 
-type ModelActions = SlideAction | PresentationActions | ElementAction | EditorActions | TextActions | PictureActions;
+type ModelActions =
+    | EditorActions
+    | ElementAction
+    | FigureActions
+    | PictureActions
+    | PresentationActions
+    | SlideAction
+    | TextActions;
 
 export const allReducers = (state: Editor = initEditor(), action: ModelActions): Editor => {
     switch (action.type) {
@@ -96,6 +110,15 @@ export const allReducers = (state: Editor = initEditor(), action: ModelActions):
                 action.payload.width,
                 action.payload.height,
             );
+
+        case ActionType.ADD_FIGURE_ELEMENT:
+            return addFigureElement(state, action.payload.shape, action.payload.x, action.payload.y);
+        case ActionType.CHANGE_FIGURES_BORDER_COLOR:
+            return changeFiguresBorderColor(state, action.payload);
+        case ActionType.CHANGE_FIGURES_BORDER_WIDTH:
+            return changeFiguresBorderWidth(state, action.payload);
+        case ActionType.CHANGE_FIGURES_COLOR:
+            return changeFiguresColor(state, action.payload);
 
         default:
             return state;
