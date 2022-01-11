@@ -14,8 +14,6 @@ import { Clear } from '../../common/icons/Cancel/Clear';
 
 type FigureToolsListProps = {
     foo: (listName: listName) => void | undefined;
-    active: boolean;
-    setActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function FigureToolsList(props: FigureToolsListProps): JSX.Element {

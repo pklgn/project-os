@@ -1,15 +1,9 @@
 import { isPicture } from '../utils/tools';
 import { generateUUId } from '../utils/uuid';
 import { getCurrentSlide, applySlideChanges } from '../slidesActions';
-export function addPictureElement(
-    editor: Editor,
-    src: string,
-    alt = '',
-    width = 10,
-    height = 10,
-    x = 0,
-    y = 0,
-): Editor {
+
+export function addPictureElement(editor: Editor, picture: PictureData): Editor {
+    const { src, alt, width, height } = picture;
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
@@ -24,8 +18,8 @@ export function addPictureElement(
     const element: SlideElement = {
         id: generateUUId(),
         startPoint: {
-            x,
-            y,
+            x: 0,
+            y: 0,
         },
         size: {
             width,
@@ -58,6 +52,7 @@ export function addPictureElement(
 }
 
 import { Editor, Slide, PictureElement, SlideElement } from '../types';
+import { PictureData } from '../../redux/action-creators/pictureActionCreators';
 
 export function changePicture(editor: Editor, src: string): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);

@@ -1,7 +1,4 @@
-import commonStyles from '../CommonFigureStyle.module.css';
-
 import { FigureProps } from '../FigureElementComponent';
-import { joinClassNames } from '../../../utils/joinClassNames';
 
 function CircleFigure(props: FigureProps): JSX.Element | null {
     const { startPoint, size, opacity, content } = props;
