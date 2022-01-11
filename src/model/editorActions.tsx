@@ -1,5 +1,5 @@
 import { initEditor } from './initModelActions';
-import { Editor, PresentationMode, SelectedAreaLocation } from './types';
+import { Editor, Presentation, PresentationMode, SelectedAreaLocation } from './types';
 
 export function getCurrentEditorMode(editor: Editor): PresentationMode {
     return editor.mode;
@@ -21,9 +21,9 @@ export function setSelectedIdInEditor(
     selectedSlideElementsIds: string[] = [],
 ): Editor {
     const nextSelectedSlidesIds: string[] = selectedSlidesIds.length ? selectedSlidesIds : editor.selectedSlidesIds;
-    const nextSelectedElementsIds: string[] = selectedSlideElementsIds;
-
-    editor.selectedSlideElementsIds = nextSelectedElementsIds;
+    editor.selectedSlideElementsIds = selectedSlideElementsIds.length
+        ? selectedSlideElementsIds
+        : editor.selectedSlideElementsIds;
     editor.selectedSlidesIds = nextSelectedSlidesIds;
 
     return editor;
@@ -41,8 +41,17 @@ export function savePresentationAsJson(editor: Editor) {
 }
 
 export function uploadPresentationFromJson(s: string): Editor {
+    const uploadedPresentation: Presentation = JSON.parse(s);
+
     return {
         ...initEditor(),
-        presentation: JSON.parse(s),
+        history: {
+            ...initEditor().history,
+            currState: 0,
+            selectedSlidesIdsStates: [[uploadedPresentation.slidesList[0].id]],
+            presentationStates: [uploadedPresentation],
+        },
+        selectedSlidesIds: [uploadedPresentation.slidesList[0].id],
+        presentation: uploadedPresentation,
     };
 }
