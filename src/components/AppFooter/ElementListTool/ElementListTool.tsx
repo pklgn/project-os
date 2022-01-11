@@ -26,6 +26,8 @@ import { AddFigure } from '../../common/icons/AddFigure/AddFigure';
 
 type ElementListToolProps = {
     foo: (listName: listName) => void | undefined;
+    active: boolean;
+    setActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function ElementListTool(props: ElementListToolProps): JSX.Element {
@@ -165,14 +167,6 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <Redo /> }}
                 foo={redoButtonPressHandler}
-            />
-            <Button
-                text={localeContext.locale.localization.fullscreen_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Fullscreen /> }}
-                foo={() => undefined}
             />
         </div>
     );

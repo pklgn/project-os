@@ -1,7 +1,7 @@
 import styles from './TextToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext } from 'react';
+import { BaseSyntheticEvent, useContext, useEffect, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
@@ -18,6 +18,10 @@ import { ChangeText } from '../../common/icons/ChangeText/ChangeText';
 
 type TextToolsListProps = {
     foo: (listName: listName) => void | undefined;
+    textEditing: boolean;
+    setTextEditing: (state: boolean) => void;
+    active: boolean;
+    setActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function TextToolsList(props: TextToolsListProps): JSX.Element {
@@ -25,24 +29,21 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
 
     const elementListToolButton = () => props.foo(listName.ELEMENT_LIST);
 
+    const [query, setQuery] = useState('Введите текст');
+    const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const enteredName = event.target.value;
+        setQuery(enteredName);
+    };
+
     const dispatch = useDispatch();
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
-    const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
-    const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchChangeTextColor = bindActionCreators(changeTextsColor, dispatch);
     const dispatchChangeTextContent = bindActionCreators(changeTextContent, dispatch);
 
-    const undoPressButtonHandler = () => {
-        dispatchSetPreviousModelStateAction();
-    };
-
-    const redoButtonPressHandler = () => {
-        dispatchTurnBackModelStateAction();
-    };
-
     const addTextHandler = () => {
-        dispatchAddTextAction({ x: 20, y: 30 });
+        props.setTextEditing(true);
+        dispatchAddTextAction({ x: 0, y: 0 });
         dispatchKeepModelAction();
     };
 
@@ -56,14 +57,18 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
         dispatchKeepModelAction();
     };
 
-    document.addEventListener('keydown', function (event) {
-        if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
-            undoPressButtonHandler();
-        }
-        if (event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
-            redoButtonPressHandler();
-        }
-    });
+    useEffect(() => {
+        const revocationHandler = (event: KeyboardEvent) => {
+            if (event.code === 'Escape') {
+                elementListToolButton();
+            }
+        };
+        document.addEventListener('keydown', revocationHandler);
+
+        return () => {
+            document.removeEventListener('keydown', revocationHandler);
+        };
+    }, []);
 
     return (
         <div className={styles['element-tools']}>
@@ -83,6 +88,11 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <ChangeText /> }}
                 foo={changeTextContentHandler}
+            />
+            <input
+                value={query}
+                onChange={inputHandler}
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => e.stopPropagation()}
             />
             <VerticalLine />
             <Button
