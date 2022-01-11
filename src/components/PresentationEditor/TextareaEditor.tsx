@@ -1,11 +1,11 @@
-import { LegacyRef, useRef } from 'react';
+import { LegacyRef, useLayoutEffect, useRef } from 'react';
 import styles from './TextareaEditor.module.css';
 import { bindActionCreators } from 'redux';
 import { changeTextContent } from '../../redux/action-creators/textActionCreators';
 import { useDispatch } from 'react-redux';
 import { store } from '../../redux/store';
 import { getCurrentSlide } from '../../model/slidesActions';
-import { SlideElement } from '../../model/types';
+import { FigureElement, PictureElement, SlideElement, TextElement } from '../../model/types';
 import { isText } from '../../model/utils/tools';
 import { keepModelAction } from '../../redux/action-creators/editorActionCreators';
 
@@ -27,13 +27,21 @@ function TextareaEditor(props: TextareaEditorProps) {
     const textElement: SlideElement[] | undefined = currSlide?.elementsList.filter(
         (elem) => elem.id === slideTextElementId,
     );
+    let text: TextElement | PictureElement | FigureElement;
     if (ref.current && textElement) {
-        const text = textElement[textElement.length - 1].content;
+        text = textElement[textElement.length - 1].content;
         if (isText(text)) {
             ref.current.value = text.content.join('\n');
         }
-        ref.current.style.height = `${ref.current?.scrollHeight}px`;
     }
+
+    useLayoutEffect(() => {
+        if (ref.current && textElement) {
+            ref.current.style.top = `${textElement[textElement.length - 1].startPoint.y + 20}px`;
+            ref.current.style.left = `${textElement[textElement.length - 1].startPoint.x + 20}px`;
+            ref.current.style.height = `${ref.current?.scrollHeight}px`;
+        }
+    });
 
     if (props.textEditing) {
         return (
