@@ -13,8 +13,6 @@ import { listName } from '../../PresentationEditor/PresentationEditor';
 
 type ReorderListToolProps = {
     foo: (listName: listName) => void | undefined;
-    active: boolean;
-    setActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function ReorderListTool(props: ReorderListToolProps): JSX.Element {
