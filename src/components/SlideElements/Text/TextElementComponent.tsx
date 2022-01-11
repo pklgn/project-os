@@ -41,7 +41,7 @@ function TextElementComponent(props: TextElementProps) {
         >
             {elementText.content.map((line, index) => {
                 return (
-                    <tspan key={index} x={0} dy={elementText.fontSize * index}>
+                    <tspan key={index} x={element.startPoint.x} dy={elementText.fontSize * index}>
                         {line}
                     </tspan>
                 );
