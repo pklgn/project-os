@@ -1,7 +1,7 @@
 import styles from './TextToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext, useEffect } from 'react';
+import { BaseSyntheticEvent, useContext, useEffect, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
@@ -18,42 +18,45 @@ import { ChangeText } from '../../common/icons/ChangeText/ChangeText';
 
 type TextToolsListProps = {
     foo: (listName: listName) => void | undefined;
+    active: boolean, 
+    setActive: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 export function TextToolsList(props: TextToolsListProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
+
+
+    const [query, setQuery] = useState("Введите текст")
+    const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const enteredName = event.target.value;
+        setQuery(enteredName);
+    };
     
     const elementListToolButton = () => props.foo(listName.ELEMENT_LIST)
 
     const dispatch = useDispatch();
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
-    // const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
-    // const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchChangeTextColor = bindActionCreators(changeTextsColor, dispatch)
     const dispatchChangeTextContent = bindActionCreators(changeTextContent, dispatch)
 
-    // const undoPressButtonHandler = () => {
-    //     dispatchSetPreviousModelStateAction();
-    // };
-
-    // const redoButtonPressHandler = () => {
-    //     dispatchTurnBackModelStateAction();
-    // };
-
     const addTextHandler = () => {
         dispatchAddTextAction({ x: 20, y: 30});
         dispatchKeepModelAction();
+        // elementListToolButton();
     }
 
     const changeTextColorHandler = () => {
         dispatchChangeTextColor("black");
         dispatchKeepModelAction();
+        // elementListToolButton();
     }
 
     const changeTextContentHandler = () => {
-        dispatchChangeTextContent([""]);
+        dispatchChangeTextContent([query]);
+        props.setActive(true);
         dispatchKeepModelAction();
+        elementListToolButton();
     }
 
     useEffect(() => {
@@ -88,6 +91,11 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <ChangeText /> }}
                 foo={changeTextContentHandler}
+            />
+            <input
+                value={query}
+                onChange={inputHandler}
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => e.stopPropagation()}
             />
             <VerticalLine />
             <Button
