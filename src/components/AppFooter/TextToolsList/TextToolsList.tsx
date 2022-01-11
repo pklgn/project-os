@@ -18,6 +18,8 @@ import { ChangeText } from '../../common/icons/ChangeText/ChangeText';
 
 type TextToolsListProps = {
     foo: (listName: listName) => void | undefined;
+    textEditing: boolean;
+    setTextEditing: (state: boolean) => void;
 };
 
 export function TextToolsList(props: TextToolsListProps): JSX.Element {
@@ -42,7 +44,8 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
     };
 
     const addTextHandler = () => {
-        dispatchAddTextAction({ x: 20, y: 30 });
+        props.setTextEditing(true);
+        dispatchAddTextAction({ x: 0, y: 0 });
         dispatchKeepModelAction();
     };
 

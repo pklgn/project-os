@@ -110,15 +110,15 @@ export function changeTextsContent(editor: Editor, content: string[]): Editor {
     }
 
     const newElementsList: SlideElement[] = elementsList.map((item) => {
-        if (editor.selectedSlideElementsIds.includes(item.id) && isText(item.content)) {
+        if (
+            editor.selectedSlideElementsIds[editor.selectedSlideElementsIds.length - 1] === item.id &&
+            isText(item.content)
+        ) {
             return {
                 ...item,
                 content: {
                     ...item.content,
-                    content: {
-                        ...item.content.content,
-                        ...content,
-                    },
+                    content,
                 },
             };
         }
