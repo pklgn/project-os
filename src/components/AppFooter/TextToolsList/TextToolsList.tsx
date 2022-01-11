@@ -20,6 +20,8 @@ type TextToolsListProps = {
     foo: (listName: listName) => void | undefined;
     textEditing: boolean;
     setTextEditing: (state: boolean) => void;
+    active: boolean;
+    setActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function TextToolsList(props: TextToolsListProps): JSX.Element {

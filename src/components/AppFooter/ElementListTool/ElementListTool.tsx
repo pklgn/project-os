@@ -26,6 +26,8 @@ import { AddFigure } from '../../common/icons/AddFigure/AddFigure';
 
 type ElementListToolProps = {
     foo: (listName: listName) => void | undefined;
+    active: boolean;
+    setActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function ElementListTool(props: ElementListToolProps): JSX.Element {
