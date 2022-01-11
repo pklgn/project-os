@@ -15,8 +15,8 @@ function CircleFigure(props: FigureProps): JSX.Element | null {
     return (
         <circle
             id={`${props.elementIndex}`}
-            cx={startPoint.x}
-            cy={startPoint.y}
+            cx={startPoint.x + r}
+            cy={startPoint.y + r}
             r={r}
             fill={content.figureColor}
             stroke={content.borderColor}

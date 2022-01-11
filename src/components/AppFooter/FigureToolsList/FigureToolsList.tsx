@@ -14,6 +14,8 @@ import { Clear } from '../../common/icons/Cancel/Clear';
 
 type FigureToolsListProps = {
     foo: (listName: listName) => void | undefined;
+    active: boolean;
+    setActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function FigureToolsList(props: FigureToolsListProps): JSX.Element {
@@ -43,10 +45,18 @@ export function FigureToolsList(props: FigureToolsListProps): JSX.Element {
             }
         };
 
+        const revocationHandler = (event: KeyboardEvent) => {
+            if (event.code === 'Escape') {
+                elementListToolButton();
+            }
+        };
+
         document.addEventListener('keydown', historyActionsHandler);
+        document.addEventListener('keydown', revocationHandler);
 
         return () => {
             document.removeEventListener('keydown', historyActionsHandler);
+            document.removeEventListener('keydown', revocationHandler);
         };
     }, [undoPressButtonHandler]);
 

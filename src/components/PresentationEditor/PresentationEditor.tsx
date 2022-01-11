@@ -1,8 +1,9 @@
-import { AppTop } from '../AppTop/AppTop';
 import styles from './PresentationEditor.module.css';
+
+import { AppTop } from '../AppTop/AppTop';
+import { SlideEditor } from './SlideEditor';
 import { SlideListTool } from '../AppFooter/SlideListTool/SlideListTool';
 import { SidePanel } from '../AppContent/SidePanel/SidePanel';
-import { SlideEditor } from './SlideEditor';
 
 export enum listName {
     ELEMENT_LIST = 'ELEMENT_LIST',
