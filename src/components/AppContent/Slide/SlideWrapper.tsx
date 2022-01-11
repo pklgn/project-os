@@ -9,11 +9,6 @@ import { getCurrentSlide } from '../../../model/slidesActions';
 import { Slide } from '../../../model/types';
 import { TextareaEditor } from '../../PresentationEditor/TextareaEditor';
 
-const SlideParams = {
-    ASPECT_RATIO: 16 / 9,
-    MAX_PAGE_HEIGHT_RATIO: 0.85,
-};
-
 export type editingStatus = {
     slideRef: LegacyRef<HTMLDivElement> | null;
     textEditing: boolean;
