@@ -1,7 +1,7 @@
 import styles from './TextToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
@@ -27,19 +27,19 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
 
     const dispatch = useDispatch();
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
-    const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
-    const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
+    // const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
+    // const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchChangeTextColor = bindActionCreators(changeTextsColor, dispatch)
     const dispatchChangeTextContent = bindActionCreators(changeTextContent, dispatch)
 
-    const undoPressButtonHandler = () => {
-        dispatchSetPreviousModelStateAction();
-    };
+    // const undoPressButtonHandler = () => {
+    //     dispatchSetPreviousModelStateAction();
+    // };
 
-    const redoButtonPressHandler = () => {
-        dispatchTurnBackModelStateAction();
-    };
+    // const redoButtonPressHandler = () => {
+    //     dispatchTurnBackModelStateAction();
+    // };
 
     const addTextHandler = () => {
         dispatchAddTextAction({ x: 20, y: 30});
@@ -56,14 +56,19 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
         dispatchKeepModelAction();
     }
 
-    document.addEventListener('keydown', function (event) {
-        if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
-            undoPressButtonHandler();
+    useEffect(() => {
+        const revocationHandler = (event: KeyboardEvent) => {
+            if (event.code === "Escape") {
+                elementListToolButton();
+            }
         }
-        if (event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
-            redoButtonPressHandler();
-        }
-    });
+        document.addEventListener('keydown', revocationHandler);
+
+        return () => {
+            document.removeEventListener('keydown', revocationHandler);
+        };
+        
+    }, []);
 
     return (
         <div className={styles['element-tools']}>

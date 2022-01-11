@@ -17,6 +17,7 @@ type FigureToolsListProps = {
 };
 
 export function FigureToolsList(props: FigureToolsListProps): JSX.Element {
+
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const elementListToolButton = () => props.foo(listName.ELEMENT_LIST)
@@ -43,10 +44,18 @@ export function FigureToolsList(props: FigureToolsListProps): JSX.Element {
             }
         };
 
+        const revocationHandler = (event: KeyboardEvent) => {
+            if (event.code === "Escape") {
+                elementListToolButton();
+            }
+        }
+
         document.addEventListener('keydown', historyActionsHandler);
+        document.addEventListener('keydown', revocationHandler);
 
         return () => {
             document.removeEventListener('keydown', historyActionsHandler);
+            document.removeEventListener('keydown', revocationHandler);
         };
     }, [undoPressButtonHandler]);
 

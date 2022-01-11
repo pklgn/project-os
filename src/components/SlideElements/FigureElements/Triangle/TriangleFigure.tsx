@@ -10,7 +10,7 @@ function TriangleFigure(props: FigureProps) {
     };
     const topVertex = {
         x: props.startPoint.x + props.size.width / 2,
-        y: props.startPoint.y + props.size.height / 2,
+        y: props.startPoint.y,
     };
     const rightVertex = {
         x: props.startPoint.x + props.size.width,
