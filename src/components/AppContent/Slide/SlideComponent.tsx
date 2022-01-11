@@ -31,6 +31,9 @@ type SlideProps = {
     renderType: 'default' | 'mainSlide';
 };
 
+const RESIZE_AREA_WIDTH_HEIGHT = 15;
+const OFFSET_FOR_REZIE_AREA = 3;
+
 export const ScaleContext = createContext(VIEWBOX);
 
 export function SlideComponent(props: SlideProps) {
@@ -208,6 +211,71 @@ export function SlideComponent(props: SlideProps) {
         };
     }, [selectedAreaLocation]);
 
+    const onMouseDownResizeHandler = (mainEvent: React.MouseEvent) => {
+        const chosenResizer = mainEvent.target as Element;
+        const startX = mainEvent.pageX;
+        const startY = mainEvent.pageY;
+
+        const itsSWResizer = chosenResizer.getAttribute('id')?.includes('sw');
+        const itsSEResizer = chosenResizer.getAttribute('id')?.includes('se');
+        const itsNEResizer = chosenResizer.getAttribute('id')?.includes('ne');
+        const itsNWResizer = chosenResizer.getAttribute('id')?.includes('nw');
+
+        const mouseMoveReziseHandler = (e: MouseEvent) => {
+            const dx = e.pageX - startX;
+            const dy = e.pageY - startY;
+
+            const maxD = Math.abs(dx) > Math.abs(dy) ? dx : dy;
+
+            if (itsSEResizer) {
+                if (refCanvas.current) {
+                    refCanvas.current.style.cursor = 'se-resize';
+                }
+                const currSelectedAreaLocation = selectedAreaLocation;
+                if (currSelectedAreaLocation) {
+                    const newSelectedAreaLocation = {
+                        ...currSelectedAreaLocation,
+                        dimensions: {
+                            width: currSelectedAreaLocation.dimensions.width + maxD,
+                            height: currSelectedAreaLocation.dimensions.height + maxD,
+                        },
+                    } as SelectedAreaLocation | undefined;
+                    setSelectedAreaLocation(newSelectedAreaLocation);
+                }
+            }
+            if (itsNEResizer) {
+                if (refCanvas.current) {
+                    refCanvas.current.style.cursor = 'ne-resize';
+                }
+                const currSelectedAreaLocation = selectedAreaLocation;
+                if (currSelectedAreaLocation) {
+                    const newSelectedAreaLocation = {
+                        ...currSelectedAreaLocation,
+                        xy: {
+                            x: currSelectedAreaLocation.xy.x + maxD,
+                            y: currSelectedAreaLocation.xy.y + maxD,
+                        },
+                        dimensions: {
+                            width: currSelectedAreaLocation.dimensions.width + dx,
+                            height: currSelectedAreaLocation.dimensions.height + Math.abs(maxD),
+                        },
+                    } as SelectedAreaLocation | undefined;
+                    setSelectedAreaLocation(newSelectedAreaLocation);
+                }
+            }
+        };
+        const mouseUpReziseHandler = () => {
+            window.removeEventListener('mousemove', mouseMoveReziseHandler);
+            window.removeEventListener('mouseup', mouseUpReziseHandler);
+            if (refCanvas.current) {
+                refCanvas.current.style.cursor = 'default';
+            }
+        };
+
+        window.addEventListener('mousemove', mouseMoveReziseHandler);
+        window.addEventListener('mouseup', mouseUpReziseHandler);
+    };
+
     let elementIndex = 0;
     return props.slide === undefined ? (
         <div className={styles['empty-slide-container']} onClick={emptySlideClickHandler}>
@@ -259,15 +327,73 @@ export function SlideComponent(props: SlideProps) {
                     <></>
                 )}
                 {selectedAreaLocation !== undefined && props.renderType === 'mainSlide' ? (
-                    <rect
-                        ref={refSelectedArea}
-                        x={selectedAreaLocation.xy.x}
-                        y={selectedAreaLocation.xy.y}
-                        id={'select-area'}
-                        className={styles['select-area']}
-                        width={selectedAreaLocation.dimensions.width}
-                        height={selectedAreaLocation.dimensions.height}
-                    />
+                    <>
+                        <rect
+                            ref={refSelectedArea}
+                            x={selectedAreaLocation.xy.x}
+                            y={selectedAreaLocation.xy.y}
+                            id={'select-area'}
+                            className={styles['select-area']}
+                            width={selectedAreaLocation.dimensions.width}
+                            height={selectedAreaLocation.dimensions.height}
+                        />
+                        <rect
+                            id="resize-nw"
+                            x={selectedAreaLocation.xy.x - OFFSET_FOR_REZIE_AREA}
+                            y={selectedAreaLocation.xy.y - OFFSET_FOR_REZIE_AREA}
+                            width={RESIZE_AREA_WIDTH_HEIGHT}
+                            height={RESIZE_AREA_WIDTH_HEIGHT}
+                            className={styles['resizer-nw']}
+                            onMouseDown={onMouseDownResizeHandler}
+                        />
+                        <rect
+                            id="resize-ne"
+                            x={
+                                selectedAreaLocation.xy.x +
+                                selectedAreaLocation.dimensions.width -
+                                RESIZE_AREA_WIDTH_HEIGHT +
+                                OFFSET_FOR_REZIE_AREA
+                            }
+                            y={selectedAreaLocation.xy.y - OFFSET_FOR_REZIE_AREA}
+                            width={RESIZE_AREA_WIDTH_HEIGHT}
+                            height={RESIZE_AREA_WIDTH_HEIGHT}
+                            className={styles['resizer-ne']}
+                            onMouseDown={onMouseDownResizeHandler}
+                        />
+                        <rect
+                            id="resize-se"
+                            x={
+                                selectedAreaLocation.xy.x +
+                                selectedAreaLocation.dimensions.width -
+                                RESIZE_AREA_WIDTH_HEIGHT +
+                                OFFSET_FOR_REZIE_AREA
+                            }
+                            y={
+                                selectedAreaLocation.xy.y +
+                                selectedAreaLocation.dimensions.height -
+                                RESIZE_AREA_WIDTH_HEIGHT +
+                                OFFSET_FOR_REZIE_AREA
+                            }
+                            width={RESIZE_AREA_WIDTH_HEIGHT}
+                            height={RESIZE_AREA_WIDTH_HEIGHT}
+                            className={styles['resizer-se']}
+                            onMouseDown={onMouseDownResizeHandler}
+                        />
+                        <rect
+                            id="resize-sw"
+                            x={selectedAreaLocation.xy.x - OFFSET_FOR_REZIE_AREA}
+                            y={
+                                selectedAreaLocation.xy.y +
+                                selectedAreaLocation.dimensions.height -
+                                RESIZE_AREA_WIDTH_HEIGHT +
+                                OFFSET_FOR_REZIE_AREA
+                            }
+                            width={RESIZE_AREA_WIDTH_HEIGHT}
+                            height={RESIZE_AREA_WIDTH_HEIGHT}
+                            className={styles['resizer-sw']}
+                            onMouseDown={onMouseDownResizeHandler}
+                        />
+                    </>
                 ) : (
                     <></>
                 )}

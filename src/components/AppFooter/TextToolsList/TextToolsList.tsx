@@ -46,6 +46,7 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
     const addTextHandler = () => {
         props.setTextEditing(true);
         dispatchAddTextAction({ x: 0, y: 0 });
+        dispatchKeepModelAction();
     };
 
     const changeTextColorHandler = () => {
