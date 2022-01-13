@@ -166,14 +166,6 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 content={{ hotkeyInfo: '', icon: <Redo /> }}
                 foo={redoButtonPressHandler}
             />
-            <Button
-                text={localeContext.locale.localization.fullscreen_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Fullscreen /> }}
-                foo={() => undefined}
-            />
         </div>
     );
 }
