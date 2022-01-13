@@ -1,15 +1,12 @@
 import { Coordinates, SelectedAreaLocation } from '../../model/types';
 import { useEffect } from 'react';
 
-const INITIAL_SCALE = 2;
-
 export function useDragAndDrop(
     element: SVGRectElement | null,
     position: SelectedAreaLocation,
     setPosition: (coordinates: SelectedAreaLocation) => void,
 ): void {
     let startDragPosition: Coordinates;
-    const scale = parseFloat(element?.parentElement?.dataset.scale ?? `${INITIAL_SCALE}`);
     function onMouseDown(event: MouseEvent) {
         startDragPosition = {
             x: event.pageX,
