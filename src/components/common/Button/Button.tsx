@@ -1,77 +1,53 @@
 import styles from './Button.module.css';
-
-import { Triangle } from '../icons/Triangle/Triangle';
 import CSS from 'csstype';
 
-export type ButtonContentType =
-    | 'text'
-    | 'icon'
-    | 'textInSubMenu'
-    | 'textInSubMenu'
-    | 'iconAndTextInSubMenu'
-    | 'iconAndTextInSubMenuAndHotkeyInfo'
-    | 'subMenuSummoner'
-    | 'iconAndSubMenuSummoner';
+import { joinClassNames } from '../../utils/joinClassNames';
+import { BaseSyntheticEvent } from 'react';
 
-type ButtonState = 'disabled' | 'active';
-
-type ButtonShapeType = 'square' | 'circle';
+type ButtonState = 'pressed' | 'active' | 'disabled' | undefined;
+type ButtonType = 'in-list' | 'default';
 
 export type ButtonProps = {
-    textInfo: string;
-    hotKeyText: string | undefined;
-    icon: JSX.Element | undefined;
+    type: ButtonType;
     state: ButtonState;
-    contentType: ButtonContentType;
-    shape: ButtonShapeType;
-    foo: () => void | undefined;
+    id: string;
+    shouldStopPropagation: boolean;
+    text: string | undefined;
+    optionalText: string | undefined;
+    iconLeft: JSX.Element | undefined;
+    iconRight: JSX.Element | undefined;
+    cssMix: CSS.Properties | undefined;
+    onClick: (e: BaseSyntheticEvent) => void | undefined;
 };
 
-const TEXT = 'TEXT';
-const ICON = 'ICON';
-const SUMMONER = 'SUMMONER';
-const HOTKEY = 'HOTKEY';
+export function Button(props: ButtonProps) {
+    const { type, state, id, shouldStopPropagation, text, optionalText, iconLeft, iconRight, cssMix, onClick } = props;
 
-export function Button(
-    props: ButtonProps = {
-        textInfo: '',
-        hotKeyText: undefined,
-        icon: undefined,
-        state: 'disabled',
-        contentType: 'text',
-        shape: 'square',
-        foo: () => undefined,
-    },
-): JSX.Element {
-    const { textInfo, hotKeyText, icon, state, contentType, shape, foo } = props;
+    const disabled = state === 'disabled';
 
-    const buttonStyle = getButtonStyleByContentTypeAndState(contentType, state);
-
-    const onClickHandler = () => {
-        if (foo !== undefined) {
-            foo();
+    const classes = joinClassNames(['button', type, state ?? ''])
+        .trim()
+        .split(' ');
+    const onMouseDownHandler = (event: BaseSyntheticEvent) => {
+        if (shouldStopPropagation) {
+            event.stopPropagation();
         }
+        console.log(classes);
     };
 
-    const cssShapeStyle: CSS.Properties = shape === 'circle' ? { borderRadius: '50%' } : { borderRadius: 0 };
-
-    const button: JSX.Element = (
-        <button className={styles[buttonStyle]} style={cssShapeStyle}>
-            {contentType.toUpperCase().includes(ICON) ? <div className={styles.icon}>{icon}</div> : <></>}
-            {contentType.toUpperCase().includes(TEXT) ? <div className={styles.text}>{textInfo}</div> : <></>}
-            {contentType.toUpperCase().includes(SUMMONER) ? <Triangle width={10} height={10} color="grey" /> : <></>}
-            {contentType.toUpperCase().includes(HOTKEY) ? <div className={styles.hotkey}>{hotKeyText}</div> : <></>}
+    return (
+        <button
+            className={`${styles[classes[0]] ?? ''} ${styles[classes[1]] ?? ''} ${styles[classes[2]] ?? ''}`}
+            onMouseDown={onMouseDownHandler}
+            onClick={onClick}
+            disabled={disabled}
+            style={cssMix}
+            id={id}
+        >
+            {iconLeft}
+            {text}
+            {optionalText ? <div className={styles['optional-text']}>{optionalText}</div> : <></>}
+            {iconRight}
         </button>
     );
-
-    return button;
-}
-
-function getButtonStyleByContentTypeAndState(contentType: ButtonContentType, state: ButtonState): string {
-    const upperContentType = contentType.toUpperCase();
-
-    if (upperContentType.includes(ICON) && !upperContentType.includes(TEXT) && !upperContentType.includes(SUMMONER)) {
-        return 'button-with-icon';
-    }
-    return 'default';
 }

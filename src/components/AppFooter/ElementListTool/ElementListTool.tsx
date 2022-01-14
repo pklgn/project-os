@@ -4,13 +4,11 @@ import { LocaleContext, LocaleContextType } from '../../../App';
 import { useContext } from 'react';
 
 import { Button } from '../../common/Button/Button';
-import { Delete } from '../../common/icons/Delete/Delete';
-import { Fullscreen } from '../../common/icons/Fullscreen/Fullscreen';
-import { Opacity } from '../../common/icons/Opacity/Opacity';
-import { Redo } from '../../common/icons/Redo/Redo';
-import { Reorder } from '../../common/icons/Reorder/Reorder';
+import { GeometryIcon } from '../../common/icons/GeometryIcon/Geometry';
+import { RedoUndoIcon } from '../../common/icons/RedoUndo/ReduUndo';
+import { SelectCursorIcon } from '../../common/icons/Cursor/Cursor';
+import { TextIcon } from '../../common/icons/Text/Text';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
-import { Undo } from '../../common/icons/Undo/Undo';
 
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
@@ -46,59 +44,83 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
 
     return (
         <div className={styles['element-tools']}>
-            {/* <Button
-                text={localeContext.locale.localization.undo_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Undo /> }}
-                foo={undoPressButtonHandler}
-            />
-            <VerticalLine />
-            <Button
-                text={localeContext.locale.localization.redo_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Redo /> }}
-                foo={redoButtonPressHandler}
-            />
-            <VerticalLine />
-            <Button
-                text={localeContext.locale.localization.reorder_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Reorder /> }}
-                foo={props.foo}
-            />
-            <VerticalLine />
-            <Button
-                text={localeContext.locale.localization.opacity_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Opacity /> }}
-                foo={() => undefined}
-            />
-            <VerticalLine />
-            <Button
-                text={localeContext.locale.localization.delete_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Delete /> }}
-                foo={() => undefined}
-            />
-            <VerticalLine />
-            <Button
-                text={localeContext.locale.localization.fullscreen_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Fullscreen /> }}
-                foo={() => undefined}
-            /> */}
+            <div className={styles['tools-buttons-container']} id="tools-buttons-container">
+                <Button
+                    type={'default'}
+                    text={undefined}
+                    state={'disabled'}
+                    id="select-tool-button"
+                    shouldStopPropagation={false}
+                    optionalText={undefined}
+                    iconLeft={<SelectCursorIcon color="#ffa322" />}
+                    iconRight={undefined}
+                    cssMix={undefined}
+                    onClick={() => {
+                        undefined;
+                    }}
+                />
+                <Button
+                    type={'default'}
+                    text={undefined}
+                    state={'disabled'}
+                    id="text-tool-button"
+                    shouldStopPropagation={false}
+                    optionalText={undefined}
+                    iconLeft={<TextIcon color="#ffa322" />}
+                    iconRight={undefined}
+                    cssMix={undefined}
+                    onClick={() => {
+                        undefined;
+                    }}
+                />
+                <Button
+                    type={'default'}
+                    text={undefined}
+                    state={'disabled'}
+                    id="geometry-tool-button"
+                    shouldStopPropagation={false}
+                    optionalText={undefined}
+                    iconLeft={<GeometryIcon color="#ffa322" />}
+                    iconRight={undefined}
+                    cssMix={undefined}
+                    onClick={() => {
+                        undefined;
+                    }}
+                />
+            </div>
+            <VerticalLine id="veritical-1" />
+            <span id="adaptive-elements-tool-placeholder" />
+            <VerticalLine id="veritical-2" />
+            <div className={styles['history-buttons-container']} id="history-buttons-container">
+                <Button
+                    type={'default'}
+                    text={undefined}
+                    state={'disabled'}
+                    id="undo-button"
+                    shouldStopPropagation={false}
+                    optionalText={undefined}
+                    iconLeft={<RedoUndoIcon turn="undo" color="#ffa322" />}
+                    iconRight={undefined}
+                    cssMix={undefined}
+                    onClick={() => {
+                        undefined;
+                    }}
+                />
+                <Button
+                    type={'default'}
+                    text={undefined}
+                    state={'disabled'}
+                    id="redo-button"
+                    shouldStopPropagation={false}
+                    optionalText={undefined}
+                    iconLeft={<RedoUndoIcon turn="redo" color="#ffa322" />}
+                    iconRight={undefined}
+                    cssMix={undefined}
+                    onClick={() => {
+                        undefined;
+                    }}
+                />
+            </div>
         </div>
     );
 }

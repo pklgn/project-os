@@ -1,37 +1,45 @@
-export function GlobeIcon(): JSX.Element {
+export function GlobeIcon(props: { width: number; height: number; color: string }): JSX.Element {
+    const reg = /^#([0-9a-f]{3}){1,2}$/i;
     return (
-        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+            width={props.width}
+            height={props.height}
+            viewBox={`-2 -2 ${props.width}
+            ${props.height}`}
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
             <path
-                d="M2 12.6667C2 18.5577 6.77563 23.3333 12.6667 23.3333C18.5577 23.3333 23.3333 18.5577 23.3333 12.6667C23.3333 6.77563 18.5577 2 12.6667 2C6.77563 2 2 6.77563 2 12.6667Z"
-                stroke="#FF6D01"
+                d="M1.125 13.125C1.125 19.7524 6.49758 25.125 13.125 25.125C19.7524 25.125 25.125 19.7524 25.125 13.125C25.125 6.49758 19.7524 1.125 13.125 1.125C6.49758 1.125 1.125 6.49758 1.125 13.125Z"
+                stroke={`${reg.test(props.color) ? props.color : '#fff'}`}
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M13.5417 2.13477C13.5417 2.13477 16.6667 6.24999 16.6667 12.5C16.6667 18.75 13.5417 22.8653 13.5417 22.8653"
-                stroke="#FF6D01"
+                d="M14.1094 1.27637C14.1094 1.27637 17.625 5.906 17.625 12.9372C17.625 19.9685 14.1094 24.5982 14.1094 24.5982"
+                stroke={`${reg.test(props.color) ? props.color : '#fff'}`}
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M11.4583 22.8653C11.4583 22.8653 8.33325 18.75 8.33325 12.5C8.33325 6.24999 11.4583 2.13477 11.4583 2.13477"
-                stroke="#FF6D01"
+                d="M11.7656 24.5982C11.7656 24.5982 8.25 19.9685 8.25 12.9372C8.25 5.906 11.7656 1.27637 11.7656 1.27637"
+                stroke={`${reg.test(props.color) ? props.color : '#fff'}`}
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M2.73926 16.1455H22.2609"
-                stroke="#FF6D01"
+                d="M1.95654 17.0391H23.9184"
+                stroke={`${reg.test(props.color) ? props.color : '#fff'}`}
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M2.73926 8.85449H22.2609"
-                stroke="#FF6D01"
+                d="M1.95654 8.83594H23.9184"
+                stroke={`${reg.test(props.color) ? props.color : '#fff'}`}
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"

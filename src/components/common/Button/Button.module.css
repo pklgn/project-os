@@ -1,11 +1,27 @@
-.icon {
-
-}
-
-.button-with-icon {
+.button {
+  border: 1px solid transparent;
   cursor: pointer;
+  font-size: x-large;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 0;
+  border-radius: 5px;
 }
 
-.button-with-icon:focus {
-  filter: invert(100%);
+.default {
+  background-color: #512a20;
+}
+
+.active {
+  border: 2px solid #ffa322;
+  background-color: #bd634d;
+}
+
+.disabled {
+  color: #ffa322;
+  background-color: #512a20;
+}
+
+.button svg {
+  display: block;
 }
