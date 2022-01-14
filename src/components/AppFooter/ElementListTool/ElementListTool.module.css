@@ -11,13 +11,13 @@
 
 @media (max-width: 1366px) {
     .element-tools {
-        grid-template-columns: 1.6fr 0 7fr 0 1.2fr;
+        grid-template-columns: 1.9fr 0 7fr 0 1.3fr;
     }
 }
 
 @media (max-width: 1024px) {
     .element-tools {
-        grid-template-columns: 3fr 0 5fr 0 2.2fr;
+        grid-template-columns: 3fr 0 7fr 0 2.2fr;
     }
 }
 

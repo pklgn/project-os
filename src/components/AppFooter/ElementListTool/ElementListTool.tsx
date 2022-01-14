@@ -55,7 +55,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     iconLeft={<SelectCursorIcon color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    onClick={() => {
+                    func={() => {
                         undefined;
                     }}
                 />
@@ -69,7 +69,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     iconLeft={<TextIcon color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    onClick={() => {
+                    func={() => {
                         undefined;
                     }}
                 />
@@ -83,7 +83,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     iconLeft={<GeometryIcon color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    onClick={() => {
+                    func={() => {
                         undefined;
                     }}
                 />
@@ -102,7 +102,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     iconLeft={<RedoUndoIcon turn="undo" color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    onClick={() => {
+                    func={() => {
                         undefined;
                     }}
                 />
@@ -116,7 +116,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     iconLeft={<RedoUndoIcon turn="redo" color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    onClick={() => {
+                    func={() => {
                         undefined;
                     }}
                 />

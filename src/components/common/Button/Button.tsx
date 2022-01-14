@@ -4,7 +4,7 @@ import CSS from 'csstype';
 import { joinClassNames } from '../../utils/joinClassNames';
 import { BaseSyntheticEvent } from 'react';
 
-type ButtonState = 'pressed' | 'active' | 'disabled' | undefined;
+type ButtonState = 'pressed' | 'active' | 'disabled' | 'regardless';
 type ButtonType = 'in-list' | 'default';
 
 export type ButtonProps = {
@@ -17,11 +17,11 @@ export type ButtonProps = {
     iconLeft: JSX.Element | undefined;
     iconRight: JSX.Element | undefined;
     cssMix: CSS.Properties | undefined;
-    onClick: (e: BaseSyntheticEvent) => void | undefined;
+    func: () => void;
 };
 
 export function Button(props: ButtonProps) {
-    const { type, state, id, shouldStopPropagation, text, optionalText, iconLeft, iconRight, cssMix, onClick } = props;
+    const { type, state, id, shouldStopPropagation, text, optionalText, iconLeft, iconRight, cssMix, func } = props;
 
     const disabled = state === 'disabled';
 
@@ -32,17 +32,19 @@ export function Button(props: ButtonProps) {
         if (shouldStopPropagation) {
             event.stopPropagation();
         }
-        console.log(classes);
+    };
+
+    const onClick = (event: BaseSyntheticEvent) => {
+        func();
     };
 
     return (
         <button
             className={`${styles[classes[0]] ?? ''} ${styles[classes[1]] ?? ''} ${styles[classes[2]] ?? ''}`}
-            onMouseDown={onMouseDownHandler}
             onClick={onClick}
-            disabled={disabled}
             style={cssMix}
             id={id}
+            disabled={disabled}
         >
             {iconLeft}
             {text}

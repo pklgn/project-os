@@ -45,7 +45,7 @@ export function AppTop(): JSX.Element {
                     iconLeft={undefined}
                     iconRight={undefined}
                     cssMix={undefined}
-                    onClick={() => {
+                    func={() => {
                         undefined;
                     }}
                 />
@@ -67,7 +67,7 @@ export function AppTop(): JSX.Element {
                     iconLeft={<FullscreenIcon color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={{ padding: '3px 2px 3px 3px' }}
-                    onClick={() => {
+                    func={() => {
                         undefined;
                     }}
                 />
@@ -81,7 +81,7 @@ export function AppTop(): JSX.Element {
                     iconLeft={<GlobeIcon width={30} height={30} color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={{ borderRadius: '50%' }}
-                    onClick={() => {
+                    func={() => {
                         undefined;
                     }}
                 />

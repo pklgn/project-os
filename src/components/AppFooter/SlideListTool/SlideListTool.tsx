@@ -1,5 +1,5 @@
 import styles from './SlideListTool.module.css';
-import { useContext, useEffect } from 'react';
+import { BaseSyntheticEvent, useContext, useEffect } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { AddSlideIcon } from '../../common/icons/AddSlide/AddSlide';
@@ -54,30 +54,26 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
             <Button
                 type={'default'}
                 text={undefined}
-                state={'disabled'}
+                state={'active'}
                 id="add-slide-button"
                 shouldStopPropagation={false}
                 optionalText={undefined}
                 iconLeft={<AddSlideIcon color="#ffa322" />}
                 iconRight={undefined}
                 cssMix={undefined}
-                onClick={() => {
-                    undefined;
-                }}
+                func={addSlideButtonFunction}
             />
             <Button
                 type={'default'}
                 text={undefined}
-                state={'disabled'}
+                state={'active'}
                 id="delete-slide-button"
                 shouldStopPropagation={false}
                 optionalText={undefined}
                 iconLeft={<DeleteSlideIcon color="#ffa322" />}
                 iconRight={undefined}
                 cssMix={undefined}
-                onClick={() => {
-                    undefined;
-                }}
+                func={deleteSelectedSlidesButtonFunction}
             />
         </div>
     );
