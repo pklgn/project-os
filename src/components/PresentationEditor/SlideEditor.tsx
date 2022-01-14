@@ -17,7 +17,7 @@ function SlideEditor() {
             {(() => {
                 switch (menuSwitcher) {
                     case listName.ELEMENT_LIST:
-                        return <ElementListTool foo={setMenuSwitcher} />;
+                        return <ElementListTool foo={() => undefined} />;
                     case listName.REORDER_LIST:
                         return <ReorderListTool foo={setMenuSwitcher} />;
                     case listName.TEXT_TOOLS_LIST_BUTTON:

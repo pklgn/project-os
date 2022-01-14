@@ -1,108 +1,27 @@
-.default {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  background-color: transparent;
-  padding: 3px 10px 3px 10px;
-}
-
-.default:hover {
-  background-color: rgba(153, 153, 153, 0.4);
-}
-
-.default:focus {
-  background-color: #f6ea6a;
-}
-
-.default-pressed {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  background-color: #e4d429;
-  padding: 3px 10px 3px 10px;
-}
-
 .button {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  border-radius: 0.2rem;
+  border: 1px solid transparent;
   cursor: pointer;
-  background-color: transparent;
-  padding: 3px 10px 3px 10px;
+  font-size: x-large;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 0;
+  border-radius: 5px;
 }
 
-.button:hover {
-  background-color: rgba(153, 153, 153, 0.4);
+.default {
+  background-color: #512a20;
 }
 
-.button-pressed {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  background-color: #e4d429;
-  padding: 3px 10px 3px 10px;
+.active {
+  border: 2px solid #ffa322;
+  background-color: #bd634d;
 }
 
-.button-focused {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  background-color: #f6ea6a;
-  padding: 3px 10px 3px 10px;
+.disabled {
+  color: #ffa322;
+  background-color: #512a20;
 }
 
-.button-in-submenu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: none;
-  font: inherit;
-  color: inherit;
-  background-color: transparent;
-  cursor: pointer;
-  min-width: 240px;
-  min-height: 35px;
-  padding: 0 10px 0 25px;
-  outline: none;
-}
-
-.button-in-submenu:hover {
-  background-color: #bebdbdbf;
-}
-
-.button-in-submenu-active {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: none;
-  font: inherit;
-  color: inherit;
-  background-color: #bebdbdbf;
-  cursor: pointer;
-  min-width: 240px;
-  min-height: 35px;
-  padding: 0 10px 0 25px;
-  outline: none;
-}
-
-.icon {
-  border: none;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  background-color: rgba(190, 189, 189, 0);
-  border-radius: 0.2rem;
-}
-
-.icon:hover {
-  background-color: rgba(153, 153, 153, 0.4);
+.button svg {
+  display: block;
 }

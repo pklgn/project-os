@@ -60,14 +60,14 @@ export function FigureToolsList(props: FigureToolsListProps): JSX.Element {
 
     return (
         <div className={styles['element-tools']}>
-            <Button
+            {/* <Button
                 text={localeContext.locale.localization.delete_word}
                 state="disabled"
                 shouldStopPropagation={false}
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <Clear /> }}
                 foo={elementListToolButton}
-            />
+            /> */}
         </div>
     );
 }

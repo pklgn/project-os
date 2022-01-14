@@ -141,7 +141,7 @@ export function DropdownMenu(
     return (
         <div className={styles.dropdown} ref={menuRef}>
             <div ref={summoningButtonRef}>
-                <Button
+                {/* <Button
                     text={summoningButtonText}
                     state={buttonCurrentState}
                     shouldStopPropagation={false}
@@ -171,7 +171,8 @@ export function DropdownMenu(
                 )
             ) : (
                 ''
-            )}
+            )} */}
+            </div>
         </div>
     );
 }

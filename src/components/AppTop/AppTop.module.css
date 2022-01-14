@@ -1,19 +1,44 @@
 .top-bar {
   grid-area: top;
-  display: grid;
-  grid-template-columns: 1fr 14fr 6fr;
-  grid-template-areas: "logo top-bar presentation-name-input-field";
   background-color: rgba(190, 189, 189, 0.75);
   border-radius: 0.2rem;
   max-height: 45px;
 }
 
-.logo-container {
-  grid-area: logo;
-  position: absolute;
-  max-height: 55px;
+.top-bar-menu {
+  display: grid;
+  margin-top: 8px;
   margin-left: 15px;
-  margin-top: -5px;
+  margin-right: 15px;
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+  grid-template-areas: 'app-logo file-button span name-input-field fullscreen-button lang-button';
+  grid-template-columns: 0fr 1.2fr 12fr 3fr 0fr 0fr;
+  align-content: center;
+  align-items: center;
+  height: 30px;
+  background-color: #c3c3c3;
+}
+
+.top-bar > span {
+  grid-area: span;
+}
+
+.top-bar-menu > img {
+  grid-area: app-logo;
+  background-color: #cecdcd;
+  border: 2px solid #cecdcd;
   border-radius: 50%;
-  background-color: black;
+}
+
+.top-bar-menu > input {
+  grid-area: name-input-field;
+}
+
+.top-bar-menu > #fullscreen-button {
+  grid-area: app-logo;
+}
+
+.top-bar-menu > #lang-button {
+  grid-area: lang-button;
 }

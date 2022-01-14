@@ -1,9 +1,23 @@
 .slides-list-tools {
-    display: flex;
-    flex-direction: row;
+    grid-area: slideTools;
+    display: grid;
+    grid-template-areas: 'add-slide-button delete-slide-button';
     justify-content: space-between;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
-    width: 100%;
-    grid-area: slideTools;
+}
+
+.slides-list-tools > button {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.slides-list-tools > #add-slide-button {
+    grid-area: add-slide-button;
+}
+
+.slides-list-tools > #delete-slide-button {
+    grid-area: delete-slide-button;    
 }

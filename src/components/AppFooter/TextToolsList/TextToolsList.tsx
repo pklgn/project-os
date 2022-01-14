@@ -70,7 +70,7 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
 
     return (
         <div className={styles['element-tools']}>
-            <Button
+            {/* <Button
                 text={localeContext.locale.localization.add_word}
                 state="disabled"
                 shouldStopPropagation={false}
@@ -109,7 +109,7 @@ export function TextToolsList(props: TextToolsListProps): JSX.Element {
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <Clear /> }}
                 foo={elementListToolButton}
-            />
+            /> */}
         </div>
     );
 }
