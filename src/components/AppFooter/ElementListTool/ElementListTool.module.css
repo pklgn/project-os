@@ -1,39 +1,79 @@
 .element-tools {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    grid-area: elementTools;
+    display: grid;
+    grid-template-areas: 'tools-buttons-container vertical-1 adaptive-elements-tool-placeholder vertical-2 history-buttons-container';
+    grid-template-columns: 2.5fr 0 11fr 0 2fr;
+    align-items: center;
+    justify-items: center;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
-    width: 100%;
-    grid-area: elementTools;
-    overflow-y: hidden;
 }
 
-.element-tools > * {
+@media (max-width: 1366px) {
+    .element-tools {
+        grid-template-columns: 1.9fr 0 7fr 0 1.3fr;
+    }
+}
+
+@media (max-width: 1024px) {
+    .element-tools {
+        grid-template-columns: 3fr 0 7fr 0 2.2fr;
+    }
+}
+
+.element-tools>#tools-buttons-container {
+    grid-area: tools-buttons-container;
+    height: 100%;
+}
+
+.element-tools button {
+    padding: 3px 3px 3px 3px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.element-tools>#adaptive-elements-tool-placeholder {
+    grid-area: adaptive-elements-tool-placeholder;
+}
+
+.element-tools>#history-buttons-container {
+    grid-area: history-buttons-container;
+}
+
+.history-buttons-container {
+    background-color: #f9a262;
+    border-radius: 0.2rem;
+}
+
+.history-buttons-container button {
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+}
+
+.element-tools>#vertical-1 {
+    grid-area: vertical-1;
+}
+
+.element-tools>#vertical-2 {
+    grid-area: vertical-2;
+}
+
+.element-tools>#adaptive-elements-tool-placeholder {
     animation: show-element-tools .4s forwards;
 }
 
 @keyframes show-element-tools {
-    0%{
+    0% {
         opacity: 0;
         transform: translateY(-20px);
     }
-    
-    50%{
+
+    50% {
         opacity: 1;
     }
 
-    100%{
+    100% {
         transform: translateY(0);
     }
-}
-
-.color-picker {
-    border: none;
-    background-color: transparent;
-    justify-content: center;
-    align-self: center;
-    padding: 0;
-    cursor: pointer;
-    border-radius: 50%;
 }

@@ -1,4 +1,5 @@
 .slide {
+    position: relative;
     box-sizing: border-box;
     padding: 20px;
     height: 100%;
@@ -26,9 +27,29 @@
 
 .select-area {
     fill: transparent;
-    stroke: lightcoral;
-    stroke-width: 5px;
+    stroke: lightsalmon;
+    stroke-width: 4px;
     stroke-dasharray: 20, 5;
     stroke-linejoin: round;
     cursor: pointer;
+}
+
+.resizer-nw {
+    fill: lightgreen;
+    cursor: nw-resize;
+}
+
+.resizer-ne {
+    fill: lightgreen;
+    cursor: ne-resize;
+}
+
+.resizer-se {
+    fill: lightgreen;
+    cursor: se-resize;
+}
+
+.resizer-sw {
+    fill: lightgreen;
+    cursor: sw-resize;
 }

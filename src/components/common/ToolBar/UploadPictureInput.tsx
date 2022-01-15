@@ -1,17 +1,15 @@
 import { UploadFileInput } from '../UploadFileInput/UploadFileInput';
-import { BaseSyntheticEvent, LegacyRef, useContext } from 'react';
+import { BaseSyntheticEvent, LegacyRef } from 'react';
 import { bindActionCreators } from 'redux';
 import { addPicture, PictureData } from '../../../redux/action-creators/pictureActionCreators';
 import { keepModelAction } from '../../../redux/action-creators/editorActionCreators';
 import { useDispatch } from 'react-redux';
-import { LocaleContext } from '../../../App';
 
 type UploadPictureInputProps = {
     inputRef: LegacyRef<HTMLInputElement> | null;
 };
 
 function UploadPictureInput(props: UploadPictureInputProps) {
-    const localeContext = useContext(LocaleContext);
     const dispatch = useDispatch();
     const dispatchAddPictureAction = bindActionCreators(addPicture, dispatch);
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
@@ -32,7 +30,7 @@ function UploadPictureInput(props: UploadPictureInputProps) {
                     dispatchAddPictureAction(payload);
                     dispatchKeepModelAction();
                 } else {
-                    alert(localeContext.locale.localization['error_cannot_load_an_image']);
+                    alert('Cannot save an image');
                 }
             };
             image.src = URL.createObjectURL(file);

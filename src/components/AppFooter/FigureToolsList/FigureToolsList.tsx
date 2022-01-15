@@ -43,23 +43,31 @@ export function FigureToolsList(props: FigureToolsListProps): JSX.Element {
             }
         };
 
+        const revocationHandler = (event: KeyboardEvent) => {
+            if (event.code === 'Escape') {
+                elementListToolButton();
+            }
+        };
+
         document.addEventListener('keydown', historyActionsHandler);
+        document.addEventListener('keydown', revocationHandler);
 
         return () => {
             document.removeEventListener('keydown', historyActionsHandler);
+            document.removeEventListener('keydown', revocationHandler);
         };
     }, [undoPressButtonHandler]);
 
     return (
         <div className={styles['element-tools']}>
-            <Button
+            {/* <Button
                 text={localeContext.locale.localization.delete_word}
                 state="disabled"
                 shouldStopPropagation={false}
                 contentType="icon"
                 content={{ hotkeyInfo: '', icon: <Clear /> }}
                 foo={elementListToolButton}
-            />
+            /> */}
         </div>
     );
 }

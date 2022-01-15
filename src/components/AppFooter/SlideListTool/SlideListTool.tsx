@@ -1,10 +1,9 @@
 import styles from './SlideListTool.module.css';
-import { useContext, useEffect } from 'react';
+import { BaseSyntheticEvent, useContext, useEffect } from 'react';
 
-import { AddSlide } from '../../common/icons/AddSlide/AddSlide';
 import { Button } from '../../common/Button/Button';
-import { RemoveSlide } from '../../common/icons/RemoveSlide/RemoveSlide';
-import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
+import { AddSlideIcon } from '../../common/icons/AddSlide/AddSlide';
+import { DeleteSlideIcon } from '../../common/icons/DeleteSlide/DeleteSlide';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
 
@@ -53,20 +52,28 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
     return (
         <div className={styles['slides-list-tools']}>
             <Button
-                text={localeContext.locale.localization.add_word}
-                state="disabled"
+                type={'default'}
+                text={undefined}
+                state={'active'}
+                id="add-slide-button"
                 shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <AddSlide /> }}
-                foo={addSlideButtonFunction}
+                optionalText={undefined}
+                iconLeft={<AddSlideIcon color="#ffa322" />}
+                iconRight={undefined}
+                cssMix={undefined}
+                func={addSlideButtonFunction}
             />
             <Button
-                text={localeContext.locale.localization.delete_word}
-                state="disabled"
-                shouldStopPropagation={true}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <RemoveSlide /> }}
-                foo={deleteSelectedSlidesButtonFunction}
+                type={'default'}
+                text={undefined}
+                state={'active'}
+                id="delete-slide-button"
+                shouldStopPropagation={false}
+                optionalText={undefined}
+                iconLeft={<DeleteSlideIcon color="#ffa322" />}
+                iconRight={undefined}
+                cssMix={undefined}
+                func={deleteSelectedSlidesButtonFunction}
             />
         </div>
     );

@@ -1,3 +1,4 @@
+import { PictureData } from '../action-creators/pictureActionCreators';
 import { ActionType } from '../action-types/types';
 import { PictureData } from '../action-creators/pictureActionCreators';
 
