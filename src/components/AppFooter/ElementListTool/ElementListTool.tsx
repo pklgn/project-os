@@ -50,12 +50,11 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     text={undefined}
                     state={'disabled'}
                     id="select-tool-button"
-                    shouldStopPropagation={false}
                     optionalText={undefined}
                     iconLeft={<SelectCursorIcon color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    func={() => {
+                    onClick={() => {
                         undefined;
                     }}
                 />
@@ -64,12 +63,11 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     text={undefined}
                     state={'disabled'}
                     id="text-tool-button"
-                    shouldStopPropagation={false}
                     optionalText={undefined}
                     iconLeft={<TextIcon color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    func={() => {
+                    onClick={() => {
                         undefined;
                     }}
                 />
@@ -78,12 +76,11 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     text={undefined}
                     state={'disabled'}
                     id="geometry-tool-button"
-                    shouldStopPropagation={false}
                     optionalText={undefined}
                     iconLeft={<GeometryIcon color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    func={() => {
+                    onClick={() => {
                         undefined;
                     }}
                 />
@@ -97,12 +94,11 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     text={undefined}
                     state={'disabled'}
                     id="undo-button"
-                    shouldStopPropagation={false}
                     optionalText={undefined}
                     iconLeft={<RedoUndoIcon turn="undo" color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    func={() => {
+                    onClick={() => {
                         undefined;
                     }}
                 />
@@ -111,12 +107,11 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     text={undefined}
                     state={'disabled'}
                     id="redo-button"
-                    shouldStopPropagation={false}
                     optionalText={undefined}
                     iconLeft={<RedoUndoIcon turn="redo" color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    func={() => {
+                    onClick={() => {
                         undefined;
                     }}
                 />

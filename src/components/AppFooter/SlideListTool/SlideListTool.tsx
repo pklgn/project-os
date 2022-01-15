@@ -1,11 +1,9 @@
 import styles from './SlideListTool.module.css';
-import { BaseSyntheticEvent, useContext, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { Button } from '../../common/Button/Button';
+import { Button, ButtonProps } from '../../common/Button/Button';
 import { AddSlideIcon } from '../../common/icons/AddSlide/AddSlide';
 import { DeleteSlideIcon } from '../../common/icons/DeleteSlide/DeleteSlide';
-
-import { LocaleContext, LocaleContextType } from '../../../App';
 
 import { addSlide, deleteSelectedSlides } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
@@ -17,8 +15,6 @@ type SlideListToolProps = {
 };
 
 export function SlideListTool(_: SlideListToolProps): JSX.Element {
-    const localeContext: LocaleContextType = useContext(LocaleContext);
-
     const dispatch = useDispatch();
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchDeleteSlideAction = bindActionCreators(deleteSelectedSlides, dispatch);
@@ -49,32 +45,49 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
         };
     }, [dispatchAddSlideAction, dispatchKeepModelAction]);
 
+    const buttonsInfo = [
+        {
+            type: 'default',
+            text: undefined,
+            state: 'independently',
+            id: 'add-slide-button',
+            optionalText: undefined,
+            iconLeft: <AddSlideIcon color="#ffa322" />,
+            iconRight: undefined,
+            cssMix: undefined,
+            onClick: addSlideButtonFunction,
+        },
+        {
+            type: 'default',
+            text: undefined,
+            state: 'independently',
+            id: 'delete-slide-button',
+            optionalText: undefined,
+            iconLeft: <DeleteSlideIcon color="#ffa322" />,
+            iconRight: undefined,
+            cssMix: undefined,
+            onClick: deleteSelectedSlidesButtonFunction,
+        },
+    ] as ButtonProps[];
+
     return (
         <div className={styles['slides-list-tools']}>
-            <Button
-                type={'default'}
-                text={undefined}
-                state={'active'}
-                id="add-slide-button"
-                shouldStopPropagation={false}
-                optionalText={undefined}
-                iconLeft={<AddSlideIcon color="#ffa322" />}
-                iconRight={undefined}
-                cssMix={undefined}
-                func={addSlideButtonFunction}
-            />
-            <Button
-                type={'default'}
-                text={undefined}
-                state={'active'}
-                id="delete-slide-button"
-                shouldStopPropagation={false}
-                optionalText={undefined}
-                iconLeft={<DeleteSlideIcon color="#ffa322" />}
-                iconRight={undefined}
-                cssMix={undefined}
-                func={deleteSelectedSlidesButtonFunction}
-            />
+            {buttonsInfo.map((info, index) => {
+                return (
+                    <Button
+                        key={index}
+                        type={info.type}
+                        text={info.text}
+                        state={info.state}
+                        id={info.id}
+                        optionalText={info.optionalText}
+                        iconLeft={info.iconLeft}
+                        iconRight={info.iconRight}
+                        cssMix={info.cssMix}
+                        onClick={info.onClick}
+                    />
+                );
+            })}
         </div>
     );
 }

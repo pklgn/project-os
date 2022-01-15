@@ -40,12 +40,11 @@ export function AppTop(): JSX.Element {
                     text={'Файл'}
                     state={'disabled'}
                     id="file-button"
-                    shouldStopPropagation={false}
                     optionalText={undefined}
                     iconLeft={undefined}
                     iconRight={undefined}
                     cssMix={undefined}
-                    func={() => {
+                    onClick={() => {
                         undefined;
                     }}
                 />
@@ -62,12 +61,11 @@ export function AppTop(): JSX.Element {
                     text={undefined}
                     state={'disabled'}
                     id="fullscreen-button"
-                    shouldStopPropagation={false}
                     optionalText={undefined}
                     iconLeft={<FullscreenIcon color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={{ padding: '3px 2px 3px 3px' }}
-                    func={() => {
+                    onClick={() => {
                         undefined;
                     }}
                 />
@@ -75,13 +73,12 @@ export function AppTop(): JSX.Element {
                     type={'default'}
                     state={'disabled'}
                     id="lang-button"
-                    shouldStopPropagation={false}
                     text={undefined}
                     optionalText={undefined}
                     iconLeft={<GlobeIcon width={30} height={30} color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={{ borderRadius: '50%' }}
-                    func={() => {
+                    onClick={() => {
                         undefined;
                     }}
                 />
