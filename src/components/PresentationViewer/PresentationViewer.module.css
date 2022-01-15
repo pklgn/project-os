@@ -8,6 +8,10 @@
     z-index: 2005;
 }
 
+.viewer * {
+    user-select: none;
+}
+
 .to-previous-slide-area-selector {
     position: absolute;
     background-color: transparent;
