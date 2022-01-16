@@ -2,84 +2,83 @@ import styles from './Button.module.css';
 import CSS from 'csstype';
 
 import { joinClassNames } from '../../utils/joinClassNames';
-import { BaseSyntheticEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import React, { BaseSyntheticEvent, MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 
-type ButtonState = 'pressed' | 'active' | 'disabled' | 'independently';
-type ButtonType = 'in-list' | 'default';
+type ButtonState = 'pressed' | 'active' | 'disabled' | 'independently' | 'hover';
+type ButtonType = 'in-list' | 'default' | 'round';
 
 export type ButtonProps = {
-    type: ButtonType;
-    state: ButtonState;
+    type?: ButtonType;
+    state?: ButtonState;
     id: string;
-    text: string | undefined;
-    optionalText: string | undefined;
-    iconLeft: JSX.Element | undefined;
-    iconRight: JSX.Element | undefined;
-    cssMix: CSS.Properties | undefined;
-    onClick: (_: BaseSyntheticEvent) => void;
+    text?: string;
+    optionalText?: string;
+    iconLeft?: JSX.Element;
+    iconRight?: JSX.Element;
+    cssMix?: CSS.Properties;
+    onClick?: (event: BaseSyntheticEvent) => void;
+    onMouseUp?: (event: BaseSyntheticEvent) => void;
 };
 
 export function Button(props: ButtonProps) {
-    const { type, state, id, text, optionalText, iconLeft, iconRight, cssMix, onClick } = props;
+    const {
+        type = 'default',
+        state = 'independently',
+        id,
+        text,
+        optionalText,
+        iconLeft = null,
+        iconRight = null,
+        cssMix,
+        onClick,
+        onMouseUp,
+    } = props;
     const buttonRef = useRef<HTMLButtonElement>(null);
-
     const disabled = state === 'disabled';
-
-    const [classes, setClasses] = useState(
-        joinClassNames(['button', type ?? '', state ?? ''])
-            .trim()
-            .split(' '),
-    );
+    const [buttonState, setButtonState] = useState(state);
+    const classNames = joinClassNames([styles['button'], styles[`button--${buttonState}`], styles[`button--${type}`]]);
 
     const onMouseDownHandler = () => {
-        console.log('mousedown');
-        // if (state === 'independently') {
-        //     setClasses(
-        //         joinClassNames(['button', type ?? '', 'active'])
-        //             .trim()
-        //             .split(' '),
-        //     );
-        // }
+        setButtonState('active');
     };
 
-    const onEnter = (event: MouseEvent) => {
+    const onMouseEnterHandler = (event: MouseEvent) => {
         if (event.buttons === 1) {
-            console.log('entered and pressed');
+            setButtonState('active');
+        } else {
+            setButtonState('hover');
         }
     };
-
-    const onMouseUpHandler = () => {
-        if (state === 'independently') {
-            setClasses(
-                joinClassNames(['button', type ?? '', 'disabled'])
-                    .trim()
-                    .split(' '),
-            );
-        }
+    const onMouseLeaveHandler = () => {
+        setButtonState('independently');
     };
+    const textElement = text ? <span className={styles['text']}>{text}</span> : null;
+    const optionalTextElement = optionalText ? <span className={styles['optional-text']}>{optionalText}</span> : null;
 
-    useEffect(() => {
-        document.addEventListener('mouseup', onMouseUpHandler);
-
-        return () => {
-            document.removeEventListener('mouseup', onMouseUpHandler);
-        };
-    }, [onMouseUpHandler]);
+    const onMouseUpHandler = (event: BaseSyntheticEvent) => {
+        if (onMouseUp) {
+            onMouseUp(event);
+            console.log('hello');
+        }
+        setButtonState('independently');
+    };
 
     return (
         <button
             ref={buttonRef}
-            className={`${styles[classes[0]] ?? ''} ${styles[classes[1]] ?? ''} ${styles[classes[2]] ?? ''}`}
+            className={classNames}
+            onMouseLeave={onMouseLeaveHandler}
             onMouseDown={onMouseDownHandler}
-            onMouseEnter={onEnter}
+            onMouseUp={onMouseUpHandler}
+            onMouseEnter={onMouseEnterHandler}
             onClick={onClick}
             style={cssMix}
             id={id}
             disabled={disabled}
         >
             {iconLeft}
-            {text}
-            {optionalText ? <div className={styles['optional-text']}>{optionalText}</div> : <></>}
+            {textElement}
+            {optionalTextElement}
             {iconRight}
         </button>
     );

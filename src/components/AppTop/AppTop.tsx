@@ -35,19 +35,7 @@ export function AppTop(): JSX.Element {
         <div className={styles['top-bar']}>
             <div className={styles['top-bar-menu']}>
                 <AppLogoPng width={55} height={55} type={'default'} />
-                <Button
-                    type={'default'}
-                    text={'Файл'}
-                    state={'disabled'}
-                    id="file-button"
-                    optionalText={undefined}
-                    iconLeft={undefined}
-                    iconRight={undefined}
-                    cssMix={undefined}
-                    onClick={() => {
-                        undefined;
-                    }}
-                />
+                <Button text={'Файл'} id="file-button" />
                 <span />
                 <AdaptiveInputField
                     id="name-input-field"
@@ -56,32 +44,8 @@ export function AppTop(): JSX.Element {
                     onChange={onChangeNameInputHandler}
                     onBlur={onBlurNameInputHandler}
                 />
-                <Button
-                    type={'default'}
-                    text={undefined}
-                    state={'disabled'}
-                    id="fullscreen-button"
-                    optionalText={undefined}
-                    iconLeft={<FullscreenIcon color="#ffa322" />}
-                    iconRight={undefined}
-                    cssMix={{ padding: '3px 2px 3px 3px' }}
-                    onClick={() => {
-                        undefined;
-                    }}
-                />
-                <Button
-                    type={'default'}
-                    state={'disabled'}
-                    id="lang-button"
-                    text={undefined}
-                    optionalText={undefined}
-                    iconLeft={<GlobeIcon width={30} height={30} color="#ffa322" />}
-                    iconRight={undefined}
-                    cssMix={{ borderRadius: '50%' }}
-                    onClick={() => {
-                        undefined;
-                    }}
-                />
+                <Button id="fullscreen-button" iconLeft={<FullscreenIcon color="#ffa322" />} />
+                <Button id="lang-button" iconLeft={<GlobeIcon width={32} height={32} color="#ffa322" />} />
             </div>
         </div>
     );

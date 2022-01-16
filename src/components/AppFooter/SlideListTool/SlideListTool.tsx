@@ -47,26 +47,14 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
 
     const buttonsInfo = [
         {
-            type: 'default',
-            text: undefined,
-            state: 'independently',
             id: 'add-slide-button',
-            optionalText: undefined,
             iconLeft: <AddSlideIcon color="#ffa322" />,
-            iconRight: undefined,
-            cssMix: undefined,
-            onClick: addSlideButtonFunction,
+            onMouseUp: addSlideButtonFunction,
         },
         {
-            type: 'default',
-            text: undefined,
-            state: 'independently',
             id: 'delete-slide-button',
-            optionalText: undefined,
             iconLeft: <DeleteSlideIcon color="#ffa322" />,
-            iconRight: undefined,
-            cssMix: undefined,
-            onClick: deleteSelectedSlidesButtonFunction,
+            onMouseUp: deleteSelectedSlidesButtonFunction,
         },
     ] as ButtonProps[];
 
@@ -85,6 +73,7 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
                         iconRight={info.iconRight}
                         cssMix={info.cssMix}
                         onClick={info.onClick}
+                        onMouseUp={info.onMouseUp}
                     />
                 );
             })}

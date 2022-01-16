@@ -4,8 +4,7 @@ export function GlobeIcon(props: { width: number; height: number; color: string 
         <svg
             width={props.width}
             height={props.height}
-            viewBox={`-2 -2 ${props.width}
-            ${props.height}`}
+            viewBox={`0 0 27 27`}
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
         >

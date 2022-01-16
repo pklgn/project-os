@@ -45,45 +45,9 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
     return (
         <div className={styles['element-tools']}>
             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
-                <Button
-                    type={'default'}
-                    text={undefined}
-                    state={'disabled'}
-                    id="select-tool-button"
-                    optionalText={undefined}
-                    iconLeft={<SelectCursorIcon color="#ffa322" />}
-                    iconRight={undefined}
-                    cssMix={undefined}
-                    onClick={() => {
-                        undefined;
-                    }}
-                />
-                <Button
-                    type={'default'}
-                    text={undefined}
-                    state={'disabled'}
-                    id="text-tool-button"
-                    optionalText={undefined}
-                    iconLeft={<TextIcon color="#ffa322" />}
-                    iconRight={undefined}
-                    cssMix={undefined}
-                    onClick={() => {
-                        undefined;
-                    }}
-                />
-                <Button
-                    type={'default'}
-                    text={undefined}
-                    state={'disabled'}
-                    id="geometry-tool-button"
-                    optionalText={undefined}
-                    iconLeft={<GeometryIcon color="#ffa322" />}
-                    iconRight={undefined}
-                    cssMix={undefined}
-                    onClick={() => {
-                        undefined;
-                    }}
-                />
+                <Button id="select-tool-button" iconLeft={<SelectCursorIcon color="#ffa322" />} />
+                <Button id="text-tool-button" iconLeft={<TextIcon color="#ffa322" />} />
+                <Button id="geometry-tool-button" iconLeft={<GeometryIcon color="#ffa322" />} />
             </div>
             <VerticalLine id="veritical-1" />
             <span id="adaptive-elements-tool-placeholder" />
