@@ -68,20 +68,20 @@ export function ToolBar() {
         dispatchSetEditorAction('show-from-current-slide');
     };
 
-    const addCircleButtonFunction = () => {
-        dispatchAddFigureAction({ shape: FigureShape.Circle, x: 0, y: 0 });
-        dispatchKeepModelAction();
-    };
+    // const addCircleButtonFunction = () => {
+    //     dispatchAddFigureAction({ shape: FigureShape.Circle, x: 0, y: 0 });
+    //     dispatchKeepModelAction();
+    // };
 
-    const addRectangleButtonFunction = () => {
-        dispatchAddFigureAction({ shape: FigureShape.Rectangle, x: 0, y: 0 });
-        dispatchKeepModelAction();
-    };
+    // const addRectangleButtonFunction = () => {
+    //     dispatchAddFigureAction({ shape: FigureShape.Rectangle, x: 0, y: 0 });
+    //     dispatchKeepModelAction();
+    // };
 
-    const addTriangleButtonFunction = () => {
-        dispatchAddFigureAction({ shape: FigureShape.Triangle, x: 0, y: 0 });
-        dispatchKeepModelAction();
-    };
+    // const addTriangleButtonFunction = () => {
+    //     dispatchAddFigureAction({ shape: FigureShape.Triangle, x: 0, y: 0 });
+    //     dispatchKeepModelAction();
+    // };
 
     const uploadImageInputRef = useRef<HTMLInputElement>(null);
     const handleUploadImageClick = () => {

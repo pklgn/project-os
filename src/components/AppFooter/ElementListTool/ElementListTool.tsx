@@ -10,37 +10,36 @@ import { SelectCursorIcon } from '../../common/icons/Cursor/Cursor';
 import { TextIcon } from '../../common/icons/Text/Text';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 
+import { addFigure } from '../../../redux/action-creators/figureActionCreators';
+import { FigureInfo, FigureShape } from '../../../model/types';
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { undoModelAction, redoModelAction } from '../../../redux/action-creators/editorActionCreators';
 
-type ElementListToolProps = {
-    foo: () => void | undefined;
-};
-
-export function ElementListTool(props: ElementListToolProps): JSX.Element {
+export function ElementListTool(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
-    const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
-    const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
-
-    const undoPressButtonHandler = () => {
-        dispatchSetPreviousModelStateAction();
-    };
-
-    const redoButtonPressHandler = () => {
-        dispatchTurnBackModelStateAction();
-    };
+    const dispatchUndoAction = bindActionCreators(undoModelAction, dispatch);
+    const dispatchRedoAction = bindActionCreators(redoModelAction, dispatch);
+    const dispatchAddFigureAction = bindActionCreators(addFigure, dispatch);
 
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
-            undoPressButtonHandler();
+            dispatchUndoAction();
         }
         if (event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
-            redoButtonPressHandler();
+            dispatchRedoAction();
         }
     });
+
+    const mockInfo: FigureInfo = {
+        shape: FigureShape.Circle,
+        xy: {
+            x: 0,
+            y: 0,
+        },
+    };
 
     return (
         <div className={styles['element-tools']}>
@@ -74,15 +73,13 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 <Button
                     type={'default'}
                     text={undefined}
-                    state={'disabled'}
+                    state={'active'}
                     id="geometry-tool-button"
                     optionalText={undefined}
                     iconLeft={<GeometryIcon color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    onClick={() => {
-                        undefined;
-                    }}
+                    onClick={() => dispatchAddFigureAction(mockInfo)}
                 />
             </div>
             <VerticalLine id="veritical-1" />
@@ -98,9 +95,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     iconLeft={<RedoUndoIcon turn="undo" color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    onClick={() => {
-                        undefined;
-                    }}
+                    onClick={dispatchUndoAction}
                 />
                 <Button
                     type={'default'}
@@ -111,9 +106,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                     iconLeft={<RedoUndoIcon turn="redo" color="#ffa322" />}
                     iconRight={undefined}
                     cssMix={undefined}
-                    onClick={() => {
-                        undefined;
-                    }}
+                    onClick={dispatchRedoAction}
                 />
             </div>
         </div>

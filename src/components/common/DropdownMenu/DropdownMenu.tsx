@@ -1,6 +1,5 @@
 import styles from './DropdownMenu.module.css';
 
-
 type DropdownMenuProps = {
     summoningButtonPlace: 'above' | 'left' | 'default';
     summoningButtonType: 'text' | 'textInSubMenu';
@@ -10,11 +9,5 @@ type DropdownMenuProps = {
 };
 
 export function DropdownMenu(props: DropdownMenuProps): JSX.Element {
-
-
-    return (
-        <div className={styles.dropdown}>
-           
-        </div>
-    );
+    return <div className={styles.dropdown}></div>;
 }

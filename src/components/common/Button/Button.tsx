@@ -11,11 +11,11 @@ export type ButtonProps = {
     type: ButtonType;
     state: ButtonState;
     id: string;
-    text: string | undefined;
-    optionalText: string | undefined;
-    iconLeft: JSX.Element | undefined;
-    iconRight: JSX.Element | undefined;
-    cssMix: CSS.Properties | undefined;
+    text?: string;
+    optionalText?: string;
+    iconLeft?: JSX.Element;
+    iconRight?: JSX.Element;
+    cssMix?: CSS.Properties;
     onClick: (_: BaseSyntheticEvent) => void;
 };
 

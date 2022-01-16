@@ -1,13 +1,9 @@
-import { FigureShape } from '../../model/types';
+import { FigureInfo } from '../../model/types';
 import { ActionType } from '../action-types/types';
 
 interface AddFigureAction {
     type: ActionType.ADD_FIGURE_ELEMENT;
-    payload: {
-        shape: FigureShape;
-        x: number;
-        y: number;
-    };
+    payload: FigureInfo;
 }
 
 interface ChangeFiguresBorderWidthAction {

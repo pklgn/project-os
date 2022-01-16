@@ -1,6 +1,6 @@
 import styles from './SlideComponent.module.css';
 
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { FigureElementComponent } from '../../SlideElements/FigureElements/FigureElementComponent';
 import { getSlideElementType } from '../../../model/utils/tools';
 import { PictureElementComponent } from '../../SlideElements/Picture/PictureElementComponent';
@@ -17,26 +17,27 @@ import { getActiveSlidesIds, getCurrentSlide } from '../../../model/slidesAction
 import { keepModelAction, setSelectedIdInEditor } from '../../../redux/action-creators/editorActionCreators';
 import { store } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
-import { useDragAndDrop } from '../../utils/useDragAndDrop';
 
-const VIEWBOX = {
-    x_min: 0,
-    y_min: 0,
-    width: window.screen.width,
-    height: window.screen.height,
-};
+import { useDragAndDrop } from '../../utils/useDragAndDrop';
 
 type SlideProps = {
     slide: Slide | undefined;
     renderType: 'default' | 'mainSlide';
+    viewBox?: {
+        xStart: number;
+        yStart: number;
+        width: number;
+        height: number;
+    };
+    containerWidth?: number;
+    containerHeight?: number;
 };
 
 const RESIZE_AREA_WIDTH_HEIGHT = 15;
 const OFFSET_FOR_REZIE_AREA = 3;
 
-export const ScaleContext = createContext(VIEWBOX);
-
 export function SlideComponent(props: SlideProps) {
+    const emptySlideRef = useRef<HTMLDivElement>(null);
     const refCanvas = useRef<SVGSVGElement>(null);
     const refSelectedArea = useRef<SVGRectElement>(null);
 
@@ -189,7 +190,11 @@ export function SlideComponent(props: SlideProps) {
         };
     }, [props.slide?.elementsList.length]);
 
-    useDragAndDrop(refSelectedArea.current, selectedAreaLocation!, setSelectedAreaLocation);
+    useDragAndDrop({
+        element: refSelectedArea.current,
+        position: selectedAreaLocation!,
+        setPosition: setSelectedAreaLocation,
+    });
 
     useEffect(() => {
         const onMouseUpHandler = () => {
@@ -276,128 +281,137 @@ export function SlideComponent(props: SlideProps) {
         window.addEventListener('mouseup', mouseUpReziseHandler);
     };
 
+    const emptySlideWidth = props.containerWidth! * 0.7;
+    const emptySlideHeight = (emptySlideWidth * 9) / 16;
+    if (emptySlideRef.current) {
+        emptySlideRef.current.style.width = `${emptySlideWidth}px`;
+        emptySlideRef.current.style.height = `${emptySlideHeight}px`;
+    }
+
     let elementIndex = 0;
     return props.slide === undefined ? (
-        <div className={styles['empty-slide-container']} onClick={emptySlideClickHandler}>
-            {localeContext.locale.localization['empty-slide-info']}
+        <div ref={emptySlideRef} className={styles['empty-slide-container']} onClick={emptySlideClickHandler}>
+            {localeContext.locale.localization.editor.emptySlide}
         </div>
     ) : (
-        <ScaleContext.Provider value={VIEWBOX}>
-            <svg
-                ref={refCanvas}
-                height={'100%'}
-                className={styles['slide-container']}
-                style={{ background: `${props.slide.background.color}` }}
-                viewBox={`${Object.values(VIEWBOX).join(' ')}`}
-                preserveAspectRatio={'xMinYMin meet'}
-                xmlns="http://www.w3.org/2000/svg"
-                xmlnsXlink="http://www.w3.org/1999/xlink"
-            >
-                {props.slide !== undefined ? (
-                    props.slide.elementsList.map((element) => {
-                        elementIndex = elementIndex + 1;
-                        switch (getSlideElementType(element.content)) {
-                            case 'TEXT':
-                                return (
-                                    <TextElementComponent
-                                        key={element.id}
-                                        elementIndex={elementIndex}
-                                        element={element}
-                                    />
-                                );
-                            case 'FIGURE':
-                                return (
-                                    <FigureElementComponent
-                                        key={element.id}
-                                        elementIndex={elementIndex}
-                                        element={element}
-                                    />
-                                );
-                            case 'PICTURE':
-                                return (
-                                    <PictureElementComponent
-                                        key={element.id}
-                                        elementIndex={elementIndex}
-                                        element={element}
-                                    />
-                                );
+        <svg
+            ref={refCanvas}
+            width={props.viewBox?.width}
+            height={props.viewBox?.height}
+            className={styles['slide-container']}
+            viewBox={`${props.viewBox?.xStart} ${props.viewBox?.yStart} ${props.containerWidth} 
+            ${props.containerHeight}`}
+            preserveAspectRatio={'xMinYMin meet'}
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+        >
+            <rect
+                x={(props.containerWidth! - emptySlideWidth) / 2}
+                y={(props.containerHeight! - emptySlideHeight) / 2}
+                width={emptySlideWidth}
+                height={emptySlideHeight}
+                style={{ fill: `${props.slide.background.color}` }}
+            />
+            {props.slide !== undefined ? (
+                props.slide.elementsList.map((element) => {
+                    elementIndex = elementIndex + 1;
+                    switch (getSlideElementType(element.content)) {
+                        case 'TEXT':
+                            return (
+                                <TextElementComponent key={element.id} elementIndex={elementIndex} element={element} />
+                            );
+                        case 'FIGURE':
+                            return (
+                                <FigureElementComponent
+                                    key={element.id}
+                                    elementIndex={elementIndex}
+                                    element={element}
+                                />
+                            );
+                        case 'PICTURE':
+                            return (
+                                <PictureElementComponent
+                                    key={element.id}
+                                    elementIndex={elementIndex}
+                                    element={element}
+                                />
+                            );
+                    }
+                })
+            ) : (
+                <></>
+            )}
+            {selectedAreaLocation !== undefined && props.renderType === 'mainSlide' ? (
+                <>
+                    <rect
+                        ref={refSelectedArea}
+                        x={selectedAreaLocation.xy.x}
+                        y={selectedAreaLocation.xy.y}
+                        id={'select-area'}
+                        className={styles['select-area']}
+                        width={selectedAreaLocation.dimensions.width}
+                        height={selectedAreaLocation.dimensions.height}
+                    />
+                    <rect
+                        id="resize-nw"
+                        x={selectedAreaLocation.xy.x - OFFSET_FOR_REZIE_AREA}
+                        y={selectedAreaLocation.xy.y - OFFSET_FOR_REZIE_AREA}
+                        width={RESIZE_AREA_WIDTH_HEIGHT}
+                        height={RESIZE_AREA_WIDTH_HEIGHT}
+                        className={styles['resizer-nw']}
+                        onMouseDown={onMouseDownResizeHandler}
+                    />
+                    <rect
+                        id="resize-ne"
+                        x={
+                            selectedAreaLocation.xy.x +
+                            selectedAreaLocation.dimensions.width -
+                            RESIZE_AREA_WIDTH_HEIGHT +
+                            OFFSET_FOR_REZIE_AREA
                         }
-                    })
-                ) : (
-                    <></>
-                )}
-                {selectedAreaLocation !== undefined && props.renderType === 'mainSlide' ? (
-                    <>
-                        <rect
-                            ref={refSelectedArea}
-                            x={selectedAreaLocation.xy.x}
-                            y={selectedAreaLocation.xy.y}
-                            id={'select-area'}
-                            className={styles['select-area']}
-                            width={selectedAreaLocation.dimensions.width}
-                            height={selectedAreaLocation.dimensions.height}
-                        />
-                        <rect
-                            id="resize-nw"
-                            x={selectedAreaLocation.xy.x - OFFSET_FOR_REZIE_AREA}
-                            y={selectedAreaLocation.xy.y - OFFSET_FOR_REZIE_AREA}
-                            width={RESIZE_AREA_WIDTH_HEIGHT}
-                            height={RESIZE_AREA_WIDTH_HEIGHT}
-                            className={styles['resizer-nw']}
-                            onMouseDown={onMouseDownResizeHandler}
-                        />
-                        <rect
-                            id="resize-ne"
-                            x={
-                                selectedAreaLocation.xy.x +
-                                selectedAreaLocation.dimensions.width -
-                                RESIZE_AREA_WIDTH_HEIGHT +
-                                OFFSET_FOR_REZIE_AREA
-                            }
-                            y={selectedAreaLocation.xy.y - OFFSET_FOR_REZIE_AREA}
-                            width={RESIZE_AREA_WIDTH_HEIGHT}
-                            height={RESIZE_AREA_WIDTH_HEIGHT}
-                            className={styles['resizer-ne']}
-                            onMouseDown={onMouseDownResizeHandler}
-                        />
-                        <rect
-                            id="resize-se"
-                            x={
-                                selectedAreaLocation.xy.x +
-                                selectedAreaLocation.dimensions.width -
-                                RESIZE_AREA_WIDTH_HEIGHT +
-                                OFFSET_FOR_REZIE_AREA
-                            }
-                            y={
-                                selectedAreaLocation.xy.y +
-                                selectedAreaLocation.dimensions.height -
-                                RESIZE_AREA_WIDTH_HEIGHT +
-                                OFFSET_FOR_REZIE_AREA
-                            }
-                            width={RESIZE_AREA_WIDTH_HEIGHT}
-                            height={RESIZE_AREA_WIDTH_HEIGHT}
-                            className={styles['resizer-se']}
-                            onMouseDown={onMouseDownResizeHandler}
-                        />
-                        <rect
-                            id="resize-sw"
-                            x={selectedAreaLocation.xy.x - OFFSET_FOR_REZIE_AREA}
-                            y={
-                                selectedAreaLocation.xy.y +
-                                selectedAreaLocation.dimensions.height -
-                                RESIZE_AREA_WIDTH_HEIGHT +
-                                OFFSET_FOR_REZIE_AREA
-                            }
-                            width={RESIZE_AREA_WIDTH_HEIGHT}
-                            height={RESIZE_AREA_WIDTH_HEIGHT}
-                            className={styles['resizer-sw']}
-                            onMouseDown={onMouseDownResizeHandler}
-                        />
-                    </>
-                ) : (
-                    <></>
-                )}
-            </svg>
-        </ScaleContext.Provider>
+                        y={selectedAreaLocation.xy.y - OFFSET_FOR_REZIE_AREA}
+                        width={RESIZE_AREA_WIDTH_HEIGHT}
+                        height={RESIZE_AREA_WIDTH_HEIGHT}
+                        className={styles['resizer-ne']}
+                        onMouseDown={onMouseDownResizeHandler}
+                    />
+                    <rect
+                        id="resize-se"
+                        x={
+                            selectedAreaLocation.xy.x +
+                            selectedAreaLocation.dimensions.width -
+                            RESIZE_AREA_WIDTH_HEIGHT +
+                            OFFSET_FOR_REZIE_AREA
+                        }
+                        y={
+                            selectedAreaLocation.xy.y +
+                            selectedAreaLocation.dimensions.height -
+                            RESIZE_AREA_WIDTH_HEIGHT +
+                            OFFSET_FOR_REZIE_AREA
+                        }
+                        width={RESIZE_AREA_WIDTH_HEIGHT}
+                        height={RESIZE_AREA_WIDTH_HEIGHT}
+                        className={styles['resizer-se']}
+                        onMouseDown={onMouseDownResizeHandler}
+                    />
+                    <rect
+                        id="resize-sw"
+                        x={selectedAreaLocation.xy.x - OFFSET_FOR_REZIE_AREA}
+                        y={
+                            selectedAreaLocation.xy.y +
+                            selectedAreaLocation.dimensions.height -
+                            RESIZE_AREA_WIDTH_HEIGHT +
+                            OFFSET_FOR_REZIE_AREA
+                        }
+                        width={RESIZE_AREA_WIDTH_HEIGHT}
+                        height={RESIZE_AREA_WIDTH_HEIGHT}
+                        className={styles['resizer-sw']}
+                        onMouseDown={onMouseDownResizeHandler}
+                    />
+                </>
+            ) : (
+                <></>
+            )}
+        </svg>
     );
 }
