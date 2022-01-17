@@ -9,6 +9,7 @@
     transition-duration: 0.2s;
     background-color: rgb(102, 107, 124);
     opacity: 0.8;
+    font-size: 1em;
 }
 
 .button--default {
