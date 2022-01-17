@@ -1,20 +1,21 @@
 import styles from './SlideListTool.module.css';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
 import { AddSlideIcon } from '../../common/icons/AddSlide/AddSlide';
 import { DeleteSlideIcon } from '../../common/icons/DeleteSlide/DeleteSlide';
+import ToolTip from '../../common/ToolTip/ToolTip';
+
+import { LocaleContext } from '../../../App';
 
 import { addSlide, deleteSelectedSlides } from '../../../redux/action-creators/slideActionCreators';
 import { bindActionCreators } from 'redux';
 import { keepModelAction } from '../../../redux/action-creators/editorActionCreators';
 import { useDispatch } from 'react-redux';
 
-type SlideListToolProps = {
-    foo: () => void | undefined;
-};
+export function SlideListTool(): JSX.Element {
+    const localeContext = useContext(LocaleContext);
 
-export function SlideListTool(_: SlideListToolProps): JSX.Element {
     const dispatch = useDispatch();
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchDeleteSlideAction = bindActionCreators(deleteSelectedSlides, dispatch);
@@ -47,11 +48,18 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
 
     const buttonsInfo = [
         {
+            type: 'default',
+            text: localeContext.locale.localization.slideListTool.addSlide,
+            state: 'independently',
             id: 'add-slide-button',
+            optionalText: undefined,
             iconLeft: <AddSlideIcon color="#ffa322" />,
             onMouseUp: addSlideButtonFunction,
         },
         {
+            type: 'default',
+            text: localeContext.locale.localization.slideListTool.deleteSlide,
+            state: 'independently',
             id: 'delete-slide-button',
             iconLeft: <DeleteSlideIcon color="#ffa322" />,
             onMouseUp: deleteSelectedSlidesButtonFunction,
@@ -62,18 +70,25 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
         <div className={styles['slides-list-tools']}>
             {buttonsInfo.map((info, index) => {
                 return (
-                    <Button
+                    <ToolTip
                         key={index}
-                        type={info.type}
-                        text={info.text}
-                        state={info.state}
-                        id={info.id}
-                        optionalText={info.optionalText}
-                        iconLeft={info.iconLeft}
-                        iconRight={info.iconRight}
-                        cssMix={info.cssMix}
-                        onClick={info.onClick}
-                        onMouseUp={info.onMouseUp}
+                        title={info.text ? info.text : 'None'}
+                        toolTipId={`${info.id}-tool-tip`}
+                        position="above"
+                        child={
+                            <Button
+                                key={index}
+                                type={info.type}
+                                text={undefined}
+                                state={info.state}
+                                id={info.id}
+                                optionalText={info.optionalText}
+                                iconLeft={info.iconLeft}
+                                iconRight={info.iconRight}
+                                cssMix={info.cssMix}
+                                onClick={info.onClick}
+                            />
+                        }
                     />
                 );
             })}

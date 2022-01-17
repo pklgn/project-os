@@ -118,7 +118,7 @@ export function PresentationViewer() {
                 </>
             ) : (
                 <div className={styles['empty-slide-in-show']}>
-                    {localeContext.locale.localization['no-slides-to-show-info']}
+                    {localeContext.locale.localization.presentationViewer.noSlidesToShow}
                 </div>
             )}
         </div>

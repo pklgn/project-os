@@ -1,76 +1,20 @@
 {
-    "USE_EVERYWHERE_BLOCK": "",
-
-    "add_word": "Add",
-    "delete_word": "Delete",
-
-    "USE_EVERYWHERE_BLOCK_END": "",
-
-    "INFO_TOPBAR_MENU_BLOCK": "",
-
-    "circle_word": "Circle",
-    "create_word": "Create",
-    "document_word": "Document",
-    "download_word": "Download",
-    "figures_word": "Figures",
-    "file_word": "File",
-    "image_word": "Image",
-    "open_word": "Open",
-    "presentation_word": "Presentation",
-    "rename_word": "Rename",
-    "relocate_word": "Relocate",
-    "spreadsheet_word": "Spreadsheet",
-    "square-figure_word": "Square",
-    "text_word": "Text",
-    "change_text": "Change text",
-    "triangle_word": "Triangle",
-
-    "add-from-google-drive": "Add from Google drive",
-    "all-presentation": "All presentation",
-    "change-locale": "Change locale",
-    "chosen-slides": "Chosen slides",
-    "create-copy": "Create copy",
-    "email": "Email",
-    "powerpoint-file-format": "Microsoft PowerPoint (.pptx)",
-    "put-url": "Input Image's URL",
-    "pdf-file-format": "Document PDF (.pdf)",
-    "regular-text-format": "Regular text (.txt)",
-    "send-to-email": "Send email",
-    "slide-show": "Slide show",
-    "slide-show-start-first-slide": "Start from beginning",
-    "slide-show-start-current-slide": "Start from current slide",
-    "upload-from-computer": "Upload from device",
-    "write-to-co-authors": "Write to co-authors",
-
-    "INFO_TOPBAR_MENU_BLOCK_END": "",
-
-    "SLIDE_TOOL_BAR_BLOCK": "",
-
-    "backward_word": "Backward",
-    "back_word": "Back",
-    "change-color": "Change color",
-    "forward_word": "Forward",
-    "front_word": "Front",
-    "fullscreen_word": "Fullscreen",
-    "opacity_word": "Opacity",
-    "redo_word": "Redo",
-    "reorder_word": "Reorder",
-    "undo_word": "Undo",
-
-    "SLIDE_TOOL_BAR_BLOCK_END": "",
-
-    "PRESENTATION_VIEWER_BLOCK": "",
-
-    "no-slides-to-show-info": "Are your slides not as hard workers as you? They are not in the workplace!",
-
-    "PRESENTATION_VIEWER_BLOCK_END": "",
-
-    "SLIDE_BLOCK": "",
-
-    "empty-slide-info": "Click to add new slide",
-
-    "SLIDE_BLOCK_END": "",
-
-    "error_no_slides": "You can't save an empty presentation",
-    "error_cannot_load_an_image": "Error while loading an image"
+    "editor": {
+        "emptySlide": "Click to add new slide"
+    },
+    "elementsListTool": {
+        "cursorTool": "Choose (Esc)",
+        "textTool": "Text tool (T)",
+        "geometryTool": "Figure (F)",
+        "geometryCircleTool": "Circle (F+C)",
+        "geometryTriangleTool": "Triangle (F+T)",
+        "geometryRectangleTool": "Rectangle (F+R)"
+    },
+    "presentationViewer": {
+        "noSlidesToShow": "Are your slides not as hard workers as you? They are not in the workplace!"
+    },
+    "slideListTool": {
+        "addSlide": "Add slide (Ctrl+M)",
+        "deleteSlide": "Delete slides (Delete)"
+    }
 }

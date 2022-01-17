@@ -106,7 +106,7 @@ export const allReducers = (state: Editor = initEditor(), action: ModelActions):
             return addPictureElement(state, action.payload);
 
         case ActionType.ADD_FIGURE_ELEMENT:
-            return addFigureElement(state, action.payload.shape, action.payload.x, action.payload.y);
+            return addFigureElement(state, action.payload.shape, action.payload.xy.x, action.payload.xy.y);
         case ActionType.CHANGE_FIGURES_BORDER_COLOR:
             return changeFiguresBorderColor(state, action.payload);
         case ActionType.CHANGE_FIGURES_BORDER_WIDTH:

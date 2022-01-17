@@ -1,76 +1,20 @@
 {
-    "USE_EVERYWHERE_BLOCK": "",
-
-    "add_word": "Добавить",
-    "delete_word": "Удалить",
-
-    "USE_EVERYWHERE_BLOCK_END": "",
-
-    "INFO_TOPBAR_MENU_BLOCK": "",
-
-    "circle_word": "Круг",
-    "create_word": "Создать",
-    "document_word": "Документ",
-    "download_word": "Скачать",
-    "figures_word": "Фигуры",
-    "file_word": "Файл",
-    "image_word": "Изображение",
-    "open_word": "Открыть",
-    "presentation_word": "Презентация",
-    "rename_word": "Переименовать",
-    "relocate_word": "Переместить",
-    "spreadsheet_word": "Таблица",
-    "square-figure_word": "Квадрат",
-    "text_word": "Текст",
-    "change_text": "Изменить текст",
-    "triangle_word": "Треугольник",
-
-    "add-from-google-drive": "Добавить с Google Диска",
-    "all-presentation": "Вся презентация",
-    "change-locale": "Сменить язык",
-    "chosen-slides": "Выбранные слайды",
-    "create-copy": "Создать копию",
-    "email": "Электронная почта",
-    "powerpoint-file-format": "Microsoft PowerPoint (.pptx)",
-    "put-url": "Вставить URL",
-    "pdf-file-format": "Документ PDF (.pdf)",
-    "regular-text-format": "Обычный текст (.txt)",
-    "send-to-email": "Отправить по почте",
-    "slide-show": "Показ слайдов",
-    "slide-show-start-first-slide": "С первого слайда",
-    "slide-show-start-current-slide": "С текущего слайда",
-    "upload-from-computer": "Загрузить с компьютера",
-    "write-to-co-authors": "Написать соавторам",
-
-    "INFO_TOPBAR_MENU_BLOCK_END": "",
-
-    "SLIDE_TOOL_BAR_BLOCK": "",
-
-    "backward_word": "На задний план",
-    "back_word": "Переместить назад",
-    "change-color": "Изменить цвет",
-    "forward_word": "На передний план",
-    "front_word": "Переместить вперёд",
-    "fullscreen_word": "Полный экран",
-    "opacity_word": "Прозрачность",
-    "redo_word": "Вернуть действие",
-    "reorder_word": "Сдвинуть",
-    "undo_word": "Отменить действие",
-
-    "SLIDE_TOOL_BAR_BLOCK_END": "",
-
-    "PRESENTATION_VIEWER_BLOCK": "",
-
-    "no-slides-to-show-info": "Ваши слайды не настолько работяги как вы? Их нет на рабочем месте!",
-
-    "PRESENTATION_VIEWER_BLOCK_END": "",
-
-    "SLIDE_BLOCK": "",
-
-    "empty-slide-info": "Нажмите, чтобы добавить новый слайд",
-
-    "SLIDE_BLOCK_END": "",
-
-    "error_no_slides": "Нельзя сохранить пустую презентацию",
-    "error_cannot_load_an_image": "Ошибка при загрузке изображения"
+    "editor": {
+        "emptySlide": "Кликните, чтобы добавить слайд"
+    },
+    "elementsListTool": {
+        "cursorTool": "Выбрать (Esc)",
+        "textTool": "Текстовое поле (T)",
+        "geometryTool": "Фигура (F)",
+        "geometryCircleTool": "Круг (F+C)",
+        "geometryTriangleTool": "Треугольник (F+T)",
+        "geometryRectangleTool": "Прямоугольник (F+R)"
+    },
+    "presentationViewer": {
+        "noSlidesToShow": "Ваши слайды не такие работяги как вы? Их нет на рабочем месте!"
+    },
+    "slideListTool": {
+        "addSlide": "Добавить слайд (Ctrl+M)",
+        "deleteSlide": "Удалить выбранные слайды (Delete)"
+    }
 }

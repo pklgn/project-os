@@ -21,9 +21,15 @@
     }
 }
 
-.element-tools>#tools-buttons-container {
+.tools-buttons-container {
     grid-area: tools-buttons-container;
     height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.tools-buttons-container>* {
+    padding: 0;
 }
 
 .element-tools>#adaptive-elements-tool-placeholder {

@@ -85,3 +85,8 @@ export enum FigureShape {
     Triangle,
     Rectangle,
 }
+
+export type FigureInfo = {
+    shape: FigureShape;
+    xy: Coordinates;
+};

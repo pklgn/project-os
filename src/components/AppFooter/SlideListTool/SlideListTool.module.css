@@ -7,10 +7,23 @@
     border-radius: 0.2rem;
 }
 
-.slides-list-tools > #add-slide-button {
+.slides-list-tools>#add-slide-button {
     grid-area: add-slide-button;
 }
 
-.slides-list-tools > #delete-slide-button {
-    grid-area: delete-slide-button;    
+.slides-list-tools button[id="add-slide-button"],
+.slides-list-tools button[id="delete-slide-button"] {
+    margin: 0;
+}
+
+.slides-list-tools div[id="add-slide-button-tool-tip"] {
+    left: calc(145%);
+}
+
+.slides-list-tools div[id="add-slide-button-tool-tip"]:after {
+    left: 21%;
+}
+
+.slides-list-tools>#delete-slide-button {
+    grid-area: delete-slide-button;
 }
