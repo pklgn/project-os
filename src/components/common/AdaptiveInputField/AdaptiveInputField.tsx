@@ -14,7 +14,7 @@ export function AdaptiveInputField(props: AdaptiveInputFieldPropsType): JSX.Elem
     return (
         <input
             id={props.id}
-            className={styles.input}
+            className={styles['ghost-input']}
             type="text"
             maxLength={props.maxLength}
             value={props.value}
