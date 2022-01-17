@@ -8,9 +8,12 @@ import ToolTip from '../../common/ToolTip/ToolTip';
 
 import { LocaleContext } from '../../../App';
 
-import { addSlide, deleteSelectedSlides } from '../../../redux/action-creators/slideActionCreators';
+import {
+    addSlide,
+    deleteSelectedSlides,
+} from '../../../app_model/redux_model/actions_model/action_creators/slide_action_creators';
 import { bindActionCreators } from 'redux';
-import { keepModelAction } from '../../../redux/action-creators/editorActionCreators';
+import { keepModelAction } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { useDispatch } from 'react-redux';
 
 export function SlideListTool(): JSX.Element {

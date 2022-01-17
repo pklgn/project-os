@@ -1,8 +1,8 @@
-import { ActionType } from '../action-types/types';
-import { SlideAction } from '../actions/slidesActions';
+import { ActionType } from '../action_types/types';
+import { SlideAction } from '../actions/slides_actions';
 
 import { Dispatch } from 'redux';
-import { Background } from '../../model/types';
+import { Background } from '../../../model/types';
 
 export const addSlide = () => {
     return (dispatch: Dispatch<SlideAction>) => {

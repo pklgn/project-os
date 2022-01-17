@@ -1,5 +1,5 @@
-import { ActionType } from '../action-types/types';
-import { PresentationMode } from '../../model/types';
+import { ActionType } from '../action_types/types';
+import { PresentationMode } from '../../../model/types';
 
 interface SetEditorModeAction {
     type: ActionType.SET_EDITOR_MODE;

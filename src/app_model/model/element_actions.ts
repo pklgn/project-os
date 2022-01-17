@@ -1,4 +1,4 @@
-import { getCurrentSlide, applySlideChanges } from './slidesActions';
+import { getCurrentSlide, applySlideChanges } from './slides_actions';
 import { Coordinates, Editor, SelectedAreaLocation, Size, Slide, SlideElement } from './types';
 
 export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolean): Editor {

@@ -1,8 +1,11 @@
 import { UploadFileInput } from '../UploadFileInput/UploadFileInput';
 import { BaseSyntheticEvent, LegacyRef } from 'react';
 import { bindActionCreators } from 'redux';
-import { addPicture, PictureData } from '../../../redux/action-creators/pictureActionCreators';
-import { keepModelAction } from '../../../redux/action-creators/editorActionCreators';
+import {
+    addPicture,
+    PictureData,
+} from '../../../app_model/redux_model/actions_model/action_creators/picture_action_creators';
+import { keepModelAction } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { useDispatch } from 'react-redux';
 
 type UploadPictureInputProps = {

@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
-import { PictureActions } from '../actions/pictureActions';
-import { ActionType } from '../action-types/types';
+import { PictureActions } from '../actions/picture_actions';
+import { ActionType } from '../action_types/types';
 
 export type PictureData = {
     src: string;

@@ -1,14 +1,14 @@
-import { ActionType } from '../action-types/types';
-import { EditorActions } from '../actions/editorActions';
-import { ElementAction } from '../actions/elementActions';
-import { FigureActions } from '../actions/figureActions';
-import { PresentationActions } from '../actions/presentationActions';
-import { SlideAction } from '../actions/slidesActions';
-import { TextActions } from '../actions/textActions';
-import { PictureActions } from '../actions/pictureActions';
+import { ActionType } from '../actions_model/action_types/types';
+import { EditorActions } from '../actions_model/actions/editor_actions';
+import { ElementAction } from '../actions_model/actions/element_actions';
+import { FigureActions } from '../actions_model/actions/figure_actions';
+import { PresentationActions } from '../actions_model/actions/presentation_actions';
+import { SlideAction } from '../actions_model/actions/slides_actions';
+import { TextActions } from '../actions_model/actions/text_actions';
+import { PictureActions } from '../actions_model/actions/picture_actions';
 
 import { Editor } from '../../model/types';
-import { initEditor } from '../../model/initModelActions';
+import { initEditor } from '../../model/init_model_actions';
 
 import {
     addTextElement,
@@ -16,30 +16,30 @@ import {
     changeTextsContent,
     changeTextsSize,
     changeTextsStyle,
-} from '../../model/specifiedActions/textActions';
+} from '../../model/specified_actions/text_actions';
 import {
     addSlide,
     changeSelectedSlidesBackground,
     deleteSelectedSlides,
     insertSelectedSlides,
-} from '../../model/slidesActions';
-import { changePresentationName } from '../../model/presentationActions';
-import { keep, redo, undo } from '../../model/historyActions';
+} from '../../model/slides_actions';
+import { changePresentationName } from '../../model/presentation_actions';
+import { keep, redo, undo } from '../../model/history_actions';
 import {
     changeElementsOpacity,
     changeElementsPosition,
     changeElementsSize,
     moveElementsToBackgroundOrForeground,
     removeSelectedElements,
-} from '../../model/elementActions';
-import { setSelectedIdInEditor, toggleEditorMode, uploadPresentationFromJson } from '../../model/editorActions';
-import { addPictureElement } from '../../model/specifiedActions/pictureActions';
+} from '../../model/element_actions';
+import { setSelectedIdInEditor, toggleEditorMode, uploadPresentationFromJson } from '../../model/editor_actions';
+import { addPictureElement } from '../../model/specified_actions/picture_actions';
 import {
     addFigureElement,
     changeFiguresBorderColor,
     changeFiguresBorderWidth,
     changeFiguresColor,
-} from '../../model/specifiedActions/figureActions';
+} from '../../model/specified_actions/figure_actions';
 
 type ModelActions =
     | EditorActions

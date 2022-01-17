@@ -1,4 +1,4 @@
-import { ActionType } from '../action-types/types';
+import { ActionType } from '../action_types/types';
 
 interface TitleAction {
     type: ActionType.CHANGE_PRESENTATION_TITLE;

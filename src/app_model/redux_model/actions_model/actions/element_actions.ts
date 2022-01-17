@@ -1,4 +1,4 @@
-import { ActionType } from '../action-types/types';
+import { ActionType } from '../action_types/types';
 
 interface ElementsMoveToForegroundOrBackgroundAction {
     type: ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND;

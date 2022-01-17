@@ -9,8 +9,16 @@ import { listName } from '../../PresentationEditor/PresentationEditor';
 
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
-import { undoModelAction, redoModelAction, keepModelAction } from '../../../redux/action-creators/editorActionCreators';
-import { addText, changeTextsColor, changeTextContent } from '../../../redux/action-creators/textActionCreators';
+import {
+    undoModelAction,
+    redoModelAction,
+    keepModelAction,
+} from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
+import {
+    addText,
+    changeTextsColor,
+    changeTextContent,
+} from '../../../app_model/redux_model/actions_model/action_creators/text_action_creators';
 import { AddText } from '../../common/icons/AddText/AddText';
 import { Clear } from '../../common/icons/Cancel/Clear';
 import { TextColor } from '../../common/icons/TextColor/TextColor';

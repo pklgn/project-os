@@ -2,20 +2,27 @@ import styles from './SlideComponent.module.css';
 
 import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { FigureElementComponent } from '../../SlideElements/FigureElements/FigureElementComponent';
-import { getSlideElementType } from '../../../model/utils/tools';
+import { getSlideElementType } from '../../../app_model/model/utils/tools';
 import { PictureElementComponent } from '../../SlideElements/Picture/PictureElementComponent';
-import { Coordinates, SelectedAreaLocation, Slide } from '../../../model/types';
+import { Coordinates, SelectedAreaLocation, Slide } from '../../../app_model/model/types';
 import { TextElementComponent } from '../../SlideElements/Text/TextElementComponent';
 
 import { LocaleContext } from '../../../App';
 
-import { addSlide } from '../../../redux/action-creators/slideActionCreators';
+import { addSlide } from '../../../app_model/redux_model/actions_model/action_creators/slide_action_creators';
 import { bindActionCreators } from 'redux';
-import { changeSelectedElementsPosition } from '../../../redux/action-creators/elementsActionCreators';
-import { getActiveElementsIds, getElementsAreaLoaction, getElementsCoordinates } from '../../../model/elementActions';
-import { getActiveSlidesIds, getCurrentSlide } from '../../../model/slidesActions';
-import { keepModelAction, setSelectedIdInEditor } from '../../../redux/action-creators/editorActionCreators';
-import { store } from '../../../redux/store';
+import { changeSelectedElementsPosition } from '../../../app_model/redux_model/actions_model/action_creators/elements_action_creators';
+import {
+    getActiveElementsIds,
+    getElementsAreaLoaction,
+    getElementsCoordinates,
+} from '../../../app_model/model/element_actions';
+import { getActiveSlidesIds, getCurrentSlide } from '../../../app_model/model/slides_actions';
+import {
+    keepModelAction,
+    setSelectedIdInEditor,
+} from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
+import { store } from '../../../app_model/redux_model/store';
 import { useDispatch } from 'react-redux';
 
 import { useDragAndDrop } from '../../utils/useDragAndDrop';

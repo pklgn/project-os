@@ -1,4 +1,4 @@
-import { ActionType } from '../action-types/types';
+import { ActionType } from '../action_types/types';
 
 interface TextAddAction {
     type: ActionType.ADD_TEXT_AT_SELECTED_SLIDE;

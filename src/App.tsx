@@ -7,7 +7,7 @@ import { PresentationViewer } from './components/PresentationViewer/Presentation
 import { getL18nObject, l18nType } from './l18n/l18n';
 
 import { Provider } from 'react-redux';
-import { store } from './redux/store';
+import { store } from './app_model/redux_model/store';
 
 export type LocaleContextType = {
     locale: l18nType;

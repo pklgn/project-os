@@ -1,7 +1,7 @@
-import { ActionType } from '../action-types/types';
+import { ActionType } from '../action_types/types';
 import { Dispatch } from 'redux';
-import { FigureActions } from '../actions/figureActions';
-import { FigureInfo } from '../../model/types';
+import { FigureActions } from '../actions/figure_actions';
+import { FigureInfo } from '../../../model/types';
 
 export const addFigure = (payload: FigureInfo) => {
     return (dispatch: Dispatch<FigureActions>) => {

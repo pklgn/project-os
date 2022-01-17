@@ -10,11 +10,14 @@ import { SelectCursorIcon } from '../../common/icons/Cursor/Cursor';
 import { TextIcon } from '../../common/icons/Text/Text';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 
-import { addFigure } from '../../../redux/action-creators/figureActionCreators';
-import { FigureInfo, FigureShape } from '../../../model/types';
+import { addFigure } from '../../../app_model/redux_model/actions_model/action_creators/figure_action_creators';
+import { FigureInfo, FigureShape } from '../../../app_model/model/types';
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
-import { undoModelAction, redoModelAction } from '../../../redux/action-creators/editorActionCreators';
+import {
+    undoModelAction,
+    redoModelAction,
+} from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import ToolTip from '../../common/ToolTip/ToolTip';
 
 export function ElementListTool(): JSX.Element {

@@ -7,21 +7,25 @@ import { getL18nObject } from '../../../l18n/l18n';
 import { LocaleContext } from '../../../App';
 import { useContext, useRef } from 'react';
 
-import { addFigure } from '../../../redux/action-creators/figureActionCreators';
-import { addText } from '../../../redux/action-creators/textActionCreators';
-import { addSlide } from '../../../redux/action-creators/slideActionCreators';
+import { addFigure } from '../../../app_model/redux_model/actions_model/action_creators/figure_action_creators';
+import { addText } from '../../../app_model/redux_model/actions_model/action_creators/text_action_creators';
+import { addSlide } from '../../../app_model/redux_model/actions_model/action_creators/slide_action_creators';
 import { bindActionCreators } from 'redux';
-import { getSlideAmount } from '../../../model/slidesActions';
-import { keepModelAction, setEditorMode } from '../../../redux/action-creators/editorActionCreators';
-import { store } from '../../../redux/store';
+import { getSlideAmount } from '../../../app_model/model/slides_actions';
+import {
+    keepModelAction,
+    setEditorMode,
+} from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
+
 import { useDispatch } from 'react-redux';
-import { initEditor } from '../../../model/initModelActions';
-import { savePresentationAsJson } from '../../../model/editorActions';
-import { generateUUId } from '../../../model/utils/uuid';
+import { initEditor } from '../../../app_model/model/init_model_actions';
+import { savePresentationAsJson } from '../../../app_model/model/editor_actions';
+import { store } from '../../../app_model/redux_model/store';
+import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { UploadPresentationInput } from './UploadPresentationInput';
 import { UploadPictureInput } from './UploadPictureInput';
 
-import { FigureShape } from '../../../model/types';
+import { FigureShape } from '../../../app_model/model/types';
 
 export function ToolBar() {
     const func = () => undefined;

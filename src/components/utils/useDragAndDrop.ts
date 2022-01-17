@@ -1,4 +1,4 @@
-import { Coordinates, SelectedAreaLocation } from '../../model/types';
+import { Coordinates, SelectedAreaLocation } from '../../app_model/model/types';
 import { useEffect } from 'react';
 
 export type DragAndDropParamsType = {

@@ -1,5 +1,5 @@
-import { ActionType } from '../action-types/types';
-import { TextActions } from '../actions/textActions';
+import { ActionType } from '../action_types/types';
+import { TextActions } from '../actions/text_actions';
 
 import { Dispatch } from 'redux';
 

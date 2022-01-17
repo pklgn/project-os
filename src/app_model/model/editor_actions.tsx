@@ -1,4 +1,4 @@
-import { initEditor } from './initModelActions';
+import { initEditor } from './init_model_actions';
 import { Editor, Presentation, PresentationMode } from './types';
 
 export function getCurrentEditorMode(editor: Editor): PresentationMode {

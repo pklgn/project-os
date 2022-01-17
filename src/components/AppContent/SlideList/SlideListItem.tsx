@@ -1,6 +1,6 @@
 import styles from './SlideList.module.css';
 
-import { Slide } from '../../../model/types';
+import { Slide } from '../../../app_model/model/types';
 import { SlideComponent } from '../Slide/SlideComponent';
 
 type SlideListItemProps = {

@@ -3,11 +3,11 @@ import styles from './PresentationViewer.module.css';
 
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
-import { setEditorMode } from '../../redux/action-creators/editorActionCreators';
-import { store } from '../../redux/store';
+import { setEditorMode } from '../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
+import { store } from '../../app_model/redux_model/store';
 
-import { getCurrentSlide, getFirstSlide, getNextToSlide } from '../../model/slidesActions';
-import { Slide } from '../../model/types';
+import { getCurrentSlide, getFirstSlide, getNextToSlide } from '../../app_model/model/slides_actions';
+import { Slide } from '../../app_model/model/types';
 
 import { SlideComponent } from '../AppContent/Slide/SlideComponent';
 

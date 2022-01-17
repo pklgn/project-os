@@ -1,6 +1,6 @@
 import { isPicture } from '../utils/tools';
 import { generateUUId } from '../utils/uuid';
-import { getCurrentSlide, applySlideChanges } from '../slidesActions';
+import { getCurrentSlide, applySlideChanges } from '../slides_actions';
 
 export function addPictureElement(editor: Editor, picture: PictureData): Editor {
     const { src, alt, width, height } = picture;
@@ -52,7 +52,7 @@ export function addPictureElement(editor: Editor, picture: PictureData): Editor 
 }
 
 import { Editor, Slide, PictureElement, SlideElement } from '../types';
-import { PictureData } from '../../redux/action-creators/pictureActionCreators';
+import { PictureData } from '../../redux_model/actions_model/action_creators/picture_action_creators';
 
 export function changePicture(editor: Editor, src: string): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);

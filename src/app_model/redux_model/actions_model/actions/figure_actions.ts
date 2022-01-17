@@ -1,5 +1,5 @@
-import { FigureInfo } from '../../model/types';
-import { ActionType } from '../action-types/types';
+import { FigureInfo } from '../../../model/types';
+import { ActionType } from '../action_types/types';
 
 interface AddFigureAction {
     type: ActionType.ADD_FIGURE_ELEMENT;

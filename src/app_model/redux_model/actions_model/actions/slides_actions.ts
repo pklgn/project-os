@@ -1,5 +1,5 @@
-import { Background } from '../../model/types';
-import { ActionType } from '../action-types/types';
+import { Background } from '../../../model/types';
+import { ActionType } from '../action_types/types';
 
 interface AddSlideAction {
     type: ActionType.ADD_SLIDE;

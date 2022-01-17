@@ -1,6 +1,6 @@
-import { ActionType } from '../action-types/types';
-import { EditorActions } from '../actions/editorActions';
-import { PresentationMode } from '../../model/types';
+import { ActionType } from '../action_types/types';
+import { EditorActions } from '../actions/editor_actions';
+import { PresentationMode } from '../../../model/types';
 
 import { Dispatch } from 'react';
 

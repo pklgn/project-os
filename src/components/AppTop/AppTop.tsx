@@ -1,8 +1,8 @@
 import { BaseSyntheticEvent } from 'react';
 
 import { bindActionCreators } from 'redux';
-import { changePresentationTitle } from '../../redux/action-creators/presentationActionCreators';
-import { RootState } from '../../redux/reducers/rootReducer';
+import { changePresentationTitle } from '../../app_model/redux_model/actions_model/action_creators/presentation_action_creators';
+import { RootState } from '../../app_model/redux_model/reducers/root_reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AdaptiveInputField } from '../common/AdaptiveInputField/AdaptiveInputField';

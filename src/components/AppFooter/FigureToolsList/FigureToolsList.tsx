@@ -8,7 +8,11 @@ import { listName } from '../../PresentationEditor/PresentationEditor';
 
 import { bindActionCreators } from 'redux';
 
-import { undoModelAction, redoModelAction, keepModelAction } from '../../../redux/action-creators/editorActionCreators';
+import {
+    undoModelAction,
+    redoModelAction,
+    keepModelAction,
+} from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { useDispatch } from 'react-redux';
 import { Clear } from '../../common/icons/Cancel/Clear';
 

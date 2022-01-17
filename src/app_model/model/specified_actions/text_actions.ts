@@ -1,5 +1,5 @@
 import { generateUUId } from '../utils/uuid';
-import { getCurrentSlide, applySlideChanges } from '../slidesActions';
+import { getCurrentSlide, applySlideChanges } from '../slides_actions';
 import { Editor, Slide, TextElement, SlideElement } from '../types';
 import { isText } from '../utils/tools';
 
