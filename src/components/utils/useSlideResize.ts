@@ -1,6 +1,6 @@
 import { RefObject, useLayoutEffect, useState } from 'react';
-import { getElementsAreaLoaction } from '../../model/elementActions';
-import { SelectedAreaLocation, Slide } from '../../model/types';
+import { getElementsAreaLoaction } from '../../app_model/model/element_actions';
+import { SelectedAreaLocation, Slide } from '../../app_model/model/types';
 
 export function useSlideResize(ref: RefObject<HTMLDivElement>, slide: Slide | undefined) {
     const [selectedAreaLocation, setAreaInfo] = useState(undefined as SelectedAreaLocation | undefined);

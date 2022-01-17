@@ -1,7 +1,7 @@
 import styles from './TextElementComponent.module.css';
 
-import { isText } from '../../../model/utils/tools';
-import { SlideElement, TextElement } from '../../../model/types';
+import { isText } from '../../../app_model/model/utils/tools';
+import { SlideElement, TextElement } from '../../../app_model/model/types';
 
 type TextElementProps = {
     element: SlideElement;

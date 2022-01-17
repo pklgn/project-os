@@ -4,10 +4,10 @@ import {
     keepModelAction,
     setSelectedIdInEditor,
     uploadPresentationFromJson,
-} from '../../../redux/action-creators/editorActionCreators';
+} from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { UploadFileInput } from '../UploadFileInput/UploadFileInput';
 import { useDispatch } from 'react-redux';
-import { store } from '../../../redux/store';
+import { store } from '../../../app_model/redux_model/store';
 
 type UploadPresentationInputProps = {
     inputRef: LegacyRef<HTMLInputElement> | null;

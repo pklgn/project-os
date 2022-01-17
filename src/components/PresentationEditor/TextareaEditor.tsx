@@ -1,13 +1,13 @@
 import { LegacyRef, useLayoutEffect, useRef } from 'react';
 import styles from './TextareaEditor.module.css';
 import { bindActionCreators } from 'redux';
-import { changeTextContent } from '../../redux/action-creators/textActionCreators';
+import { changeTextContent } from '../../app_model/redux_model/actions_model/action_creators/text_action_creators';
 import { useDispatch } from 'react-redux';
-import { store } from '../../redux/store';
-import { getCurrentSlide } from '../../model/slidesActions';
-import { FigureElement, PictureElement, SlideElement, TextElement } from '../../model/types';
-import { isText } from '../../model/utils/tools';
-import { keepModelAction } from '../../redux/action-creators/editorActionCreators';
+import { store } from '../../app_model/redux_model/store';
+import { getCurrentSlide } from '../../app_model/model/slides_actions';
+import { FigureElement, PictureElement, SlideElement, TextElement } from '../../app_model/model/types';
+import { isText } from '../../app_model/model/utils/tools';
+import { keepModelAction } from '../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 
 export type TextareaEditorProps = {
     textEditing: boolean;

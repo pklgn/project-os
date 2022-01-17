@@ -1,5 +1,5 @@
-import { isPicture } from '../../../model/utils/tools';
-import { PictureElement, SlideElement } from '../../../model/types';
+import { isPicture } from '../../../app_model/model/utils/tools';
+import { PictureElement, SlideElement } from '../../../app_model/model/types';
 
 type PictureElementProps = {
     element: SlideElement;

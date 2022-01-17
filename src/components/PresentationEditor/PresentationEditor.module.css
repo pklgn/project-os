@@ -11,21 +11,3 @@
     padding: 10px;
     box-sizing: border-box;
 }
-
-* ::-webkit-scrollbar {
-    width: 0.5rem;
-    height: 0.5rem;
-    position: absolute;
-}
-
-* ::-webkit-scrollbar-track {
-    background: #6f1600;
-    margin: 5px;
-    border-radius: 0.25rem;
-}
-
-* ::-webkit-scrollbar-thumb {
-    background: rgb(255 109 1);
-    border-radius: 10px;
-    border: 0.15rem solid #701700;
-}

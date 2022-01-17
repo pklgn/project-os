@@ -3,9 +3,9 @@ import wrapperStyles from './SlideWrapper.module.css';
 import { useEffect, useRef, useState } from 'react';
 import { SlideComponent } from './SlideComponent';
 
-import { store } from '../../../redux/store';
-import { getCurrentSlide } from '../../../model/slidesActions';
-import { Slide } from '../../../model/types';
+import { store } from '../../../app_model/redux_model/store';
+import { getCurrentSlide } from '../../../app_model/model/slides_actions';
+import { Slide } from '../../../app_model/model/types';
 import { useResize } from '../../utils/useResize';
 import { useSlideResize } from '../../utils/useSlideResize';
 
