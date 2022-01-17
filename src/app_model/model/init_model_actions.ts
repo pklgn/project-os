@@ -23,6 +23,5 @@ function initHistory(): History {
         currState: 0,
         selectedSlidesIdsStates: [[]],
         selectedSlideElementsIdsStates: [[]],
-        selectedAreasLocation: [],
     };
 }

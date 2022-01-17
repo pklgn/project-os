@@ -13,7 +13,6 @@ export type History = {
     presentationStates: Presentation[];
     selectedSlidesIdsStates: string[][];
     selectedSlideElementsIdsStates: string[][];
-    selectedAreasLocation: SelectedAreaLocation[];
 };
 
 export type Presentation = {
