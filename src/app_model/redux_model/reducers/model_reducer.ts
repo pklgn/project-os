@@ -7,10 +7,8 @@ import { SlideAction } from '../actions_model/actions/slides_actions';
 import { TextActions } from '../actions_model/actions/text_actions';
 import { PictureActions } from '../actions_model/actions/picture_actions';
 
-import { EditingToolActions } from '../actions_view_model/actions/editing_tool_actions';
-
 import { Editor } from '../../model/types';
-import { initEditor } from '../../model/init_model_actions';
+import { initEditor } from '../../model/init_model_action';
 
 import {
     addTextElement,
