@@ -2,7 +2,7 @@
     box-sizing: border-box;
     border: 1px solid transparent;
     cursor: pointer;
-    padding: 0.4em 0.8em;
+    padding: 0.6em;
     border-radius: 5px;
     outline: none;
     user-select: none;
@@ -29,4 +29,8 @@
 
 .button--hover {
     opacity: 1;
+}
+
+.button--round {
+    border-radius: 50%;
 }

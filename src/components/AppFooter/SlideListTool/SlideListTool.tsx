@@ -52,7 +52,6 @@ export function SlideListTool(): JSX.Element {
             id: 'add-slide-button',
             iconLeft: <AddSlideIcon color="#ffa322" />,
             onMouseUp: addSlideButtonFunction,
-            state: 'disabled',
         },
         {
             text: localeContext.locale.localization.slideListTool.deleteSlide,
