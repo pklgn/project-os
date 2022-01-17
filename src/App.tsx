@@ -1,5 +1,5 @@
 import React, { useState, createContext } from 'react';
-import './App.css';
+import styles from './App.module.css';
 
 import { PresentationEditor } from './components/PresentationEditor/PresentationEditor';
 import { PresentationViewer } from './components/PresentationViewer/PresentationViewer';
@@ -27,8 +27,10 @@ function App() {
     return (
         <Provider store={store}>
             <LocaleContext.Provider value={{ locale, changeLocale }}>
-                <PresentationEditor />
-                <PresentationViewer />
+                <div className={styles.app}>
+                    <PresentationEditor />
+                    <PresentationViewer />
+                </div>
             </LocaleContext.Provider>
         </Provider>
     );
