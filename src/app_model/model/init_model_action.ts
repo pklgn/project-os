@@ -2,7 +2,6 @@ import { Editor, Presentation, History } from './types';
 
 export function initEditor(): Editor {
     return {
-        mode: 'edit',
         presentation: initPresentation(),
         history: initHistory(),
         selectedSlidesIds: [],

@@ -1,5 +1,4 @@
 export type Editor = {
-    mode: PresentationMode;
     presentation: Presentation;
     history: History;
     selectedSlidesIds: string[];

@@ -1,19 +1,5 @@
 import { initEditor } from './init_model_action';
-import { Editor, Presentation, PresentationMode } from './types';
-
-export function getCurrentEditorMode(editor: Editor): PresentationMode {
-    return editor.mode;
-}
-
-export function toggleEditorMode(editor: Editor, key: PresentationMode): Editor {
-    const mode: PresentationMode =
-        key === 'edit' ? 'edit' : key === 'show-from-first-slide' ? 'show-from-first-slide' : 'show-from-current-slide';
-
-    return {
-        ...editor,
-        mode,
-    };
-}
+import { Editor, Presentation } from './types';
 
 export function setSelectedIdInEditor(
     editor: Editor,

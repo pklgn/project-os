@@ -32,7 +32,7 @@ import {
     moveElementsToBackgroundOrForeground,
     removeSelectedElements,
 } from '../../model/element_actions';
-import { setSelectedIdInEditor, toggleEditorMode, uploadPresentationFromJson } from '../../model/editor_actions';
+import { setSelectedIdInEditor, uploadPresentationFromJson } from '../../model/editor_actions';
 import { addPictureElement } from '../../model/specified_actions/picture_actions';
 import {
     addFigureElement,
@@ -54,8 +54,6 @@ export const modelReducers = (state: Editor = initEditor(), action: ModelActions
     switch (action.type) {
         case ActionType.CHANGE_PRESENTATION_TITLE:
             return changePresentationName(state, action.payload);
-        case ActionType.SET_EDITOR_MODE:
-            return toggleEditorMode(state, action.payload);
         case ActionType.SET_SELECTED_ID_IN_EDITOR:
             return setSelectedIdInEditor(
                 state,
