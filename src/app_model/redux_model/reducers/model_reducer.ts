@@ -7,6 +7,8 @@ import { SlideAction } from '../actions_model/actions/slides_actions';
 import { TextActions } from '../actions_model/actions/text_actions';
 import { PictureActions } from '../actions_model/actions/picture_actions';
 
+import { EditingToolActions } from '../actions_view_model/actions/editing_tool_actions';
+
 import { Editor } from '../../model/types';
 import { initEditor } from '../../model/init_model_actions';
 
@@ -41,7 +43,7 @@ import {
     changeFiguresColor,
 } from '../../model/specified_actions/figure_actions';
 
-type ModelActions =
+type ModelActionsType =
     | EditorActions
     | ElementAction
     | FigureActions
@@ -50,7 +52,7 @@ type ModelActions =
     | SlideAction
     | TextActions;
 
-export const allReducers = (state: Editor = initEditor(), action: ModelActions): Editor => {
+export const modelReducers = (state: Editor = initEditor(), action: ModelActionsType): Editor => {
     switch (action.type) {
         case ActionType.CHANGE_PRESENTATION_TITLE:
             return changePresentationName(state, action.payload);
