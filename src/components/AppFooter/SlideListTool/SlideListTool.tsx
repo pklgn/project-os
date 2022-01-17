@@ -52,19 +52,13 @@ export function SlideListTool(): JSX.Element {
             text: localeContext.locale.localization.slideListTool.addSlide,
             state: 'independently',
             id: 'add-slide-button',
-            optionalText: undefined,
             iconLeft: <AddSlideIcon color="#ffa322" />,
-            cssMix: { padding: '3px 3px' },
-            onClick: addSlideButtonFunction,
+            onMouseUp: addSlideButtonFunction,
         },
         {
-            type: 'default',
-            text: localeContext.locale.localization.slideListTool.deleteSlide,
-            state: 'independently',
             id: 'delete-slide-button',
             iconLeft: <DeleteSlideIcon color="#ffa322" />,
-            cssMix: { padding: '3px 3px' },
-            onClick: deleteSelectedSlidesButtonFunction,
+            onMouseUp: deleteSelectedSlidesButtonFunction,
         },
     ] as ButtonProps[];
 
@@ -79,9 +73,8 @@ export function SlideListTool(): JSX.Element {
                         position="above"
                         child={
                             <Button
-                                key={index}
                                 type={info.type}
-                                text={undefined}
+                                text={info.text}
                                 state={info.state}
                                 id={info.id}
                                 optionalText={info.optionalText}
@@ -89,6 +82,7 @@ export function SlideListTool(): JSX.Element {
                                 iconRight={info.iconRight}
                                 cssMix={info.cssMix}
                                 onClick={info.onClick}
+                                onMouseUp={info.onMouseUp}
                             />
                         }
                     />

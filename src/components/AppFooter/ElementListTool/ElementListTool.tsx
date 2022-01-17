@@ -76,25 +76,9 @@ export function ElementListTool(): JSX.Element {
     return (
         <div className={styles['element-tools']}>
             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
-                {mainToolsButtonInfo.map((buttonInfo, index) => {
-                    return (
-                        <ToolTip
-                            key={index}
-                            title={buttonInfo.text ? buttonInfo.text : 'None'}
-                            position="above"
-                            child={
-                                <Button
-                                    key={index}
-                                    type={buttonInfo.type}
-                                    state={buttonInfo.state}
-                                    id={buttonInfo.id}
-                                    iconLeft={buttonInfo.iconLeft}
-                                    onClick={buttonInfo.onClick}
-                                />
-                            }
-                        />
-                    );
-                })}
+                <Button id="select-tool-button" iconLeft={<SelectCursorIcon color="#ffa322" />} />
+                <Button id="text-tool-button" iconLeft={<TextIcon color="#ffa322" />} />
+                <Button id="geometry-tool-button" iconLeft={<GeometryIcon color="#ffa322" />} />
             </div>
             <VerticalLine id="veritical-1" />
             <span id="adaptive-elements-tool-placeholder" />

@@ -1,28 +1,32 @@
-.button {
-  border: 1px solid transparent;
-  cursor: pointer;
-  font-size: x-large;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 0;
-  border-radius: 5px;
-  outline: none;
+.button, .button--independently {
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    cursor: pointer;
+    padding: 0.4em 0.8em;
+    border-radius: 5px;
+    outline: none;
+    user-select: none;
+    transition-duration: 0.2s;
+    background-color: rgb(102, 107, 124);
+    opacity: 0.8;
 }
 
-.default {
-  background-color: #512a20;
+.button--default {
 }
 
-.active {
-  border: 2px solid #ffa322;
-  background-color: #bd634d;
-}
-
-.disabled {
-  color: #ffa322;
-  background-color: #512a20;
+.button--disabled {
+    color: #ffa322;
+    background-color: #512a20;
 }
 
 .button svg {
-  display: block;
+    display: block;
+}
+
+.button--active {
+    background-color: transparent;
+}
+
+.button--hover {
+    opacity: 1;
 }

@@ -88,11 +88,17 @@ export function ToolBar() {
         uploadImageInputRef.current?.click();
     };
 
-    const saveAsJSONFunction = () =>
-        savePresentationAsJson({
-            ...initEditor(),
-            presentation: store.getState().model.presentation,
-        });
+    const saveAsJSONFunction = () => {
+        const presentation = store.getState().model.presentation;
+        if (presentation.slidesList.length === 0) {
+            // alert(localeContext.locale.localization['error_no_slides']);
+        } else {
+            savePresentationAsJson({
+                ...initEditor(),
+                presentation: store.getState().model.presentation,
+            });
+        }
+    };
 
     /* eslint-disable react/jsx-key */
     return (

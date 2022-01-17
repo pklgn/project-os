@@ -7,14 +7,7 @@
     border-radius: 0.2rem;
 }
 
-.slides-list-tools>button {
-    margin-top: 3px;
-    margin-bottom: 3px;
-    padding-left: 3px;
-    padding-right: 3px;
-}
-
-.slides-list-tools>#add-slide-button {
+.slides-list-tools > #add-slide-button {
     grid-area: add-slide-button;
 }
 
