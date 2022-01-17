@@ -15,8 +15,8 @@
 }
 
 .button--disabled {
-    color: #ffa322;
-    background-color: #512a20;
+    opacity: 0.5;
+    cursor: default;
 }
 
 .button svg {

@@ -16,5 +16,8 @@
     "slideListTool": {
         "addSlide": "Добавить слайд (Ctrl+M)",
         "deleteSlide": "Удалить выбранные слайды (Delete)"
+    },
+    "errors": {
+        "noSlidesToSave": "Нельзя сохранить пустую презентацию"
     }
 }

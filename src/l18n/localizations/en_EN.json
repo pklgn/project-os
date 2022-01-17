@@ -16,5 +16,8 @@
     "slideListTool": {
         "addSlide": "Add slide (Ctrl+M)",
         "deleteSlide": "Delete slides (Delete)"
+    },
+    "errors": {
+        "noSlidesToSave": "You cannot save an empty presentation"
     }
 }
