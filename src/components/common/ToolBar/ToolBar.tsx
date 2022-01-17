@@ -18,7 +18,7 @@ import {
 } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 
 import { useDispatch } from 'react-redux';
-import { initEditor } from '../../../app_model/model/init_model_actions';
+import { initEditor } from '../../../app_model/model/init_model_action';
 import { savePresentationAsJson } from '../../../app_model/model/editor_actions';
 import { store } from '../../../app_model/redux_model/store';
 import { generateUUId } from '../../../app_model/model/utils/uuid';

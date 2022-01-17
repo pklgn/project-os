@@ -1,3 +1,20 @@
 .app {
   overflow: hidden;
 }
+
+* ::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+  position: absolute;
+}
+
+* ::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 5px;
+  border-radius: 0.25rem;
+}
+
+* ::-webkit-scrollbar-thumb {
+  background: rgb(114 65 45);
+  border-radius: 10px;
+}
