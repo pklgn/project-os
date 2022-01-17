@@ -2,6 +2,14 @@
     "editor": {
         "emptySlide": "Кликните, чтобы добавить слайд"
     },
+    "elementsListTool": {
+        "cursorTool": "Выбрать (Esc)",
+        "textTool": "Текстовое поле (T)",
+        "geometryTool": "Фигура (F)",
+        "geometryCircleTool": "Круг (F+C)",
+        "geometryTriangleTool": "Треугольник (F+T)",
+        "geometryRectangleTool": "Прямоугольник (F+R)"
+    },
     "presentationViewer": {
         "noSlidesToShow": "Ваши слайды не такие работяги как вы? Их нет на рабочем месте!"
     },

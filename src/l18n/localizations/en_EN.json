@@ -2,6 +2,14 @@
     "editor": {
         "emptySlide": "Click to add new slide"
     },
+    "elementsListTool": {
+        "cursorTool": "Choose (Esc)",
+        "textTool": "Text tool (T)",
+        "geometryTool": "Figure (F)",
+        "geometryCircleTool": "Circle (F+C)",
+        "geometryTriangleTool": "Triangle (F+T)",
+        "geometryRectangleTool": "Rectangle (F+R)"
+    },
     "presentationViewer": {
         "noSlidesToShow": "Are your slides not as hard workers as you? They are not in the workplace!"
     },

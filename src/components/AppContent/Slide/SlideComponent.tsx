@@ -31,6 +31,8 @@ type SlideProps = {
     };
     containerWidth?: number;
     containerHeight?: number;
+    slideWidth?: number;
+    slideHeight?: number;
 };
 
 const RESIZE_AREA_WIDTH_HEIGHT = 15;
@@ -296,12 +298,12 @@ export function SlideComponent(props: SlideProps) {
     ) : (
         <svg
             ref={refCanvas}
-            width={props.viewBox?.width}
-            height={props.viewBox?.height}
+            width={props.slideWidth ? `${props.slideWidth}px` : `${props.containerWidth}px`}
+            height={props.slideHeight ? `${props.slideHeight}px` : `${props.containerHeight}px`}
             className={styles['slide-container']}
             viewBox={`${props.viewBox?.xStart} ${props.viewBox?.yStart} ${props.containerWidth} 
             ${props.containerHeight}`}
-            preserveAspectRatio={'xMinYMin meet'}
+            preserveAspectRatio={'xMidYMid meet'}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
         >

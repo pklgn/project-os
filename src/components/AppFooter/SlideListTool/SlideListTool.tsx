@@ -75,6 +75,7 @@ export function SlideListTool(): JSX.Element {
                     <ToolTip
                         key={index}
                         title={info.text ? info.text : 'None'}
+                        toolTipId={`${info.id}-tool-tip`}
                         position="above"
                         child={
                             <Button

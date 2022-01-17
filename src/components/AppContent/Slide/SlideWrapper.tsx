@@ -45,14 +45,22 @@ export function SlideWrapper() {
     const contentMaxY = maxSelectedAreaLocationInfo
         ? maxSelectedAreaLocationInfo.xy.y + maxSelectedAreaLocationInfo.dimensions.height
         : 0;
+    const contentWidth = contentMaxX - contentMinX;
+    const contentHeight = contentMaxY - contentMinY;
 
     const containerMinX = 0;
     const containerMinY = 0;
+
     const possibleSlideWidth =
-        contentMaxX > containerWidth ? contentMaxX - containerWidth : contentMinX < containerMinX ? contentMinX : 0;
+        contentMinX < containerMinX || contentMaxX > containerWidth ? containerWidth + contentWidth : containerWidth;
 
     const possibleSlideHeight =
-        contentMaxY > containerHeight ? contentMaxY - containerHeight : contentMinY < containerMinY ? contentMinY : 0;
+        contentMinY < containerMinY || contentMaxY > containerHeight
+            ? containerHeight + contentHeight
+            : containerHeight;
+
+    const viewBoxStartX = contentMinX < containerMinX ? contentMinX : containerMinX;
+    const viewBoxStartY = contentMinY < containerMinY ? contentMinY : containerMinY;
 
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>
@@ -60,13 +68,15 @@ export function SlideWrapper() {
                 renderType="mainSlide"
                 slide={currSlide}
                 viewBox={{
-                    xStart: contentMinX > 0 ? 0 : contentMinX,
-                    yStart: contentMinY > 0 ? 0 : contentMinY,
-                    width: containerWidth + Math.abs(possibleSlideWidth),
-                    height: containerHeight + Math.abs(possibleSlideHeight),
+                    xStart: viewBoxStartX,
+                    yStart: viewBoxStartY,
+                    width: containerWidth,
+                    height: containerHeight,
                 }}
                 containerWidth={containerWidth}
                 containerHeight={containerHeight}
+                slideWidth={possibleSlideWidth}
+                slideHeight={possibleSlideHeight}
             />
         </div>
     );
