@@ -76,7 +76,7 @@
 }
 
 .list-item-disabled:hover:after {
-    border: 5px solid black;
+    /* border: 5px solid black; */
     border-left: transparent;
     border-top: transparent;
 }

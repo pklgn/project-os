@@ -10,14 +10,18 @@
         "geometryTriangleTool": "Triangle (F+T)",
         "geometryRectangleTool": "Rectangle (F+R)"
     },
+    "errors": {
+        "noSlidesToSave": "You cannot save an empty presentation"
+    },
+    "historyTool" : {
+        "redoTool": "Redo (Ctrl+Y)",
+        "undoTool": "Undo (Ctrl+Z)"
+    },
     "presentationViewer": {
         "noSlidesToShow": "Are your slides not as hard workers as you? They are not in the workplace!"
     },
     "slideListTool": {
         "addSlide": "Add slide (Ctrl+M)",
         "deleteSlide": "Delete slides (Delete)"
-    },
-    "errors": {
-        "noSlidesToSave": "You cannot save an empty presentation"
     }
 }

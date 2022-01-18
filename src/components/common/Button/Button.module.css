@@ -27,7 +27,7 @@
 }
 
 .button--active {
-    background-color: transparent;
+    background-color: rgba(102, 107, 124, 0.2);
 }
 
 .button--hover {

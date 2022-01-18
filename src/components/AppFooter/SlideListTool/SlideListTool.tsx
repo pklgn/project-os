@@ -70,8 +70,8 @@ export function SlideListTool(): JSX.Element {
                 return (
                     <ToolTip
                         key={index}
+                        id={info.id}
                         title={info.text ? info.text : 'None'}
-                        toolTipId={`${info.id}-tool-tip`}
                         position="above"
                         child={
                             <Button

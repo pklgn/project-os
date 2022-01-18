@@ -10,14 +10,18 @@
         "geometryTriangleTool": "Треугольник (F+T)",
         "geometryRectangleTool": "Прямоугольник (F+R)"
     },
+    "errors": {
+        "noSlidesToSave": "Нельзя сохранить пустую презентацию"
+    },
+    "historyTool" : {
+        "redoTool": "Повторить (Ctrl+Y)",
+        "undoTool": "Отменить действие (Ctrl+Z)"
+    },
     "presentationViewer": {
         "noSlidesToShow": "Ваши слайды не такие работяги как вы? Их нет на рабочем месте!"
     },
     "slideListTool": {
         "addSlide": "Добавить слайд (Ctrl+M)",
         "deleteSlide": "Удалить выбранные слайды (Delete)"
-    },
-    "errors": {
-        "noSlidesToSave": "Нельзя сохранить пустую презентацию"
     }
 }

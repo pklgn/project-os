@@ -13,6 +13,14 @@
     margin: 0 5px 0 5px;
 }
 
+.tools-buttons-container div[id='select-tool-button-tooltip'] span:after {
+    left: 43%;
+}
+
+.tools-buttons-container div[id='geometry-tool-button-tooltip'] span:after {
+    left: 41.5%
+}
+
 .history-buttons-container {
     display: flex;
     gap: 0.25rem;
@@ -20,6 +28,22 @@
     padding: 2px;
     border-radius: 5px;
     margin: 0 5px 0 5px;
+}
+
+.history-buttons-container div[id='undo-button-tooltip'] span {
+    left: 45%;
+}
+
+.history-buttons-container div[id='undo-button-tooltip'] span:after {
+    left: 47%;
+}
+
+.history-buttons-container div[id='redo-button-tooltip'] span {
+    left: -10%;
+}
+
+.history-buttons-container div[id='redo-button-tooltip'] span:after {
+    left: 65.5%;
 }
 
 .element-tools>#adaptive-elements-tool-placeholder {

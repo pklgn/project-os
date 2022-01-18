@@ -44,7 +44,7 @@ export function AppTop(): JSX.Element {
                     onBlur={onBlurNameInputHandler}
                 />
                 <Button id="fullscreen-button" iconLeft={<FullscreenIcon color="#ffa322" />} />
-                <Button id="lang-button" iconLeft={<GlobeIcon width={32} height={32} color="#ffa322" />} />
+                <Button id="lang-button" iconLeft={<GlobeIcon width={32} height={32} color="#ffa322" />} type="round" />
             </div>
         </div>
     );
