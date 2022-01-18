@@ -30,8 +30,9 @@ export function AppTop(): JSX.Element {
 
     const onBlurNameInputHandler = (event: BaseSyntheticEvent) => {
         if (!event.target.value) {
-            dispatchPresentationName('Оладушек');
-            document.title = event.target.value + 'Оладушек - Oladies&Slides';
+            dispatchPresentationName(localeContext.locale.localization.presentationName);
+            document.title =
+                event.target.value + `${localeContext.locale.localization.presentationName} - Oladies&Slides`;
         }
     };
 
@@ -59,12 +60,19 @@ export function AppTop(): JSX.Element {
                     child={<AppLogoPng width={55} height={55} type={'default'} />}
                 />
                 <Button text={localeContext.locale.localization.appTopButtons.file} id="file-button" />
-                <AdaptiveInputField
-                    id="name-input-field"
-                    maxLength={20}
-                    value={state.model.presentation.name}
-                    onChange={onChangeNameInputHandler}
-                    onBlur={onBlurNameInputHandler}
+                <ToolTip
+                    title={localeContext.locale.localization.appTopButtons.presentationNameInputField}
+                    id="input"
+                    position={'under'}
+                    child={
+                        <AdaptiveInputField
+                            id="name-input-field"
+                            maxLength={20}
+                            value={state.model.presentation.name}
+                            onChange={onChangeNameInputHandler}
+                            onBlur={onBlurNameInputHandler}
+                        />
+                    }
                 />
                 {miscButtonsInfo.map((info, index) => {
                     return (

@@ -2,7 +2,8 @@
     "appTopButtons": {
         "file": "Файл",
         "fullscreen": "Полноэкранный режим",
-        "l18n": "Сменить язык"
+        "l18n": "Сменить язык",
+        "presentationNameInputField": "Изменить имя презентации"
     },
     "editor": {
         "emptySlide": "Кликните, чтобы добавить слайд"
@@ -22,6 +23,7 @@
         "redoTool": "Повторить (Ctrl+Y)",
         "undoTool": "Отменить действие (Ctrl+Z)"
     },
+    "presentationName": "Оладушек",
     "presentationViewer": {
         "noSlidesToShow": "Ваши слайды не такие работяги как вы? Их нет на рабочем месте!"
     },

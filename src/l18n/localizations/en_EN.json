@@ -2,7 +2,8 @@
     "appTopButtons": {
         "file": "File",
         "fullscreen": "Fullscreen Mode",
-        "l18n": "Change language"
+        "l18n": "Change language",
+        "presentationNameInputField": "Change presentation name"
     },
     "editor": {
         "emptySlide": "Click to add new slide"
@@ -22,6 +23,7 @@
         "redoTool": "Redo (Ctrl+Y)",
         "undoTool": "Undo (Ctrl+Z)"
     },
+    "presentationName": "Wuffel",
     "presentationViewer": {
         "noSlidesToShow": "Are your slides not as hard workers as you? They are not in the workplace!"
     },
