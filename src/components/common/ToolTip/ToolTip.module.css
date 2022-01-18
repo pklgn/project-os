@@ -1,6 +1,5 @@
 .container {
     position: relative;
-    margin: 0 10px 0 0;
     padding: 2px;
     -webkit-tap-highlight-color: transparent;
 }

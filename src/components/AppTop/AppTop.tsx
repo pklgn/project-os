@@ -33,22 +33,17 @@ export function AppTop(): JSX.Element {
 
     return (
         <div className={styles['top-bar']}>
-            <AppLogoPng width={55} height={55} type={'default'} />
-            <Button text={'Файл'} id="file-button" />
             <div className={styles['top-bar-menu']}>
+                <AppLogoPng width={55} height={55} type={'default'} />
+                <Button text={'Файл'} id="file-button" />
                 <AdaptiveInputField
                     id="name-input-field"
                     maxLength={20}
                     value={state.model.presentation.name}
                     onChange={onChangeNameInputHandler}
                     onBlur={onBlurNameInputHandler}
-                    cssMix={{ margin: '0 10px 0 auto' }}
                 />
-                <Button
-                    id="fullscreen-button"
-                    iconLeft={<FullscreenIcon color="#ffa322" />}
-                    cssMix={{ marginRight: '10px' }}
-                />
+                <Button id="fullscreen-button" iconLeft={<FullscreenIcon color="#ffa322" />} />
                 <Button id="lang-button" iconLeft={<GlobeIcon width={32} height={32} color="#ffa322" />} />
             </div>
         </div>

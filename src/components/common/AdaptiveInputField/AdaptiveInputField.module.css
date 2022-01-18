@@ -1,7 +1,8 @@
 .ghost-input {
     display: block;
+    text-align: center;
     font-weight: 300;
-    font-size: 1em;
+    font-size: larger;
     border: 0;
     outline: none;
     -webkit-box-sizing: border-box;
@@ -9,11 +10,12 @@
     box-sizing: border-box;
     background: transparent;
     font-family: Open Sans, Verdana, serif;
-    padding: 10px 15px;
+    padding: 7px 15px;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     -o-transition: all 0.2s;
     transition: all 0.2s;
+    border-top: 2px solid rgba(102, 107, 124, 0.8);
     border-bottom: 2px solid rgba(102, 107, 124, 0.8);
 }
 

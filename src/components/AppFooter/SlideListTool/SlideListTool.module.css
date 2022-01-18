@@ -1,7 +1,17 @@
 .slides-list-tools {
     grid-area: slideTools;
+    max-height: 45px;
     display: flex;
+    justify-content: space-around;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
     align-items: center;
+}
+
+.slides-list-tools span[id='add-slide-button-tool-tip'] {
+    transform: translateX(-37%);
+}
+
+.slides-list-tools span[id='add-slide-button-tool-tip']:after {
+    left: 33.5%;
 }

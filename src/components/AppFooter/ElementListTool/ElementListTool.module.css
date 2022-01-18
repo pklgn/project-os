@@ -1,25 +1,32 @@
 .element-tools {
     display: flex;
     align-items: center;
-    justify-items: center;
+    justify-content: space-evenly;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
+    max-height: 45px;
 }
 
 .tools-buttons-container {
     display: flex;
+    gap: 0.5rem;
+    margin: 0 5px 0 5px;
 }
 
 .history-buttons-container {
     display: flex;
+    gap: 0.25rem;
     flex-wrap: nowrap;
     padding: 2px;
     border-radius: 5px;
-    margin-left: auto;
 }
 
 .element-tools>#adaptive-elements-tool-placeholder {
     animation: show-element-tools .4s forwards;
+}
+
+.element-tools>div[id='vertical-1'] {
+    margin-right: 75%;
 }
 
 @keyframes show-element-tools {
