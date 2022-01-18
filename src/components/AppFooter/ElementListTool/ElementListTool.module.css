@@ -19,6 +19,7 @@
     flex-wrap: nowrap;
     padding: 2px;
     border-radius: 5px;
+    margin: 0 5px 0 5px;
 }
 
 .element-tools>#adaptive-elements-tool-placeholder {
@@ -26,7 +27,7 @@
 }
 
 .element-tools>div[id='vertical-1'] {
-    margin-right: 75%;
+    margin-right: auto;
 }
 
 @keyframes show-element-tools {
