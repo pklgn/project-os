@@ -15,6 +15,7 @@
 }
 
 .button--default {
+    gap: 5px;
 }
 
 .button--disabled {
