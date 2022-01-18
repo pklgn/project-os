@@ -9,6 +9,12 @@
     justify-self: self-start;
 }
 
+.top-bar Button {
+    color: #EAA363;
+    background-color: #582C1E;
+    margin: 0 5px;
+}
+
 .top-bar__button-list {
     justify-self: center;
     align-self: center;

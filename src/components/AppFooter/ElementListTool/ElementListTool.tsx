@@ -1,7 +1,7 @@
 import styles from './ElementListTool.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import React, { BaseSyntheticEvent, useContext, useEffect, useState } from 'react';
+import React, { BaseSyntheticEvent, useContext, useEffect, useRef, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
 import { Delete } from '../../common/icons/Delete/Delete';
@@ -23,6 +23,8 @@ import { useDispatch } from 'react-redux';
 import { TextTools } from '../../common/icons/TextTools/TextTools';
 import { Fullscreen } from '../../common/icons/Fullscreen/Fullscreen';
 import { AddFigure } from '../../common/icons/AddFigure/AddFigure';
+import { ColorInput } from '../../common/ColorInput/ColorInput';
+import { ColorCircle } from '../../common/icons/ColorCircle/ColorCircle';
 
 type ElementListToolProps = {
     foo: (listName: listName) => void | undefined;
@@ -70,7 +72,25 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
         };
     }, [undoPressButtonHandler]);
 
-    const onColorInputHandler = (e: BaseSyntheticEvent) => {
+    // TODO
+    // const [dragging, setDragging] = useState(false);
+    // useEffect(() => {
+    //     const onMouseUpHandler = () => {
+    //         console.log('MouseUp')
+    //         if (dragging) {
+    //             console.log('Keep')
+    //             dispatchKeepModelAction();
+    //             setDragging(false);
+    //         }
+    //     };
+    //     window.addEventListener('mouseup', onMouseUpHandler);
+
+    //     return () => {
+    //         window.removeEventListener('mouseup', onMouseUpHandler);
+    //     };
+    // }, [dragging]);
+
+    const onChangeHandler = (e: BaseSyntheticEvent) => {
         if (!timeOuted) {
             setTimeOuted(true);
             setTimeout(() => {
@@ -84,10 +104,7 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 setTimeOuted(false);
             }, 50);
         }
-    };
-
-    const onMouseDownHandler = (e: React.MouseEvent<HTMLInputElement>) => {
-        e.stopPropagation();
+        // setDragging(true);
     };
 
     const deleteElementsButtonFunction = () => {
@@ -105,7 +122,6 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 content={{ hotkeyInfo: '', icon: <TextTools /> }}
                 foo={textToolsListButton}
             />
-            <VerticalLine />
             <Button
                 text={localeContext.locale.localization.add_word}
                 state="disabled"
@@ -116,15 +132,6 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
             />
             <VerticalLine />
             <Button
-                text={localeContext.locale.localization.reorder_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <Reorder /> }}
-                foo={reorderListButton}
-            />
-            <VerticalLine />
-            <Button
                 text={localeContext.locale.localization.opacity_word}
                 state="disabled"
                 shouldStopPropagation={false}
@@ -132,7 +139,14 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 content={{ hotkeyInfo: '', icon: <Opacity /> }}
                 foo={() => undefined}
             />
-            <VerticalLine />
+            <Button
+                text={localeContext.locale.localization.reorder_word}
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{ hotkeyInfo: '', icon: <Reorder /> }}
+                foo={reorderListButton}
+            />
             <Button
                 text={localeContext.locale.localization.delete_word}
                 state="disabled"
@@ -141,15 +155,18 @@ export function ElementListTool(props: ElementListToolProps): JSX.Element {
                 content={{ hotkeyInfo: '', icon: <Delete /> }}
                 foo={deleteElementsButtonFunction}
             />
-            <VerticalLine />
-            <input
-                type="color"
-                id="color-picker"
-                className={styles['color-picker']}
-                defaultValue={'#ffffff'}
-                onInput={onColorInputHandler}
-                onMouseDown={onMouseDownHandler}
+            <Button
+                text=""
+                state="disabled"
+                shouldStopPropagation={false}
+                contentType="icon"
+                content={{
+                    hotkeyInfo: '',
+                    icon: <ColorInput onChange={onChangeHandler} onMouseDown={onChangeHandler} />,
+                }}
+                foo={() => {}}
             />
+            <VerticalLine />
             <Button
                 text={localeContext.locale.localization.undo_word}
                 state="disabled"

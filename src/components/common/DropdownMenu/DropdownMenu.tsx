@@ -170,7 +170,7 @@ export function DropdownMenu(
                     </div>
                 )
             ) : (
-                ''
+                <></>
             )}
         </div>
     );

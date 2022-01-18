@@ -35,5 +35,5 @@
     align-self: center;
     padding: 0;
     cursor: pointer;
-    border-radius: 50%;
+    display: none;
 }
