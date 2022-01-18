@@ -22,26 +22,46 @@
     font-size: larger;
 }
 
-.top-bar-menu>button[id="fullscreen-button"] {
+.top-bar-menu div[id="fullscreen-button-tooltip"] span:before {
+    left: 43%;
+}
+
+.top-bar-menu button[id="fullscreen-button"] {
     max-height: 39px;
     max-width: 39px;
     font-size: x-small;
     margin-right: 10px;
 }
 
-.top-bar-menu>button[id="lang-button"] {
+.top-bar-menu button[id="lang-button"] {
     margin-right: 5px;
     max-width: 39px;
     max-height: 39px;
     font-size: xx-small;
 }
 
-.top-bar-menu>img {
+.top-bar-menu div[id="lang-button-tooltip"] span {
+    left: 22%;
+}
+
+.top-bar-menu div[id="lang-button-tooltip"] span:before {
+    left: 55%;
+}
+
+.top-bar-menu img {
     background-color: #cecdcd;
     border: 2px solid #cecdcd;
     border-radius: 50%;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.top-bar-menu div[id="img-tooltip"] span {
+    top: calc(100%);
+}
+
+.top-bar-menu div[id="img-tooltip"] span:before {
+    left: 37%;
 }
 
 .top-bar-menu>input {

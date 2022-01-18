@@ -28,6 +28,12 @@
     transform: translateX(-50%);
 }
 
+.under {
+    top: calc(100% + 4px);
+    left: calc(50%);
+    transform: translateX(-50%);
+}
+
 .above:after {
     top: 24px;
     left: 48%;
@@ -37,8 +43,17 @@
     border-width: 6px;
 }
 
+.under:before {
+    top: -6px;
+    left: 48%;
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-bottom: solid grey;
+    border-width: 6px;
+}
+
 .above:after,
-.under:after {
+.under:before {
     content: '';
     position: absolute;
     width: 0;

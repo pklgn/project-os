@@ -1,4 +1,9 @@
 {
+    "appTopButtons": {
+        "file": "File",
+        "fullscreen": "Fullscreen Mode",
+        "l18n": "Change language"
+    },
     "editor": {
         "emptySlide": "Click to add new slide"
     },
