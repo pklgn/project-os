@@ -21,7 +21,7 @@ export default function ToolTip(props: ToolTipPropsType): JSX.Element {
                     event.preventDefault();
                     setVisibleState(true);
                 }}
-                onMouseOut={() => setVisibleState(false)}
+                onMouseOut={() => setVisibleState(true)}
                 onClick={() => setVisibleState(false)}
             >
                 {child}

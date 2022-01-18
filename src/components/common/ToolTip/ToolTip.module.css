@@ -8,6 +8,15 @@
     background-color: transparent;
 }
 
+@keyframes appearence {
+    0% {
+        visibility: hidden;
+    }
+    100% {
+        visibility: visible;
+    }
+}
+
 .tooltip-content {
     color: #fff;
     position: absolute;
@@ -20,6 +29,7 @@
     font-family: monospace;
     background-color: grey;
     box-shadow: 0 0 0.3rem rgb(0 0 0 / 16%);
+    animation: appearence 2s ease 2s 1;
 }
 
 .above {
