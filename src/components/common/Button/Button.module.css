@@ -2,21 +2,22 @@
     box-sizing: border-box;
     border: 1px solid transparent;
     cursor: pointer;
-    padding: 0.4em 0.8em;
+    padding: 0.6em;
     border-radius: 5px;
     outline: none;
     user-select: none;
     transition-duration: 0.2s;
     background-color: rgb(102, 107, 124);
     opacity: 0.8;
+    font-size: 1em;
 }
 
 .button--default {
 }
 
 .button--disabled {
-    color: #ffa322;
-    background-color: #512a20;
+    opacity: 0.5;
+    cursor: default;
 }
 
 .button svg {
@@ -29,4 +30,8 @@
 
 .button--hover {
     opacity: 1;
+}
+
+.button--round {
+    border-radius: 50%;
 }

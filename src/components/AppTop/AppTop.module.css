@@ -1,42 +1,21 @@
 .top-bar {
-  grid-area: top;
-  background-color: rgba(190, 189, 189, 0.75);
-  border-radius: 0.2rem;
-  max-height: 45px;
+    grid-area: top;
+    background-color: rgba(190, 189, 189, 0.75);
+    border-radius: 0.2rem;
+    display: flex;
+    align-items: center;
 }
 
 .top-bar-menu {
-  display: flex;
-  margin-top: 8px;
-  margin-left: 15px;
-  margin-right: 15px;
-  border-top-left-radius: 100px;
-  border-bottom-left-radius: 100px;
-  align-content: center;
-  align-items: center;
-  height: 30px;
-  background-color: #c3c3c3;
-}
-
-.top-bar > span {
-  grid-area: span;
+    margin-left: auto;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    padding: 2px;
 }
 
 .top-bar-menu > img {
-  grid-area: app-logo;
-  background-color: #cecdcd;
-  border: 2px solid #cecdcd;
-  border-radius: 50%;
-}
-
-.top-bar-menu > input {
-  grid-area: name-input-field;
-}
-
-.top-bar-menu > #fullscreen-button {
-  grid-area: app-logo;
-}
-
-.top-bar-menu > #lang-button {
-  grid-area: lang-button;
+    background-color: #cecdcd;
+    border: 2px solid #cecdcd;
+    border-radius: 50%;
 }

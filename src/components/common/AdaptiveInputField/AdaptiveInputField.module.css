@@ -1,14 +1,22 @@
-.input {
-    grid-area: presentation-name-input-field;
-    max-height: 20px;
-    align-self: center;
-    padding: 5px;
-    justify-self: center;
+.ghost-input {
+    display: block;
+    font-weight: 300;
+    font-size: 1em;
+    border: 0;
     outline: none;
-    border-radius: 0.2rem;
-    text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: transparent;
+    font-family: Open Sans, Verdana, serif;
+    padding: 10px 15px;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    border-bottom: 2px solid rgba(102, 107, 124, 0.8);
 }
 
-.input:focus {
-    border-color: #e59035;
+.ghost-input:focus {
+    border-color: #ffa322;
 }

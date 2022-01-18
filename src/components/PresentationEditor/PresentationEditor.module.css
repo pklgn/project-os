@@ -6,7 +6,7 @@
             "slideTools elementTools";
     grid-gap: 10px;
     grid-template-columns: 220px 1fr;
-    grid-template-rows: 45px 1fr 45px;
+    grid-template-rows: auto 1fr auto;
     height: 100vh;
     padding: 10px;
     box-sizing: border-box;

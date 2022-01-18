@@ -19,6 +19,7 @@ import {
     redoModelAction,
 } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import ToolTip from '../../common/ToolTip/ToolTip';
+import { generateUUId } from '../../../app_model/model/utils/uuid';
 
 export function ElementListTool(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
@@ -47,29 +48,17 @@ export function ElementListTool(): JSX.Element {
 
     const mainToolsButtonInfo: ButtonProps[] = [
         {
-            type: 'default',
             text: localeContext.locale.localization.elementsListTool.cursorTool,
-            state: 'independently',
             id: 'select-tool-button',
             iconLeft: <SelectCursorIcon color="#ffa322" />,
-            onClick: () => {
-                undefined;
-            },
         },
         {
-            type: 'default',
             text: localeContext.locale.localization.elementsListTool.textTool,
-            state: 'independently',
             id: 'text-tool-button',
             iconLeft: <TextIcon color="#ffa322" />,
-            onClick: () => {
-                undefined;
-            },
         },
         {
-            type: 'default',
             text: localeContext.locale.localization.elementsListTool.geometryTool,
-            state: 'independently',
             id: 'geometry-tool-button',
             iconLeft: <GeometryIcon color="#ffa322" />,
             onClick: () => dispatchAddFigureAction(mockInfo),
@@ -79,35 +68,41 @@ export function ElementListTool(): JSX.Element {
     return (
         <div className={styles['element-tools']}>
             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
-                <Button id="select-tool-button" iconLeft={<SelectCursorIcon color="#ffa322" />} />
-                <Button id="text-tool-button" iconLeft={<TextIcon color="#ffa322" />} />
-                <Button id="geometry-tool-button" iconLeft={<GeometryIcon color="#ffa322" />} />
+                {mainToolsButtonInfo.map((buttonInfo) => {
+                    return (
+                        <ToolTip
+                            key={generateUUId()}
+                            title={buttonInfo.text ? buttonInfo.text : 'None'}
+                            position="above"
+                            child={
+                                <Button
+                                    key={generateUUId()}
+                                    type={buttonInfo.type}
+                                    state={buttonInfo.state}
+                                    id={buttonInfo.id}
+                                    iconLeft={buttonInfo.iconLeft}
+                                    onClick={buttonInfo.onClick}
+                                />
+                            }
+                        />
+                    );
+                })}
             </div>
-            <VerticalLine id="veritical-1" />
+            <VerticalLine id="vertical-1" />
             <span id="adaptive-elements-tool-placeholder" />
-            <VerticalLine id="veritical-2" />
+            <VerticalLine id="vertical-2" />
             <div className={styles['history-buttons-container']} id="history-buttons-container">
                 <Button
-                    type={'default'}
-                    text={undefined}
-                    state={'disabled'}
+                    type={'round'}
                     id="undo-button"
-                    optionalText={undefined}
                     iconLeft={<RedoUndoIcon turn="undo" color="#ffa322" />}
-                    iconRight={undefined}
-                    cssMix={undefined}
-                    onClick={dispatchUndoAction}
+                    onMouseUp={dispatchUndoAction}
                 />
                 <Button
-                    type={'default'}
-                    text={undefined}
-                    state={'disabled'}
+                    type={'round'}
                     id="redo-button"
-                    optionalText={undefined}
                     iconLeft={<RedoUndoIcon turn="redo" color="#ffa322" />}
-                    iconRight={undefined}
-                    cssMix={undefined}
-                    onClick={dispatchRedoAction}
+                    onMouseUp={dispatchRedoAction}
                 />
             </div>
         </div>

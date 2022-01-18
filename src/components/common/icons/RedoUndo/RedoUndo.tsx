@@ -2,9 +2,9 @@ export function RedoUndoIcon(props: { turn: 'redo' | 'undo'; color: string }): J
     const reg = /^#([0-9a-f]{3}){1,2}$/i;
     return (
         <svg
-            width="25"
-            height="11"
-            viewBox="0 0 25 11"
+            width="32"
+            height="32"
+            viewBox="0 0 25 12"
             fill="none"
             transform={props.turn === 'redo' ? 'scale(-1, 1)' : ''}
             xmlns="http://www.w3.org/2000/svg"

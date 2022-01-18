@@ -95,7 +95,7 @@ export function ToolBar() {
     const saveAsJSONFunction = () => {
         const presentation = store.getState().model.presentation;
         if (presentation.slidesList.length === 0) {
-            // alert(localeContext.locale.localization['error_no_slides']);
+            alert(localeContext.locale.localization.errors['noSlidesToSave']);
         } else {
             savePresentationAsJson({
                 ...initEditor(),

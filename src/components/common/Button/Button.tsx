@@ -44,13 +44,15 @@ export function Button(props: ButtonProps) {
 
     const onMouseEnterHandler = (event: MouseEvent) => {
         if (event.buttons === 1) {
-            setButtonState('active');
+            !disabled && setButtonState('active');
         } else {
-            setButtonState('hover');
+            !disabled && setButtonState('hover');
         }
     };
     const onMouseLeaveHandler = () => {
-        setButtonState('independently');
+        if (!disabled) {
+            setButtonState('independently');
+        }
     };
     const textElement = text ? <span className={styles['text']}>{text}</span> : null;
     const optionalTextElement = optionalText ? <span className={styles['optional-text']}>{optionalText}</span> : null;
@@ -58,7 +60,6 @@ export function Button(props: ButtonProps) {
     const onMouseUpHandler = (event: BaseSyntheticEvent) => {
         if (onMouseUp) {
             onMouseUp(event);
-            console.log('hello');
         }
         setButtonState('independently');
     };
