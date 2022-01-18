@@ -19,7 +19,7 @@ import {
     redoModelAction,
 } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { generateUUId } from '../../../model/utils/uuid';
+import { generateUUId } from '../../../app_model/model/utils/uuid';
 
 export function ElementListTool(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
