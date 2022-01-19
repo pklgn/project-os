@@ -12,11 +12,13 @@ import {
     insertSelectedSlidesAtIndexAction,
 } from '../../../app_model/redux_model/actions_model/action_creators/slide_action_creators';
 import { getSlideContainerDimension, getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
+import { getActiveViewArea } from '../../../app_model/view_model/active_view_area_actions';
 import {
     keepModelAction,
     setSelectedIdInEditor,
 } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { useDispatch } from 'react-redux';
+import { setActiveViewArea } from '../../../app_model/redux_model/actions_view_model/action_creators/active_area_action_creators';
 import { store } from '../../../app_model/redux_model/store';
 
 type SlideListProps = {
@@ -31,6 +33,7 @@ export function SlideList(props: SlideListProps) {
     const dispatchInsertSelectedSlides = bindActionCreators(insertSelectedSlidesAtIndexAction, dispatch);
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
     const dispatchDeleteSlideAction = bindActionCreators(deleteSelectedSlides, dispatch);
+    const dispatchActiveViewAreaAction = bindActionCreators(setActiveViewArea, dispatch);
 
     const [slideActiveStatusList, changeActiveStatusSlideList] = useState([] as boolean[]);
     const [activeSlideIndex, changeActiveSlideIndex] = useState(getActiveSlideIndex(props));
@@ -66,6 +69,9 @@ export function SlideList(props: SlideListProps) {
         changeActiveSlideIndex(getActiveSlideIndex(props));
         changeLastChosenSlideIndex(getActiveSlideIndex(props));
         setHotkeysMode(true);
+        if (props.slidesList.length && getActiveViewArea(store.getState().viewModel) !== 'SLIDE_LIST') {
+            dispatchActiveViewAreaAction('SLIDE_LIST');
+        }
     }, [props.slidesList.length, isMouseReadyToDrag, props]);
 
     useEffect(() => {
@@ -99,7 +105,17 @@ export function SlideList(props: SlideListProps) {
                     }
                 }
                 setHotkeysMode(true);
+
+                if (getActiveViewArea(store.getState().viewModel) !== 'SLIDE_LIST') {
+                    dispatchActiveViewAreaAction('SLIDE_LIST');
+                }
             } else {
+                if (listRef.current && listRef.current.getElementsByTagName('SPAN')[activeSlideIndex]) {
+                    listRef.current.getElementsByTagName('SPAN')[activeSlideIndex].scrollIntoView({
+                        block: 'center',
+                        behavior: 'smooth',
+                    });
+                }
                 setHotkeysMode(false);
                 setMouseReadyToDrag(false);
                 intersectionObserver.disconnect();
@@ -226,7 +242,7 @@ export function SlideList(props: SlideListProps) {
                         changeLastChosenSlideIndex(indexToInsertSelectedSlides);
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            listRef.current?.getElementsByTagName('SPAN')[activeSlideIndex] as Element,
+                            listRef.current?.getElementsByTagName('SPAN')[indexToInsertSelectedSlides] as Element,
                         );
 
                         changeActiveStatusSlideList(

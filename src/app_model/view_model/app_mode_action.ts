@@ -1,6 +1,6 @@
 import { AppModeType, ViewModelType } from './types';
 
-export function SetAppMode(viewModel: ViewModelType, mode: AppModeType): ViewModelType {
+export function setAppMode(viewModel: ViewModelType, mode: AppModeType): ViewModelType {
     const newMode: AppModeType =
         mode === 'EDIT'
             ? 'EDIT'
