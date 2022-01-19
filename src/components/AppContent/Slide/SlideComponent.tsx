@@ -307,6 +307,7 @@ export function SlideComponent(props: SlideProps) {
             ref={refCanvas}
             width={`${props.slideWidth ? props.slideWidth : props.containerWidth}`}
             height={`${props.slideHeight ? props.slideHeight : props.containerHeight}`}
+            className={styles['slide']}
             viewBox={`${props.viewBox ? props.viewBox.x : 0} ${props.viewBox ? props.viewBox.y : 0} ${
                 props.viewBox ? props.viewBox.width : 0
             } 
