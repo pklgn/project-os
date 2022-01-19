@@ -2,8 +2,6 @@ import styles from './AppTop.module.css';
 
 import { BaseSyntheticEvent, useContext } from 'react';
 
-import { bindActionCreators } from 'redux';
-import { changePresentationTitle } from '../../app_model/redux_model/actions_model/action_creators/presentation_action_creators';
 import { RootState } from '../../app_model/redux_model/reducers/root_reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,21 +14,24 @@ import ToolTip from '../common/ToolTip/ToolTip';
 
 import { LocaleContextType, LocaleContext } from '../../App';
 
+import { dispatchPresentationName } from '../../app_model/redux_model/dispatchers';
+import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
+import { store } from '../../app_model/redux_model/store';
+
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
-    const dispatchPresentationName = bindActionCreators(changePresentationTitle, dispatch);
 
     const onChangeNameInputHandler = (event: BaseSyntheticEvent) => {
-        dispatchPresentationName(event.target.value);
+        dispatchPresentationName(dispatch)(event.target.value);
         document.title = event.target.value + ' - Oladies&Slides';
     };
 
     const onBlurNameInputHandler = (event: BaseSyntheticEvent) => {
         if (!event.target.value) {
-            dispatchPresentationName(localeContext.locale.localization.presentationName);
+            dispatchPresentationName(dispatch)(localeContext.locale.localization.presentationName);
             document.title =
                 event.target.value + `${localeContext.locale.localization.presentationName} - Oladies&Slides`;
         }
@@ -50,8 +51,13 @@ export function AppTop(): JSX.Element {
         },
     ];
 
+    const onClickHandler = () => {
+        if (getActiveViewArea(store.getState().viewModel) !== 'APP_TOP') {
+        }
+    };
+
     return (
-        <div className={styles['top-bar']}>
+        <div className={styles['top-bar']} onClick={onClickHandler}>
             <div className={styles['top-bar-menu']}>
                 <ToolTip
                     title={'Hello'}

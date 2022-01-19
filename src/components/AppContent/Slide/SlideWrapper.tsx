@@ -4,14 +4,13 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { SlideComponent } from './SlideComponent';
 
 import { getCurrentSlide } from '../../../app_model/model/slides_actions';
-import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
-import { setSlideContainerDimensions } from '../../../app_model/redux_model/actions_view_model/action_creators/slide_render_action_creators';
 import { store } from '../../../app_model/redux_model/store';
 
 import { useResize } from '../../utils/useResize';
 import { useSlideResize } from '../../utils/useSlideResize';
 
+import { dispatchSlideContainerDimensions } from '../../../app_model/redux_model/dispatchers';
 import { SelectedAreaLocation, Slide } from '../../../app_model/model/types';
 
 export function SlideWrapper() {
@@ -22,7 +21,6 @@ export function SlideWrapper() {
     );
 
     const dispatch = useDispatch();
-    const dispatchSlideCOntainerDimensions = bindActionCreators(setSlideContainerDimensions, dispatch);
 
     const handleChange = () => {
         const previousValue = currSlideId;
@@ -56,7 +54,7 @@ export function SlideWrapper() {
                 ref.current.style.justifyContent = 'flex-start';
             }
         }
-        dispatchSlideCOntainerDimensions({ width: containerWidth, height: containerHeight });
+        dispatchSlideContainerDimensions(dispatch)({ width: containerWidth, height: containerHeight });
     }, [currSlide]);
 
     return (
