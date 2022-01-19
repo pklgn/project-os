@@ -22,6 +22,7 @@
 .number-active {
     background-color: #ff6d01;
     color: #6f1700;
+    border-left-color: black;
 }
 
 .list-item {
