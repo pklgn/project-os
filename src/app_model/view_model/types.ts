@@ -4,10 +4,8 @@ export type ViewModelType = {
     chosenElementsType: ChosenElementsType;
     editingTool: EditingToolStateType;
     slideRenderInfo: {
-        slideContainerDimensions: {
-            width: number;
-            height: number;
-        };
+        resizersInfo: ResizersInfoType,
+        slideContainerDimensions: SlideContainerDimensionsType;
         slideToContainerRatio: number;
         windowRatio: RenderRatio;
     };
@@ -28,3 +26,13 @@ export type EditingToolStateType = 'CHOOSE_TOOL' | 'TEXT_TOOL' | 'CIRCLE_TOOL' |
 export type ChosenElementsType = 'TEXT' | 'PICTURE' | 'FIGURE' | 'MIXED' | 'NONE';
 
 export type RenderRatio = '4/3' | '16/9' | '16/10';
+
+export type ResizersInfoType = {
+    dimension: number;
+    offset: number;
+};
+
+export type SlideContainerDimensionsType = {
+    width: number;
+    height: number;
+};

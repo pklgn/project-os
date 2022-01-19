@@ -13,9 +13,9 @@ import { SetAppMode } from '../../view_model/app_mode_action';
 import { SetChosenElementsType } from '../../view_model/chosen_elements_action';
 import { SetEditingToolState } from '../../view_model/editing_tool_actions';
 import {
-    SetSlideContainerDimensions,
-    SetSlideToContainerRatio,
-    SetWindowRatio,
+    setSlideContainerDimensions,
+    setSlideToContainerRatio,
+    setWindowRatio,
 } from '../../view_model/slide_render_actions';
 
 type ViewModelActionsType =
@@ -43,11 +43,11 @@ export const viewModelReducers = (
             return SetEditingToolState(state, action.payload);
 
         case ViewActionType.SET_SLIDE_CONTAINER_DIMENSIONS:
-            return SetSlideContainerDimensions(state, action.payload);
+            return setSlideContainerDimensions(state, action.payload);
         case ViewActionType.SET_SLIDE_TO_CONTAINER_RATIO:
-            return SetSlideToContainerRatio(state, action.payload);
+            return setSlideToContainerRatio(state, action.payload);
         case ViewActionType.SET_WINDOW_RATIO:
-            return SetWindowRatio(state, action.payload);
+            return setWindowRatio(state, action.payload);
 
         default:
             return state;

@@ -1,6 +1,6 @@
 import styles from './SlideComponent.module.css';
 
-import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FigureElementComponent } from '../../SlideElements/FigureElements/FigureElementComponent';
 import { getSlideElementType } from '../../../app_model/model/utils/tools';
 import { PictureElementComponent } from '../../SlideElements/Picture/PictureElementComponent';
@@ -18,6 +18,7 @@ import {
     getElementsCoordinates,
 } from '../../../app_model/model/element_actions';
 import { getActiveSlidesIds, getCurrentSlide } from '../../../app_model/model/slides_actions';
+import { getResizersInfo, getSlideToContainerRatio } from '../../../app_model/view_model/slide_render_actions';
 import {
     keepModelAction,
     setSelectedIdInEditor,
@@ -41,9 +42,6 @@ type SlideProps = {
     slideWidth?: number;
     slideHeight?: number;
 };
-
-const RESIZE_AREA_WIDTH_HEIGHT = 15;
-const OFFSET_FOR_REZIE_AREA = 3;
 
 export function SlideComponent(props: SlideProps) {
     const emptySlideRef = useRef<HTMLDivElement>(null);
@@ -290,28 +288,37 @@ export function SlideComponent(props: SlideProps) {
         window.addEventListener('mouseup', mouseUpReziseHandler);
     };
 
-    const emptySlideWidth = props.containerWidth! * 0.7;
+    const slideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
+
+    const emptySlideWidth = props.containerWidth! * slideContainerRatio;
     const emptySlideHeight = (emptySlideWidth * 9) / 16;
     if (emptySlideRef.current) {
         emptySlideRef.current.style.width = `${emptySlideWidth}px`;
         emptySlideRef.current.style.height = `${emptySlideHeight}px`;
     }
 
+    const slideWidth = props.renderType === 'mainSlide' && props.slideWidth ? props.slideWidth : '';
+    const slideHeight = props.renderType === 'mainSlide' && props.slideHeight ? props.slideHeight : '';
+
+    const viewBox = props.viewBox;
+
+    const resizersRenderInfo = getResizersInfo(store.getState().viewModel);
+    const resizersOffset = resizersRenderInfo.offset;
+    const resizersSize = resizersRenderInfo.dimension;
+
     let elementIndex = 0;
     return props.slide === undefined ? (
         <div ref={emptySlideRef} className={styles['empty-slide-container']} onClick={emptySlideClickHandler}>
             {localeContext.locale.localization.editor.emptySlide}
         </div>
-    ) : (
+    ) : props.renderType === 'mainSlide' ? (
         <svg
             ref={refCanvas}
-            width={`${props.slideWidth ? props.slideWidth : props.containerWidth}`}
-            height={`${props.slideHeight ? props.slideHeight : props.containerHeight}`}
+            width={`${slideWidth}`}
+            height={`${slideHeight}`}
             className={styles['slide']}
-            viewBox={`${props.viewBox ? props.viewBox.x : 0} ${props.viewBox ? props.viewBox.y : 0} ${
-                props.viewBox ? props.viewBox.width : 0
-            } 
-            ${props.viewBox ? props.viewBox.height : 0}`}
+            viewBox={`${viewBox ? viewBox.x : 0} ${viewBox ? viewBox.y : 0} ${viewBox ? viewBox.width : ''} 
+            ${viewBox ? viewBox.height : ''}`}
             preserveAspectRatio={'xMidYMid meet'}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -365,10 +372,10 @@ export function SlideComponent(props: SlideProps) {
                     />
                     <rect
                         id="resize-nw"
-                        x={selectedAreaLocation.xy.x - OFFSET_FOR_REZIE_AREA}
-                        y={selectedAreaLocation.xy.y - OFFSET_FOR_REZIE_AREA}
-                        width={RESIZE_AREA_WIDTH_HEIGHT}
-                        height={RESIZE_AREA_WIDTH_HEIGHT}
+                        x={selectedAreaLocation.xy.x - resizersOffset}
+                        y={selectedAreaLocation.xy.y - resizersOffset}
+                        width={resizersSize}
+                        height={resizersSize}
                         className={styles['resizer-nw']}
                         onMouseDown={onMouseDownResizeHandler}
                     />
@@ -377,12 +384,12 @@ export function SlideComponent(props: SlideProps) {
                         x={
                             selectedAreaLocation.xy.x +
                             selectedAreaLocation.dimensions.width -
-                            RESIZE_AREA_WIDTH_HEIGHT +
-                            OFFSET_FOR_REZIE_AREA
+                            resizersSize +
+                            resizersOffset
                         }
-                        y={selectedAreaLocation.xy.y - OFFSET_FOR_REZIE_AREA}
-                        width={RESIZE_AREA_WIDTH_HEIGHT}
-                        height={RESIZE_AREA_WIDTH_HEIGHT}
+                        y={selectedAreaLocation.xy.y - resizersOffset}
+                        width={resizersSize}
+                        height={resizersSize}
                         className={styles['resizer-ne']}
                         onMouseDown={onMouseDownResizeHandler}
                     />
@@ -391,35 +398,74 @@ export function SlideComponent(props: SlideProps) {
                         x={
                             selectedAreaLocation.xy.x +
                             selectedAreaLocation.dimensions.width -
-                            RESIZE_AREA_WIDTH_HEIGHT +
-                            OFFSET_FOR_REZIE_AREA
+                            resizersSize +
+                            resizersOffset
                         }
                         y={
                             selectedAreaLocation.xy.y +
                             selectedAreaLocation.dimensions.height -
-                            RESIZE_AREA_WIDTH_HEIGHT +
-                            OFFSET_FOR_REZIE_AREA
+                            resizersSize +
+                            resizersOffset
                         }
-                        width={RESIZE_AREA_WIDTH_HEIGHT}
-                        height={RESIZE_AREA_WIDTH_HEIGHT}
+                        width={resizersSize}
+                        height={resizersSize}
                         className={styles['resizer-se']}
                         onMouseDown={onMouseDownResizeHandler}
                     />
                     <rect
                         id="resize-sw"
-                        x={selectedAreaLocation.xy.x - OFFSET_FOR_REZIE_AREA}
+                        x={selectedAreaLocation.xy.x - resizersOffset}
                         y={
                             selectedAreaLocation.xy.y +
                             selectedAreaLocation.dimensions.height -
-                            RESIZE_AREA_WIDTH_HEIGHT +
-                            OFFSET_FOR_REZIE_AREA
+                            resizersSize +
+                            resizersOffset
                         }
-                        width={RESIZE_AREA_WIDTH_HEIGHT}
-                        height={RESIZE_AREA_WIDTH_HEIGHT}
+                        width={resizersSize}
+                        height={resizersSize}
                         className={styles['resizer-sw']}
                         onMouseDown={onMouseDownResizeHandler}
                     />
                 </>
+            ) : (
+                <></>
+            )}
+        </svg>
+    ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+            <rect
+                x={(props.containerWidth! - emptySlideWidth) / 2}
+                y={(props.containerHeight! - emptySlideHeight) / 2}
+                width={emptySlideWidth}
+                height={emptySlideHeight}
+                style={{ fill: `${props.slide.background.color}` }}
+            />
+            {props.slide !== undefined ? (
+                props.slide.elementsList.map((element) => {
+                    elementIndex = elementIndex + 1;
+                    switch (getSlideElementType(element.content)) {
+                        case 'TEXT':
+                            return (
+                                <TextElementComponent key={element.id} elementIndex={elementIndex} element={element} />
+                            );
+                        case 'FIGURE':
+                            return (
+                                <FigureElementComponent
+                                    key={element.id}
+                                    elementIndex={elementIndex}
+                                    element={element}
+                                />
+                            );
+                        case 'PICTURE':
+                            return (
+                                <PictureElementComponent
+                                    key={element.id}
+                                    elementIndex={elementIndex}
+                                    element={element}
+                                />
+                            );
+                    }
+                })
             ) : (
                 <></>
             )}
