@@ -79,7 +79,7 @@ export function SlideList(props: SlideListProps) {
         const handlerMouseDown = (event: MouseEvent) => {
             if (event.target instanceof Element && listRef.current?.contains(event.target)) {
                 const element = event.target as Element;
-                if (element.tagName === 'svg') {
+                if (element.tagName === 'SPAN') {
                     const newSlideIndexToGrag = parseInt(element.getAttribute('id')!) - 1;
 
                     const isMouseDownOnActiveListElement = slideActiveStatusList[newSlideIndexToGrag];
@@ -135,7 +135,7 @@ export function SlideList(props: SlideListProps) {
 
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            listRef.current?.getElementsByTagName('svg')[newActiveSlideIndex * 2] as Element,
+                            listRef.current?.getElementsByTagName('SPAN')[newActiveSlideIndex * 2] as Element,
                         );
 
                         changeActiveSlideIndex(newActiveSlideIndex);
@@ -174,7 +174,7 @@ export function SlideList(props: SlideListProps) {
 
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            listRef.current?.getElementsByTagName('svg')[newChosenSlideIndex * 2] as Element,
+                            listRef.current?.getElementsByTagName('SPAN')[newChosenSlideIndex * 2] as Element,
                         );
 
                         const newActiveItemStatusList: boolean[] = slideActiveStatusList.map((_, index) => {
@@ -216,7 +216,7 @@ export function SlideList(props: SlideListProps) {
                         changeLastChosenSlideIndex(indexToInsertSelectedSlides);
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            listRef.current?.getElementsByTagName('svg')[activeSlideIndex * 2] as Element,
+                            listRef.current?.getElementsByTagName('SPAN')[activeSlideIndex * 2] as Element,
                         );
 
                         changeActiveStatusSlideList(
@@ -262,7 +262,7 @@ export function SlideList(props: SlideListProps) {
         if (
             event.target instanceof Element &&
             listRef.current?.contains(event.target) &&
-            event.target.tagName === 'svg'
+            event.target.tagName === 'SPAN'
         ) {
             const handlerType = event.ctrlKey ? 'ctrlPressed' : event.shiftKey ? 'shiftPressed' : 'default';
 
@@ -408,7 +408,7 @@ export function SlideList(props: SlideListProps) {
         if (listRef.current) {
             const computedStyle = getComputedStyle(listRef.current);
             setListWidth(
-                listRef.current.clientWidth -
+                listRef.current.offsetWidth -
                     parseFloat(computedStyle.paddingLeft) -
                     parseFloat(computedStyle.paddingRight),
             );
@@ -433,14 +433,6 @@ export function SlideList(props: SlideListProps) {
             {props.slidesList.map((slide, index) => {
                 return (
                     <li className={styles['slide-list-item']} key={index}>
-                        <div
-                            className={`${styles['before-list-element-hr']} ${
-                                slideHrStatus[index] ? styles.active : styles.disabled
-                            }`}
-                            id={`${index}`}
-                            key={index}
-                        />
-
                         <SlideListItem
                             item={slide}
                             itemIndex={index}
@@ -454,14 +446,7 @@ export function SlideList(props: SlideListProps) {
                                 width: mainContainerDimensions.width,
                                 height: mainContainerDimensions.height,
                             }}
-                        />
-
-                        <div
-                            className={`${styles['after-list-element-hr']} ${
-                                slideHrStatus[index] ? styles.active : styles.disabled
-                            }`}
-                            id={`${index + 1}`}
-                            key={index + 1}
+                            shouldRenderHrs={slideHrStatus[index]}
                         />
                     </li>
                 );

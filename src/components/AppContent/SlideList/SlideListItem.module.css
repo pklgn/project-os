@@ -36,16 +36,37 @@
     box-shadow: 2px 2px black;
 }
 
+.prevent-pointer-events,
 .prevent-pointer-events-top,
 .prevent-pointer-events-bottom {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 50%;
+    height: 100%;
     cursor: pointer;
+}
+
+.prevent-pointer-events-top,
+.prevent-pointer-events-bottom {
+    height: 50%;
 }
 
 .prevent-pointer-events-bottom {
     top: 50%;
+}
+
+.prevent-pointer-events-top:hover:before,
+.prevent-pointer-events-bottom:hover:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 3px;
+    background-color: red;
+}
+
+.prevent-pointer-events-bottom:hover:after {
+    top: calc(100% - 3px);
 }

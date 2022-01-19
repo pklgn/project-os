@@ -15,6 +15,7 @@ type SlideListItemProps = {
         width: number;
         height: number;
     };
+    shouldRenderHrs?: boolean;
 };
 
 export function SlideListItem(props: SlideListItemProps) {
@@ -33,8 +34,14 @@ export function SlideListItem(props: SlideListItemProps) {
                     containerWidth={props.viewBox?.width}
                     containerHeight={props.viewBox?.height}
                 />
-                <svg className={styles['prevent-pointer-events-top']} id={`${props.itemIndex}`} />
-                <svg className={styles['prevent-pointer-events-bottom']} id={`${props.itemIndex + 1}`} />
+                {props.shouldRenderHrs ? (
+                    <>
+                        <span className={styles['prevent-pointer-events-top']} id={`${props.itemIndex}`} />
+                        <span className={styles['prevent-pointer-events-bottom']} id={`${props.itemIndex + 1}`} />
+                    </>
+                ) : (
+                    <span className={styles['prevent-pointer-events']} id={`${props.itemIndex + 1}`} />
+                )}
             </div>
             <div className={`${styles['item-number']} ${itemNumberStyle}`}>{props.itemIndex + 1}</div>
         </>
