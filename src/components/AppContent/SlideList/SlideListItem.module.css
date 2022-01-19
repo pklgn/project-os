@@ -15,14 +15,14 @@
 }
 
 .number-disabled {
-    background-color: #6f1700;
-    color: #ff6d01;
+    background-color: #7a7e8c;
+    color: #f5ab44;
 }
 
 .number-active {
-    background-color: #ff6d01;
-    color: #6f1700;
-    border-left-color: black;
+    background-color: #f5ab44;
+    color: #72412d;
+    border-left-color: #72412d;
 }
 
 .list-item {
