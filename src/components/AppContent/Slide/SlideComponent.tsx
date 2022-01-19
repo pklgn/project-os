@@ -1,6 +1,6 @@
 import styles from './SlideComponent.module.css';
 
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { FigureElementComponent } from '../../SlideElements/FigureElements/FigureElementComponent';
 import { getSlideElementType } from '../../../app_model/model/utils/tools';
 import { PictureElementComponent } from '../../SlideElements/Picture/PictureElementComponent';
@@ -18,7 +18,11 @@ import {
     getElementsCoordinates,
 } from '../../../app_model/model/element_actions';
 import { getActiveSlidesIds, getCurrentSlide } from '../../../app_model/model/slides_actions';
-import { getResizersInfo, getSlideToContainerRatio } from '../../../app_model/view_model/slide_render_actions';
+import {
+    getResizersInfo,
+    getSlideToContainerRatio,
+    getWindowRatio,
+} from '../../../app_model/view_model/slide_render_actions';
 import {
     keepModelAction,
     setSelectedIdInEditor,
@@ -288,10 +292,47 @@ export function SlideComponent(props: SlideProps) {
         window.addEventListener('mouseup', mouseUpReziseHandler);
     };
 
-    const slideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
+    const [slideContainerRatio, setSlideContainerRatio] = useState(
+        getSlideToContainerRatio(store.getState().viewModel),
+    );
+    const [windowRatio, setWindowRatio] = useState(getWindowRatio(store.getState().viewModel));
+
+    const [resizersRenderInfo, setResizersRenderInfo] = useState(getResizersInfo(store.getState().viewModel));
+    const resizersOffset = resizersRenderInfo.offset;
+    const resizersSize = resizersRenderInfo.dimension;
+
+    useLayoutEffect(() => {
+        if (props.renderType === 'mainSlide') {
+            const handler = () => {
+                const prevSlideContainerRatio = slideContainerRatio;
+                const prevWindowRatio = windowRatio;
+                const prevResizersRenderInfo = resizersRenderInfo;
+
+                const currSlideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
+                const currWindowRatio = getWindowRatio(store.getState().viewModel);
+                const currResizersRenderInfo = getResizersInfo(store.getState().viewModel);
+
+                if (prevSlideContainerRatio !== currSlideContainerRatio) {
+                    setSlideContainerRatio(currSlideContainerRatio);
+                }
+                if (prevWindowRatio !== currWindowRatio) {
+                    setWindowRatio(currWindowRatio);
+                }
+                if (prevResizersRenderInfo !== currResizersRenderInfo) {
+                    setResizersRenderInfo(currResizersRenderInfo);
+                }
+            };
+
+            const unsubscribe = store.subscribe(handler);
+
+            return () => {
+                unsubscribe();
+            };
+        }
+    }, [slideContainerRatio, windowRatio]);
 
     const emptySlideWidth = props.containerWidth! * slideContainerRatio;
-    const emptySlideHeight = (emptySlideWidth * 9) / 16;
+    const emptySlideHeight = emptySlideWidth / windowRatio;
     if (emptySlideRef.current) {
         emptySlideRef.current.style.width = `${emptySlideWidth}px`;
         emptySlideRef.current.style.height = `${emptySlideHeight}px`;
@@ -301,10 +342,6 @@ export function SlideComponent(props: SlideProps) {
     const slideHeight = props.renderType === 'mainSlide' && props.slideHeight ? props.slideHeight : '';
 
     const viewBox = props.viewBox;
-
-    const resizersRenderInfo = getResizersInfo(store.getState().viewModel);
-    const resizersOffset = resizersRenderInfo.offset;
-    const resizersSize = resizersRenderInfo.dimension;
 
     let elementIndex = 0;
     return props.slide === undefined ? (
@@ -432,7 +469,15 @@ export function SlideComponent(props: SlideProps) {
             )}
         </svg>
     ) : (
-        <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+        <svg
+            width={props.slideWidth}
+            height={props.slideHeight}
+            viewBox={`${(props.containerWidth! - emptySlideWidth) / 2} ${
+                (props.containerHeight! - emptySlideHeight) / 2
+            } ${emptySlideWidth} ${emptySlideHeight}`}
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+        >
             <rect
                 x={(props.containerWidth! - emptySlideWidth) / 2}
                 y={(props.containerHeight! - emptySlideHeight) / 2}

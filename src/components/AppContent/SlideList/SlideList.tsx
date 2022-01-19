@@ -1,6 +1,6 @@
 import styles from './SlideList.module.css';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { SlideListItem } from './SlideListItem';
 
@@ -11,6 +11,7 @@ import {
     deleteSelectedSlides,
     insertSelectedSlidesAtIndexAction,
 } from '../../../app_model/redux_model/actions_model/action_creators/slide_action_creators';
+import { getSlideContainerDimension, getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
 import {
     keepModelAction,
     setSelectedIdInEditor,
@@ -23,7 +24,7 @@ type SlideListProps = {
 };
 
 export function SlideList(props: SlideListProps) {
-    const ref = useRef<HTMLUListElement>(null);
+    const listRef = useRef<HTMLUListElement>(null);
 
     const dispatch = useDispatch();
     const dispatchSetIdAction = bindActionCreators(setSelectedIdInEditor, dispatch);
@@ -49,7 +50,7 @@ export function SlideList(props: SlideListProps) {
 
                     const yToScroll = slideAtTop ? -1.5 * slideHeight : 1.5 * slideHeight;
 
-                    ref.current?.scrollBy(0, yToScroll);
+                    listRef.current?.scrollBy(0, yToScroll);
                 }
             },
             { threshold: 1 },
@@ -76,7 +77,7 @@ export function SlideList(props: SlideListProps) {
 
     useEffect(() => {
         const handlerMouseDown = (event: MouseEvent) => {
-            if (event.target instanceof Element && ref.current?.contains(event.target)) {
+            if (event.target instanceof Element && listRef.current?.contains(event.target)) {
                 const element = event.target as Element;
                 if (element.tagName === 'svg') {
                     const newSlideIndexToGrag = parseInt(element.getAttribute('id')!) - 1;
@@ -134,7 +135,7 @@ export function SlideList(props: SlideListProps) {
 
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            ref.current?.getElementsByTagName('svg')[newActiveSlideIndex * 2] as Element,
+                            listRef.current?.getElementsByTagName('svg')[newActiveSlideIndex * 2] as Element,
                         );
 
                         changeActiveSlideIndex(newActiveSlideIndex);
@@ -173,7 +174,7 @@ export function SlideList(props: SlideListProps) {
 
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            ref.current?.getElementsByTagName('svg')[newChosenSlideIndex * 2] as Element,
+                            listRef.current?.getElementsByTagName('svg')[newChosenSlideIndex * 2] as Element,
                         );
 
                         const newActiveItemStatusList: boolean[] = slideActiveStatusList.map((_, index) => {
@@ -215,7 +216,7 @@ export function SlideList(props: SlideListProps) {
                         changeLastChosenSlideIndex(indexToInsertSelectedSlides);
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            ref.current?.getElementsByTagName('svg')[activeSlideIndex * 2] as Element,
+                            listRef.current?.getElementsByTagName('svg')[activeSlideIndex * 2] as Element,
                         );
 
                         changeActiveStatusSlideList(
@@ -258,7 +259,11 @@ export function SlideList(props: SlideListProps) {
     });
 
     const onClickListHandler = (event: React.MouseEvent<HTMLUListElement>) => {
-        if (event.target instanceof Element && ref.current?.contains(event.target) && event.target.tagName === 'svg') {
+        if (
+            event.target instanceof Element &&
+            listRef.current?.contains(event.target) &&
+            event.target.tagName === 'svg'
+        ) {
             const handlerType = event.ctrlKey ? 'ctrlPressed' : event.shiftKey ? 'shiftPressed' : 'default';
 
             const chosenSlideIndex = parseInt(event.target.getAttribute('id')!) - 1;
@@ -349,7 +354,7 @@ export function SlideList(props: SlideListProps) {
         if (
             isMouseReadyToDrag &&
             event.target instanceof Element &&
-            ref.current?.contains(event.target) &&
+            listRef.current?.contains(event.target) &&
             slideHrStatus.includes(true)
         ) {
             const element = event.target as Element;
@@ -369,7 +374,7 @@ export function SlideList(props: SlideListProps) {
     };
 
     const onMouseOverListHandler = (event: React.MouseEvent<HTMLUListElement>) => {
-        if (isMouseReadyToDrag && event.target instanceof Element && ref.current?.contains(event.target)) {
+        if (isMouseReadyToDrag && event.target instanceof Element && listRef.current?.contains(event.target)) {
             intersectionObserver.disconnect();
             const element = event.target as Element;
             const insertIndex = parseInt(element.getAttribute('id')!);
@@ -387,10 +392,39 @@ export function SlideList(props: SlideListProps) {
         intersectionObserver.disconnect();
     };
 
+    const [listWidth, setListWidth] = useState(0);
+    const [windowRatio, setWindowRatio] = useState(getWindowRatio(store.getState().viewModel));
+    const mainContainerDimensions = getSlideContainerDimension(store.getState().viewModel);
+
+    useLayoutEffect(() => {
+        const handleWindowRatioChange = () => {
+            const prevValue = windowRatio;
+            const currValue = getWindowRatio(store.getState().viewModel);
+            if (prevValue !== currValue) {
+                setWindowRatio(currValue);
+            }
+        };
+
+        if (listRef.current) {
+            const computedStyle = getComputedStyle(listRef.current);
+            setListWidth(
+                listRef.current.clientWidth -
+                    parseFloat(computedStyle.paddingLeft) -
+                    parseFloat(computedStyle.paddingRight),
+            );
+        }
+
+        const unsubscribe = store.subscribe(handleWindowRatioChange);
+
+        return () => {
+            unsubscribe();
+        };
+    }, [listWidth]);
+
     return (
         <ul
             className={`${styles.list} ${styles['list-wrapper']}`}
-            ref={ref}
+            ref={listRef}
             onClick={onClickListHandler}
             onMouseUp={onMouseUpListHandler}
             onMouseOver={onMouseOverListHandler}
@@ -400,11 +434,9 @@ export function SlideList(props: SlideListProps) {
                 return (
                     <li className={styles['slide-list-item']} key={index}>
                         <div
-                            className={
-                                slideHrStatus[index]
-                                    ? styles['before-list-element-hr-active']
-                                    : styles['before-list-element-hr-disabled']
-                            }
+                            className={`${styles['before-list-element-hr']} ${
+                                slideHrStatus[index] ? styles.active : styles.disabled
+                            }`}
                             id={`${index}`}
                             key={index}
                         />
@@ -414,14 +446,20 @@ export function SlideList(props: SlideListProps) {
                             itemIndex={index}
                             status={slideActiveStatusList[index]}
                             key={slide.id}
+                            width={listWidth}
+                            height={listWidth / windowRatio}
+                            viewBox={{
+                                x: 0,
+                                y: 0,
+                                width: mainContainerDimensions.width,
+                                height: mainContainerDimensions.height,
+                            }}
                         />
 
                         <div
-                            className={
-                                slideHrStatus[index + 1]
-                                    ? styles['after-list-element-hr-active']
-                                    : styles['after-list-element-hr-disabled']
-                            }
+                            className={`${styles['after-list-element-hr']} ${
+                                slideHrStatus[index] ? styles.active : styles.disabled
+                            }`}
                             id={`${index + 1}`}
                             key={index + 1}
                         />
