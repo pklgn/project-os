@@ -271,6 +271,38 @@ export function SlideList(props: SlideListProps) {
                             selectedSlideElementsIds: [],
                         });
                     }
+                } else if (event.shiftKey && (event.code === 'Home' || event.code === 'End')) {
+                    const amountOfSlides = props.slidesList.length;
+                    if (amountOfSlides) {
+                        const indexUpToChoose = event.code === 'Home' ? 0 : amountOfSlides - 1;
+                        const newActiveItemStatusList: boolean[] = slideActiveStatusList.map((_, index) => {
+                            if (
+                                (event.code === 'End' && index >= activeSlideIndex && index <= indexUpToChoose) ||
+                                (event.code === 'Home' && index <= activeSlideIndex && index >= indexUpToChoose)
+                            ) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });
+                        changeActiveStatusSlideList(newActiveItemStatusList);
+
+                        const activeSlideIds = props.slidesList
+                            .map((slide, index) => {
+                                if (newActiveItemStatusList[index]) {
+                                    return slide.id;
+                                } else {
+                                    return '';
+                                }
+                            })
+                            .filter((status) => status !== '');
+                        if (props.slidesList.length) {
+                            dispatchSetIdAction({
+                                selectedSlidesIds: activeSlideIds,
+                                selectedSlideElementsIds: [],
+                            });
+                        }
+                    }
                 }
             }
         };
