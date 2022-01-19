@@ -14,14 +14,13 @@ export type DropdownMenuProps = {
 };
 
 export function DropdownMenu(props: DropdownMenuProps) {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [currButtonId, setCurrButtonId] = useState('');
-    const currButton = mockDropdown.data.find((element) => {
+    const currButton: DropDownMenuItem | undefined = mockDropdown.data.find((element) => {
         return element.mainButton.id === currButtonId;
     });
     useEffect(() => {
         console.log(currButton);
-        currButtonId ? console.log('оно true') : console.log('false');
     });
     return (
         <div>
@@ -33,8 +32,8 @@ export function DropdownMenu(props: DropdownMenuProps) {
                 }}
             />
             <ul>
-                {open && currButtonId
-                    ? mockDropdown.data[1].nestedButtons.map((pair, index) => {
+                {open && currButton
+                    ? currButton.nestedButtons.map((pair, index) => {
                           return (
                               <li key={index}>
                                   <Button {...pair.mainButton} onClick={() => setCurrButtonId(pair.mainButton.id)} />
