@@ -12,7 +12,8 @@ import { FullscreenIcon } from '../common/icons/Fullscreen/Fullscreen';
 import { GlobeIcon } from '../common/icons/GlobeInternationalization/GlobeInternationalizationIcon';
 import ToolTip from '../common/ToolTip/ToolTip';
 
-import { LocaleContextType, LocaleContext } from '../../App';
+import { getL18nObject } from '../../l18n/l18n';
+import { LocaleContext } from '../../App';
 
 import { dispatchActiveViewAreaAction, dispatchPresentationName } from '../../app_model/redux_model/dispatchers';
 import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
@@ -20,9 +21,17 @@ import { store } from '../../app_model/redux_model/store';
 
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
-    const localeContext: LocaleContextType = useContext(LocaleContext);
 
+    const localeContext = useContext(LocaleContext);
     const dispatch = useDispatch();
+
+    const toggleLocaleContext = () => {
+        if (localeContext.locale.currLocale === 'en_EN') {
+            localeContext.changeLocale!(getL18nObject('ru_RU'));
+        } else if (localeContext.locale.currLocale === 'ru_RU') {
+            localeContext.changeLocale!(getL18nObject('en_EN'));
+        }
+    };
 
     const onChangeNameInputHandler = (event: BaseSyntheticEvent) => {
         if (getActiveViewArea(store.getState().viewModel) === 'APP_TOP') {
@@ -39,7 +48,6 @@ export function AppTop(): JSX.Element {
             document.title =
                 event.target.value + `${localeContext.locale.localization.presentationName} - Oladies&Slides`;
         }
-        console.log(getActiveViewArea(store.getState().viewModel));
     };
 
     const miscButtonsInfo: ButtonProps[] = [
@@ -50,9 +58,11 @@ export function AppTop(): JSX.Element {
         },
         {
             id: 'lang-button',
+            state: 'independently',
             text: localeContext.locale.localization.appTopButtons.l18n,
             iconLeft: <GlobeIcon width={32} height={32} color="#ffa322" />,
             type: 'round',
+            onMouseUp: toggleLocaleContext,
         },
     ];
 
@@ -94,7 +104,15 @@ export function AppTop(): JSX.Element {
                             id={info.id}
                             position={'under'}
                             key={index}
-                            child={<Button id={info.id} key={index} iconLeft={info.iconLeft} type={info.type} />}
+                            child={
+                                <Button
+                                    id={info.id}
+                                    key={index}
+                                    iconLeft={info.iconLeft}
+                                    type={info.type}
+                                    onMouseUp={info.onMouseUp}
+                                />
+                            }
                         />
                     );
                 })}
