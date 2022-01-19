@@ -73,7 +73,7 @@ export function SlideList(props: SlideListProps) {
         changeActiveSlideIndex(getActiveSlideIndex(props));
         changeLastChosenSlideIndex(getActiveSlideIndex(props));
         setHotkeysMode(true);
-    }, [props.slidesList.length, isMouseReadyToDrag, intersectionObserver, props]);
+    }, [props.slidesList.length, isMouseReadyToDrag, props]);
 
     useEffect(() => {
         const handlerMouseDown = (event: MouseEvent) => {
@@ -135,7 +135,7 @@ export function SlideList(props: SlideListProps) {
 
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            listRef.current?.getElementsByTagName('SPAN')[newActiveSlideIndex * 2] as Element,
+                            listRef.current?.getElementsByTagName('SPAN')[newActiveSlideIndex] as Element,
                         );
 
                         changeActiveSlideIndex(newActiveSlideIndex);
@@ -174,7 +174,7 @@ export function SlideList(props: SlideListProps) {
 
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            listRef.current?.getElementsByTagName('SPAN')[newChosenSlideIndex * 2] as Element,
+                            listRef.current?.getElementsByTagName('SPAN')[newChosenSlideIndex] as Element,
                         );
 
                         const newActiveItemStatusList: boolean[] = slideActiveStatusList.map((_, index) => {
@@ -216,7 +216,7 @@ export function SlideList(props: SlideListProps) {
                         changeLastChosenSlideIndex(indexToInsertSelectedSlides);
                         intersectionObserver.disconnect();
                         intersectionObserver.observe(
-                            listRef.current?.getElementsByTagName('SPAN')[activeSlideIndex * 2] as Element,
+                            listRef.current?.getElementsByTagName('SPAN')[activeSlideIndex] as Element,
                         );
 
                         changeActiveStatusSlideList(
@@ -446,7 +446,7 @@ export function SlideList(props: SlideListProps) {
                                 width: mainContainerDimensions.width,
                                 height: mainContainerDimensions.height,
                             }}
-                            shouldRenderHrs={slideHrStatus[index]}
+                            shouldRenderHrs={isMouseReadyToDrag}
                         />
                     </li>
                 );

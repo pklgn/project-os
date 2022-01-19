@@ -22,34 +22,3 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
-
-.list-item-wrapper-disabled,
-.list-item-wrapper-active {
-    margin-top: 5px;
-    display: flex;
-    flex-direction: column;
-}
-
-.before-list-element-hr {
-    margin-bottom: 1px;
-    width: 100%;
-    height: 5px;
-    background-color: #cecdcd;
-    border-radius: 20px 20px 0 0;
-}
-
-.after-list-element-hr {
-    margin-top: 3px;
-    width: 100%;
-    height: 5px;
-    background-color: #cecdcd;
-    border-radius: 0 0 20px 20px;
-}
-
-.disabled {
-    border-top: 2px solid transparent;
-}
-
-.active {
-    border-top: 2px solid #c91700;
-}
