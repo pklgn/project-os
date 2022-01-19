@@ -14,7 +14,7 @@ import ToolTip from '../common/ToolTip/ToolTip';
 
 import { LocaleContextType, LocaleContext } from '../../App';
 
-import { dispatchPresentationName } from '../../app_model/redux_model/dispatchers';
+import { dispatchActiveViewAreaAction, dispatchPresentationName } from '../../app_model/redux_model/dispatchers';
 import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
 import { store } from '../../app_model/redux_model/store';
 
@@ -25,8 +25,12 @@ export function AppTop(): JSX.Element {
     const dispatch = useDispatch();
 
     const onChangeNameInputHandler = (event: BaseSyntheticEvent) => {
-        dispatchPresentationName(dispatch)(event.target.value);
-        document.title = event.target.value + ' - Oladies&Slides';
+        if (getActiveViewArea(store.getState().viewModel) === 'APP_TOP') {
+            dispatchPresentationName(dispatch)(event.target.value);
+            document.title = event.target.value + ' - Oladies&Slides';
+        } else {
+            event.target.blur();
+        }
     };
 
     const onBlurNameInputHandler = (event: BaseSyntheticEvent) => {
@@ -35,6 +39,7 @@ export function AppTop(): JSX.Element {
             document.title =
                 event.target.value + `${localeContext.locale.localization.presentationName} - Oladies&Slides`;
         }
+        console.log(getActiveViewArea(store.getState().viewModel));
     };
 
     const miscButtonsInfo: ButtonProps[] = [
@@ -51,13 +56,14 @@ export function AppTop(): JSX.Element {
         },
     ];
 
-    const onClickHandler = () => {
+    const onFocus = () => {
         if (getActiveViewArea(store.getState().viewModel) !== 'APP_TOP') {
+            dispatchActiveViewAreaAction(dispatch)('APP_TOP');
         }
     };
 
     return (
-        <div className={styles['top-bar']} onClick={onClickHandler}>
+        <div className={styles['top-bar']}>
             <div className={styles['top-bar-menu']}>
                 <ToolTip
                     title={'Hello'}
@@ -75,6 +81,7 @@ export function AppTop(): JSX.Element {
                             id="name-input-field"
                             maxLength={20}
                             value={state.model.presentation.name}
+                            onFocusCapture={onFocus}
                             onChange={onChangeNameInputHandler}
                             onBlur={onBlurNameInputHandler}
                         />

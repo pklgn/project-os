@@ -61,9 +61,6 @@ export function SlideList(props: SlideListProps) {
         changeActiveSlideIndex(getActiveSlideIndex(props));
         changeLastChosenSlideIndex(getActiveSlideIndex(props));
         setHotkeysMode(true);
-        if (props.slidesList.length && getActiveViewArea(store.getState().viewModel) !== 'SLIDE_LIST') {
-            dispatchActiveViewAreaAction(dispatch)('SLIDE_LIST');
-        }
     }, [props.slidesList.length, isMouseReadyToDrag, props]);
 
     useEffect(() => {
