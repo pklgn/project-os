@@ -22,11 +22,6 @@
     }
 }
 
-.slide-container {
-    box-sizing: border-box;
-    overflow: visible;
-}
-
 .select-area {
     fill: transparent;
     stroke: lightsalmon;

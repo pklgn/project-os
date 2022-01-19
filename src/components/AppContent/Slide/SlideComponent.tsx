@@ -31,8 +31,8 @@ type SlideProps = {
     slide: Slide | undefined;
     renderType: 'default' | 'mainSlide';
     viewBox?: {
-        xStart: number;
-        yStart: number;
+        x: number;
+        y: number;
         width: number;
         height: number;
     };
@@ -305,13 +305,12 @@ export function SlideComponent(props: SlideProps) {
     ) : (
         <svg
             ref={refCanvas}
-            width={props.slideWidth ? `${props.slideWidth}` : `${props.containerWidth}`}
-            height={props.slideHeight ? `${props.slideHeight}` : `${props.containerHeight}`}
-            className={styles['slide-container']}
-            viewBox={`${props.viewBox?.xStart} ${props.viewBox?.yStart} ${
-                props.slideWidth ? props.slideWidth : props.containerWidth
+            width={`${props.slideWidth ? props.slideWidth : props.containerWidth}`}
+            height={`${props.slideHeight ? props.slideHeight : props.containerHeight}`}
+            viewBox={`${props.viewBox ? props.viewBox.x : 0} ${props.viewBox ? props.viewBox.y : 0} ${
+                props.viewBox ? props.viewBox.width : 0
             } 
-            ${props.slideHeight ? props.slideHeight : props.containerHeight}`}
+            ${props.viewBox ? props.viewBox.height : 0}`}
             preserveAspectRatio={'xMidYMid meet'}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
