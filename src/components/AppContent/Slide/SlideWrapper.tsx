@@ -96,17 +96,21 @@ function getSlideViewBox(
     const containerMinY = 0;
 
     const possibleSlideWidth =
-        contentMinX < containerMinX
+        contentMinX < containerMinX && contentMaxX < slideContainerWidth
             ? slideContainerWidth + Math.abs(contentMinX)
-            : contentMaxX > slideContainerWidth
+            : contentMaxX > slideContainerWidth && contentMinX > containerMinX
             ? contentMaxX
+            : contentMinX < containerMinX && contentMaxX > slideContainerWidth
+            ? contentMaxX - contentMinX
             : slideContainerWidth;
 
     const possibleSlideHeight =
-        contentMinY < containerMinY
+        contentMinY < containerMinY && contentMaxY < slideContainerHeight
             ? slideContainerHeight + Math.abs(contentMinY)
-            : contentMaxY > slideContainerHeight
+            : contentMaxY > slideContainerHeight && contentMinY > containerMinY
             ? contentMaxY
+            : contentMinY < containerMinY && contentMaxY > slideContainerHeight
+            ? contentMaxY - contentMinY
             : slideContainerHeight;
 
     const viewBoxStartX =
