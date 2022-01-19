@@ -305,11 +305,13 @@ export function SlideComponent(props: SlideProps) {
     ) : (
         <svg
             ref={refCanvas}
-            width={props.slideWidth ? `${props.slideWidth}px` : `${props.containerWidth}px`}
-            height={props.slideHeight ? `${props.slideHeight}px` : `${props.containerHeight}px`}
+            width={props.slideWidth ? `${props.slideWidth}` : `${props.containerWidth}`}
+            height={props.slideHeight ? `${props.slideHeight}` : `${props.containerHeight}`}
             className={styles['slide-container']}
-            viewBox={`${props.viewBox?.xStart} ${props.viewBox?.yStart} ${props.containerWidth} 
-            ${props.containerHeight}`}
+            viewBox={`${props.viewBox?.xStart} ${props.viewBox?.yStart} ${
+                props.slideWidth ? props.slideWidth : props.containerWidth
+            } 
+            ${props.slideHeight ? props.slideHeight : props.containerHeight}`}
             preserveAspectRatio={'xMidYMid meet'}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"

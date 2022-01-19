@@ -1,6 +1,6 @@
 import wrapperStyles from './SlideWrapper.module.css';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { SlideComponent } from './SlideComponent';
 
 import { store } from '../../../app_model/redux_model/store';
@@ -52,15 +52,35 @@ export function SlideWrapper() {
     const containerMinY = 0;
 
     const possibleSlideWidth =
-        contentMinX < containerMinX || contentMaxX > containerWidth ? containerWidth + contentWidth : containerWidth;
+        contentMinX < containerMinX
+            ? containerWidth + Math.abs(contentMinX)
+            : contentMaxX > containerWidth
+            ? contentMaxX
+            : containerWidth;
 
     const possibleSlideHeight =
-        contentMinY < containerMinY || contentMaxY > containerHeight
-            ? containerHeight + contentHeight
+        contentMinY < containerMinY
+            ? containerHeight + Math.abs(contentMinY)
+            : contentMaxY > containerHeight
+            ? contentMaxY
             : containerHeight;
 
-    const viewBoxStartX = contentMinX < containerMinX ? contentMinX : containerMinX;
-    const viewBoxStartY = contentMinY < containerMinY ? contentMinY : containerMinY;
+    const viewBoxStartX =
+        contentMinX < containerMinX ? contentMinX : contentMaxX > containerWidth ? containerMinX : containerMinX;
+    const viewBoxStartY =
+        contentMinY < containerMinY ? contentMinY : contentMaxY > containerHeight ? containerMinY : containerMinY;
+
+    useLayoutEffect(() => {
+        if (ref.current) {
+            if (currSlide === undefined) {
+                ref.current.style.alignItems = 'center';
+                ref.current.style.justifyContent = 'center';
+            } else {
+                ref.current.style.alignItems = 'flex-start';
+                ref.current.style.justifyContent = 'flex-start';
+            }
+        }
+    }, [currSlide]);
 
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>

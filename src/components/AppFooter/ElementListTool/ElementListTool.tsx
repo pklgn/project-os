@@ -49,6 +49,7 @@ export function ElementListTool(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
+            state: 'pressed',
             iconLeft: <SelectCursorIcon color="#ffa322" />,
         },
         {
