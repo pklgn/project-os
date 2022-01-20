@@ -8,14 +8,9 @@ import { GeometryIcon } from '../../common/icons/Geometry/Geometry';
 import { RedoUndoIcon } from '../../common/icons/RedoUndo/RedoUndo';
 import { SelectCursorIcon } from '../../common/icons/Cursor/Cursor';
 import { TextIcon } from '../../common/icons/Text/Text';
-import ToolTip from '../../common/ToolTip/ToolTip';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 import { store } from '../../../app_model/redux_model/store';
 
-import {
-    undoModelAction,
-    redoModelAction,
-} from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { TextToolsList } from '../TextToolsList/TextToolsList';
@@ -24,6 +19,7 @@ import { DefaultToolsList } from '../DefaultToolsList/DefaultToolsList';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
+import {
     dispatchUndoAction,
     dispatchRedoAction,
     dispatchAddFigureAction,
