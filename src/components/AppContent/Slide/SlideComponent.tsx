@@ -71,23 +71,17 @@ export function SlideComponent(props: SlideProps) {
     const [isReadyToDrop, setIsReadyToDrop] = useState(false);
     const [elementsAmount, setElementsAmount] = useState(0);
 
-    useEffect(() => {
-        const onElementsAmountChangeHandler = () => {
-            const prevAmount = elementsAmount;
-            const currAmount = getActiveElementsIds(store.getState().model).length;
-            if (prevAmount !== currAmount) {
-                setSelectedAreaLocation(undefined);
-                setSelectedAreaStartPoint(undefined);
-                setElementsAmount(currAmount);
-            }
-        };
+    const onElementsAmountChangeHandler = () => {
+        const prevAmount = elementsAmount;
+        const currAmount = getActiveElementsIds(store.getState().model).length;
+        if (prevAmount !== currAmount) {
+            setSelectedAreaLocation(undefined);
+            setSelectedAreaStartPoint(undefined);
+            setElementsAmount(currAmount);
+        }
+    };
 
-        const unsubscribeElementsAmount = store.subscribe(onElementsAmountChangeHandler);
-
-        return () => {
-            unsubscribeElementsAmount();
-        };
-    });
+    store.subscribe(onElementsAmountChangeHandler);
 
     useEffect(() => {
         const onMouseDownHandler = (event: MouseEvent) => {

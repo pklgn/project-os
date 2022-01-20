@@ -27,6 +27,25 @@ export function PresentationViewer() {
 
     const dispatch = useDispatch();
 
+    const handleChange = () => {
+        const viewModel = store.getState().viewModel;
+        const editor = store.getState().model;
+        if (viewModel.appMode !== 'EDIT') {
+            if (slideInShow === undefined) {
+                const slideToShow =
+                    store.getState().viewModel.appMode === 'SHOW_FROM_FIRST_SLIDE'
+                        ? getFirstSlide(editor)
+                        : getCurrentSlide(editor);
+                if (slideToShow !== undefined) {
+                    setSlideInShow(slideToShow);
+                }
+                ref.current?.requestFullscreen();
+            }
+        }
+    };
+
+    store.subscribe(handleChange);
+
     useEffect(() => {
         const onKeyDownHandler = (event: KeyboardEvent) => {
             const editorModel = store.getState().model;
@@ -65,32 +84,12 @@ export function PresentationViewer() {
             }
         };
 
-        const handleChange = () => {
-            const viewModel = store.getState().viewModel;
-            const editor = store.getState().model;
-            if (viewModel.appMode !== 'EDIT') {
-                if (slideInShow === undefined) {
-                    const slideToShow =
-                        store.getState().viewModel.appMode === 'SHOW_FROM_FIRST_SLIDE'
-                            ? getFirstSlide(editor)
-                            : getCurrentSlide(editor);
-                    if (slideToShow !== undefined) {
-                        setSlideInShow(slideToShow);
-                    }
-                    ref.current?.requestFullscreen();
-                }
-            }
-        };
-
-        const unsubscribe = store.subscribe(handleChange);
-
         document.addEventListener('keydown', onKeyDownHandler);
         document.addEventListener('fullscreenchange', onFullScreenHandler);
 
         return () => {
             document.removeEventListener('keydown', onKeyDownHandler);
             document.removeEventListener('fullscreenchange', onFullScreenHandler);
-            unsubscribe();
         };
     }, [dispatch, slideInShow]);
 
