@@ -1,6 +1,6 @@
 import { Slide } from '../../../app_model/model/types';
 
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { getSlideToContainerRatio, getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
 
