@@ -17,7 +17,7 @@ import { TextColor } from '../../common/icons/TextColor/TextColor';
 import { ChangeText } from '../../common/icons/ChangeText/ChangeText';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { generateUUId } from '../../../app_model/model/utils/uuid';
-import { SetChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
+import { setChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
 import { store } from '../../../app_model/redux_model/store';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
 
@@ -34,7 +34,7 @@ export function TextToolsList(): JSX.Element {
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
     const dispatchChangeTextColor = bindActionCreators(changeTextsColor, dispatch);
     const dispatchChangeTextContent = bindActionCreators(changeTextContent, dispatch);
-    const dispatchNoneChosenElements = bindActionCreators(SetChosenElementsType, dispatch);
+    const dispatchNoneChosenElements = bindActionCreators(setChosenElementsType, dispatch);
 
     const changeTextColorHandler = () => {
         dispatchChangeTextColor('black');
