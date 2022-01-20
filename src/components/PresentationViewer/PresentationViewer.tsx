@@ -1,17 +1,17 @@
 import CSS from 'csstype';
 import styles from './PresentationViewer.module.css';
 
-import { bindActionCreators } from 'redux';
+import { dispatchSetEditorModeAction } from '../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
-import { setEditorMode } from '../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { store } from '../../app_model/redux_model/store';
 
-import { getCurrentSlide, getFirstSlide, getNextToSlide } from '../../app_model/model/slides_actions';
+import { getCurrentSlide, getFirstSlide, getNextSlideTo, getPrevSlideTo } from '../../app_model/model/slides_actions';
+import { getSlideContainerDimension, getWindowRatio } from '../../app_model/view_model/slide_render_actions';
 import { Slide } from '../../app_model/model/types';
 
 import { SlideComponent } from '../AppContent/Slide/SlideComponent';
 
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { LocaleContext } from '../../App';
 
@@ -26,14 +26,16 @@ export function PresentationViewer() {
     } as CSS.Properties);
 
     const dispatch = useDispatch();
-    const dispatchSetEditorModeAction = bindActionCreators(setEditorMode, dispatch);
 
     useEffect(() => {
         const onKeyDownHandler = (event: KeyboardEvent) => {
+            const editorModel = store.getState().model;
             if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
                 if (slideInShow !== undefined) {
                     const nextSlide =
-                        event.code === 'ArrowLeft' ? getPrevSlideTo(slideInShow) : getNextSlideTo(slideInShow);
+                        event.code === 'ArrowLeft'
+                            ? getPrevSlideTo(editorModel, slideInShow)
+                            : getNextSlideTo(editorModel, slideInShow);
                     if (nextSlide !== undefined) {
                         setSlideInShow(nextSlide);
                     }
@@ -41,7 +43,7 @@ export function PresentationViewer() {
             }
             if (event.code === 'Space') {
                 if (slideInShow !== undefined) {
-                    const nextSlide = getNextSlideTo(slideInShow);
+                    const nextSlide = getNextSlideTo(editorModel, slideInShow);
                     if (nextSlide !== undefined) {
                         setSlideInShow(nextSlide);
                     }
@@ -55,7 +57,7 @@ export function PresentationViewer() {
                     display: 'inherit',
                 });
             } else {
-                dispatchSetEditorModeAction('edit');
+                dispatchSetEditorModeAction(dispatch)('EDIT');
                 setSlideInShow(undefined);
                 setVisibilityStyle({
                     display: 'none',
@@ -90,20 +92,44 @@ export function PresentationViewer() {
             document.removeEventListener('fullscreenchange', onFullScreenHandler);
             unsubscribe();
         };
-    }, [slideInShow, dispatchSetEditorModeAction]);
+    }, [dispatch, slideInShow]);
 
     const onClickNextSlideSelectorHandler = (event: React.MouseEvent<HTMLDivElement>) => {
         const target = event.target;
         if (slideInShow !== undefined && target instanceof Element) {
             const nextSlide =
                 target.className === styles['to-previous-slide-area-selector']
-                    ? getPrevSlideTo(slideInShow)
-                    : getNextSlideTo(slideInShow);
+                    ? getPrevSlideTo(store.getState().model, slideInShow)
+                    : getNextSlideTo(store.getState().model, slideInShow);
             if (nextSlide !== undefined) {
                 setSlideInShow(nextSlide);
             }
         }
     };
+
+    const [windowWidth, setListWidth] = useState(0);
+    const [windowRatio, setWindowRatio] = useState(getWindowRatio(store.getState().viewModel));
+    const mainContainerDimensions = getSlideContainerDimension(store.getState().viewModel);
+
+    useLayoutEffect(() => {
+        const handleWindowRatioChange = () => {
+            const prevValue = windowRatio;
+            const currValue = getWindowRatio(store.getState().viewModel);
+            if (prevValue !== currValue) {
+                setWindowRatio(currValue);
+            }
+        };
+
+        if (ref.current && windowWidth === 0) {
+            setListWidth(window.screen.width);
+        }
+
+        const unsubscribe = store.subscribe(handleWindowRatioChange);
+        console.log(windowWidth);
+        return () => {
+            unsubscribe();
+        };
+    }, [windowWidth, windowRatio]);
 
     return (
         <div className={styles.viewer} style={visibilityStyle} ref={ref}>
@@ -113,7 +139,20 @@ export function PresentationViewer() {
                         className={styles['to-previous-slide-area-selector']}
                         onClick={onClickNextSlideSelectorHandler}
                     />
-                    <SlideComponent renderType="default" slide={slideInShow} />
+                    <SlideComponent
+                        renderType="preview"
+                        slideWidth={windowWidth}
+                        slideHeight={windowWidth / windowRatio}
+                        containerWidth={mainContainerDimensions.width}
+                        containerHeight={mainContainerDimensions.height}
+                        viewBox={{
+                            x: 0,
+                            y: 0,
+                            width: mainContainerDimensions.width,
+                            height: mainContainerDimensions.height,
+                        }}
+                        slide={slideInShow}
+                    />
                     <svg className={styles['prevent-pointer-events']} />
                     <div className={styles['to-next-slide-area-selector']} onClick={onClickNextSlideSelectorHandler} />
                 </>
@@ -124,12 +163,4 @@ export function PresentationViewer() {
             )}
         </div>
     );
-}
-
-function getNextSlideTo(slide: Slide): Slide | undefined {
-    return getNextToSlide(store.getState().model, slide, 'next');
-}
-
-function getPrevSlideTo(slide: Slide): Slide | undefined {
-    return getNextToSlide(store.getState().model, slide, 'prev');
 }

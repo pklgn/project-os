@@ -1,7 +1,6 @@
 .slide {
-    position: relative;
     box-sizing: border-box;
-    padding: 20px;
+    overflow: visible;
 }
 
 .empty-slide-container {
@@ -20,11 +19,6 @@
     .empty-slide-container  {
         font-size: large;
     }
-}
-
-.slide-container {
-    box-sizing: border-box;
-    overflow: visible;
 }
 
 .select-area {

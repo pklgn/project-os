@@ -1,0 +1,76 @@
+.item-number {
+    position: absolute;
+    top: 15px;
+    left: -10px;
+    background-color: #6f1700;
+    border-radius: 50%;
+    height: 18px;
+    width: 18px;
+    font-size: 12px;
+    text-align: center;
+    font-weight: 900;
+    color: #ff6d01;
+    border: 0.2rem solid #cecdcd;
+    user-select: none;
+}
+
+.number-disabled {
+    background-color: #7a7e8c;
+    color: #f5ab44;
+}
+
+.number-active {
+    background-color: #f5ab44;
+    color: #72412d;
+    border-left-color: #72412d;
+}
+
+.list-item {
+    position: relative;
+    list-style-type: none;
+    display: inline-grid;
+    overflow: visible;
+}
+
+.item-active {
+    outline: 1.5px solid black;
+}
+
+.prevent-pointer-events,
+.prevent-pointer-events-top,
+.prevent-pointer-events-bottom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.prevent-pointer-events-top{
+    top: -5px;
+}
+
+.prevent-pointer-events-top,
+.prevent-pointer-events-bottom {
+    height: 55%;
+}
+
+.prevent-pointer-events-bottom {
+    top: 52%;
+}
+
+.prevent-pointer-events-top:hover:before,
+.prevent-pointer-events-bottom:hover:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 2px;
+    background-color: red;
+}
+
+.prevent-pointer-events-bottom:hover:after {
+    top: calc(100% - 3px);
+}

@@ -9,36 +9,38 @@ import ToolTip from '../../common/ToolTip/ToolTip';
 import { LocaleContext } from '../../../App';
 
 import {
-    addSlide,
-    deleteSelectedSlides,
-} from '../../../app_model/redux_model/actions_model/action_creators/slide_action_creators';
-import { bindActionCreators } from 'redux';
-import { keepModelAction } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
+    dispatchActiveViewAreaAction,
+    dispatchAddSlideAction,
+    dispatchDeleteSlideAction,
+    dispatchKeepModelAction,
+} from '../../../app_model/redux_model/dispatchers';
+import { getActiveViewArea } from '../../../app_model/view_model/active_view_area_actions';
 import { useDispatch } from 'react-redux';
+import { store } from '../../../app_model/redux_model/store';
 
 export function SlideListTool(): JSX.Element {
     const localeContext = useContext(LocaleContext);
 
     const dispatch = useDispatch();
-    const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
-    const dispatchDeleteSlideAction = bindActionCreators(deleteSelectedSlides, dispatch);
-    const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
 
     const addSlideButtonFunction = () => {
-        dispatchAddSlideAction();
-        dispatchKeepModelAction();
+        dispatchAddSlideAction(dispatch)();
+        dispatchKeepModelAction(dispatch)();
     };
 
     const deleteSelectedSlidesButtonFunction = () => {
-        dispatchDeleteSlideAction();
-        dispatchKeepModelAction();
+        dispatchDeleteSlideAction(dispatch)();
+        dispatchKeepModelAction(dispatch)();
     };
 
     useEffect(() => {
         const onKeyDownHandler = (e: KeyboardEvent) => {
             if (e.ctrlKey && e.code === 'KeyM') {
-                dispatchAddSlideAction();
-                dispatchKeepModelAction();
+                dispatchAddSlideAction(dispatch)();
+                dispatchKeepModelAction(dispatch)();
+                if (getActiveViewArea(store.getState().viewModel) !== 'SLIDE_LIST') {
+                    dispatchActiveViewAreaAction(dispatch)('SLIDE_LIST');
+                }
             }
         };
 
@@ -47,7 +49,7 @@ export function SlideListTool(): JSX.Element {
         return () => {
             document.removeEventListener('keydown', onKeyDownHandler);
         };
-    }, [dispatchAddSlideAction, dispatchKeepModelAction]);
+    }, [dispatch]);
 
     const buttonsInfo = [
         {

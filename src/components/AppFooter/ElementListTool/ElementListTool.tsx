@@ -8,13 +8,10 @@ import { GeometryIcon } from '../../common/icons/Geometry/Geometry';
 import { RedoUndoIcon } from '../../common/icons/RedoUndo/RedoUndo';
 import { SelectCursorIcon } from '../../common/icons/Cursor/Cursor';
 import { TextIcon } from '../../common/icons/Text/Text';
+import ToolTip from '../../common/ToolTip/ToolTip';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 import { store } from '../../../app_model/redux_model/store';
 
-import { addFigure } from '../../../app_model/redux_model/actions_model/action_creators/figure_action_creators';
-import { FigureInfo, FigureShape } from '../../../app_model/model/types';
-import { bindActionCreators } from 'redux';
-import { useDispatch } from 'react-redux';
 import {
     undoModelAction,
     redoModelAction,
@@ -27,21 +24,25 @@ import { DefaultToolsList } from '../DefaultToolsList/DefaultToolsList';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
+    dispatchUndoAction,
+    dispatchRedoAction,
+    dispatchAddFigureAction,
+} from '../../../app_model/redux_model/dispatchers';
+import { useDispatch } from 'react-redux';
+
+import { FigureInfo, FigureShape } from '../../../app_model/model/types';
 
 export function ElementListTool(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
-    const dispatchUndoAction = bindActionCreators(undoModelAction, dispatch);
-    const dispatchRedoAction = bindActionCreators(redoModelAction, dispatch);
-    const dispatchAddFigureAction = bindActionCreators(addFigure, dispatch);
 
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
-            dispatchUndoAction();
+            dispatchUndoAction(dispatch)();
         }
         if (event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
-            dispatchRedoAction();
+            dispatchRedoAction(dispatch)();
         }
     });
 
@@ -57,6 +58,7 @@ export function ElementListTool(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
+            state: 'pressed',
             iconLeft: <SelectCursorIcon color="#ffa322" />,
         },
         {
@@ -68,7 +70,7 @@ export function ElementListTool(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.geometryTool,
             id: 'geometry-tool-button',
             iconLeft: <GeometryIcon color="#ffa322" />,
-            onClick: () => dispatchAddFigureAction(mockInfo),
+            onClick: () => dispatchAddFigureAction(dispatch)(mockInfo),
         },
     ];
 
@@ -96,14 +98,14 @@ export function ElementListTool(): JSX.Element {
             id: 'undo-button',
             type: 'round',
             iconLeft: <RedoUndoIcon turn="undo" color="#ffa322" />,
-            onMouseUp: dispatchUndoAction,
+            onMouseUp: dispatchUndoAction(dispatch),
         },
         {
             text: localeContext.locale.localization.historyTool.redoTool,
             id: 'redo-button',
             type: 'round',
             iconLeft: <RedoUndoIcon turn="redo" color="#ffa322" />,
-            onMouseUp: dispatchRedoAction,
+            onMouseUp: dispatchRedoAction(dispatch),
         },
     ];
 

@@ -3,9 +3,10 @@
 }
 
 * ::-webkit-scrollbar {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.4rem;
+  height: 0.4rem;
   position: absolute;
+  scroll-behavior: smooth;
 }
 
 * ::-webkit-scrollbar-track {
