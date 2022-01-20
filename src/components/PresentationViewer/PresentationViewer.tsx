@@ -1,9 +1,8 @@
 import CSS from 'csstype';
 import styles from './PresentationViewer.module.css';
 
-import { bindActionCreators } from 'redux';
+import { dispatchSetEditorModeAction } from '../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
-import { setEditorMode } from '../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { store } from '../../app_model/redux_model/store';
 
 import { getCurrentSlide, getFirstSlide, getNextToSlide } from '../../app_model/model/slides_actions';
@@ -26,7 +25,6 @@ export function PresentationViewer() {
     } as CSS.Properties);
 
     const dispatch = useDispatch();
-    const dispatchSetEditorModeAction = bindActionCreators(setEditorMode, dispatch);
 
     useEffect(() => {
         const onKeyDownHandler = (event: KeyboardEvent) => {
@@ -55,7 +53,7 @@ export function PresentationViewer() {
                     display: 'inherit',
                 });
             } else {
-                dispatchSetEditorModeAction('edit');
+                dispatchSetEditorModeAction(dispatch)('EDIT');
                 setSlideInShow(undefined);
                 setVisibilityStyle({
                     display: 'none',

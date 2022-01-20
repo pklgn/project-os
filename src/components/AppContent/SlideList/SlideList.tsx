@@ -17,6 +17,12 @@ import {
     dispatchInsertSelectedSlides,
 } from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
+import {
+    getActiveSlideIndex,
+    getActiveSlidesIds,
+    getAllSlidesIds,
+    getChosenSlidesIndexes,
+} from '../../../app_model/model/slides_actions';
 
 type SlideListProps = {
     slidesList: Slide[];
@@ -24,10 +30,11 @@ type SlideListProps = {
 
 export function SlideList(props: SlideListProps) {
     const listRef = useRef<HTMLUListElement>(null);
+    const editorModel = store.getState().model;
 
     const [slideActiveStatusList, changeActiveStatusSlideList] = useState([] as boolean[]);
-    const [activeSlideIndex, changeActiveSlideIndex] = useState(getActiveSlideIndex(props));
-    const [lastChosenSlideIndex, changeLastChosenSlideIndex] = useState(getActiveSlideIndex(props));
+    const [activeSlideIndex, changeActiveSlideIndex] = useState(getActiveSlideIndex(editorModel));
+    const [lastChosenSlideIndex, changeLastChosenSlideIndex] = useState(getActiveSlideIndex(editorModel));
 
     const [readyForHotkeys, setHotkeysMode] = useState(false);
     const [isMouseReadyToDrag, setMouseReadyToDrag] = useState(false);
@@ -52,14 +59,15 @@ export function SlideList(props: SlideListProps) {
     );
 
     useEffect(() => {
-        const chosenSlideIndexes = getChosenSlidesIndexes(props);
+        const editorModel = store.getState().model;
+        const chosenSlideIndexes = getChosenSlidesIndexes(editorModel);
         changeActiveStatusSlideList(
             props.slidesList.map((_, index) => {
                 return chosenSlideIndexes.includes(index);
             }),
         );
-        changeActiveSlideIndex(getActiveSlideIndex(props));
-        changeLastChosenSlideIndex(getActiveSlideIndex(props));
+        changeActiveSlideIndex(getActiveSlideIndex(editorModel));
+        changeLastChosenSlideIndex(getActiveSlideIndex(editorModel));
         setHotkeysMode(true);
     }, [props.slidesList.length, isMouseReadyToDrag, props]);
 
@@ -220,7 +228,10 @@ export function SlideList(props: SlideListProps) {
                             selectedSlidesIds: activatedSlidesIds,
                             selectedSlideElementsIds: [],
                         });
-                    } else if (handlerType === 'ctrlPressed' && getActiveSlidesIds().length === 1) {
+                    } else if (
+                        handlerType === 'ctrlPressed' &&
+                        getActiveSlidesIds(store.getState().model).length === 1
+                    ) {
                         const indexToInsertSelectedSlides =
                             event.code === 'ArrowUp'
                                 ? activeSlideIndex > 0
@@ -259,7 +270,7 @@ export function SlideList(props: SlideListProps) {
 
                     if (props.slidesList.length) {
                         dispatchSetIdAction(dispatch)({
-                            selectedSlidesIds: getAllSlidesIds(),
+                            selectedSlidesIds: getAllSlidesIds(store.getState().model),
                             selectedSlideElementsIds: [],
                         });
                     }
@@ -317,8 +328,9 @@ export function SlideList(props: SlideListProps) {
             const handlerType = event.ctrlKey ? 'ctrlPressed' : event.shiftKey ? 'shiftPressed' : 'default';
 
             const chosenSlideIndex = parseInt(event.target.getAttribute('id')!) - 1;
+            const editorModel = store.getState().model;
 
-            const choosedNewSlide = !getChosenSlidesIndexes(props).includes(chosenSlideIndex);
+            const choosedNewSlide = !getChosenSlidesIndexes(editorModel).includes(chosenSlideIndex);
             if (choosedNewSlide) {
                 if (handlerType === 'default') {
                     changeActiveSlideIndex(chosenSlideIndex);
@@ -366,8 +378,8 @@ export function SlideList(props: SlideListProps) {
                 });
             } else {
                 const ctrlIds = choosedNewSlide
-                    ? [...getActiveSlidesIds().slice(0), props.slidesList[chosenSlideIndex].id]
-                    : getActiveSlidesIds()
+                    ? [...getActiveSlidesIds(editorModel).slice(0), props.slidesList[chosenSlideIndex].id]
+                    : getActiveSlidesIds(editorModel)
                           .slice(0)
                           .filter((id) => id !== props.slidesList[chosenSlideIndex].id);
                 if (!choosedNewSlide && handlerType === 'ctrlPressed') {
@@ -406,7 +418,7 @@ export function SlideList(props: SlideListProps) {
             const element = event.target as Element;
             const slideIndexToInsert = parseInt(element.getAttribute('id')!);
 
-            const chosenIndexes = getChosenSlidesIndexes(props);
+            const chosenIndexes = getChosenSlidesIndexes(store.getState().model);
 
             const needToInsert = !(
                 chosenIndexes.includes(slideIndexToInsert) || chosenIndexes.includes(slideIndexToInsert - 1)
@@ -521,33 +533,4 @@ export function SlideList(props: SlideListProps) {
             })}
         </ul>
     );
-}
-
-function getActiveSlideIndex(props: SlideListProps): number {
-    const slideId: string = store.getState().model.selectedSlidesIds.slice(-1)[0];
-
-    return props.slidesList.findIndex((slide) => slide.id === slideId);
-}
-
-function getChosenSlidesIndexes(props: SlideListProps): number[] {
-    const slidesIds: string[] = store.getState().model.selectedSlidesIds;
-
-    return props.slidesList
-        .map((slide, index) => {
-            if (slidesIds.includes(slide.id)) {
-                return index;
-            }
-            return -1;
-        })
-        .filter((index) => index !== -1);
-}
-
-function getActiveSlidesIds(): string[] {
-    return store.getState().model.selectedSlidesIds;
-}
-
-function getAllSlidesIds(): string[] {
-    return store.getState().model.presentation.slidesList.map((slide) => {
-        return slide.id;
-    });
 }

@@ -5,8 +5,6 @@ export type Editor = {
     selectedSlideElementsIds: string[];
 };
 
-export type PresentationMode = 'edit' | 'show-from-first-slide' | 'show-from-current-slide';
-
 export type History = {
     currState: number;
     presentationStates: Presentation[];

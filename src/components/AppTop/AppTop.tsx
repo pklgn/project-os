@@ -15,7 +15,11 @@ import ToolTip from '../common/ToolTip/ToolTip';
 import { getL18nObject } from '../../l18n/l18n';
 import { LocaleContext } from '../../App';
 
-import { dispatchActiveViewAreaAction, dispatchPresentationName } from '../../app_model/redux_model/dispatchers';
+import {
+    dispatchActiveViewAreaAction,
+    dispatchPresentationName,
+    dispatchSetEditorModeAction,
+} from '../../app_model/redux_model/dispatchers';
 import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
 import { store } from '../../app_model/redux_model/store';
 
@@ -50,11 +54,16 @@ export function AppTop(): JSX.Element {
         }
     };
 
+    const onPreviewerButtonAction = () => {
+        dispatchSetEditorModeAction(dispatch)('SHOW_FROM_FIRST_SLIDE');
+    };
+
     const miscButtonsInfo: ButtonProps[] = [
         {
             id: 'fullscreen-button',
             text: localeContext.locale.localization.appTopButtons.fullscreen,
             iconLeft: <FullscreenIcon color="#ffa322" />,
+            onMouseUp: onPreviewerButtonAction,
         },
         {
             id: 'lang-button',

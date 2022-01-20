@@ -1,10 +1,4 @@
 import { ActionType } from '../action_types/types';
-import { PresentationMode } from '../../../model/types';
-
-interface SetEditorModeAction {
-    type: ActionType.SET_EDITOR_MODE;
-    payload: PresentationMode;
-}
 
 interface KeepHistoryAction {
     type: ActionType.KEEP;
@@ -35,6 +29,5 @@ export type EditorActions =
     | KeepHistoryAction
     | RedoHistoryAction
     | SelectedIdAction
-    | SetEditorModeAction
     | UndoHistoryAction
     | UploadPresentationFromJSON;
