@@ -14,7 +14,7 @@ import {
 } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { useDispatch } from 'react-redux';
 import { Clear } from '../../common/icons/Cancel/Clear';
-import { SetChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
+import { setChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
 import { store } from '../../../app_model/redux_model/store';
 
 export function FigureToolsList(): JSX.Element {
@@ -23,7 +23,7 @@ export function FigureToolsList(): JSX.Element {
     const dispatch = useDispatch();
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
     const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
-    const dispatchNoneChosenElements = bindActionCreators(SetChosenElementsType, dispatch);
+    const dispatchNoneChosenElements = bindActionCreators(setChosenElementsType, dispatch);
 
     const undoPressButtonHandler = () => {
         dispatchSetPreviousModelStateAction();

@@ -85,9 +85,9 @@ export function ElementListTool(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.geometryTool,
             id: 'geometry-tool-button',
             iconLeft: <DeleteElement />,
-        }
+        },
     ];
-    
+
     const redoUndoButtonInfo: ButtonProps[] = [
         {
             text: localeContext.locale.localization.historyTool.undoTool,
