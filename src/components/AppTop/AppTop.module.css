@@ -4,18 +4,70 @@
     border-radius: 0.2rem;
     display: flex;
     align-items: center;
+    min-height: 45px;
 }
 
 .top-bar-menu {
-    margin-left: auto;
     display: flex;
+    width: 100%;
     align-content: center;
     align-items: center;
-    padding: 2px;
+    max-height: 35px;
+    background-color: #b3b3b3;
 }
 
-.top-bar-menu > img {
+.top-bar-menu>button[id="file-button"] {
+    max-height: 27px;
+    color: #ffa322;
+    font-size: larger;
+}
+
+.top-bar-menu div[id="fullscreen-button-tooltip"] span:before {
+    left: 43%;
+}
+
+.top-bar-menu button[id="fullscreen-button"] {
+    max-height: 39px;
+    max-width: 39px;
+    font-size: x-small;
+    margin-right: 10px;
+}
+
+.top-bar-menu button[id="lang-button"] {
+    margin-right: 5px;
+    max-width: 39px;
+    max-height: 39px;
+    font-size: xx-small;
+}
+
+.top-bar-menu div[id="lang-button-tooltip"] span {
+    left: 22%;
+}
+
+.top-bar-menu div[id="lang-button-tooltip"] span:before {
+    left: 55%;
+}
+
+.top-bar-menu img {
     background-color: #cecdcd;
     border: 2px solid #cecdcd;
     border-radius: 50%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.top-bar-menu div[id="img-tooltip"] span {
+    top: calc(100%);
+}
+
+.top-bar-menu div[id="img-tooltip"] span:before {
+    left: 37%;
+}
+
+.top-bar-menu div[id="input-tooltip"] {
+    margin-left: auto;
+}
+
+.top-bar-menu input {
+    margin: 0 10px 0 0;
 }

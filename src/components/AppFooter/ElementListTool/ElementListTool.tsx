@@ -87,21 +87,36 @@ export function ElementListTool(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.geometryTool,
             id: 'geometry-tool-button',
             iconLeft: <DeleteElement />,
+    const redoUndoButtonInfo: ButtonProps[] = [
+        {
+            text: localeContext.locale.localization.historyTool.undoTool,
+            id: 'undo-button',
+            type: 'round',
+            iconLeft: <RedoUndoIcon turn="undo" color="#ffa322" />,
+            onMouseUp: dispatchUndoAction,
+        },
+        {
+            text: localeContext.locale.localization.historyTool.redoTool,
+            id: 'redo-button',
+            type: 'round',
+            iconLeft: <RedoUndoIcon turn="redo" color="#ffa322" />,
+            onMouseUp: dispatchRedoAction,
         },
     ];
 
     return (
         <div className={styles['element-tools']}>
             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
-                {mainToolsButtonInfo.map((buttonInfo) => {
+                {mainToolsButtonInfo.map((buttonInfo, index) => {
                     return (
                         <ToolTip
-                            key={generateUUId()}
+                            key={index}
+                            id={`${buttonInfo.id}`}
                             title={buttonInfo.text ? buttonInfo.text : 'None'}
                             position="above"
                             child={
                                 <Button
-                                    key={generateUUId()}
+                                    key={index}
                                     type={buttonInfo.type}
                                     state={buttonInfo.state}
                                     id={buttonInfo.id}
@@ -137,18 +152,26 @@ export function ElementListTool(): JSX.Element {
             <DefaultToolsList />
             <VerticalLine id="vertical-2" />
             <div className={styles['history-buttons-container']} id="history-buttons-container">
-                <Button
-                    type={'round'}
-                    id="undo-button"
-                    iconLeft={<RedoUndoIcon turn="undo" color="#ffa322" />}
-                    onMouseUp={dispatchUndoAction}
-                />
-                <Button
-                    type={'round'}
-                    id="redo-button"
-                    iconLeft={<RedoUndoIcon turn="redo" color="#ffa322" />}
-                    onMouseUp={dispatchRedoAction}
-                />
+                {redoUndoButtonInfo.map((buttonInfo, index) => {
+                    return (
+                        <ToolTip
+                            key={index}
+                            id={`${buttonInfo.id}`}
+                            title={buttonInfo.text ? buttonInfo.text : 'None'}
+                            position="above"
+                            child={
+                                <Button
+                                    key={index}
+                                    type={buttonInfo.type}
+                                    state={buttonInfo.state}
+                                    id={buttonInfo.id}
+                                    iconLeft={buttonInfo.iconLeft}
+                                    onMouseUp={buttonInfo.onMouseUp}
+                                />
+                            }
+                        />
+                    );
+                })}
             </div>
         </div>
     );

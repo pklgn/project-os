@@ -1,4 +1,10 @@
 {
+    "appTopButtons": {
+        "file": "Файл",
+        "fullscreen": "Полноэкранный режим",
+        "l18n": "Сменить язык",
+        "presentationNameInputField": "Изменить имя презентации"
+    },
     "editor": {
         "emptySlide": "Кликните, чтобы добавить слайд"
     },
@@ -10,18 +16,19 @@
         "geometryTriangleTool": "Треугольник (F+T)",
         "geometryRectangleTool": "Прямоугольник (F+R)"
     },
-    "textToolsList": {
-        "changeText": "Изменить текст",
-        "changeColor": "Изменить цвет"
+    "errors": {
+        "noSlidesToSave": "Нельзя сохранить пустую презентацию"
     },
+    "historyTool" : {
+        "redoTool": "Повторить (Ctrl+Y)",
+        "undoTool": "Отменить действие (Ctrl+Z)"
+    },
+    "presentationName": "Оладушек",
     "presentationViewer": {
         "noSlidesToShow": "Ваши слайды не такие работяги как вы? Их нет на рабочем месте!"
     },
     "slideListTool": {
         "addSlide": "Добавить слайд (Ctrl+M)",
         "deleteSlide": "Удалить выбранные слайды (Delete)"
-    },
-    "errors": {
-        "noSlidesToSave": "Нельзя сохранить пустую презентацию"
     }
 }

@@ -7,7 +7,7 @@ export type AdaptiveInputFieldPropsType = {
     maxLength: number;
     onChange: (event: BaseSyntheticEvent) => void;
     onBlur: (event: BaseSyntheticEvent) => void;
-    cssMix: CSSProperties;
+    cssMix?: CSSProperties;
 };
 
 export function AdaptiveInputField(props: AdaptiveInputFieldPropsType): JSX.Element {

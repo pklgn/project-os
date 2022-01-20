@@ -9,10 +9,13 @@
     transition-duration: 0.2s;
     background-color: rgb(102, 107, 124);
     opacity: 0.8;
-    font-size: 1em;
+    font-size: 0.4em;
+    display: flex;
+    align-items: center;
 }
 
 .button--default {
+    gap: 5px;
 }
 
 .button--disabled {
@@ -25,7 +28,7 @@
 }
 
 .button--active {
-    background-color: transparent;
+    background-color: rgba(102, 107, 124, 0.2);
 }
 
 .button--hover {
