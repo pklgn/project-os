@@ -34,7 +34,7 @@ import { useDragAndDrop } from '../../utils/useDragAndDrop';
 
 type SlideProps = {
     slide: Slide | undefined;
-    renderType: 'default' | 'mainSlide';
+    renderType: 'default' | 'preview' | 'mainSlide';
     viewBox?: {
         x: number;
         y: number;
@@ -477,7 +477,15 @@ export function SlideComponent(props: SlideProps) {
         <svg
             width={props.slideWidth}
             height={props.slideHeight}
-            viewBox={`${defaultViewBoxXYRender.x} ${defaultViewBoxXYRender.y} ${emptySlideWidth} ${emptySlideHeight}`}
+            viewBox={`${
+                props.renderType === 'preview'
+                    ? defaultViewBoxXYRender.x
+                    : (props.containerWidth! - emptySlideWidth) / 2
+            } ${
+                props.renderType === 'preview'
+                    ? defaultViewBoxXYRender.y
+                    : (props.containerHeight! - emptySlideHeight) / 2
+            } ${emptySlideWidth} ${emptySlideHeight}`}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
         >
