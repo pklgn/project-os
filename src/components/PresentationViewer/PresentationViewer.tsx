@@ -3,11 +3,11 @@ import styles from './PresentationViewer.module.css';
 
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
-import { setEditorMode } from '../../redux/action-creators/editorActionCreators';
-import { store } from '../../redux/store';
+import { setEditorMode } from '../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
+import { store } from '../../app_model/redux_model/store';
 
-import { getCurrentSlide, getFirstSlide, getNextToSlide } from '../../model/slidesActions';
-import { Slide } from '../../model/types';
+import { getCurrentSlide, getFirstSlide, getNextToSlide } from '../../app_model/model/slides_actions';
+import { Slide } from '../../app_model/model/types';
 
 import { SlideComponent } from '../AppContent/Slide/SlideComponent';
 
@@ -64,11 +64,12 @@ export function PresentationViewer() {
         };
 
         const handleChange = () => {
+            const viewModel = store.getState().viewModel;
             const editor = store.getState().model;
-            if (editor.mode !== 'edit') {
+            if (viewModel.appMode !== 'EDIT') {
                 if (slideInShow === undefined) {
                     const slideToShow =
-                        store.getState().model.mode === 'show-from-first-slide'
+                        store.getState().viewModel.appMode === 'SHOW_FROM_FIRST_SLIDE'
                             ? getFirstSlide(editor)
                             : getCurrentSlide(editor);
                     if (slideToShow !== undefined) {
@@ -118,7 +119,7 @@ export function PresentationViewer() {
                 </>
             ) : (
                 <div className={styles['empty-slide-in-show']}>
-                    {localeContext.locale.localization['no-slides-to-show-info']}
+                    {localeContext.locale.localization.presentationViewer.noSlidesToShow}
                 </div>
             )}
         </div>

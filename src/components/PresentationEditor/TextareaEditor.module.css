@@ -1,0 +1,11 @@
+.textarea-not-active {
+    display: none;
+}
+
+.textarea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    opacity: 0.5;
+}

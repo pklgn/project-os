@@ -1,22 +1,26 @@
-import { AppTop } from '../AppTop/AppTop';
-import { useState } from 'react';
 import styles from './PresentationEditor.module.css';
-import { ElementListTool } from '../AppFooter/ElementListTool/ElementListTool';
-import { ReorderListTool } from '../AppFooter/ReorderList Tool/ReorderListTool';
+
+import { AppTop } from '../AppTop/AppTop';
 import { SlideListTool } from '../AppFooter/SlideListTool/SlideListTool';
-import { SlideWrapper } from '../AppContent/Slide/SlideWrapper';
 import { SidePanel } from '../AppContent/SidePanel/SidePanel';
+import { SlideWrapper } from '../AppContent/Slide/SlideWrapper';
+import { ElementListTool } from '../AppFooter/ElementListTool/ElementListTool';
+
+export enum listName {
+    ELEMENT_LIST = 'ELEMENT_LIST',
+    REORDER_LIST = 'REORDER_LIST',
+    TEXT_TOOLS_LIST_BUTTON = 'TEXT_TOOLS_LIST_BUTTON',
+    FIGURE_TOOLS_LIST_BUTTON = 'FIGURE_TOOLS_LIST_BUTTON',
+}
 
 export function PresentationEditor(): JSX.Element {
-    const [menuSwitcher, setMenuSwitcher] = useState(true);
-    const handleToggleView = () => setMenuSwitcher(!menuSwitcher);
     return (
         <div className={styles.editor}>
             <AppTop />
             <SidePanel />
+            <SlideListTool />
             <SlideWrapper />
-            <SlideListTool foo={() => undefined} />
-            {menuSwitcher ? <ElementListTool foo={handleToggleView} /> : <ReorderListTool foo={handleToggleView} />}
+            <ElementListTool />
         </div>
     );
 }

@@ -4,16 +4,19 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { SlideListItem } from './SlideListItem';
 
-import { Slide } from '../../../model/types';
+import { Slide } from '../../../app_model/model/types';
 
 import { bindActionCreators } from 'redux';
 import {
     deleteSelectedSlides,
     insertSelectedSlidesAtIndexAction,
-} from '../../../redux/action-creators/slideActionCreators';
-import { keepModelAction, setSelectedIdInEditor } from '../../../redux/action-creators/editorActionCreators';
+} from '../../../app_model/redux_model/actions_model/action_creators/slide_action_creators';
+import {
+    keepModelAction,
+    setSelectedIdInEditor,
+} from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { useDispatch } from 'react-redux';
-import { store } from '../../../redux/store';
+import { store } from '../../../app_model/redux_model/store';
 
 type SlideListProps = {
     slidesList: Slide[];

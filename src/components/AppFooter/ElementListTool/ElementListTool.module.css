@@ -1,39 +1,70 @@
 .element-tools {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: space-evenly;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
-    width: 100%;
-    grid-area: elementTools;
-    overflow-y: hidden;
+    max-height: 45px;
 }
 
-.element-tools > * {
+.tools-buttons-container {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 5px 0 5px;
+}
+
+.tools-buttons-container div[id='select-tool-button-tooltip'] span:after {
+    left: 43%;
+}
+
+.tools-buttons-container div[id='geometry-tool-button-tooltip'] span:after {
+    left: 41.5%
+}
+
+.history-buttons-container {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: nowrap;
+    padding: 2px;
+    border-radius: 5px;
+    margin: 0 5px 0 5px;
+}
+
+.history-buttons-container div[id='undo-button-tooltip'] span {
+    left: 45%;
+}
+
+.history-buttons-container div[id='undo-button-tooltip'] span:after {
+    left: 47%;
+}
+
+.history-buttons-container div[id='redo-button-tooltip'] span {
+    left: -10%;
+}
+
+.history-buttons-container div[id='redo-button-tooltip'] span:after {
+    left: 65.5%;
+}
+
+.element-tools>#adaptive-elements-tool-placeholder {
     animation: show-element-tools .4s forwards;
 }
 
+.element-tools>div[id='vertical-1'] {
+    margin-right: auto;
+}
+
 @keyframes show-element-tools {
-    0%{
+    0% {
         opacity: 0;
         transform: translateY(-20px);
     }
-    
-    50%{
+
+    50% {
         opacity: 1;
     }
 
-    100%{
+    100% {
         transform: translateY(0);
     }
-}
-
-.color-picker {
-    border: none;
-    background-color: transparent;
-    justify-content: center;
-    align-self: center;
-    padding: 0;
-    cursor: pointer;
-    border-radius: 50%;
 }

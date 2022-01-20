@@ -1,7 +1,5 @@
-import { isPicture } from '../../../model/utils/tools';
-import { PictureElement, SlideElement } from '../../../model/types';
-import { useContext, useRef } from 'react';
-import { ScaleContext } from '../../AppContent/Slide/SlideComponent';
+import { isPicture } from '../../../app_model/model/utils/tools';
+import { PictureElement, SlideElement } from '../../../app_model/model/types';
 
 type PictureElementProps = {
     element: SlideElement;

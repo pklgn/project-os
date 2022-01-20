@@ -1,7 +1,7 @@
 import styles from './TextElementComponent.module.css';
 
-import { isText } from '../../../model/utils/tools';
-import { SlideElement, TextElement } from '../../../model/types';
+import { isText } from '../../../app_model/model/utils/tools';
+import { SlideElement, TextElement } from '../../../app_model/model/types';
 
 type TextElementProps = {
     element: SlideElement;
@@ -41,7 +41,7 @@ function TextElementComponent(props: TextElementProps) {
         >
             {elementText.content.map((line, index) => {
                 return (
-                    <tspan key={index} x={0} dy={elementText.fontSize * index}>
+                    <tspan key={index} x={element.startPoint.x} dy={elementText.fontSize}>
                         {line}
                     </tspan>
                 );

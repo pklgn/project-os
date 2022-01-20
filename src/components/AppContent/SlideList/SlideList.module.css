@@ -1,6 +1,5 @@
 .list-wrapper {
     background-color: rgba(190, 189, 189, 0.75);
-    border: 0.15rem solid rgba(190, 189, 189, 0.35);
     border-radius: 0.2rem;
     min-width: 128px;
     margin-top: 0.5px;
@@ -64,6 +63,22 @@
     display: inline-grid;
     overflow: hidden;
     border-radius: 5px;
+}
+
+.list-item-disabled:hover {
+    box-shadow: 2px 2px transparent;
+}
+
+.list-item-disabled:hover:after {
+    content: '';
+    position: absolute;
+    top: 0; left: 30px; bottom: 0; right: 0;
+}
+
+.list-item-disabled:hover:after {
+    /* border: 5px solid black; */
+    border-left: transparent;
+    border-top: transparent;
 }
 
 .list-item-active {

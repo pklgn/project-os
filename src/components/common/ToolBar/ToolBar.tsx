@@ -7,21 +7,25 @@ import { getL18nObject } from '../../../l18n/l18n';
 import { LocaleContext } from '../../../App';
 import { useContext, useRef } from 'react';
 
-import { addFigure } from '../../../redux/action-creators/figureActionCreators';
-import { addText } from '../../../redux/action-creators/textActionCreators';
-import { addSlide } from '../../../redux/action-creators/slideActionCreators';
+import { addFigure } from '../../../app_model/redux_model/actions_model/action_creators/figure_action_creators';
+import { addText } from '../../../app_model/redux_model/actions_model/action_creators/text_action_creators';
+import { addSlide } from '../../../app_model/redux_model/actions_model/action_creators/slide_action_creators';
 import { bindActionCreators } from 'redux';
-import { getSlideAmount } from '../../../model/slidesActions';
-import { keepModelAction, setEditorMode } from '../../../redux/action-creators/editorActionCreators';
-import { store } from '../../../redux/store';
+import { getSlideAmount } from '../../../app_model/model/slides_actions';
+import {
+    keepModelAction,
+    setEditorMode,
+} from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
+
 import { useDispatch } from 'react-redux';
-import { initEditor } from '../../../model/initModelActions';
-import { savePresentationAsJson } from '../../../model/editorActions';
-import { generateUUId } from '../../../model/utils/uuid';
+import { initEditor } from '../../../app_model/model/init_model_action';
+import { savePresentationAsJson } from '../../../app_model/model/editor_actions';
+import { store } from '../../../app_model/redux_model/store';
+import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { UploadPresentationInput } from './UploadPresentationInput';
 import { UploadPictureInput } from './UploadPictureInput';
 
-import { FigureShape } from '../../../model/types';
+import { FigureShape } from '../../../app_model/model/types';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -68,288 +72,41 @@ export function ToolBar() {
         dispatchSetEditorAction('show-from-current-slide');
     };
 
-    const addCircleButtonFunction = () => {
-        dispatchAddFigureAction({ shape: FigureShape.Circle, x: 0, y: 0 });
-        dispatchKeepModelAction();
-    };
+    // const addCircleButtonFunction = () => {
+    //     dispatchAddFigureAction({ shape: FigureShape.Circle, x: 0, y: 0 });
+    //     dispatchKeepModelAction();
+    // };
 
-    const addRectangleButtonFunction = () => {
-        dispatchAddFigureAction({ shape: FigureShape.Rectangle, x: 0, y: 0 });
-        dispatchKeepModelAction();
-    };
+    // const addRectangleButtonFunction = () => {
+    //     dispatchAddFigureAction({ shape: FigureShape.Rectangle, x: 0, y: 0 });
+    //     dispatchKeepModelAction();
+    // };
 
-    const addTriangleButtonFunction = () => {
-        dispatchAddFigureAction({ shape: FigureShape.Triangle, x: 0, y: 0 });
-        dispatchKeepModelAction();
-    };
+    // const addTriangleButtonFunction = () => {
+    //     dispatchAddFigureAction({ shape: FigureShape.Triangle, x: 0, y: 0 });
+    //     dispatchKeepModelAction();
+    // };
 
     const uploadImageInputRef = useRef<HTMLInputElement>(null);
     const handleUploadImageClick = () => {
         uploadImageInputRef.current?.click();
     };
 
-    const saveAsJSONFunction = () =>
-        savePresentationAsJson({
-            ...initEditor(),
-            presentation: store.getState().model.presentation,
-        });
+    const saveAsJSONFunction = () => {
+        const presentation = store.getState().model.presentation;
+        if (presentation.slidesList.length === 0) {
+            alert(localeContext.locale.localization.errors['noSlidesToSave']);
+        } else {
+            savePresentationAsJson({
+                ...initEditor(),
+                presentation: store.getState().model.presentation,
+            });
+        }
+    };
 
     /* eslint-disable react/jsx-key */
     return (
         <div className={styles['top-bar']}>
-            <div className={styles['top-bar__button-list']}>
-                <DropdownMenu
-                    summoningButtonText={localeContext.locale.localization.file_word}
-                    summoningButtonType="text"
-                    summoningButtonPlace="above"
-                    bottomBorderAfterElement={[2, 4]}
-                    elementsArray={[
-                        <DropdownMenu
-                            summoningButtonText={localeContext.locale.localization.create_word}
-                            summoningButtonType="textInSubMenu"
-                            summoningButtonPlace="left"
-                            bottomBorderAfterElement={undefined}
-                            elementsArray={[
-                                <Button
-                                    text={localeContext.locale.localization.presentation_word}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={func}
-                                />,
-                                <Button
-                                    text={localeContext.locale.localization.document_word}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={func}
-                                />,
-                                <Button
-                                    text={localeContext.locale.localization.spreadsheet_word}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={func}
-                                />,
-                            ]}
-                        />,
-                        <Button
-                            text={localeContext.locale.localization.open_word}
-                            state="disabled"
-                            shouldStopPropagation={false}
-                            contentType="textInSubMenu"
-                            content={{
-                                hotkeyInfo: 'Ctrl+O',
-                                icon: <div></div>,
-                            }}
-                            foo={handleUploadPresentationClick}
-                        />,
-                        <DropdownMenu
-                            summoningButtonText={localeContext.locale.localization['create-copy']}
-                            summoningButtonType="textInSubMenu"
-                            summoningButtonPlace="left"
-                            bottomBorderAfterElement={undefined}
-                            elementsArray={[
-                                <Button
-                                    text={localeContext.locale.localization['all-presentation']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={func}
-                                />,
-                                <Button
-                                    text={localeContext.locale.localization['chosen-slides']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={func}
-                                />,
-                            ]}
-                        />,
-                        <DropdownMenu
-                            summoningButtonText={localeContext.locale.localization.email}
-                            summoningButtonType="textInSubMenu"
-                            summoningButtonPlace="left"
-                            bottomBorderAfterElement={undefined}
-                            elementsArray={[
-                                <Button
-                                    text={localeContext.locale.localization['send-to-email']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={func}
-                                />,
-                                <Button
-                                    text={localeContext.locale.localization['write-to-co-authors']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={func}
-                                />,
-                            ]}
-                        />,
-                        <DropdownMenu
-                            summoningButtonText={localeContext.locale.localization.download_word}
-                            summoningButtonType="textInSubMenu"
-                            summoningButtonPlace="left"
-                            bottomBorderAfterElement={undefined}
-                            elementsArray={[
-                                <Button
-                                    text={localeContext.locale.localization['pdf-file-format']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={func}
-                                />,
-                                <Button
-                                    text={localeContext.locale.localization['regular-text-format']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={saveAsJSONFunction}
-                                />,
-                            ]}
-                        />,
-                        <Button
-                            text={localeContext.locale.localization.rename_word}
-                            state="disabled"
-                            shouldStopPropagation={false}
-                            contentType="textInSubMenu"
-                            content={undefined}
-                            foo={func}
-                        />,
-                        <Button
-                            text={localeContext.locale.localization.relocate_word}
-                            state="disabled"
-                            shouldStopPropagation={false}
-                            contentType="textInSubMenu"
-                            content={undefined}
-                            foo={func}
-                        />,
-                        <Button
-                            text={localeContext.locale.localization.delete_word}
-                            state="disabled"
-                            shouldStopPropagation={false}
-                            contentType="textInSubMenu"
-                            content={undefined}
-                            foo={func}
-                        />,
-                    ]}
-                />
-                <DropdownMenu
-                    summoningButtonText={localeContext.locale.localization.add_word}
-                    summoningButtonType="text"
-                    summoningButtonPlace="above"
-                    bottomBorderAfterElement={undefined}
-                    elementsArray={[
-                        <DropdownMenu
-                            summoningButtonText={localeContext.locale.localization.image_word}
-                            summoningButtonType="textInSubMenu"
-                            summoningButtonPlace="left"
-                            bottomBorderAfterElement={undefined}
-                            elementsArray={[
-                                <Button
-                                    text={localeContext.locale.localization['upload-from-computer']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={handleUploadImageClick}
-                                />,
-                                <Button
-                                    text={localeContext.locale.localization['put-url']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={handleUploadPresentationClick}
-                                />,
-                            ]}
-                        />,
-                        <Button
-                            text={localeContext.locale.localization.text_word}
-                            state="disabled"
-                            shouldStopPropagation={false}
-                            contentType="textInSubMenu"
-                            content={undefined}
-                            foo={addTextButtonFunction}
-                        />,
-                        <DropdownMenu
-                            summoningButtonText={localeContext.locale.localization.figures_word}
-                            summoningButtonType="textInSubMenu"
-                            summoningButtonPlace="left"
-                            bottomBorderAfterElement={undefined}
-                            elementsArray={[
-                                <Button
-                                    text={localeContext.locale.localization.circle_word}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={addCircleButtonFunction}
-                                />,
-                                <Button
-                                    text={localeContext.locale.localization.triangle_word}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={addTriangleButtonFunction}
-                                />,
-                                <Button
-                                    text={localeContext.locale.localization['square-figure_word']}
-                                    state="disabled"
-                                    shouldStopPropagation={false}
-                                    contentType="textInSubMenu"
-                                    content={undefined}
-                                    foo={addRectangleButtonFunction}
-                                />,
-                            ]}
-                        />,
-                    ]}
-                />
-                <DropdownMenu
-                    summoningButtonText={localeContext.locale.localization['slide-show']}
-                    summoningButtonType={'text'}
-                    summoningButtonPlace={'above'}
-                    bottomBorderAfterElement={undefined}
-                    elementsArray={[
-                        <Button
-                            text={localeContext.locale.localization['slide-show-start-first-slide']}
-                            state="disabled"
-                            shouldStopPropagation={false}
-                            contentType="textInSubMenu"
-                            content={undefined}
-                            foo={startSlideShowFromFirstSlideButtonFunction}
-                        />,
-                        <Button
-                            text={localeContext.locale.localization['slide-show-start-current-slide']}
-                            state="disabled"
-                            shouldStopPropagation={false}
-                            contentType="textInSubMenu"
-                            content={undefined}
-                            foo={startSlideShowFromCurrentSlideButtonFunction}
-                        />,
-                    ]}
-                />
-                <Button
-                    text={localeContext.locale.localization['change-locale']}
-                    state="default"
-                    shouldStopPropagation={false}
-                    contentType="text"
-                    content={undefined}
-                    foo={toggleLocaleContext}
-                />
-            </div>
             <UploadPresentationInput key={generateUUId()} inputRef={uploadPresentationInputRef} />
             <UploadPictureInput key={generateUUId()} inputRef={uploadImageInputRef} />
         </div>

@@ -1,8 +1,11 @@
 import { UploadFileInput } from '../UploadFileInput/UploadFileInput';
 import { BaseSyntheticEvent, LegacyRef } from 'react';
 import { bindActionCreators } from 'redux';
-import { addPicture } from '../../../redux/action-creators/pictureActionCreators';
-import { keepModelAction } from '../../../redux/action-creators/editorActionCreators';
+import {
+    addPicture,
+    PictureData,
+} from '../../../app_model/redux_model/actions_model/action_creators/picture_action_creators';
+import { keepModelAction } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { useDispatch } from 'react-redux';
 
 type UploadPictureInputProps = {
@@ -14,21 +17,28 @@ function UploadPictureInput(props: UploadPictureInputProps) {
     const dispatchAddPictureAction = bindActionCreators(addPicture, dispatch);
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
     const addPictureButtonFunction = (event: BaseSyntheticEvent) => {
+        let payload: PictureData;
+        const file = event.target.files[0];
         const reader = new FileReader();
         const image = new Image();
-        reader.onload = function () {
-            image.onload = function () {
-                dispatchAddPictureAction({
-                    src: URL.createObjectURL(event.target.files[0]),
-                    alt: '',
-                    width: image.width,
-                    height: image.height,
-                });
-                dispatchKeepModelAction();
+        reader.onload = async function () {
+            image.onload = await function () {
+                if (typeof reader.result === 'string') {
+                    payload = {
+                        src: reader.result,
+                        alt: '',
+                        width: image.width,
+                        height: image.height,
+                    };
+                    dispatchAddPictureAction(payload);
+                    dispatchKeepModelAction();
+                } else {
+                    alert('Cannot save an image');
+                }
             };
-            image.src = URL.createObjectURL(event.target.files[0]);
+            image.src = URL.createObjectURL(file);
         };
-        reader.readAsDataURL(event.target.files[0]);
+        reader.readAsDataURL(file);
     };
 
     return (

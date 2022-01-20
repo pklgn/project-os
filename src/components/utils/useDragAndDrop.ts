@@ -1,15 +1,17 @@
-import { Coordinates, SelectedAreaLocation } from '../../model/types';
+import { Coordinates, SelectedAreaLocation } from '../../app_model/model/types';
 import { useEffect } from 'react';
 
-const INITIAL_SCALE = 2;
+export type DragAndDropParamsType = {
+    element: SVGRectElement | null;
+    position: SelectedAreaLocation;
+    setPosition: (coordinates: SelectedAreaLocation) => void;
+    xScale?: number;
+    yScale?: number;
+};
 
-export function useDragAndDrop(
-    element: SVGRectElement | null,
-    position: SelectedAreaLocation,
-    setPosition: (coordinates: SelectedAreaLocation) => void,
-): void {
+export function useDragAndDrop(params: DragAndDropParamsType): void {
+    const { element, position, setPosition, xScale, yScale } = params;
     let startDragPosition: Coordinates;
-    const scale = parseFloat(element?.parentElement?.dataset.scale ?? `${INITIAL_SCALE}`);
     function onMouseDown(event: MouseEvent) {
         startDragPosition = {
             x: event.pageX,
@@ -26,8 +28,8 @@ export function useDragAndDrop(
 
     function onMouseMove(e: MouseEvent) {
         const delta = {
-            x: e.pageX - startDragPosition.x,
-            y: e.pageY - startDragPosition.y,
+            x: xScale ? (e.pageX - startDragPosition.x) * xScale : e.pageX - startDragPosition.x,
+            y: yScale ? (e.pageY - startDragPosition.y) * yScale : e.pageY - startDragPosition.y,
         };
         const newPosition = {
             x: position.xy.x + delta.x,

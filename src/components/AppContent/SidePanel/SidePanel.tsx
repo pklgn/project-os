@@ -1,7 +1,7 @@
 import { SlideList } from '../SlideList/SlideList';
 import styles from './SidePanel.module.css';
 
-import { RootState } from '../../../redux/reducers/rootReducer';
+import { RootState } from '../../../app_model/redux_model/reducers/root_reducer';
 import { useSelector } from 'react-redux';
 
 export function SidePanel() {

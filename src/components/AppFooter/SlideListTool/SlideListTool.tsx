@@ -1,24 +1,23 @@
 import styles from './SlideListTool.module.css';
 import { useContext, useEffect } from 'react';
 
-import { AddSlide } from '../../common/icons/AddSlide/AddSlide';
-import { Button } from '../../common/Button/Button';
-import { RemoveSlide } from '../../common/icons/RemoveSlide/RemoveSlide';
-import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
+import { Button, ButtonProps } from '../../common/Button/Button';
+import { AddSlideIcon } from '../../common/icons/AddSlide/AddSlide';
+import { DeleteSlideIcon } from '../../common/icons/DeleteSlide/DeleteSlide';
+import ToolTip from '../../common/ToolTip/ToolTip';
 
-import { LocaleContext, LocaleContextType } from '../../../App';
+import { LocaleContext } from '../../../App';
 
-import { addSlide, deleteSelectedSlides } from '../../../redux/action-creators/slideActionCreators';
+import {
+    addSlide,
+    deleteSelectedSlides,
+} from '../../../app_model/redux_model/actions_model/action_creators/slide_action_creators';
 import { bindActionCreators } from 'redux';
-import { keepModelAction } from '../../../redux/action-creators/editorActionCreators';
+import { keepModelAction } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { useDispatch } from 'react-redux';
 
-type SlideListToolProps = {
-    foo: () => void | undefined;
-};
-
-export function SlideListTool(_: SlideListToolProps): JSX.Element {
-    const localeContext: LocaleContextType = useContext(LocaleContext);
+export function SlideListTool(): JSX.Element {
+    const localeContext = useContext(LocaleContext);
 
     const dispatch = useDispatch();
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
@@ -50,25 +49,46 @@ export function SlideListTool(_: SlideListToolProps): JSX.Element {
         };
     }, [dispatchAddSlideAction, dispatchKeepModelAction]);
 
+    const buttonsInfo = [
+        {
+            text: localeContext.locale.localization.slideListTool.addSlide,
+            id: 'add-slide-button',
+            iconLeft: <AddSlideIcon color="#ffa322" />,
+            onMouseUp: addSlideButtonFunction,
+        },
+        {
+            text: localeContext.locale.localization.slideListTool.deleteSlide,
+            id: 'delete-slide-button',
+            iconLeft: <DeleteSlideIcon color="#ffa322" />,
+            onMouseUp: deleteSelectedSlidesButtonFunction,
+        },
+    ] as ButtonProps[];
+
     return (
         <div className={styles['slides-list-tools']}>
-            <Button
-                text={localeContext.locale.localization.add_word}
-                state="disabled"
-                shouldStopPropagation={false}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <AddSlide /> }}
-                foo={addSlideButtonFunction}
-            />
-            <VerticalLine />
-            <Button
-                text={localeContext.locale.localization.delete_word}
-                state="disabled"
-                shouldStopPropagation={true}
-                contentType="icon"
-                content={{ hotkeyInfo: '', icon: <RemoveSlide /> }}
-                foo={deleteSelectedSlidesButtonFunction}
-            />
+            {buttonsInfo.map((info, index) => {
+                return (
+                    <ToolTip
+                        key={index}
+                        id={info.id}
+                        title={info.text ? info.text : 'None'}
+                        position="above"
+                        child={
+                            <Button
+                                type={info.type}
+                                state={info.state}
+                                id={info.id}
+                                optionalText={info.optionalText}
+                                iconLeft={info.iconLeft}
+                                iconRight={info.iconRight}
+                                cssMix={info.cssMix}
+                                onClick={info.onClick}
+                                onMouseUp={info.onMouseUp}
+                            />
+                        }
+                    />
+                );
+            })}
         </div>
     );
 }
