@@ -36,3 +36,7 @@
         transform: translateY(0);
     }
 }
+
+.empty_block {
+    width: 100%;
+}

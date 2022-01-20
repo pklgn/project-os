@@ -1,0 +1,30 @@
+.default-tools {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-items: center;
+    border-radius: 0.2rem;
+}
+
+.tools-buttons-container {
+    display: flex;
+}
+
+.default-tools > * {
+    animation: show-default-tools .4s forwards;
+}
+
+@keyframes show-default-tools {
+    0%{
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    50%{
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateY(0);
+    }
+}

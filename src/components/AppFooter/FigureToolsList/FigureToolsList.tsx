@@ -4,7 +4,6 @@ import { LocaleContext, LocaleContextType } from '../../../App';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { Button } from '../../common/Button/Button';
-import { listName } from '../../PresentationEditor/PresentationEditor';
 
 import { bindActionCreators } from 'redux';
 
@@ -15,19 +14,16 @@ import {
 } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import { useDispatch } from 'react-redux';
 import { Clear } from '../../common/icons/Cancel/Clear';
+import { SetChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
+import { store } from '../../../app_model/redux_model/store';
 
-type FigureToolsListProps = {
-    foo: (listName: listName) => void | undefined;
-};
-
-export function FigureToolsList(props: FigureToolsListProps): JSX.Element {
+export function FigureToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
-
-    const elementListToolButton = () => props.foo(listName.ELEMENT_LIST);
 
     const dispatch = useDispatch();
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
     const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
+    const dispatchNoneChosenElements = bindActionCreators(SetChosenElementsType, dispatch);
 
     const undoPressButtonHandler = () => {
         dispatchSetPreviousModelStateAction();
@@ -35,6 +31,10 @@ export function FigureToolsList(props: FigureToolsListProps): JSX.Element {
 
     const redoButtonPressHandler = () => {
         dispatchTurnBackModelStateAction();
+    };
+
+    const NoneChosenElements = () => {
+        dispatchNoneChosenElements(store.getState().viewModel, 'NONE');
     };
 
     useEffect(() => {
@@ -49,7 +49,7 @@ export function FigureToolsList(props: FigureToolsListProps): JSX.Element {
 
         const revocationHandler = (event: KeyboardEvent) => {
             if (event.code === 'Escape') {
-                elementListToolButton();
+                NoneChosenElements();
             }
         };
 

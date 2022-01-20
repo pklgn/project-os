@@ -9,6 +9,7 @@ import { RedoUndoIcon } from '../../common/icons/RedoUndo/RedoUndo';
 import { SelectCursorIcon } from '../../common/icons/Cursor/Cursor';
 import { TextIcon } from '../../common/icons/Text/Text';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
+import { store } from '../../../app_model/redux_model/store';
 
 import { addFigure } from '../../../app_model/redux_model/actions_model/action_creators/figure_action_creators';
 import { FigureInfo, FigureShape } from '../../../app_model/model/types';
@@ -20,6 +21,12 @@ import {
 } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { generateUUId } from '../../../app_model/model/utils/uuid';
+import { TextToolsList } from '../TextToolsList/TextToolsList';
+import { FigureToolsList } from '../FigureToolsList/FigureToolsList';
+import { DefaultToolsList } from '../DefaultToolsList/DefaultToolsList';
+import { Reorder } from '../../common/icons/Reorder/Reorder';
+import { Opacity } from '../../common/icons/Opacity/Opacity';
+import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 
 export function ElementListTool(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
@@ -65,6 +72,24 @@ export function ElementListTool(): JSX.Element {
         },
     ];
 
+    const defaultToolsButtonInfo: ButtonProps[] = [
+        {
+            text: localeContext.locale.localization.elementsListTool.cursorTool,
+            id: 'select-tool-button',
+            iconLeft: <Reorder />,
+        },
+        {
+            text: localeContext.locale.localization.elementsListTool.textTool,
+            id: 'text-tool-button',
+            iconLeft: <Opacity />,
+        },
+        {
+            text: localeContext.locale.localization.elementsListTool.geometryTool,
+            id: 'geometry-tool-button',
+            iconLeft: <DeleteElement />,
+        },
+    ];
+
     return (
         <div className={styles['element-tools']}>
             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
@@ -89,7 +114,27 @@ export function ElementListTool(): JSX.Element {
                 })}
             </div>
             <VerticalLine id="vertical-1" />
-            <span id="adaptive-elements-tool-placeholder" />
+            {(function () {
+                switch (store.getState().viewModel.chosenElementsType) {
+                    case 'TEXT':
+                        return (
+                            <div className="">
+                                <TextToolsList /> <DefaultToolsList />
+                            </div>
+                        );
+                    case 'PICTURE':
+                        return <DefaultToolsList />;
+                    case 'FIGURE':
+                        return <FigureToolsList />;
+                    case 'MIXED':
+                        return <DefaultToolsList />;
+                    case 'NONE':
+                        return <span className={styles.empty_block}></span>;
+                    default:
+                        return <span className={styles.empty_block}></span>;
+                }
+            })()}
+            <DefaultToolsList />
             <VerticalLine id="vertical-2" />
             <div className={styles['history-buttons-container']} id="history-buttons-container">
                 <Button
