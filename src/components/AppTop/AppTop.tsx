@@ -55,7 +55,7 @@ export function AppTop(): JSX.Element {
     };
 
     const onPreviewerButtonAction = () => {
-        dispatchSetEditorModeAction(dispatch)('SHOW_FROM_FIRST_SLIDE');
+        dispatchSetEditorModeAction(dispatch)('SHOW_FROM_CURRENT_SLIDE');
     };
 
     const miscButtonsInfo: ButtonProps[] = [

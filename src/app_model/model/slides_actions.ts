@@ -188,6 +188,14 @@ export function getFirstSlide(editor: Editor): Slide | undefined {
     }
 }
 
+export function getNextSlideTo(editor: Editor, slide: Slide): Slide | undefined {
+    return getNextToSlide(editor, slide, 'next');
+}
+
+export function getPrevSlideTo(editor: Editor, slide: Slide): Slide | undefined {
+    return getNextToSlide(editor, slide, 'prev');
+}
+
 export function getSlideAmount(editor: Editor): number {
     return editor.presentation.slidesList.length;
 }

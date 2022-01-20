@@ -341,6 +341,11 @@ export function SlideComponent(props: SlideProps) {
     const slideWidth = props.renderType === 'mainSlide' && props.slideWidth ? props.slideWidth : '';
     const slideHeight = props.renderType === 'mainSlide' && props.slideHeight ? props.slideHeight : '';
 
+    const [defaultViewBoxXYRender, _] = useState({
+        x: (props.containerWidth! - emptySlideWidth) / 2,
+        y: (props.containerHeight! - emptySlideHeight) / 2,
+    });
+
     const viewBox = props.viewBox;
 
     let elementIndex = 0;
@@ -472,9 +477,7 @@ export function SlideComponent(props: SlideProps) {
         <svg
             width={props.slideWidth}
             height={props.slideHeight}
-            viewBox={`${(props.containerWidth! - emptySlideWidth) / 2} ${
-                (props.containerHeight! - emptySlideHeight) / 2
-            } ${emptySlideWidth} ${emptySlideHeight}`}
+            viewBox={`${defaultViewBoxXYRender.x} ${defaultViewBoxXYRender.y} ${emptySlideWidth} ${emptySlideHeight}`}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
         >
