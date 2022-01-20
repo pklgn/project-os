@@ -8,40 +8,40 @@ import { setActiveViewArea } from './actions_view_model/action_creators/active_a
 import { setAppViewMode } from './actions_view_model/action_creators/app_mode_action_creator';
 import { setSlideContainerDimensions } from './actions_view_model/action_creators/slide_render_action_creators';
 
-const dispatchAddSlideAction = (dispatch: Dispatch<any>) => {
+const dispatchAddSlideAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideActionCreator.addSlide, dispatch);
 };
-const dispatchAddFigureAction = (dispatch: Dispatch<any>) => {
+const dispatchAddFigureAction = (dispatch: Dispatch) => {
     return bindActionCreators(addFigure, dispatch);
 };
-const dispatchActiveViewAreaAction = (dispatch: Dispatch<any>) => {
+const dispatchActiveViewAreaAction = (dispatch: Dispatch) => {
     return bindActionCreators(setActiveViewArea, dispatch);
 };
-const dispatchSlideContainerDimensions = (dispatch: Dispatch<any>) => {
+const dispatchSlideContainerDimensions = (dispatch: Dispatch) => {
     return bindActionCreators(setSlideContainerDimensions, dispatch);
 };
-const dispatchDeleteSlideAction = (dispatch: Dispatch<any>) => {
+const dispatchDeleteSlideAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideActionCreator.deleteSelectedSlides, dispatch);
 };
-const dispatchPresentationName = (dispatch: Dispatch<any>) => {
+const dispatchPresentationName = (dispatch: Dispatch) => {
     return bindActionCreators(changePresentationTitle, dispatch);
 };
-const dispatchInsertSelectedSlides = (dispatch: Dispatch<any>) => {
+const dispatchInsertSelectedSlides = (dispatch: Dispatch) => {
     return bindActionCreators(slideActionCreator.insertSelectedSlidesAtIndexAction, dispatch);
 };
-const dispatchKeepModelAction = (dispatch: Dispatch<any>) => {
+const dispatchKeepModelAction = (dispatch: Dispatch) => {
     return bindActionCreators(editorActionCreator.keepModelAction, dispatch);
 };
-const dispatchSetEditorModeAction = (dispatch: Dispatch<any>) => {
+const dispatchSetEditorModeAction = (dispatch: Dispatch) => {
     return bindActionCreators(setAppViewMode, dispatch);
 };
-const dispatchSetIdAction = (dispatch: Dispatch<any>) => {
+const dispatchSetIdAction = (dispatch: Dispatch) => {
     return bindActionCreators(editorActionCreator.setSelectedIdInEditor, dispatch);
 };
-const dispatchUndoAction = (dispatch: Dispatch<any>) => {
+const dispatchUndoAction = (dispatch: Dispatch) => {
     return bindActionCreators(editorActionCreator.undoModelAction, dispatch);
 };
-const dispatchRedoAction = (dispatch: Dispatch<any>) => {
+const dispatchRedoAction = (dispatch: Dispatch) => {
     return bindActionCreators(editorActionCreator.redoModelAction, dispatch);
 };
 

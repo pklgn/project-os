@@ -55,7 +55,7 @@ export function SlideWrapper() {
             }
         }
         dispatchSlideContainerDimensions(dispatch)({ width: containerWidth, height: containerHeight });
-    }, [currSlide]);
+    }, [dispatch, containerHeight, containerWidth, currSlide]);
 
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>

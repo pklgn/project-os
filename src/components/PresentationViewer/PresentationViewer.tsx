@@ -88,7 +88,7 @@ export function PresentationViewer() {
             document.removeEventListener('fullscreenchange', onFullScreenHandler);
             unsubscribe();
         };
-    }, [slideInShow, dispatchSetEditorModeAction]);
+    }, [dispatch, slideInShow]);
 
     const onClickNextSlideSelectorHandler = (event: React.MouseEvent<HTMLDivElement>) => {
         const target = event.target;

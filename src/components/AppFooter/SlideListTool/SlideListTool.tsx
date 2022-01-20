@@ -49,7 +49,7 @@ export function SlideListTool(): JSX.Element {
         return () => {
             document.removeEventListener('keydown', onKeyDownHandler);
         };
-    }, [dispatchAddSlideAction, dispatchKeepModelAction]);
+    }, [dispatch]);
 
     const buttonsInfo = [
         {

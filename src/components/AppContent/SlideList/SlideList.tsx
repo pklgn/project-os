@@ -499,7 +499,7 @@ export function SlideList(props: SlideListProps) {
         return () => {
             unsubscribe();
         };
-    }, [listWidth]);
+    }, [listWidth, windowRatio]);
 
     return (
         <ul
