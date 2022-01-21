@@ -302,6 +302,80 @@ export function SlideComponent(props: SlideProps) {
 
     const viewBox = props.viewBox;
 
+    const resizersCords = {
+        xyStart: {
+            x: selectedAreaLocation ? selectedAreaLocation.xy.x - resizersOffset : 0,
+            y: selectedAreaLocation ? selectedAreaLocation.xy.y - resizersOffset : 0,
+        },
+        halfs: {
+            width: selectedAreaLocation
+                ? (selectedAreaLocation.dimensions.width - resizersSize) / 2 + resizersOffset
+                : 0,
+            height: selectedAreaLocation
+                ? (selectedAreaLocation.dimensions.height - resizersSize) / 2 + resizersOffset
+                : 0,
+        },
+        dimensions: {
+            width: selectedAreaLocation
+                ? selectedAreaLocation.xy.x + selectedAreaLocation.dimensions.width - resizersSize + resizersOffset
+                : 0,
+            height: selectedAreaLocation
+                ? selectedAreaLocation.xy.y + selectedAreaLocation.dimensions.height - resizersSize + resizersOffset
+                : 0,
+        },
+    };
+
+    const resizersRenderInfoArr = [
+        {
+            id: 'resize-nw',
+            x: resizersCords.xyStart.x,
+            y: resizersCords.xyStart.y,
+            className: styles['resizer-nw'],
+        },
+        {
+            id: 'resize-n',
+            x: resizersCords.xyStart.x + resizersCords.halfs.width,
+            y: resizersCords.xyStart.y,
+            className: styles['resizer-n'],
+        },
+        {
+            id: 'resize-ne',
+            x: resizersCords.dimensions.width,
+            y: resizersCords.xyStart.y,
+            className: styles['resizer-ne'],
+        },
+        {
+            id: 'resize-e',
+            x: resizersCords.dimensions.width,
+            y: resizersCords.xyStart.y + resizersCords.halfs.height,
+            className: styles['resizer-e'],
+        },
+        {
+            id: 'resize-se',
+            x: resizersCords.dimensions.width,
+            y: resizersCords.dimensions.height,
+            className: styles['resizer-se'],
+        },
+        {
+            id: 'resize-s',
+            x: resizersCords.xyStart.x + resizersCords.halfs.width,
+            y: resizersCords.dimensions.height,
+            className: styles['resizer-s'],
+        },
+        {
+            id: 'resize-sw',
+            x: resizersCords.xyStart.x,
+            y: resizersCords.dimensions.height,
+            className: styles['resizer-sw'],
+        },
+        {
+            id: 'resize-w',
+            x: resizersCords.xyStart.x,
+            y: resizersCords.xyStart.y + resizersCords.halfs.height,
+            className: styles['resizer-w'],
+        },
+    ];
+
     let elementIndex = 0;
     return props.slide === undefined ? (
         <div ref={emptySlideRef} className={styles['empty-slide-container']} onClick={emptySlideClickHandler}>
@@ -367,62 +441,20 @@ export function SlideComponent(props: SlideProps) {
                         width={selectedAreaLocation.dimensions.width}
                         height={selectedAreaLocation.dimensions.height}
                     />
-                    <rect
-                        id="resize-nw"
-                        x={selectedAreaLocation.xy.x - resizersOffset}
-                        y={selectedAreaLocation.xy.y - resizersOffset}
-                        width={resizersSize}
-                        height={resizersSize}
-                        className={styles['resizer-nw']}
-                        onMouseDown={onMouseDownResizeHandler}
-                    />
-                    <rect
-                        id="resize-ne"
-                        x={
-                            selectedAreaLocation.xy.x +
-                            selectedAreaLocation.dimensions.width -
-                            resizersSize +
-                            resizersOffset
-                        }
-                        y={selectedAreaLocation.xy.y - resizersOffset}
-                        width={resizersSize}
-                        height={resizersSize}
-                        className={styles['resizer-ne']}
-                        onMouseDown={onMouseDownResizeHandler}
-                    />
-                    <rect
-                        id="resize-se"
-                        x={
-                            selectedAreaLocation.xy.x +
-                            selectedAreaLocation.dimensions.width -
-                            resizersSize +
-                            resizersOffset
-                        }
-                        y={
-                            selectedAreaLocation.xy.y +
-                            selectedAreaLocation.dimensions.height -
-                            resizersSize +
-                            resizersOffset
-                        }
-                        width={resizersSize}
-                        height={resizersSize}
-                        className={styles['resizer-se']}
-                        onMouseDown={onMouseDownResizeHandler}
-                    />
-                    <rect
-                        id="resize-sw"
-                        x={selectedAreaLocation.xy.x - resizersOffset}
-                        y={
-                            selectedAreaLocation.xy.y +
-                            selectedAreaLocation.dimensions.height -
-                            resizersSize +
-                            resizersOffset
-                        }
-                        width={resizersSize}
-                        height={resizersSize}
-                        className={styles['resizer-sw']}
-                        onMouseDown={onMouseDownResizeHandler}
-                    />
+                    {resizersRenderInfoArr.map((info, index) => {
+                        return (
+                            <rect
+                                key={index}
+                                id={info.id}
+                                x={info.x}
+                                y={info.y}
+                                width={resizersSize}
+                                height={resizersSize}
+                                className={info.className}
+                                onMouseDown={onMouseDownResizeHandler}
+                            />
+                        );
+                    })}
                 </>
             ) : (
                 <></>

@@ -8,7 +8,7 @@ export function initViewModel(): ViewModelType {
         editingTool: 'CHOOSE_TOOL',
         slideRenderInfo: {
             resizersInfo: {
-                dimension: 15,
+                dimension: 10,
                 offset: 3,
             },
             slideContainerDimensions: {
