@@ -10,8 +10,12 @@ import { store } from '../../../app_model/redux_model/store';
 import { useResize } from '../../utils/useResize';
 import { useSlideResize } from '../../utils/useSlideResize';
 
-import { dispatchSlideContainerDimensions } from '../../../app_model/redux_model/dispatchers';
+import {
+    dispatchSetElementsRenderRatioAction,
+    dispatchSlideContainerDimensions,
+} from '../../../app_model/redux_model/dispatchers';
 import { SelectedAreaLocation, Slide } from '../../../app_model/model/types';
+import { getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
 
 export function SlideWrapper() {
     const ref = useRef<HTMLDivElement>(null);
@@ -40,6 +44,7 @@ export function SlideWrapper() {
     store.subscribe(handleChange);
 
     const [containerWidth, containerHeight] = useResize(ref);
+    const [initWidth, setCurrWidth] = useState(0);
     const maxSelectedAreaLocationInfo = useSlideResize(ref, currSlide);
 
     const slideViewBox = getSlideViewBox(maxSelectedAreaLocationInfo, containerWidth, containerHeight);
@@ -54,13 +59,19 @@ export function SlideWrapper() {
                 ref.current.style.justifyContent = 'flex-start';
             }
         }
+        if (initWidth === 0) {
+            setCurrWidth(containerWidth);
+        }
+        dispatchSetElementsRenderRatioAction(dispatch)({
+            width: containerWidth / initWidth,
+            height: getWindowRatio(store.getState().viewModel),
+        });
         dispatchSlideContainerDimensions(dispatch)({ width: containerWidth, height: containerHeight });
-    }, [dispatch, containerHeight, containerWidth, currSlide]);
+    }, [dispatch, containerHeight, containerWidth, currSlide, initWidth]);
 
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>
             <SlideComponent
-                renderType="mainSlide"
                 slide={currSlide}
                 viewBox={{
                     x: slideViewBox.x,

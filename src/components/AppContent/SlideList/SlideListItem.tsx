@@ -1,7 +1,7 @@
 import styles from './SlideListItem.module.css';
 
 import { Slide } from '../../../app_model/model/types';
-import { SlideComponent } from '../Slide/SlideComponent';
+import { SlideDefaultComponent } from '../Slide/SlideDefaultComponent';
 
 type SlideListItemProps = {
     item: Slide;
@@ -25,7 +25,7 @@ export function SlideListItem(props: SlideListItemProps) {
     return (
         <>
             <div className={`${styles['list-item']} ${itemWrapperStyle}`}>
-                <SlideComponent
+                <SlideDefaultComponent
                     renderType="default"
                     slide={props.item}
                     viewBox={props.viewBox}

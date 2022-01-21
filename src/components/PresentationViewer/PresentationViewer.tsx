@@ -9,11 +9,10 @@ import { getCurrentSlide, getFirstSlide, getNextSlideTo, getPrevSlideTo } from '
 import { getSlideContainerDimension, getWindowRatio } from '../../app_model/view_model/slide_render_actions';
 import { Slide } from '../../app_model/model/types';
 
-import { SlideComponent } from '../AppContent/Slide/SlideComponent';
-
 import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { LocaleContext } from '../../App';
+import { SlideDefaultComponent } from '../AppContent/Slide/SlideDefaultComponent';
 
 export function PresentationViewer() {
     const localeContext = useContext(LocaleContext);
@@ -26,6 +25,25 @@ export function PresentationViewer() {
     } as CSS.Properties);
 
     const dispatch = useDispatch();
+
+    const handleChange = () => {
+        const viewModel = store.getState().viewModel;
+        const editor = store.getState().model;
+        if (viewModel.appMode !== 'EDIT') {
+            if (slideInShow === undefined) {
+                const slideToShow =
+                    store.getState().viewModel.appMode === 'SHOW_FROM_FIRST_SLIDE'
+                        ? getFirstSlide(editor)
+                        : getCurrentSlide(editor);
+                if (slideToShow !== undefined) {
+                    setSlideInShow(slideToShow);
+                }
+                ref.current?.requestFullscreen();
+            }
+        }
+    };
+
+    store.subscribe(handleChange);
 
     useEffect(() => {
         const onKeyDownHandler = (event: KeyboardEvent) => {
@@ -124,7 +142,6 @@ export function PresentationViewer() {
         }
 
         const unsubscribe = store.subscribe(handleWindowRatioChange);
-        console.log(windowWidth);
         return () => {
             unsubscribe();
         };
@@ -138,7 +155,7 @@ export function PresentationViewer() {
                         className={styles['to-previous-slide-area-selector']}
                         onClick={onClickNextSlideSelectorHandler}
                     />
-                    <SlideComponent
+                    <SlideDefaultComponent
                         renderType="preview"
                         slideWidth={windowWidth}
                         slideHeight={windowWidth / windowRatio}

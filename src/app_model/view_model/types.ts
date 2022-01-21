@@ -4,6 +4,7 @@ export type ViewModelType = {
     chosenElementsType: ChosenElementsType;
     editingTool: EditingToolStateType;
     slideRenderInfo: {
+        elementsRenderRatio: ElementsRatioType;
         resizersInfo: ResizersInfoType;
         slideContainerDimensions: SlideContainerDimensionsType;
         slideToContainerRatio: number;
@@ -20,6 +21,11 @@ export type ActiveAreaStateType =
     | 'NONE';
 
 export type AppModeType = 'EDIT' | 'SHOW_FROM_FIRST_SLIDE' | 'SHOW_FROM_CURRENT_SLIDE';
+
+export type ElementsRatioType = {
+    width: number;
+    height: number;
+};
 
 export type EditingToolStateType = 'CHOOSE_TOOL' | 'TEXT_TOOL' | 'CIRCLE_TOOL' | 'TRIANGLE_TOOL' | 'RECTANGLE_TOOL';
 

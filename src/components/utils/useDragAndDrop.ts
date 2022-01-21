@@ -5,12 +5,10 @@ export type DragAndDropParamsType = {
     element: SVGRectElement | null;
     position: SelectedAreaLocation;
     setPosition: (coordinates: SelectedAreaLocation) => void;
-    xScale?: number;
-    yScale?: number;
 };
 
 export function useDragAndDrop(params: DragAndDropParamsType): void {
-    const { element, position, setPosition, xScale, yScale } = params;
+    const { element, position, setPosition } = params;
     let startDragPosition: Coordinates;
     function onMouseDown(event: MouseEvent) {
         startDragPosition = {
@@ -28,8 +26,8 @@ export function useDragAndDrop(params: DragAndDropParamsType): void {
 
     function onMouseMove(e: MouseEvent) {
         const delta = {
-            x: xScale ? (e.pageX - startDragPosition.x) * xScale : e.pageX - startDragPosition.x,
-            y: yScale ? (e.pageY - startDragPosition.y) * yScale : e.pageY - startDragPosition.y,
+            x: e.pageX - startDragPosition.x,
+            y: e.pageY - startDragPosition.y,
         };
         const newPosition = {
             x: position.xy.x + delta.x,

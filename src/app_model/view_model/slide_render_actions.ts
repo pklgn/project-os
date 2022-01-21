@@ -1,7 +1,11 @@
-import { RenderRatio, ResizersInfoType, SlideContainerDimensionsType, ViewModelType } from './types';
+import { ElementsRatioType, RenderRatio, ResizersInfoType, SlideContainerDimensionsType, ViewModelType } from './types';
 
 export function getResizersInfo(viewModel: ViewModelType): ResizersInfoType {
     return viewModel.slideRenderInfo.resizersInfo;
+}
+
+export function getElementsRenderRatio(viewModel: ViewModelType): ElementsRatioType {
+    return viewModel.slideRenderInfo.elementsRenderRatio;
 }
 
 export function getSlideContainerDimension(viewModel: ViewModelType): SlideContainerDimensionsType {
@@ -16,6 +20,16 @@ export function getWindowRatio(viewModel: ViewModelType): number {
     const ratioInfo = viewModel.slideRenderInfo.windowRatio.split('/');
     const ratio = parseInt(ratioInfo[0]) / parseInt(ratioInfo[1]);
     return ratio;
+}
+
+export function setElementsRenderRatio(viewModel: ViewModelType, ratios: ElementsRatioType): ViewModelType {
+    return {
+        ...viewModel,
+        slideRenderInfo: {
+            ...viewModel.slideRenderInfo,
+            elementsRenderRatio: ratios,
+        },
+    };
 }
 
 export function setSlideContainerDimensions(
