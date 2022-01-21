@@ -20,6 +20,8 @@ import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { setChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
 import { store } from '../../../app_model/redux_model/store';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
+import { Reorder } from '../../common/icons/Reorder/Reorder';
+import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 
 export function TextToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
@@ -63,7 +65,7 @@ export function TextToolsList(): JSX.Element {
         };
     }, []);
 
-    const textToolsButtonInfo: ButtonProps[] = [
+    const uniqueTextToolsButtonInfo: ButtonProps[] = [
         {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
@@ -80,6 +82,26 @@ export function TextToolsList(): JSX.Element {
             iconLeft: <Opacity />,
         },
     ];
+
+    const defaultToolsButtonInfo: ButtonProps[] = [
+        {
+            text: localeContext.locale.localization.elementsListTool.cursorTool,
+            id: 'select-tool-button',
+            iconLeft: <Reorder />,
+        },
+        {
+            text: localeContext.locale.localization.elementsListTool.textTool,
+            id: 'text-tool-button',
+            iconLeft: <Opacity />,
+        },
+        {
+            text: localeContext.locale.localization.elementsListTool.geometryTool,
+            id: 'geometry-tool-button',
+            iconLeft: <DeleteElement />,
+        },
+    ];
+
+    const textToolsButtonInfo: ButtonProps[] = [...uniqueTextToolsButtonInfo, ...defaultToolsButtonInfo];
 
     return (
         <div className={styles['text-tools']}>

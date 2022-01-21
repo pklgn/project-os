@@ -1,7 +1,7 @@
 import styles from './ElementListTool.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
 import { GeometryIcon } from '../../common/icons/Geometry/Geometry';
@@ -27,11 +27,16 @@ import {
 import { useDispatch } from 'react-redux';
 
 import { FigureInfo, FigureShape } from '../../../app_model/model/types';
+import { bindActionCreators } from 'redux';
+import { setChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
+import { getSlideElementType } from '../../../app_model/model/utils/tools';
 
 export function ElementListTool(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
+    const dispatchChosenElementsTypeAction = bindActionCreators(setChosenElementsType, dispatch);
+    const selectedSlideElementsIds = store.getState().model.selectedSlideElementsIds;
 
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
@@ -70,24 +75,6 @@ export function ElementListTool(): JSX.Element {
         },
     ];
 
-    const defaultToolsButtonInfo: ButtonProps[] = [
-        {
-            text: localeContext.locale.localization.elementsListTool.cursorTool,
-            id: 'select-tool-button',
-            iconLeft: <Reorder />,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.textTool,
-            id: 'text-tool-button',
-            iconLeft: <Opacity />,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.geometryTool,
-            id: 'geometry-tool-button',
-            iconLeft: <DeleteElement />,
-        },
-    ];
-
     const redoUndoButtonInfo: ButtonProps[] = [
         {
             text: localeContext.locale.localization.historyTool.undoTool,
@@ -104,6 +91,33 @@ export function ElementListTool(): JSX.Element {
             onMouseUp: dispatchRedoAction(dispatch),
         },
     ];
+
+    const [chosenType, setChosenType] = useState('NONE');
+    const handleChange = () => {
+        const activeSLide = store.getState().model.presentation.slidesList.slice(-1)[0];
+        const viewModel = store.getState().viewModel;
+        if (activeSLide === undefined) {
+            setChosenType('NONE');
+        } else {
+            if (activeSLide.elementsList.length) {
+                const selectedElementsList = activeSLide.elementsList.filter((item) =>
+                    selectedSlideElementsIds.includes(item.id),
+                );
+
+                if (selectedElementsList.length) {
+                    const elementsType = getSlideElementType(selectedElementsList[0].content);
+
+                    selectedElementsList.every((item) => getSlideElementType(item.content) === elementsType)
+                        ? setChosenType(elementsType)
+                        : setChosenType('MIXED');
+                }
+                if (!selectedElementsList.length) setChosenType('NONE');
+            }
+            if (!activeSLide.elementsList.length) setChosenType('NONE');
+        }
+    };
+
+    store.subscribe(handleChange);
 
     return (
         <div className={styles['element-tools']}>
@@ -131,13 +145,9 @@ export function ElementListTool(): JSX.Element {
             </div>
             <VerticalLine id="vertical-1" />
             {(function () {
-                switch (store.getState().viewModel.chosenElementsType) {
+                switch (chosenType) {
                     case 'TEXT':
-                        return (
-                            <div className="">
-                                <TextToolsList /> <DefaultToolsList />
-                            </div>
-                        );
+                        return <TextToolsList />;
                     case 'PICTURE':
                         return <DefaultToolsList />;
                     case 'FIGURE':
@@ -150,7 +160,7 @@ export function ElementListTool(): JSX.Element {
                         return <span className={styles.empty_block}></span>;
                 }
             })()}
-            <DefaultToolsList />
+            {/* <DefaultToolsList /> */}
             <VerticalLine id="vertical-2" />
             <div className={styles['history-buttons-container']} id="history-buttons-container">
                 {redoUndoButtonInfo.map((buttonInfo, index) => {

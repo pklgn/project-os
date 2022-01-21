@@ -1,4 +1,4 @@
-.figure-tools {
+.picture-tools {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -9,11 +9,11 @@
     overflow-y: hidden;
 }
 
-.figure-tools > * {
+.picture-tools > * {
     animation: show-element-tools .4s forwards;
 }
 
-@keyframes show-element-tools {
+@keyframes show-picture-tools {
     0%{
         opacity: 0;
         transform: translateY(-20px);
@@ -26,14 +26,4 @@
     100%{
         transform: translateY(0);
     }
-}
-
-.color-picker {
-    border: none;
-    background-color: transparent;
-    justify-content: center;
-    align-self: center;
-    padding: 0;
-    cursor: pointer;
-    border-radius: 50%;
 }
