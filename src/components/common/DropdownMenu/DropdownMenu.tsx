@@ -19,17 +19,14 @@ type DropdownStateType = {
     currButtonId: string;
 };
 
-function getButton(id: string, data: DropDownMenuItem): DropDownMenuItem | undefined {
+function getCurrButton(id: string, data: DropDownMenuItem): DropDownMenuItem | undefined {
     let button: DropDownMenuItem | undefined;
     if (data.mainButton.id === id) {
-        console.log('data.mainButton.id', data.mainButton.id);
-        console.log('id', id);
         button = data;
     } else {
         data.nestedButtons.forEach((dropdownItem) => {
-            console.log(dropdownItem);
             if (!button) {
-                button = getButton(id, dropdownItem);
+                button = getCurrButton(id, dropdownItem);
             }
         });
     }
@@ -60,11 +57,12 @@ type DropdownListProps = {
     dropdownState: DropdownStateType;
     handleClickBack: () => void;
     handleClickForward: (pair: DropDownMenuItem) => void;
+    handleClickOutside: () => void;
     currButton: DropDownMenuItem | undefined;
 };
 
 function DropdownList(props: DropdownListProps) {
-    const { dropdownState, handleClickBack, handleClickForward, currButton } = props;
+    const { dropdownState, handleClickBack, handleClickForward, handleClickOutside, currButton } = props;
     const dropdownListRef = useRef<HTMLUListElement>(null);
     const backButton = (
         <Button
@@ -77,11 +75,31 @@ function DropdownList(props: DropdownListProps) {
         />
     );
 
+    useEffect(() => {
+        function onMouseDown(e: MouseEvent) {
+            if (!dropdownListRef.current?.contains(e.target as Node)) {
+                handleClickOutside();
+            }
+        }
+        window.addEventListener('mousedown', onMouseDown);
+
+        return () => {
+            window.removeEventListener('mousedown', onMouseDown);
+        };
+    }, [handleClickOutside]);
+
     return (
         <ul ref={dropdownListRef} className={styles['dropdown-list']}>
-            {dropdownState.prevButtonIds.length > 1 && open && backButton}
+            {dropdownState.prevButtonIds.length > 1 && backButton}
             {currButton?.nestedButtons.map((pair, index) => {
-                return DropdownListItem({ pair, index, handleClickForward });
+                return (
+                    <DropdownListItem
+                        key={generateUUId()}
+                        pair={pair}
+                        index={index}
+                        handleClickForward={handleClickForward}
+                    />
+                );
             })}
         </ul>
     );
@@ -95,16 +113,11 @@ export function DropdownMenu(props: DropdownMenuProps) {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [open, setOpen] = useState(false);
     const [dropdownState, setDropdownState] = useState(initialDropdownState);
-    const currButton = getButton(dropdownState.currButtonId, props.data);
+    const currButton = getCurrButton(dropdownState.currButtonId, props.data);
 
-    function handleClickOutside(e: MouseEvent) {
-        if (e.target instanceof HTMLElement && !dropdownRef.current?.contains(e.target as Node)) {
-            setOpen(false);
-            setDropdownState(initialDropdownState);
-        } else {
-            console.log('e.target', e.target);
-            console.log('dropdownRef', dropdownRef.current);
-        }
+    function handleClickOutside() {
+        setOpen(false);
+        setDropdownState(initialDropdownState);
     }
 
     function handleClickBack() {
@@ -138,13 +151,6 @@ export function DropdownMenu(props: DropdownMenuProps) {
         }
     }
 
-    useEffect(() => {
-        if (open) {
-            window.addEventListener('click', handleClickOutside);
-        } else {
-            window.removeEventListener('click', handleClickOutside);
-        }
-    }, [open]);
     return (
         <div ref={dropdownRef} className={styles['dropdown-control-button']}>
             <Button
@@ -154,10 +160,11 @@ export function DropdownMenu(props: DropdownMenuProps) {
             />
             {open && (
                 <DropdownList
+                    currButton={currButton}
                     dropdownState={dropdownState}
                     handleClickBack={handleClickBack}
                     handleClickForward={handleClickForward}
-                    currButton={currButton}
+                    handleClickOutside={handleClickOutside}
                 />
             )}
         </div>
