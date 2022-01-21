@@ -23,11 +23,15 @@
 
 .select-area {
     fill: transparent;
-    stroke: lightsalmon;
-    stroke-width: 4px;
-    stroke-dasharray: 20, 5;
-    stroke-linejoin: round;
-    cursor: move;
+    /* stroke: lightsalmon; */
+    /* stroke-width: 4px; */
+    /* stroke-dasharray: 20, 5; */
+    /* stroke-linejoin: round; */
+    /* cursor: move; */
+}
+
+.select-area-line {
+    stroke: black;
 }
 
 .resizer-nw {
