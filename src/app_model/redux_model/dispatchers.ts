@@ -6,10 +6,7 @@ import { changePresentationTitle } from './actions_model/action_creators/present
 import * as editorActionCreator from './actions_model/action_creators/editor_action_creators';
 import { setActiveViewArea } from './actions_view_model/action_creators/active_area_action_creators';
 import { setAppViewMode } from './actions_view_model/action_creators/app_mode_action_creator';
-import {
-    setElementsRenderRatio,
-    setSlideContainerDimensions,
-} from './actions_view_model/action_creators/slide_render_action_creators';
+import * as slideRenderActions from './actions_view_model/action_creators/slide_render_action_creators';
 import { changeSelectedElementsPosition } from './actions_model/action_creators/elements_action_creators';
 
 const dispatchAddSlideAction = (dispatch: Dispatch) => {
@@ -22,7 +19,7 @@ const dispatchActiveViewAreaAction = (dispatch: Dispatch) => {
     return bindActionCreators(setActiveViewArea, dispatch);
 };
 const dispatchSlideContainerDimensions = (dispatch: Dispatch) => {
-    return bindActionCreators(setSlideContainerDimensions, dispatch);
+    return bindActionCreators(slideRenderActions.setSlideContainerDimensions, dispatch);
 };
 const dispatchDeleteSlideAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideActionCreator.deleteSelectedSlides, dispatch);
@@ -43,10 +40,13 @@ const dispatchSetElementsPoistionAction = (dispatch: Dispatch) => {
     return bindActionCreators(changeSelectedElementsPosition, dispatch);
 };
 const dispatchSetElementsRenderRatioAction = (dispatch: Dispatch) => {
-    return bindActionCreators(setElementsRenderRatio, dispatch);
+    return bindActionCreators(slideRenderActions.setElementsRenderRatio, dispatch);
 };
 const dispatchSetIdAction = (dispatch: Dispatch) => {
     return bindActionCreators(editorActionCreator.setSelectedIdInEditor, dispatch);
+};
+const dispatchSetSlideWhiteAreaLocationAction = (dispatch: Dispatch) => {
+    return bindActionCreators(slideRenderActions.setSlideWhiteAreaLocation, dispatch);
 };
 const dispatchUndoAction = (dispatch: Dispatch) => {
     return bindActionCreators(editorActionCreator.undoModelAction, dispatch);
@@ -68,6 +68,7 @@ export {
     dispatchSetElementsPoistionAction,
     dispatchSetElementsRenderRatioAction,
     dispatchSetIdAction,
+    dispatchSetSlideWhiteAreaLocationAction,
     dispatchUndoAction,
     dispatchRedoAction,
 };

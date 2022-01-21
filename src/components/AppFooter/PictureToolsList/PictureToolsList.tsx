@@ -1,4 +1,4 @@
-import styles from './FigureToolsList.module.css';
+import styles from './PictureToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
 import React, { useContext, useEffect, useState } from 'react';

@@ -19,6 +19,16 @@ export function initViewModel(): ViewModelType {
                 width: 100,
                 height: 100,
             },
+            slideWhiteAreaRectLocation: {
+                xy: {
+                    x: 0,
+                    y: 0,
+                },
+                dimensions: {
+                    width: 0,
+                    height: 0,
+                },
+            },
             slideToContainerRatio: 0.7,
             windowRatio: '16/9',
         },

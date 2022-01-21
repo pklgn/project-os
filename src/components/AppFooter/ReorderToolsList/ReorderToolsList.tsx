@@ -1,4 +1,4 @@
-import styles from './ReorderListTool.module.css';
+import styles from './ReorderToolsList.module.css';
 
 import { useContext } from 'react';
 import { LocaleContext, LocaleContextType } from '../../../App';
@@ -10,7 +10,7 @@ import { LayerBackground } from '../../common/icons/LayerBackground/LayerBackgro
 import { LayerForward } from '../../common/icons/LayerForward/LayerForward';
 import { LayerForeground } from '../../common/icons/LayerForeground/LayerForeground';
 
-export function ReorderListTool(): JSX.Element {
+export function ReorderToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     return (

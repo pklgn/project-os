@@ -1,3 +1,5 @@
+import { AreaLocation } from '../model/types';
+
 export type ViewModelType = {
     activeArea: ActiveAreaStateType;
     appMode: AppModeType;
@@ -8,6 +10,7 @@ export type ViewModelType = {
         resizersInfo: ResizersInfoType;
         slideContainerDimensions: SlideContainerDimensionsType;
         slideToContainerRatio: number;
+        slideWhiteAreaRectLocation: AreaLocation;
         windowRatio: RenderRatio;
     };
 };
