@@ -9,7 +9,6 @@ export type DragAndDropParamsType = {
 
 export function useDragAndDrop(params: DragAndDropParamsType): void {
     const { element, position, setPosition } = params;
-    console.log(element);
     let startDragPosition: Coordinates;
     function onMouseDown(event: MouseEvent) {
         startDragPosition = {

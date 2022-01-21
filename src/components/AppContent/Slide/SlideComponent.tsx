@@ -261,6 +261,7 @@ export function SlideComponent(props: SlideProps) {
     const [resizersRenderInfo, setResizersRenderInfo] = useState(getResizersInfo(store.getState().viewModel));
     const resizersOffset = resizersRenderInfo.offset;
     const resizersSize = resizersRenderInfo.dimension;
+    const resizerRenderArr = getResizersRenderInfoArr(selectedAreaLocation, resizersSize, resizersOffset);
 
     useLayoutEffect(() => {
         const onWindowRatioOrSlideToContainerRatioChange = () => {
@@ -297,14 +298,13 @@ export function SlideComponent(props: SlideProps) {
         emptySlideRef.current.style.height = `${emptySlideHeight}px`;
     }
 
-    const slideWidth = props.slideWidth ? props.slideWidth : '';
-    const slideHeight = props.slideHeight ? props.slideHeight : '';
+    const slideWidth = props.slideWidth ? `${props.slideWidth}px` : '';
+    const slideHeight = props.slideHeight ? `${props.slideHeight}px` : '';
 
     const viewBox = props.viewBox;
 
-    const resizerRenderArr = getResizersRenderInfoArr(selectedAreaLocation, resizersSize, resizersOffset);
-
     let elementIndex = 0;
+
     return props.slide === undefined ? (
         <div ref={emptySlideRef} className={styles['empty-slide-container']} onClick={emptySlideClickHandler}>
             {localeContext.locale.localization.editor.emptySlide}
@@ -312,10 +312,10 @@ export function SlideComponent(props: SlideProps) {
     ) : (
         <svg
             ref={refCanvas}
-            width={`${slideWidth}`}
-            height={`${slideHeight}`}
+            width={slideWidth}
+            height={slideHeight}
             className={styles['slide']}
-            viewBox={`${viewBox ? viewBox.x : 0} ${viewBox ? viewBox.y : 0} ${viewBox ? viewBox.width : ''} 
+            viewBox={`${viewBox ? viewBox.x : 0} ${viewBox ? viewBox.y : 0} ${viewBox ? viewBox.width : ''}
             ${viewBox ? viewBox.height : ''}`}
             preserveAspectRatio={'xMidYMid meet'}
             xmlns="http://www.w3.org/2000/svg"
