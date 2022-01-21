@@ -17,6 +17,7 @@ import {
 import { getActiveSlidesIds, getCurrentSlide } from '../../../app_model/model/slides_actions';
 import { getActiveViewArea } from '../../../app_model/view_model/active_view_area_actions';
 import {
+    getElementsRenderRatio,
     getResizersInfo,
     getSlideToContainerRatio,
     getWindowRatio,
@@ -261,7 +262,8 @@ export function SlideComponent(props: SlideProps) {
     const [resizersRenderInfo, setResizersRenderInfo] = useState(getResizersInfo(store.getState().viewModel));
     const resizersOffset = resizersRenderInfo.offset;
     const resizersSize = resizersRenderInfo.dimension;
-    const resizerRenderArr = getResizersRenderInfoArr(selectedAreaLocation, resizersSize, resizersOffset);
+    const renderScale = getElementsRenderRatio(store.getState().viewModel);
+    const resizerRenderArr = getResizersRenderInfoArr(selectedAreaLocation, resizersSize, resizersOffset, renderScale);
 
     useLayoutEffect(() => {
         const onWindowRatioOrSlideToContainerRatioChange = () => {
@@ -362,12 +364,12 @@ export function SlideComponent(props: SlideProps) {
                 <>
                     <rect
                         ref={refSelectedArea}
-                        x={selectedAreaLocation.xy.x}
+                        x={selectedAreaLocation.xy.x * renderScale}
                         y={selectedAreaLocation.xy.y}
                         id={'select-area'}
                         className={styles['select-area']}
-                        width={selectedAreaLocation.dimensions.width}
-                        height={selectedAreaLocation.dimensions.height}
+                        width={selectedAreaLocation.dimensions.width * renderScale}
+                        height={selectedAreaLocation.dimensions.height * renderScale}
                     />
                     {resizerRenderArr.map((info, index) => {
                         return (
@@ -395,27 +397,30 @@ function getResizersRenderInfoArr(
     selectedAreaLocation: SelectedAreaLocation | undefined,
     resizersSize: number,
     resizersOffset: number,
+    renderScale: number,
 ) {
-    const resizersCords = {
-        xyStart: {
-            x: selectedAreaLocation ? selectedAreaLocation.xy.x - resizersOffset : 0,
-            y: selectedAreaLocation ? selectedAreaLocation.xy.y - resizersOffset : 0,
-        },
-        halfs: {
-            width: selectedAreaLocation
-                ? (selectedAreaLocation.dimensions.width - resizersSize) / 2 + resizersOffset
-                : 0,
-            height: selectedAreaLocation
-                ? (selectedAreaLocation.dimensions.height - resizersSize) / 2 + resizersOffset
-                : 0,
+    const scaledAreaLocation = {
+        xy: {
+            x: selectedAreaLocation ? selectedAreaLocation.xy.x * renderScale : 0,
+            y: selectedAreaLocation ? selectedAreaLocation.xy.y : 0,
         },
         dimensions: {
-            width: selectedAreaLocation
-                ? selectedAreaLocation.xy.x + selectedAreaLocation.dimensions.width - resizersSize + resizersOffset
-                : 0,
-            height: selectedAreaLocation
-                ? selectedAreaLocation.xy.y + selectedAreaLocation.dimensions.height - resizersSize + resizersOffset
-                : 0,
+            width: selectedAreaLocation ? selectedAreaLocation.dimensions.width * renderScale : 0,
+            height: selectedAreaLocation ? selectedAreaLocation.dimensions.height * renderScale : 0,
+        },
+    };
+    const resizersCords = {
+        xyStart: {
+            x: scaledAreaLocation.xy.x - resizersOffset,
+            y: scaledAreaLocation.xy.y - resizersOffset,
+        },
+        halfs: {
+            width: (scaledAreaLocation.dimensions.width - resizersSize) / 2 + resizersOffset,
+            height: (scaledAreaLocation.dimensions.height - resizersSize) / 2 + resizersOffset,
+        },
+        dimensions: {
+            width: scaledAreaLocation.xy.x + scaledAreaLocation.dimensions.width - resizersSize + resizersOffset,
+            height: scaledAreaLocation.xy.y + scaledAreaLocation.dimensions.height - resizersSize + resizersOffset,
         },
     };
 

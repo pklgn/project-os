@@ -10,7 +10,10 @@ import { store } from '../../../app_model/redux_model/store';
 import { useResize } from '../../utils/useResize';
 import { useSlideResize } from '../../utils/useSlideResize';
 
-import { dispatchSlideContainerDimensions } from '../../../app_model/redux_model/dispatchers';
+import {
+    dispatchSetElementsRenderRatioAction,
+    dispatchSlideContainerDimensions,
+} from '../../../app_model/redux_model/dispatchers';
 import { SelectedAreaLocation, Slide } from '../../../app_model/model/types';
 
 export function SlideWrapper() {
@@ -40,6 +43,7 @@ export function SlideWrapper() {
     store.subscribe(handleChange);
 
     const [containerWidth, containerHeight] = useResize(ref);
+    const [initWidth, setCurrWidth] = useState(0);
     const maxSelectedAreaLocationInfo = useSlideResize(ref, currSlide);
 
     const slideViewBox = getSlideViewBox(maxSelectedAreaLocationInfo, containerWidth, containerHeight);
@@ -54,6 +58,11 @@ export function SlideWrapper() {
                 ref.current.style.justifyContent = 'flex-start';
             }
         }
+        console.log(containerWidth / initWidth);
+        if (initWidth === 0) {
+            setCurrWidth(containerWidth);
+        }
+        dispatchSetElementsRenderRatioAction(dispatch)(containerWidth / initWidth);
         dispatchSlideContainerDimensions(dispatch)({ width: containerWidth, height: containerHeight });
     }, [dispatch, containerHeight, containerWidth, currSlide]);
 

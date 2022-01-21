@@ -4,6 +4,7 @@ export type ViewModelType = {
     chosenElementsType: ChosenElementsType;
     editingTool: EditingToolStateType;
     slideRenderInfo: {
+        elementsRenderRatio: number;
         resizersInfo: ResizersInfoType;
         slideContainerDimensions: SlideContainerDimensionsType;
         slideToContainerRatio: number;

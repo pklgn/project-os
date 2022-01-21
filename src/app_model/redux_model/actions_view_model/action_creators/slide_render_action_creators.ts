@@ -4,6 +4,15 @@ import { Dispatch } from 'react';
 import { SlideRenderActions } from '../actions/slide_render_actions';
 import { ViewActionType } from '../action_types/types';
 
+export const setElementsRenderRatio = (payload: number) => {
+    return (dispatch: Dispatch<SlideRenderActions>) => {
+        dispatch({
+            type: ViewActionType.SET_ELEMENTS_RENDER_RATIO,
+            payload,
+        });
+    };
+};
+
 export const setSlideContainerDimensions = (payload: { width: number; height: number }) => {
     return (dispatch: Dispatch<SlideRenderActions>) => {
         dispatch({

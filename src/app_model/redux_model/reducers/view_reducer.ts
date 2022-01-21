@@ -13,6 +13,7 @@ import { setAppMode } from '../../view_model/app_mode_action';
 import { setChosenElementsType } from '../../view_model/chosen_elements_action';
 import { setEditingToolState } from '../../view_model/editing_tool_actions';
 import {
+    setElementsRenderRatio,
     setSlideContainerDimensions,
     setSlideToContainerRatio,
     setWindowRatio,
@@ -35,6 +36,9 @@ export const viewModelReducers = (
 
         case ViewActionType.SET_APP_MODE:
             return setAppMode(state, action.payload);
+
+        case ViewActionType.SET_ELEMENTS_RENDER_RATIO:
+            return setElementsRenderRatio(state, action.payload);
 
         case ViewActionType.SET_CHOSEN_ELEMENTS_TYPE:
             return setChosenElementsType(state, action.payload);

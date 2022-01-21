@@ -5,7 +5,9 @@ import { Coordinates, FigureElement, FigureShape, Size, SlideElement } from '../
 
 import { isFigure } from '../../../app_model/model/utils/tools';
 import { joinClassNames } from '../../utils/joinClassNames';
+
 import { getActiveElementsIds } from '../../../app_model/model/element_actions';
+import { getElementsRenderRatio } from '../../../app_model/view_model/slide_render_actions';
 import { store } from '../../../app_model/redux_model/store';
 
 type FigureElementProps = {
@@ -20,18 +22,6 @@ export type FigureProps = {
     opacity: number;
     content: FigureElement;
 };
-
-function getFigureElement(element: SlideElement): FigureElement | undefined {
-    let figureElement: FigureElement | undefined;
-
-    if (isFigure(element.content)) {
-        figureElement = element.content;
-    } else {
-        figureElement = undefined;
-    }
-
-    return figureElement;
-}
 
 export function FigureElementComponent(props: FigureElementProps) {
     const figureElement = getFigureElement(props.element);
@@ -54,17 +44,19 @@ export function FigureElementComponent(props: FigureElementProps) {
     };
     const figureShape = figureElement.figureType;
 
+    const renderScale = getElementsRenderRatio(store.getState().viewModel);
+
     switch (figureShape) {
         case FigureShape.Circle:
-            return CircleFigure(figureProps, cursorStyle);
+            return CircleFigure(figureProps, cursorStyle, renderScale);
         case FigureShape.Rectangle:
-            return RectangleFigure(figureProps, cursorStyle);
+            return RectangleFigure(figureProps, cursorStyle, renderScale);
         case FigureShape.Triangle:
-            return TriangleFigure(figureProps, cursorStyle);
+            return TriangleFigure(figureProps, cursorStyle, renderScale);
     }
 }
 
-function TriangleFigure(props: FigureProps, cursorStyle: CSS.Properties) {
+function TriangleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderScale: number) {
     const leftVertex = {
         x: props.startPoint.x,
         y: props.startPoint.y + props.size.height,
@@ -91,11 +83,12 @@ function TriangleFigure(props: FigureProps, cursorStyle: CSS.Properties) {
             points={pointsString}
             className={joinClassNames([style.figure])}
             style={cursorStyle}
+            transform={`scale(${renderScale})`}
         />
     );
 }
 
-function RectangleFigure(props: FigureProps, cursorStyle: CSS.Properties) {
+function RectangleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderScale: number) {
     return (
         <rect
             id={`${props.elementIndex}`}
@@ -109,11 +102,12 @@ function RectangleFigure(props: FigureProps, cursorStyle: CSS.Properties) {
             strokeWidth={props.content.borderWidth}
             className={joinClassNames([style.figure])}
             style={cursorStyle}
+            transform={`scale(${renderScale})`}
         />
     );
 }
 
-function CircleFigure(props: FigureProps, cursorStyle: CSS.Properties): JSX.Element {
+function CircleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderScale: number): JSX.Element {
     const { startPoint, size, opacity, content } = props;
 
     const r = size.width === size.height ? size.width / 2 : 0;
@@ -121,15 +115,28 @@ function CircleFigure(props: FigureProps, cursorStyle: CSS.Properties): JSX.Elem
     return (
         <circle
             id={`${props.elementIndex}`}
-            cx={startPoint.x + r}
+            cx={(startPoint.x + r) * renderScale}
             cy={startPoint.y + r}
-            r={r}
+            r={r * renderScale}
             fill={content.figureColor}
             stroke={content.borderColor}
             strokeWidth={content.borderWidth}
             opacity={opacity}
             className={joinClassNames([style.figure])}
             style={cursorStyle}
+            // transform={`scale(${renderScale})`}
         />
     );
+}
+
+function getFigureElement(element: SlideElement): FigureElement | undefined {
+    let figureElement: FigureElement | undefined;
+
+    if (isFigure(element.content)) {
+        figureElement = element.content;
+    } else {
+        figureElement = undefined;
+    }
+
+    return figureElement;
 }

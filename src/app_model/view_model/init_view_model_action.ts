@@ -7,6 +7,7 @@ export function initViewModel(): ViewModelType {
         chosenElementsType: 'NONE',
         editingTool: 'CHOOSE_TOOL',
         slideRenderInfo: {
+            elementsRenderRatio: 1,
             resizersInfo: {
                 dimension: 10,
                 offset: 3,
