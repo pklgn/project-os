@@ -29,7 +29,8 @@ import { useDispatch } from 'react-redux';
 import { FigureInfo, FigureShape } from '../../../app_model/model/types';
 import { bindActionCreators } from 'redux';
 import { setChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
-import { getSlideElementType } from '../../../app_model/model/utils/tools';
+import { getSlideElementType, SlideElementType } from '../../../app_model/model/utils/tools';
+import { ChosenElementsType } from '../../../app_model/view_model/types';
 
 export function ElementListTool(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
@@ -92,7 +93,7 @@ export function ElementListTool(): JSX.Element {
         },
     ];
 
-    const [chosenType, setChosenType] = useState('NONE');
+    const [chosenType, setChosenType] = useState('NONE' as ChosenElementsType);
     const handleChange = () => {
         const activeSLide = store.getState().model.presentation.slidesList.slice(-1)[0];
         const viewModel = store.getState().viewModel;
@@ -147,7 +148,11 @@ export function ElementListTool(): JSX.Element {
             {(function () {
                 switch (chosenType) {
                     case 'TEXT':
-                        return <TextToolsList />;
+                        return (
+                            <>
+                                <TextToolsList /> <DefaultToolsList />
+                            </>
+                        );
                     case 'PICTURE':
                         return <DefaultToolsList />;
                     case 'FIGURE':
@@ -155,8 +160,6 @@ export function ElementListTool(): JSX.Element {
                     case 'MIXED':
                         return <DefaultToolsList />;
                     case 'NONE':
-                        return <span className={styles.empty_block}></span>;
-                    default:
                         return <span className={styles.empty_block}></span>;
                 }
             })()}
