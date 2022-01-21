@@ -1,6 +1,7 @@
 import { Button, ButtonProps } from '../Button/Button';
 import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { useEffect, useState } from 'react';
+import styles from './DropdownMenu.module.css';
 
 export type DropDownMenuItem = {
     mainButton: ButtonProps;
@@ -42,6 +43,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
     const backButton = (
         <Button
             id={generateUUId()}
+            type={'in-list'}
             text={'slowly back'}
             key={generateUUId()}
             onMouseUp={() => {
@@ -55,7 +57,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
         />
     );
     return (
-        <>
+        <div className={styles['dropdown-control-button']}>
             <Button
                 id={props.data.mainButton.id}
                 text={'Раскрывающийся дропдаун'}
@@ -69,30 +71,30 @@ export function DropdownMenu(props: DropdownMenuProps) {
                     });
                 }}
             />
-            <ul>
-                {dropdownState.prevButtonIds.length > 1 && backButton}
-                {open &&
-                    currButton?.nestedButtons.map((pair, index) => {
+            {open && (
+                <ul className={styles['dropdown-list']}>
+                    {dropdownState.prevButtonIds.length > 1 && open && backButton}
+                    {currButton?.nestedButtons.map((pair, index) => {
                         return (
-                            <>
-                                <li key={index}>
-                                    <Button
-                                        id={pair.mainButton.id}
-                                        text={pair.mainButton.text}
-                                        onMouseUp={() =>
-                                            setDropdownState((prevState) => {
-                                                return {
-                                                    prevButtonIds: [...prevState.prevButtonIds, prevState.currButtonId],
-                                                    currButtonId: pair.mainButton.id ?? '',
-                                                };
-                                            })
-                                        }
-                                    />
-                                </li>
-                            </>
+                            <li key={index} className={styles['dropdown-item']}>
+                                <Button
+                                    type={'in-list'}
+                                    id={pair.mainButton.id}
+                                    text={pair.mainButton.text}
+                                    onMouseUp={() =>
+                                        setDropdownState((prevState) => {
+                                            return {
+                                                prevButtonIds: [...prevState.prevButtonIds, prevState.currButtonId],
+                                                currButtonId: pair.mainButton.id ?? '',
+                                            };
+                                        })
+                                    }
+                                />
+                            </li>
                         );
                     })}
-            </ul>
-        </>
+                </ul>
+            )}
+        </div>
     );
 }

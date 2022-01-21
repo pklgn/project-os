@@ -38,3 +38,9 @@
 .button--round {
     border-radius: 50%;
 }
+
+.button--in-list {
+    width: 100%;
+    border-radius: unset;
+    background-color: #a5a5a5;
+}
