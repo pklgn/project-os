@@ -77,10 +77,10 @@ export function Button(props: ButtonProps) {
             id={id}
             disabled={disabled}
         >
-            {iconLeft}
-            {textElement}
-            {optionalTextElement}
-            {iconRight}
+            {iconLeft && <span className={styles['icon--left']}>{iconLeft}</span>}
+            {textElement && <span className={styles['text']}>{textElement}</span>}
+            {optionalTextElement && <span className={styles['optional-text']}>{optionalText}</span>}
+            {iconRight && <span className={styles['icon--right']}>{iconRight}</span>}
         </button>
     );
 }

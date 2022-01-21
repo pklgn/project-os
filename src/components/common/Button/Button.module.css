@@ -9,9 +9,10 @@
     transition-duration: 0.2s;
     background-color: rgb(102, 107, 124);
     opacity: 0.8;
-    font-size: 0.4em;
     display: flex;
     align-items: center;
+    font-size: 1em;
+    white-space: nowrap;
 }
 
 .button--default {
@@ -43,4 +44,12 @@
     width: 100%;
     border-radius: unset;
     background-color: #a5a5a5;
+}
+
+.icon--right {
+    margin-left: auto;
+}
+
+.icon--left {
+    margin-right: auto;
 }

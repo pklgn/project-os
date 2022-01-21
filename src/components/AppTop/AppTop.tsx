@@ -15,6 +15,8 @@ import { GlobeIcon } from '../common/icons/GlobeInternationalization/GlobeIntern
 import ToolTip from '../common/ToolTip/ToolTip';
 
 import { LocaleContextType, LocaleContext } from '../../App';
+import { mockDropdown } from '../../app_model/model/mock/mockDropdown';
+import { DropdownMenu } from '../common/DropdownMenu/DropdownMenu';
 
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
@@ -59,7 +61,7 @@ export function AppTop(): JSX.Element {
                     position={'under'}
                     child={<AppLogoPng width={55} height={55} type={'default'} />}
                 />
-                <Button text={localeContext.locale.localization.appTopButtons.file} id="file-button" />
+                <DropdownMenu data={mockDropdown.data} position={mockDropdown.position} />
                 <ToolTip
                     title={localeContext.locale.localization.appTopButtons.presentationNameInputField}
                     id="input"
@@ -71,6 +73,7 @@ export function AppTop(): JSX.Element {
                             value={state.model.presentation.name}
                             onChange={onChangeNameInputHandler}
                             onBlur={onBlurNameInputHandler}
+                            cssMix={{ marginLeft: 'auto' }}
                         />
                     }
                 />

@@ -1,7 +1,9 @@
 import { Button, ButtonProps } from '../Button/Button';
 import { generateUUId } from '../../../app_model/model/utils/uuid';
-import { useEffect, useState } from 'react';
+import { BaseSyntheticEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styles from './DropdownMenu.module.css';
+import { Triangle } from '../icons/Triangle/Triangle';
+import ArrowBack from '../icons/ArrowBack/ArrowBack';
 
 export type DropDownMenuItem = {
     mainButton: ButtonProps;
@@ -31,6 +33,8 @@ function getButton(id: string, data: DropDownMenuItem): DropDownMenuItem | undef
 }
 
 export function DropdownMenu(props: DropdownMenuProps) {
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const dropdownListRef = useRef<HTMLUListElement>(null);
     const [open, setOpen] = useState(false);
     const [dropdownState, setDropdownState] = useState({
         prevButtonIds: [''],
@@ -40,12 +44,26 @@ export function DropdownMenu(props: DropdownMenuProps) {
     useEffect(() => {
         console.log('getButton', getButton(dropdownState.currButtonId, props.data));
     });
+    function handleClickOutside(e: MouseEvent) {
+        if (e.target instanceof HTMLElement && !dropdownRef.current?.contains(e.target as Node)) {
+            setOpen(false);
+        }
+    }
+    useLayoutEffect(() => {
+        if (open) {
+            document.addEventListener('click', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [open]);
     const backButton = (
         <Button
             id={generateUUId()}
             type={'in-list'}
             text={'slowly back'}
             key={generateUUId()}
+            iconLeft={<ArrowBack key={generateUUId()} />}
             onMouseUp={() => {
                 setDropdownState((prevState) => {
                     return {
@@ -57,10 +75,10 @@ export function DropdownMenu(props: DropdownMenuProps) {
         />
     );
     return (
-        <div className={styles['dropdown-control-button']}>
+        <div ref={dropdownRef} className={styles['dropdown-control-button']}>
             <Button
                 id={props.data.mainButton.id}
-                text={'Раскрывающийся дропдаун'}
+                text={props.data.mainButton.text}
                 onMouseUp={() => {
                     setOpen(!open);
                     setDropdownState((prevState) => {
@@ -72,7 +90,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
                 }}
             />
             {open && (
-                <ul className={styles['dropdown-list']}>
+                <ul ref={dropdownListRef} className={styles['dropdown-list']}>
                     {dropdownState.prevButtonIds.length > 1 && open && backButton}
                     {currButton?.nestedButtons.map((pair, index) => {
                         return (
