@@ -33,8 +33,8 @@ export function useDragAndDrop(params: DragAndDropParamsType): void {
             y: e.pageY - startDragPosition.y,
         };
         const newPosition = {
-            x: position.xy.x + delta.x * params.scale.width,
-            y: position.xy.y + delta.y * params.scale.height,
+            x: position.xy.x + delta.x / params.scale.width,
+            y: position.xy.y + delta.y / params.scale.height,
         };
 
         const newSelectedAreaLocation: SelectedAreaLocation = {
