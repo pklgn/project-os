@@ -18,7 +18,7 @@
 .slide-list-item {
     width: 100%;
     position: relative;
-    display: inline-grid;
+    display: inline-block;
     margin-top: 5px;
     margin-bottom: 5px;
 }

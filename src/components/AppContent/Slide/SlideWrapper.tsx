@@ -60,7 +60,6 @@ export function SlideWrapper() {
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>
             <SlideComponent
-                renderType="mainSlide"
                 slide={currSlide}
                 viewBox={{
                     x: slideViewBox.x,

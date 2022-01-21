@@ -9,11 +9,10 @@ import { getCurrentSlide, getFirstSlide, getNextSlideTo, getPrevSlideTo } from '
 import { getSlideContainerDimension, getWindowRatio } from '../../app_model/view_model/slide_render_actions';
 import { Slide } from '../../app_model/model/types';
 
-import { SlideComponent } from '../AppContent/Slide/SlideComponent';
-
 import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { LocaleContext } from '../../App';
+import { SlideDefaultComponent } from '../AppContent/Slide/SlideDefaultComponent';
 
 export function PresentationViewer() {
     const localeContext = useContext(LocaleContext);
@@ -124,7 +123,6 @@ export function PresentationViewer() {
         }
 
         const unsubscribe = store.subscribe(handleWindowRatioChange);
-        console.log(windowWidth);
         return () => {
             unsubscribe();
         };
@@ -138,7 +136,7 @@ export function PresentationViewer() {
                         className={styles['to-previous-slide-area-selector']}
                         onClick={onClickNextSlideSelectorHandler}
                     />
-                    <SlideComponent
+                    <SlideDefaultComponent
                         renderType="preview"
                         slideWidth={windowWidth}
                         slideHeight={windowWidth / windowRatio}

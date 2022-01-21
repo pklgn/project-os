@@ -7,6 +7,7 @@ import * as editorActionCreator from './actions_model/action_creators/editor_act
 import { setActiveViewArea } from './actions_view_model/action_creators/active_area_action_creators';
 import { setAppViewMode } from './actions_view_model/action_creators/app_mode_action_creator';
 import { setSlideContainerDimensions } from './actions_view_model/action_creators/slide_render_action_creators';
+import { changeSelectedElementsPosition } from './actions_model/action_creators/elements_action_creators';
 
 const dispatchAddSlideAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideActionCreator.addSlide, dispatch);
@@ -35,6 +36,9 @@ const dispatchKeepModelAction = (dispatch: Dispatch) => {
 const dispatchSetEditorModeAction = (dispatch: Dispatch) => {
     return bindActionCreators(setAppViewMode, dispatch);
 };
+const dispatchSetElementsPoistionAction = (dispatch: Dispatch) => {
+    return bindActionCreators(changeSelectedElementsPosition, dispatch);
+};
 const dispatchSetIdAction = (dispatch: Dispatch) => {
     return bindActionCreators(editorActionCreator.setSelectedIdInEditor, dispatch);
 };
@@ -55,6 +59,7 @@ export {
     dispatchPresentationName,
     dispatchSlideContainerDimensions,
     dispatchSetEditorModeAction,
+    dispatchSetElementsPoistionAction,
     dispatchSetIdAction,
     dispatchUndoAction,
     dispatchRedoAction,

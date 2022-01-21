@@ -27,7 +27,7 @@
     stroke-width: 4px;
     stroke-dasharray: 20, 5;
     stroke-linejoin: round;
-    cursor: pointer;
+    cursor: move;
 }
 
 .resizer-nw {
