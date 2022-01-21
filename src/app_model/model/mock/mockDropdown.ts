@@ -3,7 +3,7 @@ import { DropdownMenuProps } from '../../../components/common/DropdownMenu/Dropd
 
 const mockDropdown: DropdownMenuProps = {
     data: {
-        mainButton: { id: generateUUId(), text: 'Самая верхняя кнопка, на которую пользователь нажмет' },
+        mainButton: { id: generateUUId(), text: 'Файл' },
         nestedButtons: [
             {
                 mainButton: { id: generateUUId(), text: 'hello text' },
