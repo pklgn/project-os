@@ -302,79 +302,7 @@ export function SlideComponent(props: SlideProps) {
 
     const viewBox = props.viewBox;
 
-    const resizersCords = {
-        xyStart: {
-            x: selectedAreaLocation ? selectedAreaLocation.xy.x - resizersOffset : 0,
-            y: selectedAreaLocation ? selectedAreaLocation.xy.y - resizersOffset : 0,
-        },
-        halfs: {
-            width: selectedAreaLocation
-                ? (selectedAreaLocation.dimensions.width - resizersSize) / 2 + resizersOffset
-                : 0,
-            height: selectedAreaLocation
-                ? (selectedAreaLocation.dimensions.height - resizersSize) / 2 + resizersOffset
-                : 0,
-        },
-        dimensions: {
-            width: selectedAreaLocation
-                ? selectedAreaLocation.xy.x + selectedAreaLocation.dimensions.width - resizersSize + resizersOffset
-                : 0,
-            height: selectedAreaLocation
-                ? selectedAreaLocation.xy.y + selectedAreaLocation.dimensions.height - resizersSize + resizersOffset
-                : 0,
-        },
-    };
-
-    const resizersRenderInfoArr = [
-        {
-            id: 'resize-nw',
-            x: resizersCords.xyStart.x,
-            y: resizersCords.xyStart.y,
-            className: styles['resizer-nw'],
-        },
-        {
-            id: 'resize-n',
-            x: resizersCords.xyStart.x + resizersCords.halfs.width,
-            y: resizersCords.xyStart.y,
-            className: styles['resizer-n'],
-        },
-        {
-            id: 'resize-ne',
-            x: resizersCords.dimensions.width,
-            y: resizersCords.xyStart.y,
-            className: styles['resizer-ne'],
-        },
-        {
-            id: 'resize-e',
-            x: resizersCords.dimensions.width,
-            y: resizersCords.xyStart.y + resizersCords.halfs.height,
-            className: styles['resizer-e'],
-        },
-        {
-            id: 'resize-se',
-            x: resizersCords.dimensions.width,
-            y: resizersCords.dimensions.height,
-            className: styles['resizer-se'],
-        },
-        {
-            id: 'resize-s',
-            x: resizersCords.xyStart.x + resizersCords.halfs.width,
-            y: resizersCords.dimensions.height,
-            className: styles['resizer-s'],
-        },
-        {
-            id: 'resize-sw',
-            x: resizersCords.xyStart.x,
-            y: resizersCords.dimensions.height,
-            className: styles['resizer-sw'],
-        },
-        {
-            id: 'resize-w',
-            x: resizersCords.xyStart.x,
-            y: resizersCords.xyStart.y + resizersCords.halfs.height,
-            className: styles['resizer-w'],
-        },
-    ];
+    const resizerRenderArr = getResizersRenderInfoArr(selectedAreaLocation, resizersSize, resizersOffset);
 
     let elementIndex = 0;
     return props.slide === undefined ? (
@@ -441,7 +369,7 @@ export function SlideComponent(props: SlideProps) {
                         width={selectedAreaLocation.dimensions.width}
                         height={selectedAreaLocation.dimensions.height}
                     />
-                    {resizersRenderInfoArr.map((info, index) => {
+                    {resizerRenderArr.map((info, index) => {
                         return (
                             <rect
                                 key={index}
@@ -461,4 +389,84 @@ export function SlideComponent(props: SlideProps) {
             )}
         </svg>
     );
+}
+
+function getResizersRenderInfoArr(
+    selectedAreaLocation: SelectedAreaLocation | undefined,
+    resizersSize: number,
+    resizersOffset: number,
+) {
+    const resizersCords = {
+        xyStart: {
+            x: selectedAreaLocation ? selectedAreaLocation.xy.x - resizersOffset : 0,
+            y: selectedAreaLocation ? selectedAreaLocation.xy.y - resizersOffset : 0,
+        },
+        halfs: {
+            width: selectedAreaLocation
+                ? (selectedAreaLocation.dimensions.width - resizersSize) / 2 + resizersOffset
+                : 0,
+            height: selectedAreaLocation
+                ? (selectedAreaLocation.dimensions.height - resizersSize) / 2 + resizersOffset
+                : 0,
+        },
+        dimensions: {
+            width: selectedAreaLocation
+                ? selectedAreaLocation.xy.x + selectedAreaLocation.dimensions.width - resizersSize + resizersOffset
+                : 0,
+            height: selectedAreaLocation
+                ? selectedAreaLocation.xy.y + selectedAreaLocation.dimensions.height - resizersSize + resizersOffset
+                : 0,
+        },
+    };
+
+    return [
+        {
+            id: 'resize-nw',
+            x: resizersCords.xyStart.x,
+            y: resizersCords.xyStart.y,
+            className: styles['resizer-nw'],
+        },
+        {
+            id: 'resize-n',
+            x: resizersCords.xyStart.x + resizersCords.halfs.width,
+            y: resizersCords.xyStart.y,
+            className: styles['resizer-n'],
+        },
+        {
+            id: 'resize-ne',
+            x: resizersCords.dimensions.width,
+            y: resizersCords.xyStart.y,
+            className: styles['resizer-ne'],
+        },
+        {
+            id: 'resize-e',
+            x: resizersCords.dimensions.width,
+            y: resizersCords.xyStart.y + resizersCords.halfs.height,
+            className: styles['resizer-e'],
+        },
+        {
+            id: 'resize-se',
+            x: resizersCords.dimensions.width,
+            y: resizersCords.dimensions.height,
+            className: styles['resizer-se'],
+        },
+        {
+            id: 'resize-s',
+            x: resizersCords.xyStart.x + resizersCords.halfs.width,
+            y: resizersCords.dimensions.height,
+            className: styles['resizer-s'],
+        },
+        {
+            id: 'resize-sw',
+            x: resizersCords.xyStart.x,
+            y: resizersCords.dimensions.height,
+            className: styles['resizer-sw'],
+        },
+        {
+            id: 'resize-w',
+            x: resizersCords.xyStart.x,
+            y: resizersCords.xyStart.y + resizersCords.halfs.height,
+            className: styles['resizer-w'],
+        },
+    ];
 }
