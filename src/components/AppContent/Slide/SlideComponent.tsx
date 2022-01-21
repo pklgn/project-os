@@ -172,12 +172,6 @@ export function SlideComponent(props: SlideProps) {
         };
     }, [isSlideActive]);
 
-    useDragAndDrop({
-        element: refSelectedArea.current,
-        position: selectedAreaLocation!,
-        setPosition: setSelectedAreaLocation,
-    });
-
     useEffect(() => {
         const onMouseUpHandler = () => {
             if (selectedAreaLocation && selectedAreaStartPoint) {
@@ -266,6 +260,13 @@ export function SlideComponent(props: SlideProps) {
     const renderScale = getElementsRenderRatio(store.getState().viewModel);
     const resizerRenderArr = getResizersRenderInfoArr(selectedAreaLocation, resizersSize, resizersOffset, renderScale);
 
+    useDragAndDrop({
+        element: refSelectedArea.current,
+        position: selectedAreaLocation!,
+        setPosition: setSelectedAreaLocation,
+        scale: renderScale,
+    });
+
     useLayoutEffect(() => {
         const onWindowRatioOrSlideToContainerRatioChange = () => {
             const prevSlideContainerRatio = slideContainerRatio;
@@ -325,8 +326,8 @@ export function SlideComponent(props: SlideProps) {
             xmlnsXlink="http://www.w3.org/1999/xlink"
         >
             <rect
-                x={(props.containerWidth! - emptySlideWidth) / 2}
-                y={(props.containerHeight! - emptySlideHeight) / 2}
+                x={-emptySlideWidth / 2}
+                y={-emptySlideHeight / 2}
                 id="slide-white-area"
                 width={emptySlideWidth}
                 height={emptySlideHeight}
@@ -370,7 +371,7 @@ export function SlideComponent(props: SlideProps) {
                         id={'select-area'}
                         className={styles['select-area']}
                         width={selectedAreaLocation.dimensions.width * renderScale.width}
-                        height={selectedAreaLocation.dimensions.height * renderScale.width}
+                        height={selectedAreaLocation.dimensions.height * renderScale.height}
                     />
                     {resizerRenderArr.map((info, index) => {
                         return (

@@ -117,7 +117,7 @@ function CircleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderSca
         <circle
             id={`${props.elementIndex}`}
             cx={(startPoint.x + r) * renderScale.width}
-            cy={(startPoint.y + r) * renderScale.height}
+            cy={startPoint.y * renderScale.height + r * renderScale.width}
             r={r * renderScale.width}
             fill={content.figureColor}
             stroke={content.borderColor}

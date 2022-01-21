@@ -15,7 +15,7 @@ import {
     dispatchSlideContainerDimensions,
 } from '../../../app_model/redux_model/dispatchers';
 import { SelectedAreaLocation, Slide } from '../../../app_model/model/types';
-import { getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
+import { getSlideToContainerRatio, getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
 
 export function SlideWrapper() {
     const ref = useRef<HTMLDivElement>(null);
@@ -45,9 +45,13 @@ export function SlideWrapper() {
 
     const [containerWidth, containerHeight] = useResize(ref);
     const [initWidth, setCurrWidth] = useState(0);
+    const [initHeight, setCurrHeight] = useState(0);
     const maxSelectedAreaLocationInfo = useSlideResize(ref, currSlide);
 
     const slideViewBox = getSlideViewBox(maxSelectedAreaLocationInfo, containerWidth, containerHeight);
+
+    const emptySlideWidth = containerWidth! * getSlideToContainerRatio(store.getState().viewModel);
+    const emptySlideHeight = emptySlideWidth / getWindowRatio(store.getState().viewModel);
 
     useLayoutEffect(() => {
         if (ref.current) {
@@ -59,12 +63,16 @@ export function SlideWrapper() {
                 ref.current.style.justifyContent = 'flex-start';
             }
         }
+
         if (initWidth === 0) {
             setCurrWidth(containerWidth);
         }
+        if (initHeight === 0) {
+            setCurrHeight(emptySlideHeight);
+        }
         dispatchSetElementsRenderRatioAction(dispatch)({
             width: containerWidth / initWidth,
-            height: getWindowRatio(store.getState().viewModel),
+            height: emptySlideHeight / initHeight,
         });
         dispatchSlideContainerDimensions(dispatch)({ width: containerWidth, height: containerHeight });
     }, [dispatch, containerHeight, containerWidth, currSlide, initWidth]);
@@ -110,27 +118,28 @@ function getSlideViewBox(
         ? maxSelectedElementsArea.xy.y + maxSelectedElementsArea.dimensions.height
         : 0;
 
-    const containerMinX = 0;
-    const containerMinY = 0;
+    const containerMinX = -slideContainerWidth / 2;
+    const containerMinY = -slideContainerHeight / 2;
 
     const possibleSlideWidth =
-        contentMinX < containerMinX && contentMaxX < slideContainerWidth
-            ? slideContainerWidth + Math.abs(contentMinX)
-            : contentMaxX > slideContainerWidth && contentMinX > containerMinX
-            ? contentMaxX
-            : contentMinX < containerMinX && contentMaxX > slideContainerWidth
+        contentMinX < containerMinX && contentMaxX < slideContainerWidth + containerMinX //only intersect on left-side
+            ? slideContainerWidth + Math.abs(contentMinX) + containerMinX
+            : contentMaxX > slideContainerWidth + containerMinX && contentMinX > containerMinX //only on right-side
+            ? contentMaxX + slideContainerWidth + containerMinX
+            : contentMinX < containerMinX && contentMaxX > slideContainerWidth + containerMinX //mixed
             ? contentMaxX - contentMinX
-            : slideContainerWidth;
+            : slideContainerWidth; //all in shape
 
     const possibleSlideHeight =
-        contentMinY < containerMinY && contentMaxY < slideContainerHeight
-            ? slideContainerHeight + Math.abs(contentMinY)
-            : contentMaxY > slideContainerHeight && contentMinY > containerMinY
-            ? contentMaxY
-            : contentMinY < containerMinY && contentMaxY > slideContainerHeight
+        contentMinY < containerMinY && contentMaxY < slideContainerHeight + containerMinY //same rules
+            ? slideContainerHeight + Math.abs(contentMinY) + containerMinY
+            : contentMaxY > slideContainerHeight + containerMinY && contentMinY > containerMinY
+            ? contentMaxY + slideContainerHeight + containerMinY
+            : contentMinY < containerMinY && contentMaxY > slideContainerHeight + containerMinY
             ? contentMaxY - contentMinY
             : slideContainerHeight;
 
+    //these viewbox are need to move slide on negative side
     const viewBoxStartX =
         contentMinX < containerMinX ? contentMinX : contentMaxX > slideContainerWidth ? containerMinX : containerMinX;
     const viewBoxStartY =

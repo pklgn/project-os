@@ -13,7 +13,6 @@ import { PictureElementComponent } from '../../SlideElements/Picture/PictureElem
 
 type DefaultSlideProps = {
     slide: Slide | undefined;
-    renderType: 'default' | 'preview';
     viewBox?: {
         x: number;
         y: number;
@@ -52,31 +51,20 @@ export function SlideDefaultComponent(props: DefaultSlideProps): JSX.Element {
     const emptySlideWidth = props.containerWidth! * slideContainerRatio;
     const emptySlideHeight = emptySlideWidth / windowRatio;
 
-    const [defaultViewBoxXYRender, _] = useState({
-        x: (props.containerWidth! - emptySlideWidth) / 2,
-        y: (props.containerHeight! - emptySlideHeight) / 2,
-    });
-
     let elementIndex = 0;
     return props.slide !== undefined ? (
         <svg
             width={props.slideWidth}
             height={props.slideHeight}
-            viewBox={`${
-                props.renderType === 'preview'
-                    ? defaultViewBoxXYRender.x
-                    : (props.containerWidth! - emptySlideWidth) / 2
-            } ${
-                props.renderType === 'preview'
-                    ? defaultViewBoxXYRender.y
-                    : (props.containerHeight! - emptySlideHeight) / 2
+            viewBox={`${-emptySlideWidth / 2} ${
+                -emptySlideWidth / 2 / windowRatio
             } ${emptySlideWidth} ${emptySlideHeight}`}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
         >
             <rect
-                x={(props.containerWidth! - emptySlideWidth) / 2}
-                y={(props.containerHeight! - emptySlideHeight) / 2}
+                x={-emptySlideWidth / 2}
+                y={-emptySlideHeight / 2}
                 width={emptySlideWidth}
                 height={emptySlideHeight}
                 style={{ fill: `${props.slide.background.color}` }}

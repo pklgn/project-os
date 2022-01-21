@@ -1,10 +1,13 @@
 import { Coordinates, SelectedAreaLocation } from '../../app_model/model/types';
+import { ElementsRatioType } from '../../app_model/view_model/types';
+
 import { useEffect } from 'react';
 
 export type DragAndDropParamsType = {
     element: SVGRectElement | null;
     position: SelectedAreaLocation;
     setPosition: (coordinates: SelectedAreaLocation) => void;
+    scale: ElementsRatioType;
 };
 
 export function useDragAndDrop(params: DragAndDropParamsType): void {
@@ -30,8 +33,8 @@ export function useDragAndDrop(params: DragAndDropParamsType): void {
             y: e.pageY - startDragPosition.y,
         };
         const newPosition = {
-            x: position.xy.x + delta.x,
-            y: position.xy.y + delta.y,
+            x: position.xy.x + delta.x * params.scale.width,
+            y: position.xy.y + delta.y * params.scale.height,
         };
 
         const newSelectedAreaLocation: SelectedAreaLocation = {
