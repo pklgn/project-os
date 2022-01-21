@@ -35,6 +35,7 @@ import { store } from '../../../app_model/redux_model/store';
 import { useDispatch } from 'react-redux';
 
 import { useDragAndDrop } from '../../utils/useDragAndDrop';
+import { ElementsRatioType } from '../../../app_model/view_model/types';
 
 type SlideProps = {
     slide: Slide | undefined;
@@ -85,7 +86,7 @@ export function SlideComponent(props: SlideProps) {
         return () => {
             unsubscribe();
         };
-    }, [elementsAmount]);
+    }, [elementsAmount, props.slide]);
 
     useEffect(() => {
         const onMouseDownHandler = (event: MouseEvent) => {
@@ -291,7 +292,7 @@ export function SlideComponent(props: SlideProps) {
         return () => {
             unsubscribe();
         };
-    }, [slideContainerRatio, windowRatio]);
+    }, [slideContainerRatio, resizersRenderInfo, windowRatio]);
 
     const emptySlideWidth = props.containerWidth! * slideContainerRatio;
     const emptySlideHeight = emptySlideWidth / windowRatio;
@@ -364,12 +365,12 @@ export function SlideComponent(props: SlideProps) {
                 <>
                     <rect
                         ref={refSelectedArea}
-                        x={selectedAreaLocation.xy.x * renderScale}
-                        y={selectedAreaLocation.xy.y}
+                        x={selectedAreaLocation.xy.x * renderScale.width}
+                        y={selectedAreaLocation.xy.y * renderScale.height}
                         id={'select-area'}
                         className={styles['select-area']}
-                        width={selectedAreaLocation.dimensions.width * renderScale}
-                        height={selectedAreaLocation.dimensions.height * renderScale}
+                        width={selectedAreaLocation.dimensions.width * renderScale.width}
+                        height={selectedAreaLocation.dimensions.height * renderScale.width}
                     />
                     {resizerRenderArr.map((info, index) => {
                         return (
@@ -397,16 +398,16 @@ function getResizersRenderInfoArr(
     selectedAreaLocation: SelectedAreaLocation | undefined,
     resizersSize: number,
     resizersOffset: number,
-    renderScale: number,
+    renderScale: ElementsRatioType,
 ) {
     const scaledAreaLocation = {
         xy: {
-            x: selectedAreaLocation ? selectedAreaLocation.xy.x * renderScale : 0,
-            y: selectedAreaLocation ? selectedAreaLocation.xy.y : 0,
+            x: selectedAreaLocation ? selectedAreaLocation.xy.x * renderScale.width : 0,
+            y: selectedAreaLocation ? selectedAreaLocation.xy.y * renderScale.height : 0,
         },
         dimensions: {
-            width: selectedAreaLocation ? selectedAreaLocation.dimensions.width * renderScale : 0,
-            height: selectedAreaLocation ? selectedAreaLocation.dimensions.height * renderScale : 0,
+            width: selectedAreaLocation ? selectedAreaLocation.dimensions.width * renderScale.width : 0,
+            height: selectedAreaLocation ? selectedAreaLocation.dimensions.height * renderScale.height : 0,
         },
     };
     const resizersCords = {

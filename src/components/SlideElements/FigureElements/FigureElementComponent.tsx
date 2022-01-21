@@ -2,6 +2,7 @@ import style from './CommonFigureStyle.module.css';
 import CSS from 'csstype';
 
 import { Coordinates, FigureElement, FigureShape, Size, SlideElement } from '../../../app_model/model/types';
+import { ElementsRatioType } from '../../../app_model/view_model/types';
 
 import { isFigure } from '../../../app_model/model/utils/tools';
 import { joinClassNames } from '../../utils/joinClassNames';
@@ -56,7 +57,7 @@ export function FigureElementComponent(props: FigureElementProps) {
     }
 }
 
-function TriangleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderScale: number) {
+function TriangleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderScale: ElementsRatioType) {
     const leftVertex = {
         x: props.startPoint.x,
         y: props.startPoint.y + props.size.height,
@@ -88,7 +89,7 @@ function TriangleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderS
     );
 }
 
-function RectangleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderScale: number) {
+function RectangleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderScale: ElementsRatioType) {
     return (
         <rect
             id={`${props.elementIndex}`}
@@ -107,7 +108,7 @@ function RectangleFigure(props: FigureProps, cursorStyle: CSS.Properties, render
     );
 }
 
-function CircleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderScale: number): JSX.Element {
+function CircleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderScale: ElementsRatioType): JSX.Element {
     const { startPoint, size, opacity, content } = props;
 
     const r = size.width === size.height ? size.width / 2 : 0;
@@ -115,16 +116,15 @@ function CircleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderSca
     return (
         <circle
             id={`${props.elementIndex}`}
-            cx={(startPoint.x + r) * renderScale}
-            cy={startPoint.y + r}
-            r={r * renderScale}
+            cx={(startPoint.x + r) * renderScale.width}
+            cy={(startPoint.y + r) * renderScale.height}
+            r={r * renderScale.width}
             fill={content.figureColor}
             stroke={content.borderColor}
             strokeWidth={content.borderWidth}
             opacity={opacity}
             className={joinClassNames([style.figure])}
             style={cursorStyle}
-            // transform={`scale(${renderScale})`}
         />
     );
 }

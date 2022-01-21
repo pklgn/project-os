@@ -15,6 +15,7 @@ import {
     dispatchSlideContainerDimensions,
 } from '../../../app_model/redux_model/dispatchers';
 import { SelectedAreaLocation, Slide } from '../../../app_model/model/types';
+import { getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
 
 export function SlideWrapper() {
     const ref = useRef<HTMLDivElement>(null);
@@ -58,13 +59,15 @@ export function SlideWrapper() {
                 ref.current.style.justifyContent = 'flex-start';
             }
         }
-        console.log(containerWidth / initWidth);
         if (initWidth === 0) {
             setCurrWidth(containerWidth);
         }
-        dispatchSetElementsRenderRatioAction(dispatch)(containerWidth / initWidth);
+        dispatchSetElementsRenderRatioAction(dispatch)({
+            width: containerWidth / initWidth,
+            height: getWindowRatio(store.getState().viewModel),
+        });
         dispatchSlideContainerDimensions(dispatch)({ width: containerWidth, height: containerHeight });
-    }, [dispatch, containerHeight, containerWidth, currSlide]);
+    }, [dispatch, containerHeight, containerWidth, currSlide, initWidth]);
 
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>
