@@ -26,7 +26,6 @@ export function SlideListItem(props: SlideListItemProps) {
         <>
             <div className={`${styles['list-item']} ${itemWrapperStyle}`}>
                 <SlideDefaultComponent
-                    renderType="default"
                     slide={props.item}
                     viewBox={props.viewBox}
                     slideWidth={props.width}

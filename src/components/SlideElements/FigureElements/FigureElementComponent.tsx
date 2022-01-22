@@ -10,7 +10,6 @@ import { joinClassNames } from '../../utils/joinClassNames';
 import { getActiveElementsIds } from '../../../app_model/model/element_actions';
 import { getElementsRenderRatio } from '../../../app_model/view_model/slide_render_actions';
 import { store } from '../../../app_model/redux_model/store';
-import { getCoordinates } from '../../AppContent/Slide/SlideWrapper';
 
 type FigureElementProps = {
     element: SlideElement;
@@ -114,13 +113,11 @@ function CircleFigure(props: FigureProps, cursorStyle: CSS.Properties, renderSca
 
     const r = size.width === size.height ? size.width / 2 : 0;
 
-    const newCoordinates = getCoordinates({ x: startPoint.x, y: startPoint.y }, renderScale.width);
     return (
         <circle
             id={`${props.elementIndex}`}
             cx={(startPoint.x + r) * renderScale.width}
-            // cy={startPoint.y * renderScale.height + r * renderScale.width}
-            cy={newCoordinates.y}
+            cy={startPoint.y * renderScale.height + r * renderScale.width}
             r={r * renderScale.width}
             fill={content.figureColor}
             stroke={content.borderColor}

@@ -35,7 +35,7 @@ export function SlideListTool(): JSX.Element {
 
     useEffect(() => {
         const onKeyDownHandler = (e: KeyboardEvent) => {
-            if (e.ctrlKey && e.code === 'KeyM') {
+            if (e.ctrlKey && e.code === 'KeyM' && getActiveViewArea(store.getState().viewModel) !== 'APP_TOP') {
                 dispatchAddSlideAction(dispatch)();
                 dispatchKeepModelAction(dispatch)();
                 if (getActiveViewArea(store.getState().viewModel) !== 'SLIDE_LIST') {

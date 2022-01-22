@@ -118,7 +118,6 @@ export function PresentationViewer() {
                         onClick={onClickNextSlideSelectorHandler}
                     />
                     <SlideDefaultComponent
-                        renderType="preview"
                         slideWidth={windowWidth}
                         slideHeight={windowWidth / windowRatio}
                         containerWidth={mainContainerDimensions.width}
