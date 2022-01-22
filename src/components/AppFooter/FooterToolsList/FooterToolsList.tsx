@@ -93,33 +93,6 @@ export function FooterToolsList(): JSX.Element {
         },
     ];
 
-    // const [chosenType, setChosenType] = useState('NONE' as ChosenElementsType);
-    // const handleChange = () => {
-    //     const activeSLide = store.getState().model.presentation.slidesList.slice(-1)[0];
-    //     const viewModel = store.getState().viewModel;
-    //     if (activeSLide === undefined) {
-    //         setChosenType('NONE');
-    //     } else {
-    //         if (activeSLide.elementsList.length) {
-    //             const selectedElementsList = activeSLide.elementsList.filter((item) =>
-    //                 selectedSlideElementsIds.includes(item.id),
-    //             );
-
-    //             if (selectedElementsList.length) {
-    //                 const elementsType = getSlideElementType(selectedElementsList[0].content);
-
-    //                 selectedElementsList.every((item) => getSlideElementType(item.content) === elementsType)
-    //                     ? setChosenType(elementsType)
-    //                     : setChosenType('MIXED');
-    //             }
-    //             if (!selectedElementsList.length) setChosenType('NONE');
-    //         }
-    //         if (!activeSLide.elementsList.length) setChosenType('NONE');
-    //     }
-    // };
-
-    // store.subscribe(handleChange);
-
     return (
         <div className={styles['footer-tools']}>
             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
