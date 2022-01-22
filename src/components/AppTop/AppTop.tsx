@@ -92,7 +92,6 @@ export function AppTop(): JSX.Element {
         locale: localeContext.locale,
     });
 
-    ///
     const uploadPresentationInputRef = useRef<HTMLInputElement>(null);
     const handleUploadPresentationClick = () => {
         uploadPresentationInputRef.current?.click();
@@ -117,8 +116,8 @@ export function AppTop(): JSX.Element {
 
     const fileDropdownMenu = getFileDropdownMenu({
         locale: localeContext.locale,
-        handleOpenFile: () => undefined,
-        handleSaveFile: handleUploadPresentationClick,
+        handleOpenFile: handleUploadPresentationClick,
+        handleSaveFile: saveAsJSONFunction,
         handleUploadImage: handleUploadImageClick,
     });
 
