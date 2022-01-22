@@ -149,7 +149,7 @@ export function FooterToolsList(): JSX.Element {
                 {(function () {
                     switch ('TEXT') {
                         case 'TEXT':
-                            return [<TextToolsList />, <DefaultToolsList />];
+                            return [<TextToolsList key={0} />, <DefaultToolsList key={1} />];
                         // );
                         // case 'PICTURE':
                         // return <DefaultToolsList />;
