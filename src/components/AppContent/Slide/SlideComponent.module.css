@@ -34,46 +34,46 @@
     stroke: black;
 }
 
-.resizer-nw,
-.resizer-ne,
-.resizer-se,
-.resizer-sw,
-.resizer-n,
-.resizer-s,
-.resizer-w,
-.resizer-e {
+.nw-resize,
+.ne-resize,
+.se-resize,
+.sw-resize,
+.n-resize,
+.s-resize,
+.w-resize,
+.e-resize {
     fill: lightsalmon;
     stroke: orange;
 }
 
-.resizer-nw {
+.nw-resize {
     cursor: nw-resize;
 }
 
-.resizer-ne {
+.ne-resize {
     cursor: ne-resize;
 }
 
-.resizer-se {
+.se-resize {
     cursor: se-resize;
 }
 
-.resizer-sw {
+.sw-resize {
     cursor: sw-resize;
 }
 
-.resizer-n {
+.n-resize {
     cursor: n-resize;
 }
 
-.resizer-s {
+.s-resize {
     cursor: s-resize;
 }
 
-.resizer-w {
+.w-resize {
     cursor: w-resize;
 }
 
-.resizer-e {
+.e-resize {
     cursor: e-resize;
 }

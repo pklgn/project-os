@@ -81,7 +81,7 @@ export const modelReducers = (state: Editor = initEditor(), action: ModelActions
         case ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND:
             return moveElementsToBackgroundOrForeground(state, action.payload);
         case ActionType.CHANGE_ELEMENTS_SIZE:
-            return changeElementsSize(state, action.payload.scaleX, action.payload.scaleY);
+            return changeElementsSize(state, action.payload);
         case ActionType.CHANGE_ELEMENTS_OPACITY:
             return changeElementsOpacity(state, action.payload);
         case ActionType.REMOVE_SELECTED_ELEMENTS:

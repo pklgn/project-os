@@ -1,3 +1,4 @@
+import { LocationDeltas } from '../../../model/types';
 import { ActionType } from '../action_types/types';
 
 interface ElementsMoveToForegroundOrBackgroundAction {
@@ -7,10 +8,7 @@ interface ElementsMoveToForegroundOrBackgroundAction {
 
 interface ElementsChangeSizeAction {
     type: ActionType.CHANGE_ELEMENTS_SIZE;
-    payload: {
-        scaleX: number;
-        scaleY: number;
-    };
+    payload: LocationDeltas;
 }
 
 interface ElementsChangeOpacityAction {

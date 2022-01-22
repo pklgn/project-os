@@ -52,6 +52,20 @@ type SlideProps = {
     slideHeight?: number;
 };
 
+const SELECT_AREA_ID = 'select-area';
+const RESIZER_ID = '-resize';
+
+const NW_RESIZER_ID = 'nw' + RESIZER_ID;
+const N_RESIZER_ID = 'n' + RESIZER_ID;
+const NE_RESIZER_ID = 'ne' + RESIZER_ID;
+const E_RESIZER_ID = 'e' + RESIZER_ID;
+const SE_RESIZER_ID = 'se' + RESIZER_ID;
+const S_RESIZER_ID = 's' + RESIZER_ID;
+const SW_RESIZER_ID = 'sw' + RESIZER_ID;
+const W_RESIZER_ID = 'w' + RESIZER_ID;
+
+const SLIDE_WHITE_AREA_ID = 'slide-white-area';
+
 export function SlideComponent(props: SlideProps) {
     const emptySlideRef = useRef<HTMLDivElement>(null);
     const refCanvas = useRef<SVGSVGElement>(null);
@@ -98,8 +112,11 @@ export function SlideComponent(props: SlideProps) {
                 }
                 const el = event.target as Element;
                 const isSlideElement =
-                    el.getAttribute('id') !== 'slide-white-area' &&
-                    (el.tagName === 'rect' || el.tagName === 'circle' || el.tagName === 'text');
+                    el.getAttribute('id') !== SLIDE_WHITE_AREA_ID &&
+                    (el.tagName === 'rect' ||
+                        el.tagName === 'ellipse' ||
+                        el.tagName === 'polygon' ||
+                        el.tagName === 'text');
 
                 const elDomIndex = isSlideElement ? parseInt(el.getAttribute('id')!) : undefined;
 
@@ -109,6 +126,16 @@ export function SlideComponent(props: SlideProps) {
                 const missClickedElement = !isSlideElement && isSlideActive;
 
                 setSlideActiveStatus(true);
+
+                const selectedElementsArea = getElementsAreaLoaction(
+                    getCurrentSlide(store.getState().model)!,
+                    getActiveElementsIds(store.getState().model),
+                );
+
+                if (selectedElementsArea) {
+                    setSelectedAreaLocation(selectedElementsArea);
+                    setSelectedAreaStartPoint(selectedElementsArea.xy);
+                }
 
                 if (pressedOnElement) {
                     const elementIndex = elDomIndex - 1;
@@ -174,8 +201,9 @@ export function SlideComponent(props: SlideProps) {
     }, [isSlideActive]);
 
     useEffect(() => {
-        const onMouseUpHandler = () => {
-            if (selectedAreaLocation && selectedAreaStartPoint) {
+        const onMouseUpHandler = (event: MouseEvent) => {
+            const onDragAndDrop = (event.target as Element).getAttribute('id') === SELECT_AREA_ID;
+            if (onDragAndDrop && selectedAreaLocation && selectedAreaStartPoint) {
                 const dx = selectedAreaLocation.xy.x - selectedAreaStartPoint.x;
                 const dy = selectedAreaLocation.xy.y - selectedAreaStartPoint.y;
                 dispatchSetElementsPoistionAction(dispatch)({ dx: dx, dy: dy });
@@ -190,64 +218,52 @@ export function SlideComponent(props: SlideProps) {
         };
     }, [selectedAreaLocation]);
 
+    const [h, setH] = useState(0);
+
     const onMouseDownResizeHandler = (mainEvent: React.MouseEvent) => {
-        //     const chosenResizer = mainEvent.target as Element;
-        //     const startX = mainEvent.pageX;
-        //     const startY = mainEvent.pageY;
-        //     const itsSWResizer = chosenResizer.getAttribute('id')?.includes('sw');
-        //     const itsSEResizer = chosenResizer.getAttribute('id')?.includes('se');
-        //     const itsNEResizer = chosenResizer.getAttribute('id')?.includes('ne');
-        //     const itsNWResizer = chosenResizer.getAttribute('id')?.includes('nw');
-        //     const mouseMoveReziseHandler = (e: MouseEvent) => {
-        //         const dx = e.pageX - startX;
-        //         const dy = e.pageY - startY;
-        //         const maxD = Math.abs(dx) > Math.abs(dy) ? dx : dy;
-        //         if (itsSEResizer) {
-        //             if (refCanvas.current) {
-        //                 refCanvas.current.style.cursor = 'se-resize';
-        //             }
-        //             const currSelectedAreaLocation = selectedAreaLocation;
-        //             if (currSelectedAreaLocation) {
-        //                 const newSelectedAreaLocation = {
-        //                     ...currSelectedAreaLocation,
-        //                     dimensions: {
-        //                         width: currSelectedAreaLocation.dimensions.width + maxD,
-        //                         height: currSelectedAreaLocation.dimensions.height + maxD,
-        //                     },
-        //                 } as SelectedAreaLocation | undefined;
-        //                 setSelectedAreaLocation(newSelectedAreaLocation);
-        //             }
-        //         }
-        //         if (itsNEResizer) {
-        //             if (refCanvas.current) {
-        //                 refCanvas.current.style.cursor = 'ne-resize';
-        //             }
-        //             const currSelectedAreaLocation = selectedAreaLocation;
-        //             if (currSelectedAreaLocation) {
-        //                 const newSelectedAreaLocation = {
-        //                     ...currSelectedAreaLocation,
-        //                     xy: {
-        //                         x: currSelectedAreaLocation.xy.x + maxD,
-        //                         y: currSelectedAreaLocation.xy.y + maxD,
-        //                     },
-        //                     dimensions: {
-        //                         width: currSelectedAreaLocation.dimensions.width + dx,
-        //                         height: currSelectedAreaLocation.dimensions.height + Math.abs(maxD),
-        //                     },
-        //                 } as SelectedAreaLocation | undefined;
-        //                 setSelectedAreaLocation(newSelectedAreaLocation);
-        //             }
-        //         }
-        //     };
-        //     const mouseUpReziseHandler = () => {
-        //         window.removeEventListener('mousemove', mouseMoveReziseHandler);
-        //         window.removeEventListener('mouseup', mouseUpReziseHandler);
-        //         if (refCanvas.current) {
-        //             refCanvas.current.style.cursor = 'default';
-        //         }
-        //     };
-        //     window.addEventListener('mousemove', mouseMoveReziseHandler);
-        //     window.addEventListener('mouseup', mouseUpReziseHandler);
+        const chosenResizer = mainEvent.target as Element;
+        const startX = mainEvent.pageX;
+        const startY = mainEvent.pageY;
+
+        const itsNResizer = chosenResizer.getAttribute('id')?.includes('n');
+
+        const mouseMoveReziseHandler = (e: MouseEvent) => {
+            const dx = e.pageX - startX;
+            const dy = e.pageY - startY;
+            const maxD = Math.abs(dx) > Math.abs(dy) ? dx : dy;
+            if (itsNResizer) {
+                if (refCanvas.current) {
+                    refCanvas.current.style.cursor = N_RESIZER_ID;
+                }
+                const currSelectedAreaLocation = selectedAreaLocation;
+                if (currSelectedAreaLocation) {
+                    if (h === 0) {
+                        setH(currSelectedAreaLocation.xy.y + currSelectedAreaLocation.dimensions.height * 1.5);
+                    }
+                    const newSelectedAreaLocation = {
+                        ...currSelectedAreaLocation,
+                        xy: {
+                            x: currSelectedAreaLocation.xy.x,
+                            y: currSelectedAreaLocation.xy.y + dy <= h ? currSelectedAreaLocation.xy.y + dy : h,
+                        },
+                        dimensions: {
+                            width: Math.abs(currSelectedAreaLocation.dimensions.width),
+                            height: Math.abs(currSelectedAreaLocation.dimensions.height - dy),
+                        },
+                    } as AreaLocation | undefined;
+                    setSelectedAreaLocation(newSelectedAreaLocation);
+                }
+            }
+        };
+        const mouseUpReziseHandler = () => {
+            window.removeEventListener('mousemove', mouseMoveReziseHandler);
+            window.removeEventListener('mouseup', mouseUpReziseHandler);
+            if (refCanvas.current) {
+                refCanvas.current.style.cursor = 'default';
+            }
+        };
+        window.addEventListener('mousemove', mouseMoveReziseHandler);
+        window.addEventListener('mouseup', mouseUpReziseHandler);
     };
 
     const [slideContainerRatio, setSlideContainerRatio] = useState(
@@ -329,7 +345,7 @@ export function SlideComponent(props: SlideProps) {
             <rect
                 x={-emptySlideWidth / 2}
                 y={-emptySlideHeight / 2}
-                id="slide-white-area"
+                id={SLIDE_WHITE_AREA_ID}
                 width={emptySlideWidth}
                 height={emptySlideHeight}
                 style={{ fill: `${props.slide.background.color}` }}
@@ -369,8 +385,8 @@ export function SlideComponent(props: SlideProps) {
                         ref={refSelectedArea}
                         x={selectedAreaLocation.xy.x * renderScale.width}
                         y={selectedAreaLocation.xy.y * renderScale.height}
-                        id={'select-area'}
-                        className={styles['select-area']}
+                        id={SELECT_AREA_ID}
+                        className={styles[SELECT_AREA_ID]}
                         width={selectedAreaLocation.dimensions.width * renderScale.width}
                         height={selectedAreaLocation.dimensions.height * renderScale.height}
                     />
@@ -429,52 +445,52 @@ function getResizersRenderInfoArr(
 
     return [
         {
-            id: 'resize-nw',
+            id: NW_RESIZER_ID,
             x: resizersCords.xyStart.x,
             y: resizersCords.xyStart.y,
-            className: styles['resizer-nw'],
+            className: styles[NW_RESIZER_ID],
         },
         {
-            id: 'resize-n',
+            id: N_RESIZER_ID,
             x: resizersCords.xyStart.x + resizersCords.halfs.width,
             y: resizersCords.xyStart.y,
-            className: styles['resizer-n'],
+            className: styles[N_RESIZER_ID],
         },
         {
-            id: 'resize-ne',
+            id: NE_RESIZER_ID,
             x: resizersCords.dimensions.width,
             y: resizersCords.xyStart.y,
-            className: styles['resizer-ne'],
+            className: styles[NE_RESIZER_ID],
         },
         {
-            id: 'resize-e',
+            id: E_RESIZER_ID,
             x: resizersCords.dimensions.width,
             y: resizersCords.xyStart.y + resizersCords.halfs.height,
-            className: styles['resizer-e'],
+            className: styles[E_RESIZER_ID],
         },
         {
-            id: 'resize-se',
+            id: SE_RESIZER_ID,
             x: resizersCords.dimensions.width,
             y: resizersCords.dimensions.height,
-            className: styles['resizer-se'],
+            className: styles[SE_RESIZER_ID],
         },
         {
-            id: 'resize-s',
+            id: S_RESIZER_ID,
             x: resizersCords.xyStart.x + resizersCords.halfs.width,
             y: resizersCords.dimensions.height,
-            className: styles['resizer-s'],
+            className: styles[S_RESIZER_ID],
         },
         {
-            id: 'resize-sw',
+            id: SW_RESIZER_ID,
             x: resizersCords.xyStart.x,
             y: resizersCords.dimensions.height,
-            className: styles['resizer-sw'],
+            className: styles[SW_RESIZER_ID],
         },
         {
-            id: 'resize-w',
+            id: W_RESIZER_ID,
             x: resizersCords.xyStart.x,
             y: resizersCords.xyStart.y + resizersCords.halfs.height,
-            className: styles['resizer-w'],
+            className: styles[W_RESIZER_ID],
         },
     ];
 }
