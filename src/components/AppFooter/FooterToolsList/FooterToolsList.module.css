@@ -1,10 +1,18 @@
-.element-tools {
+.footer-tools {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
     max-height: 45px;
+}
+
+.element-tools {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.2rem;
 }
 
 .tools-buttons-container {
@@ -46,15 +54,15 @@
     left: 65.5%;
 }
 
-.element-tools>#adaptive-elements-tool-placeholder {
-    animation: show-element-tools .4s forwards;
+.footer-tools>#adaptive-elements-tool-placeholder {
+    animation: show-footer-tools .4s forwards;
 }
 
-.element-tools>div[id='vertical-1'] {
+.footer-tools>div[id='vertical-1'] {
     margin-right: auto;
 }
 
-@keyframes show-element-tools {
+@keyframes show-footer-tools {
     0% {
         opacity: 0;
         transform: translateY(-20px);

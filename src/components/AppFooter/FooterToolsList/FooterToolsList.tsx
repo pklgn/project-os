@@ -1,4 +1,4 @@
-import styles from './ElementListTool.module.css';
+import styles from './FooterToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
 import { useContext, useState } from 'react';
@@ -32,7 +32,7 @@ import { setChosenElementsType } from '../../../app_model/view_model/chosen_elem
 import { getSlideElementType, SlideElementType } from '../../../app_model/model/utils/tools';
 import { ChosenElementsType } from '../../../app_model/view_model/types';
 
-export function ElementListTool(): JSX.Element {
+export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
@@ -121,7 +121,7 @@ export function ElementListTool(): JSX.Element {
     // store.subscribe(handleChange);
 
     return (
-        <div className={styles['element-tools']}>
+        <div className={styles['footer-tools']}>
             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
                 {mainToolsButtonInfo.map((buttonInfo, index) => {
                     return (
@@ -145,24 +145,23 @@ export function ElementListTool(): JSX.Element {
                 })}
             </div>
             <VerticalLine id="vertical-1" />
-            {(function () {
-                switch (store.getState().viewModel.chosenElementsType) {
-                    case 'TEXT':
-                        return (
-                            <>
-                                <TextToolsList /> <DefaultToolsList />
-                            </>
-                        );
-                    case 'PICTURE':
-                        return <DefaultToolsList />;
-                    case 'FIGURE':
-                        return <FigureToolsList />;
-                    case 'MIXED':
-                        return <DefaultToolsList />;
-                    case 'NONE':
-                        return <span className={styles.empty_block}></span>;
-                }
-            })()}
+            <div className={styles['element-tools']}>
+                {(function () {
+                    switch ('TEXT') {
+                        case 'TEXT':
+                            return [<TextToolsList />, <DefaultToolsList />];
+                        // );
+                        // case 'PICTURE':
+                        // return <DefaultToolsList />;
+                        // case 'FIGURE':
+                        // return <FigureToolsList />;
+                        // case 'MIXED':
+                        //     return <DefaultToolsList />;
+                        // case 'NONE':
+                        // return <span className={styles.empty_block}></span>;
+                    }
+                })()}
+            </div>
             {/* <DefaultToolsList /> */}
             <VerticalLine id="vertical-2" />
             <div className={styles['history-buttons-container']} id="history-buttons-container">
