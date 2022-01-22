@@ -77,7 +77,49 @@ export function SlideComponent(props: SlideProps) {
 
     const [elementsAmount, setElementsAmount] = useState(getSlideElementsAmount(props.slide));
 
+    const [currHistoryIndex, setCurrHistoryIndex] = useState(0);
+
+    const [slideContainerRatio, setSlideContainerRatio] = useState(
+        getSlideToContainerRatio(store.getState().viewModel),
+    );
+    const [windowRatio, setWindowRatio] = useState(getWindowRatio(store.getState().viewModel));
+
+    const [resizersRenderInfo, setResizersRenderInfo] = useState(getResizersInfo(store.getState().viewModel));
     useLayoutEffect(() => {
+        const handleRenderSpecs = () => {
+            const prevSlideContainerRatio = slideContainerRatio;
+            const prevWindowRatio = windowRatio;
+            const prevResizersRenderInfo = resizersRenderInfo;
+
+            const currSlideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
+            const currWindowRatio = getWindowRatio(store.getState().viewModel);
+            const currResizersRenderInfo = getResizersInfo(store.getState().viewModel);
+
+            if (prevSlideContainerRatio !== currSlideContainerRatio) {
+                setSlideContainerRatio(currSlideContainerRatio);
+            }
+            if (prevWindowRatio !== currWindowRatio) {
+                setWindowRatio(currWindowRatio);
+            }
+            if (prevResizersRenderInfo !== currResizersRenderInfo) {
+                setResizersRenderInfo(currResizersRenderInfo);
+            }
+        };
+
+        const onHistoryChangeHandler = () => {
+            const prevValue = currHistoryIndex;
+            const currValue = store.getState().model.history.currState;
+            if (prevValue !== currValue) {
+                setCurrHistoryIndex(currValue);
+                const selectedElementsArea = getElementsAreaLoaction(
+                    getCurrentSlide(store.getState().model)!,
+                    getActiveElementsIds(store.getState().model),
+                );
+                setSelectedAreaLocation(selectedElementsArea);
+                setSelectedAreaStartPoint(selectedElementsArea?.xy);
+            }
+        };
+
         const onElementsAmountHandler = () => {
             const prevAmount = elementsAmount;
             const currAmount = getSlideElementsAmount(props.slide);
@@ -88,11 +130,16 @@ export function SlideComponent(props: SlideProps) {
             }
         };
 
-        const unsubscribe = store.subscribe(onElementsAmountHandler);
+        const unsubscribeOnElementsAmount = store.subscribe(onElementsAmountHandler);
+        const unsubscribeOnHistory = store.subscribe(onHistoryChangeHandler);
+        const unsubscribeOnRenderSpecs = store.subscribe(handleRenderSpecs);
+
         return () => {
-            unsubscribe();
+            unsubscribeOnRenderSpecs();
+            unsubscribeOnHistory();
+            unsubscribeOnElementsAmount();
         };
-    }, [elementsAmount, props.slide]);
+    }, [slideContainerRatio, resizersRenderInfo, windowRatio]);
 
     useEffect(() => {
         const onMouseDownHandler = (event: MouseEvent) => {
@@ -277,12 +324,6 @@ export function SlideComponent(props: SlideProps) {
         window.addEventListener('mouseup', mouseUpReziseHandler);
     };
 
-    const [slideContainerRatio, setSlideContainerRatio] = useState(
-        getSlideToContainerRatio(store.getState().viewModel),
-    );
-    const [windowRatio, setWindowRatio] = useState(getWindowRatio(store.getState().viewModel));
-
-    const [resizersRenderInfo, setResizersRenderInfo] = useState(getResizersInfo(store.getState().viewModel));
     const resizersOffset = resizersRenderInfo.offset;
     const resizersSize = resizersRenderInfo.dimension;
     const renderScale = getElementsRenderRatio(store.getState().viewModel);
@@ -299,34 +340,6 @@ export function SlideComponent(props: SlideProps) {
         setPosition: setSelectedAreaLocation,
         scale: renderScale,
     });
-
-    useLayoutEffect(() => {
-        const onWindowRatioOrSlideToContainerRatioChange = () => {
-            const prevSlideContainerRatio = slideContainerRatio;
-            const prevWindowRatio = windowRatio;
-            const prevResizersRenderInfo = resizersRenderInfo;
-
-            const currSlideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
-            const currWindowRatio = getWindowRatio(store.getState().viewModel);
-            const currResizersRenderInfo = getResizersInfo(store.getState().viewModel);
-
-            if (prevSlideContainerRatio !== currSlideContainerRatio) {
-                setSlideContainerRatio(currSlideContainerRatio);
-            }
-            if (prevWindowRatio !== currWindowRatio) {
-                setWindowRatio(currWindowRatio);
-            }
-            if (prevResizersRenderInfo !== currResizersRenderInfo) {
-                setResizersRenderInfo(currResizersRenderInfo);
-            }
-        };
-
-        const unsubscribe = store.subscribe(onWindowRatioOrSlideToContainerRatioChange);
-
-        return () => {
-            unsubscribe();
-        };
-    }, [slideContainerRatio, resizersRenderInfo, windowRatio]);
 
     const onSelectAreaEnterHandler = (event: BaseSyntheticEvent) => {
         const el = event.target as Element;

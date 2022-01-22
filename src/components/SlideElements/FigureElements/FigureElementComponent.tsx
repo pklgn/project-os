@@ -76,7 +76,6 @@ function TriangleFigure(props: FigureProps, renderScale: ElementsRatioType) {
             strokeWidth={props.content.borderWidth}
             points={pointsString}
             className={joinClassNames([style.figure])}
-            transform={`scale(${renderScale})`}
         />
     );
 }
