@@ -50,7 +50,7 @@ export function SlideWrapper() {
 
     const slideViewBox = getSlideViewBox(maxSelectedAreaLocationInfo, containerWidth, containerHeight);
 
-    const emptySlideWidth = containerWidth! * getSlideToContainerRatio(store.getState().viewModel);
+    const emptySlideWidth = containerWidth ? containerWidth * getSlideToContainerRatio(store.getState().viewModel) : 0;
     const emptySlideHeight = emptySlideWidth / getWindowRatio(store.getState().viewModel);
 
     useLayoutEffect(() => {
@@ -75,7 +75,7 @@ export function SlideWrapper() {
             height: emptySlideHeight / initHeight,
         });
         dispatchSlideContainerDimensions(dispatch)({ width: containerWidth, height: containerHeight });
-    }, [dispatch, containerHeight, containerWidth, currSlide, initWidth]);
+    }, [dispatch, emptySlideHeight, containerHeight, containerWidth, currSlide, initHeight, initWidth]);
 
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>
