@@ -86,3 +86,14 @@ export type FigureInfo = {
     shape: FigureShape;
     xy: Coordinates;
 };
+
+export type LocationDeltas = {
+    dXY: {
+        dx: number;
+        dy: number;
+    };
+    dDimensions: {
+        dWidth: number;
+        dHeight: number;
+    };
+};

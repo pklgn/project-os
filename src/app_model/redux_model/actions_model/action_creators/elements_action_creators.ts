@@ -1,6 +1,7 @@
 import { ActionType } from '../action_types/types';
 import { Dispatch } from 'redux';
 import { ElementAction } from '../actions/element_actions';
+import { AreaLocation, LocationDeltas } from '../../../model/types';
 
 export const removeSelectedElements = () => {
     return (dispatch: Dispatch<ElementAction>) => {
@@ -28,7 +29,7 @@ export const changeSelectedElementsOpacity = (payload: number) => {
     };
 };
 
-export const changeSelectedElementsSize = (payload: { scaleX: number; scaleY: number }) => {
+export const changeSelectedElementsSize = (payload: AreaLocation) => {
     return (dispatch: Dispatch<ElementAction>) => {
         dispatch({
             type: ActionType.CHANGE_ELEMENTS_SIZE,

@@ -1,5 +1,3 @@
-import styles from './Opacity.module.css';
-
 export function Opacity(): JSX.Element {
     return (
         <svg x="0px" y="0px" width="32px" height="32px" fill="#ffa322" viewBox="0 0 24 24" enableBackground="0 0 24 24">

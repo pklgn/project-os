@@ -10,8 +10,8 @@ import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/elementDispatchers';
-import { dispatchKeepModelAction } from '../../../app_model/redux_model/historyDispatchers';
+// import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
+import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 
 enum commonList {
@@ -35,7 +35,7 @@ export function FigureToolsList(): JSX.Element {
     };
 
     const removeSelectedElementsHandler = () => {
-        dispatchRemoveSelectedElementsAction(dispatch)();
+        // dispatchRemoveSelectedElementsAction(dispatch)();
         dispatchKeepModelAction(dispatch)();
     };
 
