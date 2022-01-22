@@ -5,6 +5,15 @@
         "l18n": "Change language",
         "presentationNameInputField": "Change presentation name"
     },
+    "dropdown": {
+        "fullscreen": {
+            "firstSlideStart": "From first slide",
+            "currSlideStart": "From current slide"
+        },
+        "file": {
+
+        }
+    },
     "editor": {
         "emptySlide": "Click to add new slide"
     },

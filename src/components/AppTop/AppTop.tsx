@@ -12,10 +12,10 @@ import { GlobeIcon } from '../common/icons/GlobeInternationalization/GlobeIntern
 import ToolTip from '../common/ToolTip/ToolTip';
 
 import { getL18nObject } from '../../l18n/l18n';
-import { LocaleContextType, LocaleContext } from '../../App';
+import { LocaleContext } from '../../App';
 
 import { DropdownMenu } from '../common/DropdownMenu/DropdownMenu';
-import { FullScreenDropdownMenu } from './FullScreenDropdownMenu';
+import { getFullScreenDropdownMenu } from './getFullScreenDropdownMenu';
 import { FileDropdownMenu } from './FileDropdownMenu';
 
 import {
@@ -34,9 +34,9 @@ export function AppTop(): JSX.Element {
 
     const toggleLocaleContext = () => {
         if (localeContext.locale.currLocale === 'en_EN') {
-            localeContext.changeLocale!(getL18nObject('ru_RU'));
+            localeContext.changeLocale?.(getL18nObject('ru_RU'));
         } else if (localeContext.locale.currLocale === 'ru_RU') {
-            localeContext.changeLocale!(getL18nObject('en_EN'));
+            localeContext.changeLocale?.(getL18nObject('en_EN'));
         }
     };
 
@@ -57,8 +57,11 @@ export function AppTop(): JSX.Element {
         }
     };
 
-    const onPreviewerButtonAction = () => {
+    const onPreviewerButtonCurrentAction = () => {
         dispatchSetEditorModeAction(dispatch)('SHOW_FROM_CURRENT_SLIDE');
+    };
+    const onPreviewerButtonFirstAction = () => {
+        dispatchSetEditorModeAction(dispatch)('SHOW_FROM_FIRST_SLIDE');
     };
 
     const miscButtonsInfo: ButtonProps[] = [
@@ -77,6 +80,12 @@ export function AppTop(): JSX.Element {
             dispatchActiveViewAreaAction(dispatch)('APP_TOP');
         }
     };
+
+    const fullScreenDropdownProps = getFullScreenDropdownMenu({
+        firstSlideStartHandler: onPreviewerButtonFirstAction,
+        currSlideStartHandler: onPreviewerButtonCurrentAction,
+        locale: localeContext.locale,
+    });
 
     return (
         <div className={styles['top-bar']}>
@@ -99,7 +108,7 @@ export function AppTop(): JSX.Element {
                         />
                     }
                 />
-                <DropdownMenu data={FullScreenDropdownMenu.data} position={FullScreenDropdownMenu.position} />
+                <DropdownMenu data={fullScreenDropdownProps.data} position={fullScreenDropdownProps.position} />
                 {miscButtonsInfo.map((info, index) => {
                     return (
                         <ToolTip

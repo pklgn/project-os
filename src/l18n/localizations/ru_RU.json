@@ -5,6 +5,15 @@
         "l18n": "Сменить язык",
         "presentationNameInputField": "Изменить имя презентации"
     },
+    "dropdown": {
+        "fullscreen": {
+            "firstSlideStart": "С первого слайда",
+            "currSlideStart": "С текущего слайда"
+        },
+        "file": {
+
+        }
+    },
     "editor": {
         "emptySlide": "Кликните, чтобы добавить слайд"
     },
