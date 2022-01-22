@@ -4,7 +4,7 @@ import { AppTop } from '../AppTop/AppTop';
 import { SlideListTool } from '../AppFooter/SlideListTool/SlideListTool';
 import { SidePanel } from '../AppContent/SidePanel/SidePanel';
 import { SlideWrapper } from '../AppContent/Slide/SlideWrapper';
-import { ElementListTool } from '../AppFooter/ElementListTool/ElementListTool';
+import { FooterToolsList } from '../AppFooter/FooterToolsList/FooterToolsList';
 
 export function PresentationEditor(): JSX.Element {
     return (
