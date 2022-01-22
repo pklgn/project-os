@@ -10,13 +10,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AdaptiveInputField } from '../common/AdaptiveInputField/AdaptiveInputField';
 import { AppLogoPng } from '../common/icons/AppLogo';
 import { Button, ButtonProps } from '../common/Button/Button';
-import { FullscreenIcon } from '../common/icons/Fullscreen/Fullscreen';
 import { GlobeIcon } from '../common/icons/GlobeInternationalization/GlobeInternationalizationIcon';
 import ToolTip from '../common/ToolTip/ToolTip';
 
 import { LocaleContextType, LocaleContext } from '../../App';
-import { mockDropdown } from '../../app_model/model/mock/mockDropdown';
 import { DropdownMenu } from '../common/DropdownMenu/DropdownMenu';
+import { FullScreenDropdownMenu } from './FullScreenDropdownMenu';
+import { FileDropdownMenu } from './FileDropdownMenu';
 
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
@@ -40,28 +40,19 @@ export function AppTop(): JSX.Element {
 
     const miscButtonsInfo: ButtonProps[] = [
         {
-            id: 'fullscreen-button',
-            text: localeContext.locale.localization.appTopButtons.fullscreen,
-            iconLeft: <FullscreenIcon color="#ffa322" />,
-        },
-        {
             id: 'lang-button',
             text: localeContext.locale.localization.appTopButtons.l18n,
-            iconLeft: <GlobeIcon width={32} height={32} color="#ffa322" />,
+            iconLeft: <GlobeIcon width={28} height={28} color="#ffa322" />,
             type: 'round',
+            cssMix: { margin: '0 5px' },
         },
     ];
 
     return (
         <div className={styles['top-bar']}>
+            <AppLogoPng width={55} height={55} type={'default'} />
             <div className={styles['top-bar-menu']}>
-                <ToolTip
-                    title={'Hello'}
-                    id="img"
-                    position={'under'}
-                    child={<AppLogoPng width={55} height={55} type={'default'} />}
-                />
-                <DropdownMenu data={mockDropdown.data} position={mockDropdown.position} />
+                <DropdownMenu data={FileDropdownMenu.data} position={FileDropdownMenu.position} />
                 <ToolTip
                     title={localeContext.locale.localization.appTopButtons.presentationNameInputField}
                     id="input"
@@ -73,10 +64,11 @@ export function AppTop(): JSX.Element {
                             value={state.model.presentation.name}
                             onChange={onChangeNameInputHandler}
                             onBlur={onBlurNameInputHandler}
-                            cssMix={{ marginLeft: 'auto' }}
+                            cssMix={{ margin: '0 5px 0 auto' }}
                         />
                     }
                 />
+                <DropdownMenu data={FullScreenDropdownMenu.data} position={FullScreenDropdownMenu.position} />
                 {miscButtonsInfo.map((info, index) => {
                     return (
                         <ToolTip
@@ -84,7 +76,15 @@ export function AppTop(): JSX.Element {
                             id={info.id}
                             position={'under'}
                             key={index}
-                            child={<Button id={info.id} key={index} iconLeft={info.iconLeft} type={info.type} />}
+                            child={
+                                <Button
+                                    id={info.id}
+                                    key={index}
+                                    iconLeft={info.iconLeft}
+                                    type={info.type}
+                                    cssMix={info.cssMix}
+                                />
+                            }
                         />
                     );
                 })}

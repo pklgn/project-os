@@ -11,12 +11,12 @@
     opacity: 0.8;
     display: flex;
     align-items: center;
-    font-size: 1em;
     white-space: nowrap;
+    gap: 5px;
 }
 
 .button--default {
-    gap: 5px;
+
 }
 
 .button--disabled {
@@ -44,12 +44,13 @@
     width: 100%;
     border-radius: unset;
     background-color: #a5a5a5;
+    padding: 0.8em;
 }
 
 .icon--right {
     margin-left: auto;
 }
 
-.icon--left {
-    margin-right: auto;
+.text {
+    font-size: 1rem;
 }

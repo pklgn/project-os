@@ -42,14 +42,14 @@ export function Button(props: ButtonProps) {
         setButtonState('active');
     };
 
-    const onMouseEnterHandler = (event: MouseEvent) => {
+    const onMouseOverHandler = (event: MouseEvent) => {
         if (event.buttons === 1) {
             !disabled && setButtonState('active');
         } else {
             !disabled && setButtonState('hover');
         }
     };
-    const onMouseLeaveHandler = () => {
+    const onMouseOutHandler = () => {
         if (!disabled) {
             setButtonState('independently');
         }
@@ -68,16 +68,16 @@ export function Button(props: ButtonProps) {
         <button
             ref={buttonRef}
             className={classNames}
-            onMouseLeave={onMouseLeaveHandler}
+            onMouseOut={onMouseOutHandler}
             onMouseDown={onMouseDownHandler}
             onMouseUp={onMouseUpHandler}
-            onMouseEnter={onMouseEnterHandler}
+            onMouseOver={onMouseOverHandler}
             onClick={onClick}
             style={cssMix}
             id={id}
             disabled={disabled}
         >
-            {iconLeft && <span className={styles['icon--left']}>{iconLeft}</span>}
+            {iconLeft}
             {textElement && <span className={styles['text']}>{textElement}</span>}
             {optionalTextElement && <span className={styles['optional-text']}>{optionalText}</span>}
             {iconRight && <span className={styles['icon--right']}>{iconRight}</span>}

@@ -47,7 +47,6 @@
 
 .dropdown-list {
     position: absolute;
-    top: 2.5em;
     z-index: 2;
     margin: 0;
     padding: 0;
@@ -55,4 +54,8 @@
     box-shadow: 4px -3px 11px -4px #908a98;
     overflow: hidden;
     backdrop-filter: blur(3px);
+}
+
+.dropdown-list--left {
+    right: 0;
 }

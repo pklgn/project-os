@@ -3,15 +3,19 @@ import { generateUUId } from '../../../app_model/model/utils/uuid';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './DropdownMenu.module.css';
 import ArrowBack from '../icons/ArrowBack/ArrowBack';
+import { Triangle } from '../icons/Triangle/Triangle';
+import { joinClassNames } from '../../utils/joinClassNames';
 
 export type DropDownMenuItem = {
     mainButton: ButtonProps;
     nestedButtons: DropDownMenuItem[];
 };
 
+type PositionType = 'default' | 'left';
+
 export type DropdownMenuProps = {
     data: DropDownMenuItem;
-    position: 'above' | 'left' | 'under';
+    position: PositionType;
 };
 
 type DropdownStateType = {
@@ -48,6 +52,7 @@ function DropdownListItem(props: DropdownListItemProps) {
                 id={pair.mainButton.id}
                 text={pair.mainButton.text}
                 onMouseUp={() => handleClickForward(pair)}
+                iconRight={pair.nestedButtons[0] && <Triangle width={10} height={10} color={'black'} />}
             />
         </li>
     );
@@ -59,16 +64,17 @@ type DropdownListProps = {
     handleClickForward: (pair: DropDownMenuItem) => void;
     handleClickOutside: () => void;
     currButton: DropDownMenuItem | undefined;
+    position: PositionType;
 };
 
 function DropdownList(props: DropdownListProps) {
-    const { dropdownState, handleClickBack, handleClickForward, handleClickOutside, currButton } = props;
+    const { dropdownState, handleClickBack, handleClickForward, handleClickOutside, currButton, position } = props;
     const dropdownListRef = useRef<HTMLUListElement>(null);
     const backButton = (
         <Button
             id={generateUUId()}
             type={'in-list'}
-            text={'slowly back'}
+            text={'Назад'}
             key={generateUUId()}
             iconLeft={<ArrowBack key={generateUUId()} />}
             onMouseUp={() => handleClickBack()}
@@ -89,7 +95,10 @@ function DropdownList(props: DropdownListProps) {
     }, [handleClickOutside]);
 
     return (
-        <ul ref={dropdownListRef} className={styles['dropdown-list']}>
+        <ul
+            ref={dropdownListRef}
+            className={joinClassNames([styles['dropdown-list'], styles[`dropdown-list--${position}`] ?? ''])}
+        >
             {dropdownState.prevButtonIds.length > 1 && backButton}
             {currButton?.nestedButtons.map((pair, index) => {
                 return (
@@ -130,12 +139,14 @@ export function DropdownMenu(props: DropdownMenuProps) {
     }
 
     function handleClickForward(pair: DropDownMenuItem) {
-        setDropdownState((prevState) => {
-            return {
-                prevButtonIds: [...prevState.prevButtonIds, prevState.currButtonId],
-                currButtonId: pair.mainButton.id ?? '',
-            };
-        });
+        if (pair.nestedButtons.length > 0) {
+            setDropdownState((prevState) => {
+                return {
+                    prevButtonIds: [...prevState.prevButtonIds, prevState.currButtonId],
+                    currButtonId: pair.mainButton.id ?? '',
+                };
+            });
+        }
     }
 
     function handleToggleMenu() {
@@ -157,6 +168,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
                 id={props.data.mainButton.id}
                 text={props.data.mainButton.text}
                 onMouseUp={() => handleToggleMenu()}
+                iconLeft={props.data.mainButton.iconLeft}
             />
             {open && (
                 <DropdownList
@@ -165,6 +177,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
                     handleClickBack={handleClickBack}
                     handleClickForward={handleClickForward}
                     handleClickOutside={handleClickOutside}
+                    position={props.position}
                 />
             )}
         </div>

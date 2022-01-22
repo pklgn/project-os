@@ -5,7 +5,6 @@
     align-items: center;
     border-radius: 0.2rem;
 }
-
 .top-bar-menu {
     display: flex;
     width: 100%;
@@ -13,6 +12,6 @@
     align-items: center;
 }
 
-.top-bar-menu > input {
+.top-bar-menu div[id="input-tooltip"] {
     margin-left: auto;
 }
