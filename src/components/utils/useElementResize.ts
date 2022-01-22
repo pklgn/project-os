@@ -1,7 +1,4 @@
-import React, { useLayoutEffect } from 'react';
-import { Dispatch } from 'redux';
-import { AreaLocation, Coordinates } from '../../app_model/model/types';
-import { dispatchKeepModelAction, dispatchSetElementsSizeAction } from '../../app_model/redux_model/dispatchers';
+import { AreaLocation } from '../../app_model/model/types';
 import { ElementsRatioType } from '../../app_model/view_model/types';
 
 const RESIZER_ID = '-resize';
