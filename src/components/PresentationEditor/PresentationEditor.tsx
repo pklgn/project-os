@@ -5,8 +5,6 @@ import { SlideListTool } from '../AppFooter/SlideListTool/SlideListTool';
 import { SidePanel } from '../AppContent/SidePanel/SidePanel';
 import { SlideWrapper } from '../AppContent/Slide/SlideWrapper';
 import { ElementListTool } from '../AppFooter/ElementListTool/ElementListTool';
-import { DropdownMenu } from '../common/DropdownMenu/DropdownMenu';
-import { mockDropdown } from '../../app_model/model/mock/mockDropdown';
 
 export enum listName {
     ELEMENT_LIST = 'ELEMENT_LIST',
