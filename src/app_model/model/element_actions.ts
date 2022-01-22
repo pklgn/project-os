@@ -1,7 +1,7 @@
 import { getCurrentSlide, applySlideChanges } from './slides_actions';
-import { AreaLocation, Coordinates, Editor, LocationDeltas, Size, Slide, SlideElement } from './types';
+import { AreaLocation, Coordinates, Editor, Size, Slide, SlideElement } from './types';
 
-export function changeElementsSize(editor: Editor, deltas: LocationDeltas): Editor {
+export function changeElementsSize(editor: Editor, cordsAndDimensions: AreaLocation): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
@@ -16,18 +16,23 @@ export function changeElementsSize(editor: Editor, deltas: LocationDeltas): Edit
         return editor;
     }
 
-    const xyDeltas = deltas.dXY;
-    const dimensionsDeltas = deltas.dDimensions;
+    const xy = cordsAndDimensions.xy;
+    const dimensions = cordsAndDimensions.dimensions;
 
     const updatedElementList: SlideElement[] = currSlide.elementsList.map((item) => {
         if (editor.selectedSlideElementsIds.includes(item.id)) {
             const size: Size = {
-                width: item.size.width + dimensionsDeltas.dWidth,
-                height: item.size.height + dimensionsDeltas.dHeight,
+                width: dimensions.width,
+                height: dimensions.height,
+            };
+            const startPoint = {
+                x: xy.x,
+                y: xy.y,
             };
 
             return {
                 ...item,
+                startPoint,
                 size,
             };
         }

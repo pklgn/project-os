@@ -5,7 +5,10 @@ import * as slideActionCreator from './actions_model/action_creators/slide_actio
 import * as editorActionCreator from './actions_model/action_creators/editor_action_creators';
 import { changePresentationTitle } from './actions_model/action_creators/presentation_action_creators';
 
-import { changeSelectedElementsPosition } from './actions_model/action_creators/elements_action_creators';
+import {
+    changeSelectedElementsPosition,
+    changeSelectedElementsSize,
+} from './actions_model/action_creators/elements_action_creators';
 
 import { addFigure } from './actions_model/action_creators/figure_action_creators';
 
@@ -30,6 +33,9 @@ const dispatchSetIdAction = (dispatch: Dispatch) => {
     return bindActionCreators(editorActionCreator.setSelectedIdInEditor, dispatch);
 };
 
+const dispatchSetElementsSizeAction = (dispatch: Dispatch) => {
+    return bindActionCreators(changeSelectedElementsSize, dispatch);
+};
 const dispatchSetElementsPoistionAction = (dispatch: Dispatch) => {
     return bindActionCreators(changeSelectedElementsPosition, dispatch);
 };
@@ -76,6 +82,7 @@ export {
     dispatchSetEditorModeAction,
     dispatchSetElementsPoistionAction,
     dispatchSetElementsRenderRatioAction,
+    dispatchSetElementsSizeAction,
     dispatchSetIdAction,
     dispatchSetSlideWhiteAreaLocationAction,
     dispatchUndoAction,

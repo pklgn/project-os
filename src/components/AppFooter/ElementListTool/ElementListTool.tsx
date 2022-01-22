@@ -49,7 +49,7 @@ export function ElementListTool(): JSX.Element {
     });
 
     const mockInfo: FigureInfo = {
-        shape: FigureShape.Triangle,
+        shape: FigureShape.Rectangle,
         xy: {
             x: 0,
             y: 0,

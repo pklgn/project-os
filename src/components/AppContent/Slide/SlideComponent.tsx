@@ -30,6 +30,7 @@ import {
     dispatchAddSlideAction,
     dispatchKeepModelAction,
     dispatchSetElementsPoistionAction,
+    dispatchSetElementsSizeAction,
     dispatchSetIdAction,
 } from '../../../app_model/redux_model/dispatchers';
 import { store } from '../../../app_model/redux_model/store';
@@ -87,7 +88,7 @@ export function SlideComponent(props: SlideProps) {
     const [elementsAmount, setElementsAmount] = useState(getSlideElementsAmount(props.slide));
 
     useLayoutEffect(() => {
-        const onElementsAmountOrSlideChangeHandler = () => {
+        const onElementsAmountHandler = () => {
             const prevAmount = elementsAmount;
             const currAmount = getSlideElementsAmount(props.slide);
             if (prevAmount !== currAmount) {
@@ -97,7 +98,7 @@ export function SlideComponent(props: SlideProps) {
             }
         };
 
-        const unsubscribe = store.subscribe(onElementsAmountOrSlideChangeHandler);
+        const unsubscribe = store.subscribe(onElementsAmountHandler);
         return () => {
             unsubscribe();
         };
@@ -218,39 +219,43 @@ export function SlideComponent(props: SlideProps) {
         };
     }, [selectedAreaLocation]);
 
-    const [h, setH] = useState(0);
-
     const onMouseDownResizeHandler = (mainEvent: React.MouseEvent) => {
         const chosenResizer = mainEvent.target as Element;
         const startX = mainEvent.pageX;
         const startY = mainEvent.pageY;
 
-        const itsNResizer = chosenResizer.getAttribute('id')?.includes('n');
+        const itsNResizer = chosenResizer.getAttribute('id')?.includes('n-');
+
+        let newSelectedAreaLocation: AreaLocation | undefined;
 
         const mouseMoveReziseHandler = (e: MouseEvent) => {
-            const dx = e.pageX - startX;
-            const dy = e.pageY - startY;
+            const dx = (e.pageX - startX) / renderScale.width;
+            const dy = (e.pageY - startY) / renderScale.height;
             const maxD = Math.abs(dx) > Math.abs(dy) ? dx : dy;
             if (itsNResizer) {
-                if (refCanvas.current) {
+                if (refCanvas.current && refCanvas.current.style.cursor !== N_RESIZER_ID) {
                     refCanvas.current.style.cursor = N_RESIZER_ID;
                 }
                 const currSelectedAreaLocation = selectedAreaLocation;
                 if (currSelectedAreaLocation) {
-                    if (h === 0) {
-                        setH(currSelectedAreaLocation.xy.y + currSelectedAreaLocation.dimensions.height * 1.5);
-                    }
-                    const newSelectedAreaLocation = {
+                    const currY = currSelectedAreaLocation.xy.y;
+                    const currHeight = currSelectedAreaLocation.dimensions.height;
+                    const currMaxY = currY + currHeight;
+
+                    newSelectedAreaLocation = {
                         ...currSelectedAreaLocation,
                         xy: {
                             x: currSelectedAreaLocation.xy.x,
-                            y: currSelectedAreaLocation.xy.y + dy <= h ? currSelectedAreaLocation.xy.y + dy : h,
+                            y:
+                                currSelectedAreaLocation.xy.y + dy <= currMaxY
+                                    ? currSelectedAreaLocation.xy.y + dy
+                                    : currMaxY,
                         },
                         dimensions: {
                             width: Math.abs(currSelectedAreaLocation.dimensions.width),
                             height: Math.abs(currSelectedAreaLocation.dimensions.height - dy),
                         },
-                    } as AreaLocation | undefined;
+                    };
                     setSelectedAreaLocation(newSelectedAreaLocation);
                 }
             }
@@ -261,6 +266,17 @@ export function SlideComponent(props: SlideProps) {
             if (refCanvas.current) {
                 refCanvas.current.style.cursor = 'default';
             }
+            dispatchSetElementsSizeAction(dispatch)({
+                xy: {
+                    x: newSelectedAreaLocation!.xy.x,
+                    y: newSelectedAreaLocation!.xy.y,
+                },
+                dimensions: {
+                    width: newSelectedAreaLocation!.dimensions.width,
+                    height: newSelectedAreaLocation!.dimensions.height,
+                },
+            });
+            dispatchKeepModelAction(dispatch)();
         };
         window.addEventListener('mousemove', mouseMoveReziseHandler);
         window.addEventListener('mouseup', mouseUpReziseHandler);
