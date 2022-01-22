@@ -1,6 +1,6 @@
 import styles from './SlideComponent.module.css';
 
-import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { BaseSyntheticEvent, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { FigureElementComponent } from '../../SlideElements/FigureElements/FigureElementComponent';
 import { PictureElementComponent } from '../../SlideElements/Picture/PictureElementComponent';
@@ -112,14 +112,15 @@ export function SlideComponent(props: SlideProps) {
                     dispatchActiveViewAreaAction(dispatch)('MAIN_SLIDE');
                 }
                 const el = event.target as Element;
+                const elAttrId = el.getAttribute('id');
                 const isSlideElement =
-                    el.getAttribute('id') !== SLIDE_WHITE_AREA_ID &&
+                    elAttrId !== SLIDE_WHITE_AREA_ID &&
                     (el.tagName === 'rect' ||
                         el.tagName === 'ellipse' ||
                         el.tagName === 'polygon' ||
                         el.tagName === 'text');
 
-                const elDomIndex = isSlideElement ? parseInt(el.getAttribute('id')!) : undefined;
+                const elDomIndex = isSlideElement ? parseInt(elAttrId!) : undefined;
 
                 const slide = getCurrentSlide(store.getState().model)!;
 
@@ -224,7 +225,12 @@ export function SlideComponent(props: SlideProps) {
         const startX = mainEvent.pageX;
         const startY = mainEvent.pageY;
 
-        const itsNResizer = chosenResizer.getAttribute('id')?.includes('n-');
+        const chosenResizerAttrId = chosenResizer.getAttribute('id');
+
+        const itsNResizer = chosenResizerAttrId?.includes(N_RESIZER_ID);
+        const itsSResizer = chosenResizerAttrId?.includes(S_RESIZER_ID);
+        const itsWResizer = chosenResizerAttrId?.includes(W_RESIZER_ID);
+        const itsEResizer = chosenResizerAttrId?.includes(E_RESIZER_ID);
 
         let newSelectedAreaLocation: AreaLocation | undefined;
 
@@ -232,32 +238,27 @@ export function SlideComponent(props: SlideProps) {
             const dx = (e.pageX - startX) / renderScale.width;
             const dy = (e.pageY - startY) / renderScale.height;
             const maxD = Math.abs(dx) > Math.abs(dy) ? dx : dy;
-            if (itsNResizer) {
+            if (itsNResizer || itsSResizer) {
                 if (refCanvas.current && refCanvas.current.style.cursor !== N_RESIZER_ID) {
                     refCanvas.current.style.cursor = N_RESIZER_ID;
                 }
-                const currSelectedAreaLocation = selectedAreaLocation;
-                if (currSelectedAreaLocation) {
-                    const currY = currSelectedAreaLocation.xy.y;
-                    const currHeight = currSelectedAreaLocation.dimensions.height;
-                    const currMaxY = currY + currHeight;
-
-                    newSelectedAreaLocation = {
-                        ...currSelectedAreaLocation,
-                        xy: {
-                            x: currSelectedAreaLocation.xy.x,
-                            y:
-                                currSelectedAreaLocation.xy.y + dy <= currMaxY
-                                    ? currSelectedAreaLocation.xy.y + dy
-                                    : currMaxY,
-                        },
-                        dimensions: {
-                            width: Math.abs(currSelectedAreaLocation.dimensions.width),
-                            height: Math.abs(currSelectedAreaLocation.dimensions.height - dy),
-                        },
-                    };
-                    setSelectedAreaLocation(newSelectedAreaLocation);
+            } else if (itsEResizer || itsWResizer) {
+                if (refCanvas.current && refCanvas.current.style.cursor !== E_RESIZER_ID) {
+                    refCanvas.current.style.cursor = E_RESIZER_ID;
                 }
+            }
+            const currSelectedAreaLocation = selectedAreaLocation;
+            if (currSelectedAreaLocation) {
+                const dXY = { dx, dy };
+                const resizerType = {
+                    itsNResizer: itsNResizer,
+                    itsSResizer: itsSResizer,
+                    itsWResizer: itsWResizer,
+                    itsEResizer: itsEResizer,
+                };
+                newSelectedAreaLocation = getResizedSelectedAreaLocation(currSelectedAreaLocation, dXY, resizerType);
+                setSelectedAreaLocation(newSelectedAreaLocation);
+                setSelectedAreaStartPoint(newSelectedAreaLocation.xy);
             }
         };
         const mouseUpReziseHandler = () => {
@@ -327,6 +328,21 @@ export function SlideComponent(props: SlideProps) {
             unsubscribe();
         };
     }, [slideContainerRatio, resizersRenderInfo, windowRatio]);
+
+    const onSelectAreaEnterHandler = (event: BaseSyntheticEvent) => {
+        const el = event.target as Element;
+        const elAttrId = el.getAttribute('id');
+        if (elAttrId === SELECT_AREA_ID && refCanvas.current) {
+            refCanvas.current.style.cursor = 'move';
+        }
+    };
+    const onSelectAreaLeaveHandler = (event: BaseSyntheticEvent) => {
+        const el = event.target as Element;
+        const elAttrId = el.getAttribute('id');
+        if (elAttrId === SELECT_AREA_ID && refCanvas.current) {
+            refCanvas.current.style.cursor = 'default';
+        }
+    };
 
     const emptySlideWidth = props.containerWidth! * slideContainerRatio;
     const emptySlideHeight = emptySlideWidth / windowRatio;
@@ -405,6 +421,8 @@ export function SlideComponent(props: SlideProps) {
                         className={styles[SELECT_AREA_ID]}
                         width={selectedAreaLocation.dimensions.width * renderScale.width}
                         height={selectedAreaLocation.dimensions.height * renderScale.height}
+                        onMouseEnter={onSelectAreaEnterHandler}
+                        onMouseLeave={onSelectAreaLeaveHandler}
                     />
                     {resizerRenderArr.map((info, index) => {
                         return (
@@ -509,4 +527,78 @@ function getResizersRenderInfoArr(
             className: styles[W_RESIZER_ID],
         },
     ];
+}
+
+function getResizedSelectedAreaLocation(
+    currSelectedAreaLocation: AreaLocation,
+    dXY: {
+        dx: number;
+        dy: number;
+    },
+    resizerType: {
+        itsNResizer: boolean | undefined;
+        itsSResizer: boolean | undefined;
+        itsWResizer: boolean | undefined;
+        itsEResizer: boolean | undefined;
+    },
+): AreaLocation {
+    const changingSideMinCord =
+        resizerType.itsNResizer || resizerType.itsSResizer
+            ? currSelectedAreaLocation.xy.y
+            : currSelectedAreaLocation.xy.x;
+    const changingDimension =
+        resizerType.itsNResizer || resizerType.itsSResizer
+            ? currSelectedAreaLocation.dimensions.height
+            : currSelectedAreaLocation.dimensions.width;
+    const changingSideMaxCoord = changingSideMinCord + changingDimension;
+
+    const countedMinCord =
+        resizerType.itsNResizer || resizerType.itsSResizer
+            ? resizerType.itsNResizer
+                ? currSelectedAreaLocation.xy.y + dXY.dy <= changingSideMaxCoord
+                    ? currSelectedAreaLocation.xy.y + dXY.dy
+                    : changingSideMaxCoord
+                : changingSideMaxCoord + dXY.dy >= changingSideMinCord
+                ? changingSideMinCord
+                : changingSideMaxCoord + dXY.dy
+            : resizerType.itsWResizer
+            ? currSelectedAreaLocation.xy.x + dXY.dx <= changingSideMaxCoord
+                ? currSelectedAreaLocation.xy.x + dXY.dx
+                : changingSideMaxCoord
+            : changingSideMaxCoord + dXY.dx >= changingSideMinCord
+            ? changingSideMinCord
+            : changingSideMaxCoord + dXY.dx;
+
+    const countedDimensions = {
+        width:
+            resizerType.itsNResizer || resizerType.itsSResizer
+                ? Math.abs(currSelectedAreaLocation.dimensions.width)
+                : resizerType.itsWResizer
+                ? Math.abs(currSelectedAreaLocation.dimensions.width - dXY.dx)
+                : Math.abs(currSelectedAreaLocation.dimensions.width + dXY.dx),
+        height:
+            resizerType.itsEResizer || resizerType.itsWResizer
+                ? Math.abs(currSelectedAreaLocation.dimensions.height)
+                : resizerType.itsNResizer
+                ? Math.abs(currSelectedAreaLocation.dimensions.height - dXY.dy)
+                : Math.abs(currSelectedAreaLocation.dimensions.height + dXY.dy),
+    };
+
+    return {
+        ...currSelectedAreaLocation,
+        xy:
+            resizerType.itsNResizer || resizerType.itsSResizer
+                ? {
+                      x: currSelectedAreaLocation.xy.x,
+                      y: countedMinCord,
+                  }
+                : {
+                      x: countedMinCord,
+                      y: currSelectedAreaLocation.xy.y,
+                  },
+        dimensions: {
+            width: countedDimensions.width,
+            height: countedDimensions.height,
+        },
+    };
 }

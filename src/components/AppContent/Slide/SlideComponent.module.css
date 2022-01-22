@@ -27,7 +27,6 @@
     stroke-width: 2px;
     stroke-dasharray: 10, 2;
     stroke-linejoin: round;
-    cursor: move;
 }
 
 .select-area-line {
