@@ -1,5 +1,5 @@
 import { getCurrentSlide, applySlideChanges } from './slides_actions';
-import { Coordinates, Editor, SelectedAreaLocation, Size, Slide, SlideElement } from './types';
+import { Coordinates, Editor, AreaLocation, Size, Slide, SlideElement } from './types';
 
 export function changeElementsSize(editor: Editor, scaleX: number, scaleY: number): Editor {
     const scale: Size = {
@@ -149,7 +149,7 @@ export function getElementsCoordinates(editor: Editor): Coordinates[] | undefine
     });
 }
 
-export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): SelectedAreaLocation | undefined {
+export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): AreaLocation | undefined {
     type elementLocationInfo = {
         coords: Coordinates;
         dimensions: Size;
@@ -167,7 +167,7 @@ export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): Se
         })
         .filter((item) => item !== undefined);
 
-    function getSelectedAreaLocation(arr: elementLocationInfo[]): SelectedAreaLocation | undefined {
+    function getSelectedAreaLocation(arr: elementLocationInfo[]): AreaLocation | undefined {
         let index = arr.length - 1;
         const el = arr[index];
 

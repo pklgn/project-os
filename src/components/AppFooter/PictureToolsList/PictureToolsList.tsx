@@ -1,4 +1,4 @@
-import styles from './FigureToolsList.module.css';
+import styles from './PictureToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
 import React, { useContext, useEffect, useState } from 'react';
@@ -16,21 +16,17 @@ import { useDispatch } from 'react-redux';
 import { Clear } from '../../common/icons/Cancel/Clear';
 import { setChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
 import { store } from '../../../app_model/redux_model/store';
+import { dispatchRedoAction, dispatchUndoAction } from '../../../app_model/redux_model/historyDispatchers';
 
 export function FigureToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
     const dispatchSetPreviousModelStateAction = bindActionCreators(undoModelAction, dispatch);
-    const dispatchTurnBackModelStateAction = bindActionCreators(redoModelAction, dispatch);
     const dispatchNoneChosenElements = bindActionCreators(setChosenElementsType, dispatch);
 
     const undoPressButtonHandler = () => {
         dispatchSetPreviousModelStateAction();
-    };
-
-    const redoButtonPressHandler = () => {
-        dispatchTurnBackModelStateAction();
     };
 
     const NoneChosenElements = () => {
@@ -40,10 +36,10 @@ export function FigureToolsList(): JSX.Element {
     useEffect(() => {
         const historyActionsHandler = (event: KeyboardEvent) => {
             if (event.code == 'KeyZ' && event.ctrlKey) {
-                undoPressButtonHandler();
+                dispatchUndoAction(dispatch)();
             }
             if (event.code == 'KeyY' && event.ctrlKey) {
-                redoButtonPressHandler();
+                dispatchRedoAction(dispatch)();
             }
         };
 

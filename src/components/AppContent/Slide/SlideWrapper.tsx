@@ -12,10 +12,28 @@ import { useSlideResize } from '../../utils/useSlideResize';
 
 import {
     dispatchSetElementsRenderRatioAction,
+    dispatchSetSlideWhiteAreaLocationAction,
     dispatchSlideContainerDimensions,
 } from '../../../app_model/redux_model/dispatchers';
-import { SelectedAreaLocation, Slide } from '../../../app_model/model/types';
-import { getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
+import { Coordinates, AreaLocation, Slide } from '../../../app_model/model/types';
+import {
+    getSlideContainerDimension,
+    getSlideToContainerRatio,
+    getSlideWhiteAreaLocation,
+    getWindowRatio,
+} from '../../../app_model/view_model/slide_render_actions';
+
+export function getCoordinates(oldCoord: Coordinates, scale: number): Coordinates {
+    const whiteAreaLocation = getSlideWhiteAreaLocation(store.getState().viewModel);
+    return {
+        x:
+            (oldCoord.x - (whiteAreaLocation.xy.x + whiteAreaLocation.dimensions.width / 2)) * scale +
+            whiteAreaLocation.xy.x,
+        y:
+            (oldCoord.y - (whiteAreaLocation.xy.y + whiteAreaLocation.dimensions.height / 2)) * scale +
+            whiteAreaLocation.xy.y,
+    };
+}
 
 export function SlideWrapper() {
     const ref = useRef<HTMLDivElement>(null);
@@ -45,9 +63,14 @@ export function SlideWrapper() {
 
     const [containerWidth, containerHeight] = useResize(ref);
     const [initWidth, setCurrWidth] = useState(0);
+    const [initHeight, setCurrHeight] = useState(0);
     const maxSelectedAreaLocationInfo = useSlideResize(ref, currSlide);
 
+    const emptySlideWidth = containerWidth * getSlideToContainerRatio(store.getState().viewModel);
+    const emptySlideHeight = emptySlideWidth / getWindowRatio(store.getState().viewModel);
+
     const slideViewBox = getSlideViewBox(maxSelectedAreaLocationInfo, containerWidth, containerHeight);
+    console.log(emptySlideHeight / getSlideContainerDimension(store.getState().viewModel).height);
 
     useLayoutEffect(() => {
         if (ref.current) {
@@ -62,12 +85,25 @@ export function SlideWrapper() {
         if (initWidth === 0) {
             setCurrWidth(containerWidth);
         }
+        if (initHeight === 0) {
+            setCurrHeight(emptySlideHeight / getSlideContainerDimension(store.getState().viewModel).height);
+        }
+        dispatchSetSlideWhiteAreaLocationAction(dispatch)({
+            xy: {
+                x: (containerWidth - emptySlideWidth) / 2,
+                y: (containerHeight - emptySlideHeight) / 2,
+            },
+            dimensions: {
+                width: emptySlideWidth,
+                height: emptySlideHeight,
+            },
+        });
         dispatchSetElementsRenderRatioAction(dispatch)({
             width: containerWidth / initWidth,
-            height: getWindowRatio(store.getState().viewModel),
+            height: emptySlideHeight / getSlideContainerDimension(store.getState().viewModel).height,
         });
         dispatchSlideContainerDimensions(dispatch)({ width: containerWidth, height: containerHeight });
-    }, [dispatch, containerHeight, containerWidth, currSlide, initWidth]);
+    }, [dispatch, emptySlideHeight, containerHeight, containerWidth, currSlide, initWidth]);
 
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>
@@ -96,7 +132,7 @@ type ViewBoxType = {
 };
 
 function getSlideViewBox(
-    maxSelectedElementsArea: SelectedAreaLocation | undefined,
+    maxSelectedElementsArea: AreaLocation | undefined,
     slideContainerWidth: number,
     slideContainerHeight: number,
 ): ViewBoxType {

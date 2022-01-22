@@ -4,28 +4,30 @@ import { LocaleContext, LocaleContextType } from '../../../App';
 import { useContext, useEffect, useState } from 'react';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
-import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
-import { keepModelAction } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
-import {
-    changeTextsColor,
-    changeTextContent,
-} from '../../../app_model/redux_model/actions_model/action_creators/text_action_creators';
-import { AddText } from '../../common/icons/AddText/AddText';
 import { Clear } from '../../common/icons/Cancel/Clear';
 import { TextColor } from '../../common/icons/TextColor/TextColor';
 import { ChangeText } from '../../common/icons/ChangeText/ChangeText';
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { generateUUId } from '../../../app_model/model/utils/uuid';
-import { setChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
 import { store } from '../../../app_model/redux_model/store';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
+import { dispatchKeepModelAction } from '../../../app_model/redux_model/historyDispatchers';
+import { dispatchChangeTextContentAction, dispatchChangeTextsColorAction } from '../../../app_model/redux_model/textDispatchers';
+import { dispatchSetChosenElementsTypeAction } from '../../../app_model/redux_model/chosenElementsDispatchers';
+import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
+
+enum commonList{
+    DEFAULT = 'DEFAULT',
+    REORDER = 'REORDER',
+    OPACITY = 'OPACITY',
+}
 
 export function TextToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
+    const [listSwitcher, setListSwitcher] = useState(commonList.DEFAULT);
     const [query, setQuery] = useState('Введите текст');
     const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const enteredName = event.target.value;
@@ -33,23 +35,23 @@ export function TextToolsList(): JSX.Element {
     };
 
     const dispatch = useDispatch();
-    const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
-    const dispatchChangeTextColor = bindActionCreators(changeTextsColor, dispatch);
-    const dispatchChangeTextContent = bindActionCreators(changeTextContent, dispatch);
-    const dispatchNoneChosenElements = bindActionCreators(setChosenElementsType, dispatch);
-
+    
     const changeTextColorHandler = () => {
-        dispatchChangeTextColor('black');
-        dispatchKeepModelAction();
+        dispatchChangeTextsColorAction(dispatch)('black');
+        dispatchKeepModelAction(dispatch)();
     };
 
     const changeTextContentHandler = () => {
-        dispatchChangeTextContent(['']);
-        dispatchKeepModelAction();
+        dispatchChangeTextContentAction(dispatch)(['plplpl']);
+        dispatchKeepModelAction(dispatch)();
     };
 
     const noneChosenElementsHandler = () => {
-        dispatchNoneChosenElements(store.getState().viewModel, 'NONE');
+        dispatchSetChosenElementsTypeAction(dispatch)('NONE');
+    };
+
+    const callbackHandler = () => {
+        setListSwitcher(commonList.DEFAULT);
     };
 
     useEffect(() => {
@@ -70,16 +72,13 @@ export function TextToolsList(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
             iconLeft: <ChangeText />,
+            onMouseUp: changeTextContentHandler
         },
         {
             text: localeContext.locale.localization.elementsListTool.textTool,
             id: 'text-tool-button',
             iconLeft: <TextColor />,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.textTool,
-            id: '',
-            iconLeft: <Opacity />,
+            onMouseUp: changeTextColorHandler
         },
     ];
 
@@ -105,25 +104,54 @@ export function TextToolsList(): JSX.Element {
 
     return (
         <div className={styles['text-tools']}>
-            {textToolsButtonInfo.map((buttonInfo) => {
+            {/* {textToolsButtonInfo.map((buttonInfo, index) => {
                 return (
                     <ToolTip
-                        key={generateUUId()}
+                        key={index}
+                        id={`${buttonInfo.id}`}
                         title={buttonInfo.text ? buttonInfo.text : 'None'}
                         position="above"
                         child={
                             <Button
-                                key={generateUUId()}
+                                key={index}
                                 type={buttonInfo.type}
                                 state={buttonInfo.state}
                                 id={buttonInfo.id}
                                 iconLeft={buttonInfo.iconLeft}
-                                onClick={buttonInfo.onClick}
+                                onMouseUp={buttonInfo.onMouseUp}
                             />
                         }
                     />
                 );
-            })}
+            })} */}
+            { (() => {
+                switch(listSwitcher) {
+                    case commonList.DEFAULT: 
+                        return (
+                            defaultToolsButtonInfo.map((buttonInfo, index) => {
+                                return (
+                                    <ToolTip
+                                        key={index}
+                                        title={buttonInfo.text ? buttonInfo.text : 'None'}
+                                        position="above"
+                                        child={
+                                            <Button
+                                                key={index}
+                                                type={buttonInfo.type}
+                                                state={buttonInfo.state}
+                                                id={buttonInfo.id}
+                                                iconLeft={buttonInfo.iconLeft}
+                                                onClick={buttonInfo.onClick}
+                                            />
+                                        }
+                                    />
+                                );
+                            })
+                        )
+                    case commonList.REORDER:
+                        return <ReorderToolsList setListSwitcher={callbackHandler}/>
+                }
+            })()}
         </div>
     );
 }

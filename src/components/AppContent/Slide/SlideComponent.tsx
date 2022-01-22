@@ -4,7 +4,7 @@ import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import { FigureElementComponent } from '../../SlideElements/FigureElements/FigureElementComponent';
 import { PictureElementComponent } from '../../SlideElements/Picture/PictureElementComponent';
-import { Coordinates, SelectedAreaLocation, Slide } from '../../../app_model/model/types';
+import { Coordinates, AreaLocation, Slide } from '../../../app_model/model/types';
 import { TextElementComponent } from '../../SlideElements/Text/TextElementComponent';
 
 import { LocaleContext } from '../../../App';
@@ -19,6 +19,7 @@ import { getActiveViewArea } from '../../../app_model/view_model/active_view_are
 import {
     getElementsRenderRatio,
     getResizersInfo,
+    getSlideContainerDimension,
     getSlideToContainerRatio,
     getWindowRatio,
 } from '../../../app_model/view_model/slide_render_actions';
@@ -66,7 +67,7 @@ export function SlideComponent(props: SlideProps) {
     };
 
     const [isSlideActive, setSlideActiveStatus] = useState(false);
-    const [selectedAreaLocation, setSelectedAreaLocation] = useState(undefined as SelectedAreaLocation | undefined);
+    const [selectedAreaLocation, setSelectedAreaLocation] = useState(undefined as AreaLocation | undefined);
     const [selectedAreaStartPoint, setSelectedAreaStartPoint] = useState(undefined as Coordinates | undefined);
 
     const [elementsAmount, setElementsAmount] = useState(getSlideElementsAmount(props.slide));
@@ -395,7 +396,7 @@ export function SlideComponent(props: SlideProps) {
 }
 
 function getResizersRenderInfoArr(
-    selectedAreaLocation: SelectedAreaLocation | undefined,
+    selectedAreaLocation: AreaLocation | undefined,
     resizersSize: number,
     resizersOffset: number,
     renderScale: ElementsRatioType,
@@ -407,7 +408,7 @@ function getResizersRenderInfoArr(
         },
         dimensions: {
             width: selectedAreaLocation ? selectedAreaLocation.dimensions.width * renderScale.width : 0,
-            height: selectedAreaLocation ? selectedAreaLocation.dimensions.height * renderScale.height : 0,
+            height: selectedAreaLocation ? selectedAreaLocation.dimensions.height * renderScale.width : 0,
         },
     };
     const resizersCords = {
