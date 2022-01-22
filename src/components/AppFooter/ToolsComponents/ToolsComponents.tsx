@@ -62,15 +62,15 @@ export const ToolsComponents = {
                         case commonList.DEFAULT:
                             return (
                                 <div className={styles['tools-buttons-container']} id="tools-buttons-container">
-                                    {defaultToolsButtonInfo.map((buttonInfo) => {
+                                    {defaultToolsButtonInfo.map((buttonInfo, index) => {
                                         return (
                                             <ToolTip
-                                                key={generateUUId()}
+                                                key={index}
                                                 title={buttonInfo.text ? buttonInfo.text : 'None'}
                                                 position="above"
                                                 child={
                                                     <Button
-                                                        key={generateUUId()}
+                                                        key={index}
                                                         type={buttonInfo.type}
                                                         state={buttonInfo.state}
                                                         id={buttonInfo.id}

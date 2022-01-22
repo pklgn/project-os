@@ -10,6 +10,9 @@ import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
+import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/elementDispatchers';
+import { useDispatch } from 'react-redux';
+import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
 
 enum commonList {
     DEFAULT = 'DEFAULT',
@@ -21,6 +24,7 @@ export function DefaultToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const [listSwitcher, setListSwitcher] = useState(commonList.DEFAULT);
+    const dispatch = useDispatch();
 
     const reorderHandler = () => {
         setListSwitcher(commonList.REORDER);
@@ -32,6 +36,11 @@ export function DefaultToolsList(): JSX.Element {
 
     const callbackHandler = () => {
         setListSwitcher(commonList.DEFAULT);
+    };
+
+    const removeSelectedElementsHandler = () => {
+        dispatchRemoveSelectedElementsAction(dispatch)();
+        dispatchKeepModelAction(dispatch)();
     };
 
     const defaultToolsButtonInfo: ButtonProps[] = [
@@ -51,6 +60,7 @@ export function DefaultToolsList(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.geometryTool,
             id: 'geometry-tool-button',
             iconLeft: <DeleteElement />,
+            onClick: removeSelectedElementsHandler,
         },
     ];
 
@@ -61,15 +71,15 @@ export function DefaultToolsList(): JSX.Element {
                     case commonList.DEFAULT:
                         return (
                             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
-                                {defaultToolsButtonInfo.map((buttonInfo) => {
+                                {defaultToolsButtonInfo.map((buttonInfo, index) => {
                                     return (
                                         <ToolTip
-                                            key={generateUUId()}
+                                            key={index}
                                             title={buttonInfo.text ? buttonInfo.text : 'None'}
                                             position="above"
                                             child={
                                                 <Button
-                                                    key={generateUUId()}
+                                                    key={index}
                                                     type={buttonInfo.type}
                                                     state={buttonInfo.state}
                                                     id={buttonInfo.id}

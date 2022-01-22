@@ -20,6 +20,7 @@ import {
 } from '../../../app_model/redux_model/textDispatchers';
 import { dispatchSetChosenElementsTypeAction } from '../../../app_model/redux_model/chosenElementsDispatchers';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
+import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/elementDispatchers';
 
 enum commonList {
     DEFAULT = 'DEFAULT',
@@ -39,6 +40,23 @@ export function TextToolsList(): JSX.Element {
 
     const dispatch = useDispatch();
 
+    const reorderHandler = () => {
+        setListSwitcher(commonList.REORDER);
+    };
+
+    const opacityHandler = () => {
+        setListSwitcher(commonList.OPACITY);
+    };
+
+    const removeSelectedElementsHandler = () => {
+        dispatchRemoveSelectedElementsAction(dispatch)();
+        dispatchKeepModelAction(dispatch)();
+    };
+
+    const callbackHandler = () => {
+        setListSwitcher(commonList.DEFAULT);
+    };
+
     const changeTextColorHandler = () => {
         dispatchChangeTextsColorAction(dispatch)('black');
         dispatchKeepModelAction(dispatch)();
@@ -51,10 +69,6 @@ export function TextToolsList(): JSX.Element {
 
     const noneChosenElementsHandler = () => {
         dispatchSetChosenElementsTypeAction(dispatch)('NONE');
-    };
-
-    const callbackHandler = () => {
-        setListSwitcher(commonList.DEFAULT);
     };
 
     useEffect(() => {
@@ -90,16 +104,19 @@ export function TextToolsList(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
             iconLeft: <Reorder />,
+            onClick: reorderHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.textTool,
             id: 'text-tool-button',
             iconLeft: <Opacity />,
+            onClick: opacityHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.geometryTool,
             id: 'geometry-tool-button',
             iconLeft: <DeleteElement />,
+            onClick: removeSelectedElementsHandler,
         },
     ];
 
@@ -107,30 +124,10 @@ export function TextToolsList(): JSX.Element {
 
     return (
         <div className={styles['text-tools']}>
-            {/* {textToolsButtonInfo.map((buttonInfo, index) => {
-                return (
-                    <ToolTip
-                        key={index}
-                        id={`${buttonInfo.id}`}
-                        title={buttonInfo.text ? buttonInfo.text : 'None'}
-                        position="above"
-                        child={
-                            <Button
-                                key={index}
-                                type={buttonInfo.type}
-                                state={buttonInfo.state}
-                                id={buttonInfo.id}
-                                iconLeft={buttonInfo.iconLeft}
-                                onMouseUp={buttonInfo.onMouseUp}
-                            />
-                        }
-                    />
-                );
-            })} */}
             {(() => {
                 switch (listSwitcher) {
                     case commonList.DEFAULT:
-                        return defaultToolsButtonInfo.map((buttonInfo, index) => {
+                        return textToolsButtonInfo.map((buttonInfo, index) => {
                             return (
                                 <ToolTip
                                     key={index}
