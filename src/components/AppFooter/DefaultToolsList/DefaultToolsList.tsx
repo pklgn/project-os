@@ -39,7 +39,7 @@ export function DefaultToolsList(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
             iconLeft: <Reorder />,
-            onMouseUp: reorderHandler,
+            onClick: reorderHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.textTool,

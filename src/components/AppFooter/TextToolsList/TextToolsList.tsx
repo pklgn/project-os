@@ -14,11 +14,14 @@ import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 import { dispatchKeepModelAction } from '../../../app_model/redux_model/historyDispatchers';
-import { dispatchChangeTextContentAction, dispatchChangeTextsColorAction } from '../../../app_model/redux_model/textDispatchers';
+import {
+    dispatchChangeTextContentAction,
+    dispatchChangeTextsColorAction,
+} from '../../../app_model/redux_model/textDispatchers';
 import { dispatchSetChosenElementsTypeAction } from '../../../app_model/redux_model/chosenElementsDispatchers';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 
-enum commonList{
+enum commonList {
     DEFAULT = 'DEFAULT',
     REORDER = 'REORDER',
     OPACITY = 'OPACITY',
@@ -35,7 +38,7 @@ export function TextToolsList(): JSX.Element {
     };
 
     const dispatch = useDispatch();
-    
+
     const changeTextColorHandler = () => {
         dispatchChangeTextsColorAction(dispatch)('black');
         dispatchKeepModelAction(dispatch)();
@@ -72,13 +75,13 @@ export function TextToolsList(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
             iconLeft: <ChangeText />,
-            onMouseUp: changeTextContentHandler
+            onMouseUp: changeTextContentHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.textTool,
             id: 'text-tool-button',
             iconLeft: <TextColor />,
-            onMouseUp: changeTextColorHandler
+            onMouseUp: changeTextColorHandler,
         },
     ];
 
@@ -124,32 +127,30 @@ export function TextToolsList(): JSX.Element {
                     />
                 );
             })} */}
-            { (() => {
-                switch(listSwitcher) {
-                    case commonList.DEFAULT: 
-                        return (
-                            defaultToolsButtonInfo.map((buttonInfo, index) => {
-                                return (
-                                    <ToolTip
-                                        key={index}
-                                        title={buttonInfo.text ? buttonInfo.text : 'None'}
-                                        position="above"
-                                        child={
-                                            <Button
-                                                key={index}
-                                                type={buttonInfo.type}
-                                                state={buttonInfo.state}
-                                                id={buttonInfo.id}
-                                                iconLeft={buttonInfo.iconLeft}
-                                                onClick={buttonInfo.onClick}
-                                            />
-                                        }
-                                    />
-                                );
-                            })
-                        )
+            {(() => {
+                switch (listSwitcher) {
+                    case commonList.DEFAULT:
+                        return defaultToolsButtonInfo.map((buttonInfo, index) => {
+                            return (
+                                <ToolTip
+                                    key={index}
+                                    title={buttonInfo.text ? buttonInfo.text : 'None'}
+                                    position="above"
+                                    child={
+                                        <Button
+                                            key={index}
+                                            type={buttonInfo.type}
+                                            state={buttonInfo.state}
+                                            id={buttonInfo.id}
+                                            iconLeft={buttonInfo.iconLeft}
+                                            onClick={buttonInfo.onClick}
+                                        />
+                                    }
+                                />
+                            );
+                        });
                     case commonList.REORDER:
-                        return <ReorderToolsList setListSwitcher={callbackHandler}/>
+                        return <ReorderToolsList setListSwitcher={callbackHandler} />;
                 }
             })()}
         </div>

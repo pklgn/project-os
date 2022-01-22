@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { dispatchKeepModelAction } from '../../../app_model/redux_model/historyDispatchers';
 
 type reorderToolsListProps = {
-    setListSwitcher: () => {};
+    setListSwitcher: () => void;
 };
 
 export function ReorderToolsList(props: reorderToolsListProps): JSX.Element {
@@ -38,25 +38,25 @@ export function ReorderToolsList(props: reorderToolsListProps): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
             iconLeft: <LayerForward />,
-            onMouseUp: props.setListSwitcher,
+            onClick: props.setListSwitcher,
         },
         {
             text: localeContext.locale.localization.elementsListTool.textTool,
             id: 'text-tool-button',
             iconLeft: <LayerForeground />,
-            onMouseUp: moveForegroundHandler,
+            onClick: moveForegroundHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.textTool,
             id: '',
             iconLeft: <LayerBackward />,
-            onMouseUp: props.setListSwitcher,
+            onClick: props.setListSwitcher,
         },
         {
             text: localeContext.locale.localization.elementsListTool.textTool,
             id: '',
             iconLeft: <LayerBackground />,
-            onMouseUp: moveBackgroundHandler,
+            onClick: moveBackgroundHandler,
         },
     ];
 
@@ -76,7 +76,7 @@ export function ReorderToolsList(props: reorderToolsListProps): JSX.Element {
                                 state={buttonInfo.state}
                                 id={buttonInfo.id}
                                 iconLeft={buttonInfo.iconLeft}
-                                onMouseUp={buttonInfo.onMouseUp}
+                                onClick={buttonInfo.onClick}
                             />
                         }
                     />

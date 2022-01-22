@@ -1,4 +1,4 @@
-import React, { useState, createContext} from 'react';
+import React, { useState, createContext } from 'react';
 import styles from './App.module.css';
 
 import { PresentationEditor } from './components/PresentationEditor/PresentationEditor';
