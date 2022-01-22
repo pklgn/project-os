@@ -1,7 +1,7 @@
 export function FullscreenIcon(props: { color: string }): JSX.Element {
     const reg = /^#([0-9a-f]{3}){1,2}$/i;
     return (
-        <svg width="32" height="32" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="28" height="28" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_356_54)">
                 <path d="M20.9642 6.74316H6.07788V22.9528H20.9642V6.74316Z" />
                 <path

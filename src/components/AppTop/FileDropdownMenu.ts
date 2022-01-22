@@ -1,7 +1,7 @@
-import { generateUUId } from '../utils/uuid';
-import { DropdownMenuProps } from '../../../components/common/DropdownMenu/DropdownMenu';
+import { generateUUId } from '../../app_model/model/utils/uuid';
+import { DropdownMenuProps } from '../common/DropdownMenu/DropdownMenu';
 
-const mockDropdown: DropdownMenuProps = {
+const FileDropdownMenu: DropdownMenuProps = {
     data: {
         mainButton: { id: generateUUId(), text: 'Файл' },
         nestedButtons: [
@@ -35,8 +35,26 @@ const mockDropdown: DropdownMenuProps = {
                     },
                 ],
             },
+            {
+                mainButton: { id: generateUUId(), text: 'Изменить соотношение сторон' },
+                nestedButtons: [
+                    {
+                        mainButton: { id: generateUUId(), text: '16:9' },
+                        nestedButtons: [],
+                    },
+                    {
+                        mainButton: { id: generateUUId(), text: '16:10' },
+                        nestedButtons: [],
+                    },
+                    {
+                        mainButton: { id: generateUUId(), text: '4:3' },
+                        nestedButtons: [],
+                    },
+                ],
+            },
         ],
     },
     position: 'default',
 };
-export { mockDropdown };
+
+export { FileDropdownMenu };

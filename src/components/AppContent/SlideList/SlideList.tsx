@@ -136,7 +136,7 @@ export function SlideList(props: SlideListProps) {
         };
 
         const handlerKeyDown = (event: KeyboardEvent) => {
-            if (readyForHotkeys) {
+            if (readyForHotkeys && getActiveViewArea(store.getState().viewModel) === 'SLIDE_LIST') {
                 if (event.code === 'Delete') {
                     dispatchDeleteSlideAction(dispatch)();
                     dispatchKeepModelAction(dispatch)();

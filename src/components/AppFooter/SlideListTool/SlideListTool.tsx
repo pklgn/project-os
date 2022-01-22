@@ -35,7 +35,7 @@ export function SlideListTool(): JSX.Element {
 
     useEffect(() => {
         const onKeyDownHandler = (e: KeyboardEvent) => {
-            if (e.ctrlKey && e.code === 'KeyM') {
+            if (e.ctrlKey && e.code === 'KeyM' && getActiveViewArea(store.getState().viewModel) !== 'APP_TOP') {
                 dispatchAddSlideAction(dispatch)();
                 dispatchKeepModelAction(dispatch)();
                 if (getActiveViewArea(store.getState().viewModel) !== 'SLIDE_LIST') {
@@ -57,12 +57,14 @@ export function SlideListTool(): JSX.Element {
             id: 'add-slide-button',
             iconLeft: <AddSlideIcon color="#ffa322" />,
             onMouseUp: addSlideButtonFunction,
+            cssMix: { margin: '0 5px' },
         },
         {
             text: localeContext.locale.localization.slideListTool.deleteSlide,
             id: 'delete-slide-button',
             iconLeft: <DeleteSlideIcon color="#ffa322" />,
             onMouseUp: deleteSelectedSlidesButtonFunction,
+            cssMix: { margin: '0 5px' },
         },
     ] as ButtonProps[];
 
