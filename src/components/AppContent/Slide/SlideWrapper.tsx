@@ -14,7 +14,7 @@ import {
     dispatchSetElementsRenderRatioAction,
     dispatchSlideContainerDimensions,
 } from '../../../app_model/redux_model/dispatchers';
-import { SelectedAreaLocation, Slide } from '../../../app_model/model/types';
+import { AreaLocation, Slide } from '../../../app_model/model/types';
 import { getSlideToContainerRatio, getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
 
 export function SlideWrapper() {
@@ -104,7 +104,7 @@ type ViewBoxType = {
 };
 
 function getSlideViewBox(
-    maxSelectedElementsArea: SelectedAreaLocation | undefined,
+    maxSelectedElementsArea: AreaLocation | undefined,
     slideContainerWidth: number,
     slideContainerHeight: number,
 ): ViewBoxType {
