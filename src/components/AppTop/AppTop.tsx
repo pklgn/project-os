@@ -1,6 +1,6 @@
 import styles from './AppTop.module.css';
 
-import { BaseSyntheticEvent, useContext } from 'react';
+import { BaseSyntheticEvent, useContext, useRef } from 'react';
 
 import { RootState } from '../../app_model/redux_model/reducers/root_reducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ import { LocaleContext } from '../../App';
 
 import { DropdownMenu } from '../common/DropdownMenu/DropdownMenu';
 import { getFullScreenDropdownMenu } from './getFullScreenDropdownMenu';
-import { FileDropdownMenu } from './FileDropdownMenu';
+import { getFileDropdownMenu } from './getFileDropdownMenu';
 
 import {
     dispatchActiveViewAreaAction,
@@ -25,6 +25,11 @@ import {
 } from '../../app_model/redux_model/dispatchers';
 import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
 import { store } from '../../app_model/redux_model/store';
+import { savePresentationAsJson } from '../../app_model/model/editor_actions';
+import { initEditor } from '../../app_model/model/init_model_action';
+import { UploadPresentationInput } from '../common/ToolBar/UploadPresentationInput';
+import { generateUUId } from '../../app_model/model/utils/uuid';
+import { UploadPictureInput } from '../common/ToolBar/UploadPictureInput';
 
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
@@ -87,11 +92,41 @@ export function AppTop(): JSX.Element {
         locale: localeContext.locale,
     });
 
+    ///
+    const uploadPresentationInputRef = useRef<HTMLInputElement>(null);
+    const handleUploadPresentationClick = () => {
+        uploadPresentationInputRef.current?.click();
+    };
+
+    const uploadImageInputRef = useRef<HTMLInputElement>(null);
+    const handleUploadImageClick = () => {
+        uploadImageInputRef.current?.click();
+    };
+
+    const saveAsJSONFunction = () => {
+        const presentation = store.getState().model.presentation;
+        if (presentation.slidesList.length === 0) {
+            alert(localeContext.locale.localization.errors['noSlidesToSave']);
+        } else {
+            savePresentationAsJson({
+                ...initEditor(),
+                presentation: store.getState().model.presentation,
+            });
+        }
+    };
+
+    const fileDropdownMenu = getFileDropdownMenu({
+        locale: localeContext.locale,
+        handleOpenFile: () => undefined,
+        handleSaveFile: handleUploadPresentationClick,
+        handleUploadImage: handleUploadImageClick,
+    });
+
     return (
         <div className={styles['top-bar']}>
             <AppLogoPng width={55} height={55} type={'default'} />
             <div className={styles['top-bar-menu']}>
-                <DropdownMenu data={FileDropdownMenu.data} position={FileDropdownMenu.position} />
+                <DropdownMenu {...fileDropdownMenu} />
                 <ToolTip
                     title={localeContext.locale.localization.appTopButtons.presentationNameInputField}
                     id="input"
@@ -108,7 +143,7 @@ export function AppTop(): JSX.Element {
                         />
                     }
                 />
-                <DropdownMenu data={fullScreenDropdownProps.data} position={fullScreenDropdownProps.position} />
+                <DropdownMenu {...fullScreenDropdownProps} />
                 {miscButtonsInfo.map((info, index) => {
                     return (
                         <ToolTip
@@ -130,6 +165,8 @@ export function AppTop(): JSX.Element {
                     );
                 })}
             </div>
+            <UploadPresentationInput key={generateUUId()} inputRef={uploadPresentationInputRef} />
+            <UploadPictureInput key={generateUUId()} inputRef={uploadImageInputRef} />
         </div>
     );
 }

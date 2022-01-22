@@ -1,10 +1,11 @@
 import { Button, ButtonProps } from '../Button/Button';
 import { generateUUId } from '../../../app_model/model/utils/uuid';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styles from './DropdownMenu.module.css';
 import ArrowBack from '../icons/ArrowBack/ArrowBack';
 import { Triangle } from '../icons/Triangle/Triangle';
 import { joinClassNames } from '../../utils/joinClassNames';
+import { LocaleContext } from '../../../App';
 
 export type DropDownMenuItem = {
     mainButton: ButtonProps;
@@ -73,13 +74,14 @@ type DropdownListProps = {
 };
 
 function DropdownList(props: DropdownListProps) {
+    const localeContext = useContext(LocaleContext);
     const { dropdownState, handleClickBack, handleClickForward, handleClickOutside, currButton, position } = props;
     const dropdownListRef = useRef<HTMLUListElement>(null);
     const backButton = (
         <Button
             id={generateUUId()}
             type={'in-list'}
-            text={'Назад'}
+            text={localeContext.locale.localization.dropdown.common.back}
             key={generateUUId()}
             iconLeft={<ArrowBack key={generateUUId()} />}
             onMouseUp={() => handleClickBack()}

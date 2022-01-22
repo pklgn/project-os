@@ -1,8 +1,3 @@
-import styles from './ToolBar.module.css';
-
-import { Button } from '../Button/Button';
-import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
-
 import { getL18nObject } from '../../../l18n/l18n';
 import { LocaleContext } from '../../../App';
 import { useContext, useRef } from 'react';
@@ -23,19 +18,7 @@ import { UploadPresentationInput } from './UploadPresentationInput';
 import { UploadPictureInput } from './UploadPictureInput';
 
 export function ToolBar() {
-    const func = () => undefined;
-
     const localeContext = useContext(LocaleContext);
-
-    const toggleLocaleContext = () => {
-        if (localeContext.changeLocale !== undefined) {
-            if (localeContext.locale.currLocale === 'en_EN') {
-                localeContext.changeLocale(getL18nObject('ru_RU'));
-            } else if (localeContext.locale.currLocale === 'ru_RU') {
-                localeContext.changeLocale(getL18nObject('en_EN'));
-            }
-        }
-    };
 
     const uploadPresentationInputRef = useRef<HTMLInputElement>(null);
     const handleUploadPresentationClick = () => {
@@ -47,7 +30,6 @@ export function ToolBar() {
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
-    // const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
 
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {
@@ -58,29 +40,6 @@ export function ToolBar() {
             y: 25,
         });
     };
-
-    const startSlideShowFromFirstSlideButtonFunction = () => {
-        // dispatchSetEditorAction('show-from-first-slide');
-    };
-
-    const startSlideShowFromCurrentSlideButtonFunction = () => {
-        // dispatchSetEditorAction('show-from-current-slide');
-    };
-
-    // const addCircleButtonFunction = () => {
-    //     dispatchAddFigureAction({ shape: FigureShape.Circle, x: 0, y: 0 });
-    //     dispatchKeepModelAction();
-    // };
-
-    // const addRectangleButtonFunction = () => {
-    //     dispatchAddFigureAction({ shape: FigureShape.Rectangle, x: 0, y: 0 });
-    //     dispatchKeepModelAction();
-    // };
-
-    // const addTriangleButtonFunction = () => {
-    //     dispatchAddFigureAction({ shape: FigureShape.Triangle, x: 0, y: 0 });
-    //     dispatchKeepModelAction();
-    // };
 
     const uploadImageInputRef = useRef<HTMLInputElement>(null);
     const handleUploadImageClick = () => {
@@ -101,10 +60,10 @@ export function ToolBar() {
 
     /* eslint-disable react/jsx-key */
     return (
-        <div className={styles['top-bar']}>
+        <>
             <UploadPresentationInput key={generateUUId()} inputRef={uploadPresentationInputRef} />
             <UploadPictureInput key={generateUUId()} inputRef={uploadImageInputRef} />
-        </div>
+        </>
     );
     /* eslint-enable */
 }

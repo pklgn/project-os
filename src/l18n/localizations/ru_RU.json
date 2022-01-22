@@ -6,16 +6,29 @@
         "presentationNameInputField": "Изменить имя презентации"
     },
     "dropdown": {
+        "common": {
+            "back": "Назад"
+        },
         "fullscreen": {
             "firstSlideStart": "С первого слайда",
             "currSlideStart": "С текущего слайда"
         },
         "file": {
-
+            "file": "Файл",
+            "openFile": "Открыть",
+            "saveFile": "Сохранить",
+            "insertElement": "Вставить",
+            "exportPDF": "Экспортировать в PDF",
+            "changeAspectRatio": "Изменить соотношение сторон"
         }
     },
     "editor": {
         "emptySlide": "Кликните, чтобы добавить слайд"
+    },
+    "elements": {
+        "text": "Текст",
+        "picture": "Изображение",
+        "figure": "Фигура"
     },
     "elementsListTool": {
         "cursorTool": "Выбрать (Esc)",
