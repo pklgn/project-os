@@ -1,7 +1,6 @@
 .slide {
-    position: relative;
     box-sizing: border-box;
-    padding: 20px;
+    overflow: visible;
 }
 
 .empty-slide-container {
@@ -22,36 +21,59 @@
     }
 }
 
-.slide-container {
-    box-sizing: border-box;
-    overflow: visible;
-}
-
 .select-area {
     fill: transparent;
     stroke: lightsalmon;
-    stroke-width: 4px;
-    stroke-dasharray: 20, 5;
+    stroke-width: 2px;
+    stroke-dasharray: 10, 2;
     stroke-linejoin: round;
-    cursor: pointer;
+    cursor: move;
+}
+
+.select-area-line {
+    stroke: black;
+}
+
+.resizer-nw,
+.resizer-ne,
+.resizer-se,
+.resizer-sw,
+.resizer-n,
+.resizer-s,
+.resizer-w,
+.resizer-e {
+    fill: lightsalmon;
+    stroke: orange;
 }
 
 .resizer-nw {
-    fill: lightgreen;
     cursor: nw-resize;
 }
 
 .resizer-ne {
-    fill: lightgreen;
     cursor: ne-resize;
 }
 
 .resizer-se {
-    fill: lightgreen;
     cursor: se-resize;
 }
 
 .resizer-sw {
-    fill: lightgreen;
     cursor: sw-resize;
+}
+
+.resizer-n {
+    cursor: n-resize;
+}
+
+.resizer-s {
+    cursor: s-resize;
+}
+
+.resizer-w {
+    cursor: w-resize;
+}
+
+.resizer-e {
+    cursor: e-resize;
 }

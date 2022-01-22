@@ -3,7 +3,7 @@
     display: flex;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     overflow: auto;
 }

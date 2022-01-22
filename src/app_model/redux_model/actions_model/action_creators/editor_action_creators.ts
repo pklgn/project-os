@@ -1,17 +1,7 @@
 import { ActionType } from '../action_types/types';
 import { EditorActions } from '../actions/editor_actions';
-import { PresentationMode } from '../../../model/types';
 
 import { Dispatch } from 'react';
-
-export const setEditorMode = (payload: PresentationMode) => {
-    return (dispatch: Dispatch<EditorActions>) => {
-        dispatch({
-            type: ActionType.SET_EDITOR_MODE,
-            payload,
-        });
-    };
-};
 
 export const setSelectedIdInEditor = (payload: { selectedSlidesIds: string[]; selectedSlideElementsIds: string[] }) => {
     return (dispatch: Dispatch<EditorActions>) => {

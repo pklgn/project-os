@@ -1,44 +1,5 @@
 import { getCurrentSlide, applySlideChanges } from './slides_actions';
-import { Coordinates, Editor, SelectedAreaLocation, Size, Slide, SlideElement } from './types';
-
-export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolean): Editor {
-    const currSlide: Slide | undefined = getCurrentSlide(editor);
-
-    if (!currSlide) {
-        return editor;
-    }
-
-    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
-        return item.id === currSlide.id;
-    });
-
-    if (!currSlide.elementsList.length) {
-        return editor;
-    }
-
-    const movedElementList: SlideElement[] = currSlide.elementsList.filter((item) =>
-        editor.selectedSlideElementsIds.includes(item.id),
-    );
-
-    const unmovedElementList: SlideElement[] = currSlide.elementsList.filter(
-        (item) => !editor.selectedSlideElementsIds.includes(item.id),
-    );
-
-    const updatedElementList: SlideElement[] = way
-        ? [...movedElementList, ...unmovedElementList]
-        : [...unmovedElementList, ...movedElementList];
-
-    const updatedSlide: Slide = {
-        ...currSlide,
-        elementsList: updatedElementList,
-    };
-    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
-
-    return {
-        ...updatedEditor,
-        selectedSlidesIds: [currSlide.id],
-    };
-}
+import { Coordinates, Editor, AreaLocation, Size, Slide, SlideElement } from './types';
 
 export function changeElementsSize(editor: Editor, scaleX: number, scaleY: number): Editor {
     const scale: Size = {
@@ -126,6 +87,56 @@ export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
     };
 }
 
+export function changeElementsPosition(editor: Editor, dx: number, dy: number): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
+        return item.id === currSlide.id;
+    });
+
+    if (!currSlide.elementsList.length) {
+        return editor;
+    }
+
+    const updatedElementsList: SlideElement[] = currSlide.elementsList.map((element) => {
+        if (editor.selectedSlideElementsIds.includes(element.id)) {
+            return {
+                ...element,
+                startPoint: {
+                    x: element.startPoint.x + dx,
+                    y: element.startPoint.y + dy,
+                },
+            };
+        }
+
+        return element;
+    });
+
+    const updatedSlide: Slide = {
+        ...currSlide,
+        elementsList: updatedElementsList,
+    };
+
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [currSlide.id],
+    };
+}
+
+export function getSlideElementsAmount(slide: Slide | undefined): number | undefined {
+    if (slide) {
+        return slide.elementsList.length;
+    } else {
+        return undefined;
+    }
+}
+
 export function getActiveElementsIds(editor: Editor): string[] {
     return editor.selectedSlideElementsIds;
 }
@@ -138,7 +149,7 @@ export function getElementsCoordinates(editor: Editor): Coordinates[] | undefine
     });
 }
 
-export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): SelectedAreaLocation | undefined {
+export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): AreaLocation | undefined {
     type elementLocationInfo = {
         coords: Coordinates;
         dimensions: Size;
@@ -156,7 +167,7 @@ export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): Se
         })
         .filter((item) => item !== undefined);
 
-    function getSelectedAreaLocation(arr: elementLocationInfo[]): SelectedAreaLocation | undefined {
+    function getSelectedAreaLocation(arr: elementLocationInfo[]): AreaLocation | undefined {
         let index = arr.length - 1;
         const el = arr[index];
 
@@ -209,6 +220,45 @@ export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): Se
     return res;
 }
 
+export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolean): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
+        return item.id === currSlide.id;
+    });
+
+    if (!currSlide.elementsList.length) {
+        return editor;
+    }
+
+    const movedElementList: SlideElement[] = currSlide.elementsList.filter((item) =>
+        editor.selectedSlideElementsIds.includes(item.id),
+    );
+
+    const unmovedElementList: SlideElement[] = currSlide.elementsList.filter(
+        (item) => !editor.selectedSlideElementsIds.includes(item.id),
+    );
+
+    const updatedElementList: SlideElement[] = way
+        ? [...movedElementList, ...unmovedElementList]
+        : [...unmovedElementList, ...movedElementList];
+
+    const updatedSlide: Slide = {
+        ...currSlide,
+        elementsList: updatedElementList,
+    };
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [currSlide.id],
+    };
+}
+
 export function removeSelectedElements(editor: Editor): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
@@ -239,47 +289,5 @@ export function removeSelectedElements(editor: Editor): Editor {
         ...updatedEditor,
         selectedSlidesIds: [currSlide.id],
         selectedSlideElementsIds: [],
-    };
-}
-
-export function changeElementsPosition(editor: Editor, dx: number, dy: number): Editor {
-    const currSlide: Slide | undefined = getCurrentSlide(editor);
-
-    if (!currSlide) {
-        return editor;
-    }
-
-    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
-        return item.id === currSlide.id;
-    });
-
-    if (!currSlide.elementsList.length) {
-        return editor;
-    }
-
-    const updatedElementsList: SlideElement[] = currSlide.elementsList.map((element) => {
-        if (editor.selectedSlideElementsIds.includes(element.id)) {
-            return {
-                ...element,
-                startPoint: {
-                    x: element.startPoint.x + dx,
-                    y: element.startPoint.y + dy,
-                },
-            };
-        }
-
-        return element;
-    });
-
-    const updatedSlide: Slide = {
-        ...currSlide,
-        elementsList: updatedElementsList,
-    };
-
-    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
-
-    return {
-        ...updatedEditor,
-        selectedSlidesIds: [currSlide.id],
     };
 }

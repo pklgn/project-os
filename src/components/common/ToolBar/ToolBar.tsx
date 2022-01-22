@@ -12,10 +12,7 @@ import { addText } from '../../../app_model/redux_model/actions_model/action_cre
 import { addSlide } from '../../../app_model/redux_model/actions_model/action_creators/slide_action_creators';
 import { bindActionCreators } from 'redux';
 import { getSlideAmount } from '../../../app_model/model/slides_actions';
-import {
-    keepModelAction,
-    setEditorMode,
-} from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
+import { keepModelAction } from '../../../app_model/redux_model/actions_model/action_creators/editor_action_creators';
 
 import { useDispatch } from 'react-redux';
 import { initEditor } from '../../../app_model/model/init_model_action';
@@ -24,8 +21,6 @@ import { store } from '../../../app_model/redux_model/store';
 import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { UploadPresentationInput } from './UploadPresentationInput';
 import { UploadPictureInput } from './UploadPictureInput';
-
-import { FigureShape } from '../../../app_model/model/types';
 
 export function ToolBar() {
     const func = () => undefined;
@@ -52,7 +47,7 @@ export function ToolBar() {
     const dispatchAddTextAction = bindActionCreators(addText, dispatch);
     const dispatchAddSlideAction = bindActionCreators(addSlide, dispatch);
     const dispatchKeepModelAction = bindActionCreators(keepModelAction, dispatch);
-    const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
+    // const dispatchSetEditorAction = bindActionCreators(setEditorMode, dispatch);
 
     const addTextButtonFunction = () => {
         if (getSlideAmount(store.getState().model) === 0) {
@@ -65,11 +60,11 @@ export function ToolBar() {
     };
 
     const startSlideShowFromFirstSlideButtonFunction = () => {
-        dispatchSetEditorAction('show-from-first-slide');
+        // dispatchSetEditorAction('show-from-first-slide');
     };
 
     const startSlideShowFromCurrentSlideButtonFunction = () => {
-        dispatchSetEditorAction('show-from-current-slide');
+        // dispatchSetEditorAction('show-from-current-slide');
     };
 
     // const addCircleButtonFunction = () => {

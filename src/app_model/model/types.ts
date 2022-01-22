@@ -5,8 +5,6 @@ export type Editor = {
     selectedSlideElementsIds: string[];
 };
 
-export type PresentationMode = 'edit' | 'show-from-first-slide' | 'show-from-current-slide';
-
 export type History = {
     currState: number;
     presentationStates: Presentation[];
@@ -30,14 +28,14 @@ export type Background = {
     color: string;
 };
 
-export type SelectedAreaDimensions = {
+export type AreaDimensions = {
     width: number;
     height: number;
 };
 
-export type SelectedAreaLocation = {
+export type AreaLocation = {
     xy: Coordinates;
-    dimensions: SelectedAreaDimensions;
+    dimensions: AreaDimensions;
 };
 
 export type SlideElement = {

@@ -139,6 +139,18 @@ export function getActiveSlidesIds(editor: Editor): string[] {
     return editor.selectedSlidesIds;
 }
 
+export function getActiveSlideIndex(editor: Editor): number {
+    const slideId: string = editor.selectedSlidesIds.slice(-1)[0];
+
+    return editor.presentation.slidesList.findIndex((slide) => slide.id === slideId);
+}
+
+export function getAllSlidesIds(editor: Editor): string[] {
+    return editor.presentation.slidesList.map((slide) => {
+        return slide.id;
+    });
+}
+
 export function getCurrentSlide(editor: Editor): Slide | undefined {
     const selectedSlidesIds = editor.selectedSlidesIds;
     const slideList: Slide[] = editor.presentation.slidesList;
@@ -155,12 +167,33 @@ export function getCurrentSlide(editor: Editor): Slide | undefined {
     return slideList[slideIndex];
 }
 
+export function getChosenSlidesIndexes(editor: Editor): number[] {
+    const slidesIds: string[] = editor.selectedSlidesIds;
+
+    return editor.presentation.slidesList
+        .map((slide, index) => {
+            if (slidesIds.includes(slide.id)) {
+                return index;
+            }
+            return -1;
+        })
+        .filter((index) => index !== -1);
+}
+
 export function getFirstSlide(editor: Editor): Slide | undefined {
     if (editor.presentation.slidesList.length === 0) {
         return undefined;
     } else {
         return editor.presentation.slidesList[0];
     }
+}
+
+export function getNextSlideTo(editor: Editor, slide: Slide): Slide | undefined {
+    return getNextToSlide(editor, slide, 'next');
+}
+
+export function getPrevSlideTo(editor: Editor, slide: Slide): Slide | undefined {
+    return getNextToSlide(editor, slide, 'prev');
 }
 
 export function getSlideAmount(editor: Editor): number {

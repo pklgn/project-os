@@ -1,15 +1,14 @@
-.element-tools {
+.figure-tools {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
     width: 100%;
     grid-area: elementTools;
     overflow-y: hidden;
 }
 
-.element-tools > * {
+.figure-tools > * {
     animation: show-element-tools .4s forwards;
 }
 

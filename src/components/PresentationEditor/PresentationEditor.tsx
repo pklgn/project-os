@@ -5,13 +5,12 @@ import { SlideListTool } from '../AppFooter/SlideListTool/SlideListTool';
 import { SidePanel } from '../AppContent/SidePanel/SidePanel';
 import { SlideWrapper } from '../AppContent/Slide/SlideWrapper';
 import { ElementListTool } from '../AppFooter/ElementListTool/ElementListTool';
-
-export enum listName {
-    ELEMENT_LIST = 'ELEMENT_LIST',
-    REORDER_LIST = 'REORDER_LIST',
-    TEXT_TOOLS_LIST_BUTTON = 'TEXT_TOOLS_LIST_BUTTON',
-    FIGURE_TOOLS_LIST_BUTTON = 'FIGURE_TOOLS_LIST_BUTTON',
-}
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setChosenElementsType } from '../../app_model/redux_model/actions_view_model/action_creators/chosen_elements_action_creator';
+import { useEffect } from 'react';
+import { store } from '../../app_model/redux_model/store';
+import { getSlideElementType } from '../../app_model/model/utils/tools';
 
 export function PresentationEditor(): JSX.Element {
     return (
