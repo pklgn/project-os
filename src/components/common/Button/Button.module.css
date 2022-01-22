@@ -9,12 +9,14 @@
     transition-duration: 0.2s;
     background-color: rgb(102, 107, 124);
     opacity: 0.8;
-    font-size: 0.4em;
     display: flex;
     align-items: center;
+    white-space: nowrap;
+    gap: 5px;
 }
 
 .button--default {
+
 }
 
 .button--disabled {
@@ -36,4 +38,19 @@
 
 .button--round {
     border-radius: 50%;
+}
+
+.button--in-list {
+    width: 100%;
+    border-radius: unset;
+    background-color: #a5a5a5;
+    padding: 0.8em;
+}
+
+.icon--right {
+    margin-left: auto;
+}
+
+.text {
+    font-size: 1rem;
 }

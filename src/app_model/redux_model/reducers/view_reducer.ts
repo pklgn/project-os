@@ -16,6 +16,7 @@ import {
     setElementsRenderRatio,
     setSlideContainerDimensions,
     setSlideToContainerRatio,
+    setSlideWhiteAreaLocation,
     setWindowRatio,
 } from '../../view_model/slide_render_actions';
 
@@ -50,6 +51,8 @@ export const viewModelReducers = (
             return setSlideContainerDimensions(state, action.payload);
         case ViewActionType.SET_SLIDE_TO_CONTAINER_RATIO:
             return setSlideToContainerRatio(state, action.payload);
+        case ViewActionType.SET_SLIDE_WHITE_AREA_LOCATION:
+            return setSlideWhiteAreaLocation(state, action.payload);
         case ViewActionType.SET_WINDOW_RATIO:
             return setWindowRatio(state, action.payload);
 

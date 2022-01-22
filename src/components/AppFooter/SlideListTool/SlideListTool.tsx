@@ -57,12 +57,14 @@ export function SlideListTool(): JSX.Element {
             id: 'add-slide-button',
             iconLeft: <AddSlideIcon color="#ffa322" />,
             onMouseUp: addSlideButtonFunction,
+            cssMix: { margin: '0 5px' },
         },
         {
             text: localeContext.locale.localization.slideListTool.deleteSlide,
             id: 'delete-slide-button',
             iconLeft: <DeleteSlideIcon color="#ffa322" />,
             onMouseUp: deleteSelectedSlidesButtonFunction,
+            cssMix: { margin: '0 5px' },
         },
     ] as ButtonProps[];
 

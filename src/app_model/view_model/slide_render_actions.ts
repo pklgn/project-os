@@ -1,3 +1,4 @@
+import { AreaLocation } from '../model/types';
 import { ElementsRatioType, RenderRatio, ResizersInfoType, SlideContainerDimensionsType, ViewModelType } from './types';
 
 export function getResizersInfo(viewModel: ViewModelType): ResizersInfoType {
@@ -14,6 +15,10 @@ export function getSlideContainerDimension(viewModel: ViewModelType): SlideConta
 
 export function getSlideToContainerRatio(viewModel: ViewModelType): number {
     return viewModel.slideRenderInfo.slideToContainerRatio;
+}
+
+export function getSlideWhiteAreaLocation(viewModel: ViewModelType): AreaLocation {
+    return viewModel.slideRenderInfo.slideWhiteAreaRectLocation;
 }
 
 export function getWindowRatio(viewModel: ViewModelType): number {
@@ -51,6 +56,16 @@ export function setSlideToContainerRatio(viewModel: ViewModelType, ratio: number
         slideRenderInfo: {
             ...viewModel.slideRenderInfo,
             slideToContainerRatio: ratio,
+        },
+    };
+}
+
+export function setSlideWhiteAreaLocation(viewModel: ViewModelType, location: AreaLocation): ViewModelType {
+    return {
+        ...viewModel,
+        slideRenderInfo: {
+            ...viewModel.slideRenderInfo,
+            slideWhiteAreaRectLocation: location,
         },
     };
 }

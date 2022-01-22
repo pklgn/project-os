@@ -1,7 +1,7 @@
 export function GeometryIcon(props: { color: string }): JSX.Element {
     const reg = /^#([0-9a-f]{3}){1,2}$/i;
     return (
-        <svg width="32" height="32" viewBox="2 2 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="28" height="28" viewBox="2 2 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_362_90)">
                 <path
                     d="M21.325 23.0664L11.7395 2.55792C11.5949 2.24762 11.0982 2.24762 10.9535 2.55792L1.36806 23.0664C1.30271 23.2037 1.31231 23.3669 1.39245 23.4962C1.47259 23.6255 1.61119 23.704 1.76105 23.704H20.932C21.0819 23.704 21.2213 23.6255 21.3006 23.4962C21.3799 23.3669 21.3895 23.2046 21.325 23.0664ZM2.45211 22.8123L11.3465 3.78308L20.241 22.8123H2.45211Z"

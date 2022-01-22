@@ -33,3 +33,29 @@
     height: 0.1px;
     background-color: rgb(0, 0, 0);
 }
+
+.dropdown-item {
+    list-style: none;
+    border-radius: inherit;;
+}
+
+.dropdown-control-button {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.dropdown-list {
+    position: absolute;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+    border-radius: 5px;
+    box-shadow: 4px -3px 11px -4px #908a98;
+    overflow: hidden;
+    backdrop-filter: blur(3px);
+}
+
+.dropdown-list--left {
+    right: 0;
+}

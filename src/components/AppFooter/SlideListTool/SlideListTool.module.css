@@ -1,15 +1,13 @@
 .slides-list-tools {
     grid-area: slideTools;
-    max-height: 45px;
     display: flex;
-    justify-content: space-around;
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
     align-items: center;
 }
 
 .slides-list-tools div[id='add-slide-button-tooltip'] span[id='tooltip-content'] {
-    transform: translateX(-37%);
+    transform: translateX(-40%);
 }
 
 .slides-list-tools span[id='tooltip-content']:after {
