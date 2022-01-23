@@ -54,8 +54,17 @@ export function SlideWrapper() {
     const maxSelectedAreaLocationInfo = useSlideResize(ref, currSlide);
 
     const renderScale = getElementsRenderRatio(store.getState().viewModel);
+    const slideToContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
+    const windowRatio = getWindowRatio(store.getState().viewModel);
 
-    const slideViewBox = getSlideViewBox(maxSelectedAreaLocationInfo, containerWidth, containerHeight, renderScale);
+    const slideViewBox = getSlideViewBox(
+        maxSelectedAreaLocationInfo,
+        containerWidth,
+        containerHeight,
+        renderScale,
+        slideToContainerRatio,
+        windowRatio,
+    );
 
     const emptySlideWidth = containerWidth ? containerWidth * getSlideToContainerRatio(store.getState().viewModel) : 0;
     const emptySlideHeight = emptySlideWidth / getWindowRatio(store.getState().viewModel);
@@ -115,15 +124,25 @@ function getSlideViewBox(
     slideContainerWidth: number,
     slideContainerHeight: number,
     scale: ElementsRatioType,
+    slideToContainerRatio: number,
+    windowRatio: number,
 ): ViewBoxType {
-    const contentMinX = maxSelectedElementsArea ? maxSelectedElementsArea.xy.x * scale.width : 0;
-    const contentMinY = maxSelectedElementsArea ? maxSelectedElementsArea.xy.y * scale.height : 0;
+    const contentMinX = maxSelectedElementsArea
+        ? maxSelectedElementsArea.xy.x * scale.width * slideToContainerRatio
+        : 0;
+    const contentMinY = maxSelectedElementsArea
+        ? maxSelectedElementsArea.xy.y * scale.height * (slideToContainerRatio / windowRatio)
+        : 0;
 
     const contentMaxX = maxSelectedElementsArea
-        ? (maxSelectedElementsArea.xy.x + maxSelectedElementsArea.dimensions.width) * scale.width
+        ? (maxSelectedElementsArea.xy.x + maxSelectedElementsArea.dimensions.width) *
+          scale.width *
+          slideToContainerRatio
         : 0;
     const contentMaxY = maxSelectedElementsArea
-        ? (maxSelectedElementsArea.xy.y + maxSelectedElementsArea.dimensions.height) * scale.height
+        ? (maxSelectedElementsArea.xy.y + maxSelectedElementsArea.dimensions.height) *
+          scale.height *
+          (slideToContainerRatio / windowRatio)
         : 0;
 
     const containerMinX = -slideContainerWidth / 2;

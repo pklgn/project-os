@@ -32,6 +32,7 @@ export function SlideListItem(props: SlideListItemProps) {
                     slideHeight={props.height}
                     containerWidth={props.viewBox?.width}
                     containerHeight={props.viewBox?.height}
+                    id={'slide-list-item'}
                 />
                 {props.shouldRenderHrs ? (
                     <>

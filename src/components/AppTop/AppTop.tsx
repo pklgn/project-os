@@ -27,11 +27,12 @@ import {
 } from '../../app_model/redux_model/dispatchers';
 import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
 import { store } from '../../app_model/redux_model/store';
-import { savePresentationAsJson } from '../../app_model/model/editor_actions';
+import { savePresentationAsJson, savePresentationAsPdf } from '../../app_model/model/editor_actions';
 import { initEditor } from '../../app_model/model/init_model_action';
 import { UploadPresentationInput } from '../common/ToolBar/UploadPresentationInput';
 import { generateUUId } from '../../app_model/model/utils/uuid';
 import { UploadPictureInput } from '../common/ToolBar/UploadPictureInput';
+import { getSlideAmount } from '../../app_model/model/slides_actions';
 
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
@@ -105,9 +106,9 @@ export function AppTop(): JSX.Element {
     };
 
     const saveAsJSONFunction = () => {
-        const presentation = store.getState().model.presentation;
-        if (presentation.slidesList.length === 0) {
-            alert(localeContext.locale.localization.errors['noSlidesToSave']);
+        const slidesAmount = getSlideAmount(store.getState().model);
+        if (slidesAmount === 0) {
+            alert(localeContext.locale.localization.errors.noSlidesToSave);
         } else {
             savePresentationAsJson({
                 ...initEditor(),
@@ -131,6 +132,15 @@ export function AppTop(): JSX.Element {
         dispatchSlideToContainerRatio(dispatch)(0.5);
     };
 
+    const handleSavePdf = () => {
+        const slidesAmount = getSlideAmount(store.getState().model);
+        if (slidesAmount === 0) {
+            alert(localeContext.locale.localization.errors.noSlidesToSave);
+        } else {
+            savePresentationAsPdf(store.getState().model);
+        }
+    };
+
     const fileDropdownMenu = getFileDropdownMenu({
         locale: localeContext.locale,
         handleScreenRatio: {
@@ -140,6 +150,7 @@ export function AppTop(): JSX.Element {
         },
         handleOpenFile: handleUploadPresentationClick,
         handleSaveFile: saveAsJSONFunction,
+        handleSavePdf: handleSavePdf,
         handleUploadImage: handleUploadImageClick,
     });
 
