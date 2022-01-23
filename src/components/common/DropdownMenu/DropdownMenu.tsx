@@ -53,10 +53,10 @@ function DropdownListItem(props: DropdownListItemProps) {
                 id={pair.mainButton.id}
                 text={pair.mainButton.text}
                 onMouseUp={(e) => {
+                    handleClickForward(pair);
                     if (pair.mainButton.onMouseUp) {
                         pair.mainButton.onMouseUp(e);
                     }
-                    handleClickForward(pair);
                 }}
                 iconRight={pair.nestedButtons[0] && <Triangle width={10} height={10} color={'black'} />}
             />
@@ -153,6 +153,8 @@ export function DropdownMenu(props: DropdownMenuProps) {
                     currButtonId: pair.mainButton.id ?? '',
                 };
             });
+        } else {
+            setOpen(!open);
         }
     }
 

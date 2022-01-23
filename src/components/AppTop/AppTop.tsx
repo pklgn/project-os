@@ -21,6 +21,8 @@ import { getFileDropdownMenu } from './getFileDropdownMenu';
 import {
     dispatchActiveViewAreaAction,
     dispatchAddFigureAction,
+    dispatchAddTextAction,
+    dispatchKeepModelAction,
     dispatchPresentationName,
     dispatchSetEditorModeAction,
 } from '../../app_model/redux_model/dispatchers';
@@ -123,12 +125,17 @@ export function AppTop(): JSX.Element {
         },
     };
 
+    const handleAddText = () => {
+        dispatchAddTextAction(dispatch)({ x: 0, y: 0 });
+        dispatchKeepModelAction(dispatch);
+    };
+
     const fileDropdownMenu = getFileDropdownMenu({
         locale: localeContext.locale,
         handleOpenFile: handleUploadPresentationClick,
         handleSaveFile: saveAsJSONFunction,
         handleInsert: {
-            text: () => undefined,
+            text: handleAddText,
             image: handleUploadImageClick,
             figure: {
                 circle: () => undefined,

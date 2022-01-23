@@ -48,6 +48,7 @@ const getFileDropdownMenu = (props: FileDropdownMenuProps): DropdownMenuProps =>
                             mainButton: {
                                 id: generateUUId(),
                                 text: locale.localization.elements.text,
+                                onMouseUp: props.handleInsert.text,
                             },
                             nestedButtons: [],
                         },
