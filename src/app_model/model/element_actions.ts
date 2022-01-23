@@ -29,9 +29,6 @@ export function changeElementsSize(editor: Editor, cordsAndDimensions: AreaLocat
         dHeight: previosAreaLocation ? dimensions.height - previosAreaLocation.dimensions.height : 0,
     };
 
-    console.log(dXY);
-    console.log(dDimensions);
-
     const updatedElementList: SlideElement[] = currSlide.elementsList.map((item) => {
         if (editor.selectedSlideElementsIds.includes(item.id)) {
             const size: Size = {
