@@ -1,34 +1,36 @@
 import styles from './OpacityToolsList.module.css';
 
-import { useContext } from 'react';
-import { LocaleContext, LocaleContextType } from '../../../App';
-
-import { Button, ButtonProps } from '../../common/Button/Button';
-import { LayerBackward } from '../../common/icons/LayerBackward/LayerBackward';
-import { LayerBackground } from '../../common/icons/LayerBackground/LayerBackground';
-import { LayerForward } from '../../common/icons/LayerForward/LayerForward';
-import { LayerForeground } from '../../common/icons/LayerForeground/LayerForeground';
-import ToolTip from '../../common/ToolTip/ToolTip';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
+import {
+    dispatchChangeElementsOpacityAction,
+    dispatchKeepModelAction,
+} from '../../../app_model/redux_model/dispatchers';
 
 type OpacityToolsListProps = {
     setListSwitcher: () => void;
 };
 
-export function OpacityToolsList(): JSX.Element {
-    const localeContext: LocaleContextType = useContext(LocaleContext);
-
+export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
     const dispatch = useDispatch();
-    const moveForegroundHandler = () => {
-        // dispatchMoveElementsToBackgroundOrForeground(dispatch)(false);
+
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const onChangeHandler = () => {
+        dispatchChangeElementsOpacityAction(dispatch)(inputRef.current!.valueAsNumber);
         dispatchKeepModelAction(dispatch)();
     };
 
-    const moveBackgroundHandler = () => {
-        // dispatchMoveElementsToBackgroundOrForeground(dispatch)(true);
-        dispatchKeepModelAction(dispatch)();
-    };
+    useEffect(() => {
+        const onKeyDownHandler = (event: KeyboardEvent) => {
+            if (event.code === 'Escape') props.setListSwitcher();
+        };
+
+        document.addEventListener('keydown', onKeyDownHandler);
+        return () => {
+            document.removeEventListener('keydown', onKeyDownHandler);
+        };
+    }, [inputRef]);
 
     return (
         <>
@@ -41,12 +43,14 @@ export function OpacityToolsList(): JSX.Element {
                         <div className={styles['range-toddler-wrapper']}>
                             <div className={styles['range-toddler-content']}></div>
                             <input
+                                ref={inputRef}
                                 type="range"
                                 className={styles['range-toddler']}
                                 min="0.1"
                                 max="1"
                                 step="0.05"
-                                value="0.5"
+                                // value="1"
+                                onChange={onChangeHandler}
                             />
                         </div>
                     </div>

@@ -53,6 +53,7 @@ export function keep(editor: Editor): Editor {
     ) {
         editor.history.presentationStates.splice(0, 1);
         editor.history.presentationStates.push(editor.presentation);
+        return editor;
     }
     const spliceStart: number = editor.history.currState + 1;
 

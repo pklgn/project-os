@@ -31,9 +31,8 @@ opacity.opacity-tools {
 }
 
 .opacity-wrapper {
-    box-shadow: rgb(30 37 57) 0px 3px 9px 0px;
+    /* box-shadow: rgb(30 37 57) 0px 3px 9px 0px; */
     display: flex;
-    /* -webkit-box-align: center; */
     align-items: center;
     padding: 4px 15px;
     background: rgb(54, 63, 90);
@@ -75,10 +74,9 @@ opacity.opacity-tools {
     position: absolute;
     width: 44.4444%;
     box-sizing: border-box;
-    -webkit-box-align: center;
     align-items: center;
     border-radius: 30px;
-    background-color: rgb(56, 125, 255);
+    background-color: #faa322;
     height: 2px;
     top: 50%;
     transform: translateY(-50%);

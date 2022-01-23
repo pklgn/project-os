@@ -91,7 +91,7 @@ export function DefaultToolsList(): JSX.Element {
                     case commonList.REORDER:
                         return <ReorderToolsList setListSwitcher={callbackHandler} />;
                     case commonList.OPACITY:
-                        return <OpacityToolsList />;
+                        return <OpacityToolsList setListSwitcher={callbackHandler} />;
                 }
             })()}
         </>

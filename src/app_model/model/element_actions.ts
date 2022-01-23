@@ -262,6 +262,46 @@ export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolea
     };
 }
 
+export function moveElementsBackwardOrForward(editor: Editor, way: boolean): Editor {
+    // TODO
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
+        return item.id === currSlide.id;
+    });
+
+    if (!currSlide.elementsList.length) {
+        return editor;
+    }
+
+    const movedElementList: SlideElement[] = currSlide.elementsList.filter((item) =>
+        editor.selectedSlideElementsIds.includes(item.id),
+    );
+
+    const unmovedElementList: SlideElement[] = currSlide.elementsList.filter(
+        (item) => !editor.selectedSlideElementsIds.includes(item.id),
+    );
+
+    const updatedElementList: SlideElement[] = way
+        ? [...movedElementList, ...unmovedElementList]
+        : [...unmovedElementList, ...movedElementList];
+
+    const updatedSlide: Slide = {
+        ...currSlide,
+        elementsList: updatedElementList,
+    };
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [currSlide.id],
+    };
+}
+
 export function removeSelectedElements(editor: Editor): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 

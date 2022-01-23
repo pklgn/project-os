@@ -35,8 +35,6 @@ export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
-    const dispatchChosenElementsTypeAction = bindActionCreators(setChosenElementsType, dispatch);
-    const selectedSlideElementsIds = store.getState().model.selectedSlideElementsIds;
 
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {

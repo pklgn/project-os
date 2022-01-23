@@ -14,7 +14,11 @@
         "geometryTool": "Figure (F)",
         "geometryCircleTool": "Circle (F+C)",
         "geometryTriangleTool": "Triangle (F+T)",
-        "geometryRectangleTool": "Rectangle (F+R)"
+        "geometryRectangleTool": "Rectangle (F+R)",
+        "forwardLayerTool": "Forward",
+        "frontLayerTool": "Front",
+        "backwardLayerTool": "Backward",
+        "backLayerTool": "Back"
     },
     "errors": {
         "noSlidesToSave": "You cannot save an empty presentation"

@@ -6,8 +6,10 @@ import * as editorActionCreator from './actions_model/action_creators/editor_act
 import { changePresentationTitle } from './actions_model/action_creators/presentation_action_creators';
 
 import {
+    changeSelectedElementsOpacity,
     changeSelectedElementsPosition,
     changeSelectedElementsSize,
+    moveSelectedElementsToBackgroundOrForeground,
     removeSelectedElements,
 } from './actions_model/action_creators/elements_action_creators';
 
@@ -37,8 +39,14 @@ const dispatchSetIdAction = (dispatch: Dispatch) => {
 const dispatchSetElementsSizeAction = (dispatch: Dispatch) => {
     return bindActionCreators(changeSelectedElementsSize, dispatch);
 };
-const dispatchSetElementsPoistionAction = (dispatch: Dispatch) => {
+const dispatchSetElementsPositionAction = (dispatch: Dispatch) => {
     return bindActionCreators(changeSelectedElementsPosition, dispatch);
+};
+const dispatchChangeElementsOpacityAction = (dispatch: Dispatch) => {
+    return bindActionCreators(changeSelectedElementsOpacity, dispatch);
+};
+const dispatchMoveSelectedElementsToBackgroundOrForegroundAction = (dispatch: Dispatch) => {
+    return bindActionCreators(moveSelectedElementsToBackgroundOrForeground, dispatch);
 };
 
 const dispatchAddFigureAction = (dispatch: Dispatch) => {
@@ -77,15 +85,17 @@ const dispatchRedoAction = (dispatch: Dispatch) => {
 export {
     dispatchAddSlideAction,
     dispatchAddFigureAction,
-    dispatchRemoveSelectedElementsAction,
     dispatchActiveViewAreaAction,
+    dispatchChangeElementsOpacityAction,
     dispatchDeleteSlideAction,
     dispatchInsertSelectedSlides,
     dispatchKeepModelAction,
+    dispatchMoveSelectedElementsToBackgroundOrForegroundAction,
     dispatchPresentationName,
+    dispatchRemoveSelectedElementsAction,
     dispatchSlideContainerDimensions,
     dispatchSetEditorModeAction,
-    dispatchSetElementsPoistionAction,
+    dispatchSetElementsPositionAction,
     dispatchSetElementsRenderRatioAction,
     dispatchSetElementsSizeAction,
     dispatchSetIdAction,
