@@ -77,14 +77,13 @@ export function SlideComponent(props: SlideProps) {
 
     const [elementsAmount, setElementsAmount] = useState(getSlideElementsAmount(props.slide));
 
-    const [currHistoryIndex, setCurrHistoryIndex] = useState(0);
-
     const [slideContainerRatio, setSlideContainerRatio] = useState(
         getSlideToContainerRatio(store.getState().viewModel),
     );
     const [windowRatio, setWindowRatio] = useState(getWindowRatio(store.getState().viewModel));
-
     const [resizersRenderInfo, setResizersRenderInfo] = useState(getResizersInfo(store.getState().viewModel));
+    const [currHistoryIndex, setCurrHistoryIndex] = useState(0);
+
     useLayoutEffect(() => {
         const handleRenderSpecs = () => {
             const prevSlideContainerRatio = slideContainerRatio;
@@ -107,16 +106,16 @@ export function SlideComponent(props: SlideProps) {
         };
 
         const onHistoryChangeHandler = () => {
-            const prevValue = currHistoryIndex;
-            const currValue = store.getState().model.history.currState;
-            if (prevValue !== currValue) {
-                setCurrHistoryIndex(currValue);
-                const selectedElementsArea = getElementsAreaLoaction(
-                    getCurrentSlide(store.getState().model)!,
-                    getActiveElementsIds(store.getState().model),
-                );
-                setSelectedAreaLocation(selectedElementsArea);
-                setSelectedAreaStartPoint(selectedElementsArea?.xy);
+            const currSlide = getCurrentSlide(store.getState().model);
+            if (currSlide) {
+                const prevValue = selectedAreaLocation;
+                const currValue = getElementsAreaLoaction(currSlide, getActiveElementsIds(store.getState().model));
+                if (prevValue !== currValue) {
+                    if (currValue) {
+                        setSelectedAreaLocation(currValue);
+                        setSelectedAreaStartPoint(currValue.xy);
+                    }
+                }
             }
         };
 
@@ -139,7 +138,7 @@ export function SlideComponent(props: SlideProps) {
             unsubscribeOnHistory();
             unsubscribeOnElementsAmount();
         };
-    }, [slideContainerRatio, resizersRenderInfo, windowRatio]);
+    }, [slideContainerRatio, resizersRenderInfo, windowRatio, currHistoryIndex]);
 
     useEffect(() => {
         const onMouseDownHandler = (event: MouseEvent) => {
@@ -155,7 +154,8 @@ export function SlideComponent(props: SlideProps) {
                     (el.tagName === 'rect' ||
                         el.tagName === 'ellipse' ||
                         el.tagName === 'polygon' ||
-                        el.tagName === 'text');
+                        el.tagName === 'text' ||
+                        el.tagName === 'image');
 
                 const elDomIndex = isSlideElement ? parseInt(elAttrId!) : undefined;
 
