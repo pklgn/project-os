@@ -13,35 +13,38 @@ import { store } from '../../../app_model/redux_model/store';
 
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { TextToolsList } from '../TextToolsList/TextToolsList';
-import { FigureToolsList } from '../FigureToolsList/FigureToolsList';
 import { DefaultToolsList } from '../DefaultToolsList/DefaultToolsList';
-import { Reorder } from '../../common/icons/Reorder/Reorder';
-import { Opacity } from '../../common/icons/Opacity/Opacity';
-import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 import {
     dispatchUndoAction,
     dispatchRedoAction,
     dispatchAddFigureAction,
+    dispatchActiveViewAreaAction,
 } from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
 
 import { FigureInfo, FigureShape } from '../../../app_model/model/types';
-import { bindActionCreators } from 'redux';
-import { setChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
-import { getSlideElementType, SlideElementType } from '../../../app_model/model/utils/tools';
-import { ChosenElementsType } from '../../../app_model/view_model/types';
 
 export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
 
+    const onUndoButton = () => {
+        dispatchActiveViewAreaAction(dispatch)('HISTORY_TOOL');
+        return dispatchUndoAction(dispatch)();
+    };
+
+    const onRedoButton = () => {
+        dispatchActiveViewAreaAction(dispatch)('HISTORY_TOOL');
+        return dispatchRedoAction(dispatch)();
+    };
+
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
-            dispatchUndoAction(dispatch)();
+            onUndoButton();
         }
         if (event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
-            dispatchRedoAction(dispatch)();
+            onRedoButton();
         }
     });
 
@@ -79,14 +82,14 @@ export function FooterToolsList(): JSX.Element {
             id: 'undo-button',
             type: 'round',
             iconLeft: <RedoUndoIcon turn="undo" color="#ffa322" />,
-            onMouseUp: dispatchUndoAction(dispatch),
+            onMouseUp: onUndoButton,
         },
         {
             text: localeContext.locale.localization.historyTool.redoTool,
             id: 'redo-button',
             type: 'round',
             iconLeft: <RedoUndoIcon turn="redo" color="#ffa322" />,
-            onMouseUp: dispatchRedoAction(dispatch),
+            onMouseUp: onRedoButton,
         },
     ];
 

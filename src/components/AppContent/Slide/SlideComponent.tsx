@@ -83,45 +83,67 @@ export function SlideComponent(props: SlideProps) {
     const [windowRatio, setWindowRatio] = useState(getWindowRatio(store.getState().viewModel));
     const [resizersRenderInfo, setResizersRenderInfo] = useState(getResizersInfo(store.getState().viewModel));
 
+    const handleRenderSpecs = () => {
+        const prevSlideContainerRatio = slideContainerRatio;
+        const prevWindowRatio = windowRatio;
+        const prevResizersRenderInfo = resizersRenderInfo;
+
+        const currSlideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
+        const currWindowRatio = getWindowRatio(store.getState().viewModel);
+        const currResizersRenderInfo = getResizersInfo(store.getState().viewModel);
+
+        if (prevSlideContainerRatio !== currSlideContainerRatio) {
+            setSlideContainerRatio(currSlideContainerRatio);
+        }
+        if (prevWindowRatio !== currWindowRatio) {
+            setWindowRatio(currWindowRatio);
+        }
+        if (prevResizersRenderInfo !== currResizersRenderInfo) {
+            setResizersRenderInfo(currResizersRenderInfo);
+        }
+    };
+
+    // const onElementsAmountHandler = () => {
+    //     const prevAmount = elementsAmount;
+    //     const currAmount = getSlideElementsAmount(props.slide);
+    //     if (prevAmount !== currAmount) {
+    //         setSelectedAreaLocation(undefined);
+    //         setSelectedAreaStartPoint(undefined);
+    //         setElementsAmount(currAmount);
+    //     }
+    // };
+
+    // store.subscribe(onElementsAmountHandler);
+    store.subscribe(handleRenderSpecs);
+
     useLayoutEffect(() => {
-        const handleRenderSpecs = () => {
-            const prevSlideContainerRatio = slideContainerRatio;
-            const prevWindowRatio = windowRatio;
-            const prevResizersRenderInfo = resizersRenderInfo;
+        const onHistoryHandler = (event: KeyboardEvent) => {
+            if (event.ctrlKey && (event.code === 'KeyZ' || event.code === 'KeyY')) {
+                if (store.getState().model.history.currState > 1) {
+                    const currSlide = getCurrentSlide(store.getState().model);
+                    if (currSlide) {
+                        const selectedElementsArea = getElementsAreaLoaction(
+                            currSlide,
+                            getActiveElementsIds(store.getState().model),
+                        );
 
-            const currSlideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
-            const currWindowRatio = getWindowRatio(store.getState().viewModel);
-            const currResizersRenderInfo = getResizersInfo(store.getState().viewModel);
-
-            if (prevSlideContainerRatio !== currSlideContainerRatio) {
-                setSlideContainerRatio(currSlideContainerRatio);
-            }
-            if (prevWindowRatio !== currWindowRatio) {
-                setWindowRatio(currWindowRatio);
-            }
-            if (prevResizersRenderInfo !== currResizersRenderInfo) {
-                setResizersRenderInfo(currResizersRenderInfo);
-            }
-        };
-
-        const onElementsAmountHandler = () => {
-            const prevAmount = elementsAmount;
-            const currAmount = getSlideElementsAmount(props.slide);
-            if (prevAmount !== currAmount) {
-                setSelectedAreaLocation(undefined);
-                setSelectedAreaStartPoint(undefined);
-                setElementsAmount(currAmount);
+                        if (selectedElementsArea) {
+                            setSelectedAreaLocation(selectedElementsArea);
+                            setSelectedAreaStartPoint(selectedElementsArea.xy);
+                        }
+                    }
+                } else {
+                    setSelectedAreaLocation(undefined);
+                    setSelectedAreaStartPoint(undefined);
+                }
             }
         };
-
-        const unsubscribeOnElementsAmount = store.subscribe(onElementsAmountHandler);
-        const unsubscribeOnRenderSpecs = store.subscribe(handleRenderSpecs);
+        window.addEventListener('keydown', onHistoryHandler);
 
         return () => {
-            unsubscribeOnRenderSpecs();
-            unsubscribeOnElementsAmount();
+            window.removeEventListener('keydown', onHistoryHandler);
         };
-    }, [slideContainerRatio, resizersRenderInfo, windowRatio]);
+    });
 
     useEffect(() => {
         const onMouseDownHandler = (event: MouseEvent) => {
@@ -173,7 +195,7 @@ export function SlideComponent(props: SlideProps) {
                             selectedSlidesIds: [slideId],
                             selectedSlideElementsIds: [elementId],
                         });
-                    } else if (event.ctrlKey) {
+                    } else if (event.shiftKey) {
                         dispatchSetIdAction(dispatch)({
                             selectedSlidesIds: [slideId],
                             selectedSlideElementsIds: [...getActiveElementsIds(store.getState().model), elementId],
@@ -257,7 +279,6 @@ export function SlideComponent(props: SlideProps) {
         const mouseMoveReziseHandler = (e: MouseEvent) => {
             const dx = (e.pageX - startX) / renderScale.width;
             const dy = (e.pageY - startY) / renderScale.height;
-            const maxD = Math.abs(dx) > Math.abs(dy) ? dx : dy;
             if (itsNResizer || itsSResizer) {
                 if (refCanvas.current && refCanvas.current.style.cursor !== resizerStuff.N_RESIZER_ID) {
                     refCanvas.current.style.cursor = resizerStuff.N_RESIZER_ID;

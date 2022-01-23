@@ -21,6 +21,7 @@ export type ActiveAreaStateType =
     | 'MAIN_SLIDE'
     | 'SLIDE_LIST_TOOL'
     | 'ELEMENTS_LIST_TOOL'
+    | 'HISTORY_TOOL'
     | 'NONE';
 
 export type AppModeType = 'EDIT' | 'SHOW_FROM_FIRST_SLIDE' | 'SHOW_FROM_CURRENT_SLIDE';
