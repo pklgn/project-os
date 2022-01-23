@@ -336,6 +336,7 @@ export function SlideComponent(props: SlideProps) {
         resizersSize,
         resizersOffset,
         renderScale,
+        windowRatio,
     );
 
     useDragAndDrop({
@@ -343,6 +344,7 @@ export function SlideComponent(props: SlideProps) {
         position: selectedAreaLocation!,
         setPosition: setSelectedAreaLocation,
         scale: renderScale,
+        windowRatio: windowRatio,
     });
 
     const onSelectAreaEnterHandler = (event: BaseSyntheticEvent) => {
@@ -431,12 +433,12 @@ export function SlideComponent(props: SlideProps) {
                 <>
                     <rect
                         ref={refSelectedArea}
-                        x={selectedAreaLocation.xy.x * renderScale.width}
-                        y={selectedAreaLocation.xy.y * renderScale.height}
+                        x={selectedAreaLocation.xy.x * renderScale.width * windowRatio}
+                        y={selectedAreaLocation.xy.y * renderScale.height * windowRatio}
                         id={SELECT_AREA_ID}
                         className={styles[SELECT_AREA_ID]}
-                        width={selectedAreaLocation.dimensions.width * renderScale.width}
-                        height={selectedAreaLocation.dimensions.height * renderScale.height}
+                        width={selectedAreaLocation.dimensions.width * renderScale.width * windowRatio}
+                        height={selectedAreaLocation.dimensions.height * renderScale.height * windowRatio}
                         onMouseEnter={onSelectAreaEnterHandler}
                         onMouseLeave={onSelectAreaLeaveHandler}
                     />

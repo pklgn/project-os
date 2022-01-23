@@ -60,7 +60,7 @@ export function FooterToolsList(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
-            state: 'pressed',
+            state: 'active',
             iconLeft: <SelectCursorIcon color="#ffa322" />,
         },
         {
