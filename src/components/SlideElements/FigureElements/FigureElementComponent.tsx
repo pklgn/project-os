@@ -73,6 +73,7 @@ function TriangleFigure(props: FigureProps, renderScale: ElementsRatioType) {
     return (
         <polygon
             id={`${props.elementIndex}`}
+            opacity={props.opacity}
             fill={props.content.figureColor}
             stroke={props.content.borderColor}
             strokeWidth={props.content.borderWidth}

@@ -36,7 +36,11 @@
         "geometryTool": "Фигура (F)",
         "geometryCircleTool": "Круг (F+C)",
         "geometryTriangleTool": "Треугольник (F+T)",
-        "geometryRectangleTool": "Прямоугольник (F+R)"
+        "geometryRectangleTool": "Прямоугольник (F+R)",
+        "forwardLayerTool": "Вперёд на 1",
+        "frontLayerTool": "Вперёд",
+        "backwardLayerTool": "Назад на 1",
+        "backLayerTool": "Назад"
     },
     "errors": {
         "noSlidesToSave": "Нельзя сохранить пустую презентацию"

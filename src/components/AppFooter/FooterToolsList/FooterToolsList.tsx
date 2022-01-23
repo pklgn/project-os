@@ -12,7 +12,6 @@ import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 import { store } from '../../../app_model/redux_model/store';
 
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { TextToolsList } from '../TextToolsList/TextToolsList';
 import { FigureToolsList } from '../FigureToolsList/FigureToolsList';
 import { DefaultToolsList } from '../DefaultToolsList/DefaultToolsList';
@@ -36,8 +35,6 @@ export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
-    const dispatchChosenElementsTypeAction = bindActionCreators(setChosenElementsType, dispatch);
-    const selectedSlideElementsIds = store.getState().model.selectedSlideElementsIds;
 
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {

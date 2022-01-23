@@ -1,0 +1,22 @@
+.color-input-container {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+}
+
+.color-input {
+    position: absolute;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.color-btn {
+    border: 2px solid black;
+    display: inline-block;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: chocolate;
+}

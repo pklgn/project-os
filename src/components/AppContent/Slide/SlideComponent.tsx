@@ -28,7 +28,7 @@ import {
     dispatchActiveViewAreaAction,
     dispatchAddSlideAction,
     dispatchKeepModelAction,
-    dispatchSetElementsPoistionAction,
+    dispatchSetElementsPositionAction,
     dispatchSetElementsSizeAction,
     dispatchSetIdAction,
 } from '../../../app_model/redux_model/dispatchers';
@@ -228,7 +228,7 @@ export function SlideComponent(props: SlideProps) {
             if (onDragAndDrop && selectedAreaLocation && selectedAreaStartPoint) {
                 const dx = selectedAreaLocation.xy.x - selectedAreaStartPoint.x;
                 const dy = selectedAreaLocation.xy.y - selectedAreaStartPoint.y;
-                dispatchSetElementsPoistionAction(dispatch)({ dx: dx, dy: dy });
+                dispatchSetElementsPositionAction(dispatch)({ dx: dx, dy: dy });
                 setSelectedAreaStartPoint(selectedAreaLocation.xy);
                 dispatchKeepModelAction(dispatch)();
             }

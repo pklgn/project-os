@@ -5,7 +5,6 @@
     border-radius: 0.2rem;
     width: 100%;
     grid-area: elementTools;
-    overflow-y: hidden;
 }
 
 .picture-tools > * {

@@ -1,6 +1,6 @@
 import styles from './ReorderToolsList.module.css';
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { LocaleContext, LocaleContextType } from '../../../App';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
@@ -11,54 +11,69 @@ import { LayerForeground } from '../../common/icons/LayerForeground/LayerForegro
 import ToolTip from '../../common/ToolTip/ToolTip';
 // import { dispatchMoveElementsToBackgroundOrForeground } from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
-import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
+import {
+    dispatchKeepModelAction,
+    dispatchMoveSelectedElementsToBackgroundOrForegroundAction,
+} from '../../../app_model/redux_model/dispatchers';
 
-type reorderToolsListProps = {
+type ReorderToolsListProps = {
     setListSwitcher: () => void;
 };
 
-export function ReorderToolsList(props: reorderToolsListProps): JSX.Element {
+export function ReorderToolsList(props: ReorderToolsListProps): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
+
     const moveForegroundHandler = () => {
-        // dispatchMoveElementsToBackgroundOrForeground(dispatch)(false);
+        dispatchMoveSelectedElementsToBackgroundOrForegroundAction(dispatch)(false);
         dispatchKeepModelAction(dispatch)();
         props.setListSwitcher();
     };
 
     const moveBackgroundHandler = () => {
-        // dispatchMoveElementsToBackgroundOrForeground(dispatch)(true);
+        dispatchMoveSelectedElementsToBackgroundOrForegroundAction(dispatch)(true);
         dispatchKeepModelAction(dispatch)();
         props.setListSwitcher();
     };
 
     const reorderToolsButtonInfo: ButtonProps[] = [
         {
-            text: localeContext.locale.localization.elementsListTool.cursorTool,
+            text: localeContext.locale.localization.elementsListTool.forwardLayerTool,
             id: 'select-tool-button',
             iconLeft: <LayerForward />,
             onClick: props.setListSwitcher,
         },
         {
-            text: localeContext.locale.localization.elementsListTool.textTool,
+            text: localeContext.locale.localization.elementsListTool.frontLayerTool,
             id: 'text-tool-button',
             iconLeft: <LayerForeground />,
             onClick: moveForegroundHandler,
         },
         {
-            text: localeContext.locale.localization.elementsListTool.textTool,
+            text: localeContext.locale.localization.elementsListTool.backwardLayerTool,
             id: '',
             iconLeft: <LayerBackward />,
             onClick: props.setListSwitcher,
         },
         {
-            text: localeContext.locale.localization.elementsListTool.textTool,
+            text: localeContext.locale.localization.elementsListTool.backLayerTool,
             id: '',
             iconLeft: <LayerBackground />,
             onClick: moveBackgroundHandler,
         },
     ];
+
+    useEffect(() => {
+        const onKeyDownHandler = (event: KeyboardEvent) => {
+            if (event.code === 'Escape') props.setListSwitcher();
+        };
+
+        document.addEventListener('keydown', onKeyDownHandler);
+        return () => {
+            document.removeEventListener('keydown', onKeyDownHandler);
+        };
+    }, [localeContext]);
 
     return (
         <div className={styles['reorder-tools']}>
