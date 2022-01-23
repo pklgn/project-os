@@ -1,3 +1,4 @@
+import CSS from 'csstype';
 import style from './CommonFigureStyle.module.css';
 
 import { Coordinates, FigureElement, FigureShape, Size, SlideElement } from '../../../app_model/model/types';
@@ -20,6 +21,7 @@ export type FigureProps = {
     size: Size;
     opacity: number;
     content: FigureElement;
+    transfrom?: CSS.Properties;
 };
 
 export function FigureElementComponent(props: FigureElementProps) {

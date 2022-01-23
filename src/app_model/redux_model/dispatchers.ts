@@ -9,6 +9,7 @@ import {
     changeSelectedElementsPosition,
     changeSelectedElementsSize,
     removeSelectedElements,
+    setSelectedElementsTransformProperty,
 } from './actions_model/action_creators/elements_action_creators';
 
 import { addFigure } from './actions_model/action_creators/figure_action_creators';
@@ -40,6 +41,9 @@ const dispatchSetElementsSizeAction = (dispatch: Dispatch) => {
 const dispatchSetElementsPoistionAction = (dispatch: Dispatch) => {
     return bindActionCreators(changeSelectedElementsPosition, dispatch);
 };
+const dispatchSetElementsTransform = (dispatch: Dispatch) => {
+    return bindActionCreators(setSelectedElementsTransformProperty, dispatch);
+};
 
 const dispatchAddFigureAction = (dispatch: Dispatch) => {
     return bindActionCreators(addFigure, dispatch);
@@ -57,11 +61,17 @@ const dispatchSetEditorModeAction = (dispatch: Dispatch) => {
 const dispatchSetElementsRenderRatioAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideRenderActions.setElementsRenderRatio, dispatch);
 };
+const dispatchSlideToContainerRatio = (dispatch: Dispatch) => {
+    return bindActionCreators(slideRenderActions.setSlideToContainerRatio, dispatch);
+};
 const dispatchSlideContainerDimensions = (dispatch: Dispatch) => {
     return bindActionCreators(slideRenderActions.setSlideContainerDimensions, dispatch);
 };
 const dispatchSetSlideWhiteAreaLocationAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideRenderActions.setSlideWhiteAreaLocation, dispatch);
+};
+const dispatchSetWindowRatio = (dispatch: Dispatch) => {
+    return bindActionCreators(slideRenderActions.setWindowRatio, dispatch);
 };
 
 const dispatchKeepModelAction = (dispatch: Dispatch) => {
@@ -87,9 +97,12 @@ export {
     dispatchSetEditorModeAction,
     dispatchSetElementsPoistionAction,
     dispatchSetElementsRenderRatioAction,
+    dispatchSlideToContainerRatio,
     dispatchSetElementsSizeAction,
+    dispatchSetElementsTransform,
     dispatchSetIdAction,
     dispatchSetSlideWhiteAreaLocationAction,
+    dispatchSetWindowRatio,
     dispatchUndoAction,
     dispatchRedoAction,
 };

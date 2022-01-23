@@ -22,6 +22,8 @@ import {
     dispatchActiveViewAreaAction,
     dispatchPresentationName,
     dispatchSetEditorModeAction,
+    dispatchSetWindowRatio,
+    dispatchSlideToContainerRatio,
 } from '../../app_model/redux_model/dispatchers';
 import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
 import { store } from '../../app_model/redux_model/store';
@@ -114,8 +116,28 @@ export function AppTop(): JSX.Element {
         }
     };
 
+    const handle16To9RatioClick = () => {
+        dispatchSetWindowRatio(dispatch)('16/9');
+        dispatchSlideToContainerRatio(dispatch)(0.7);
+    };
+
+    const handle16To10RatioClick = () => {
+        dispatchSetWindowRatio(dispatch)('16/10');
+        dispatchSlideToContainerRatio(dispatch)(0.6);
+    };
+
+    const handle4To3RatioClick = () => {
+        dispatchSetWindowRatio(dispatch)('4/3');
+        dispatchSlideToContainerRatio(dispatch)(0.5);
+    };
+
     const fileDropdownMenu = getFileDropdownMenu({
         locale: localeContext.locale,
+        handleScreenRatio: {
+            handle16To9Ratio: handle16To9RatioClick,
+            handle16To10Ratio: handle16To10RatioClick,
+            handle4To3Ratio: handle4To3RatioClick,
+        },
         handleOpenFile: handleUploadPresentationClick,
         handleSaveFile: saveAsJSONFunction,
         handleUploadImage: handleUploadImageClick,

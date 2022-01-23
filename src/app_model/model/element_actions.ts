@@ -1,3 +1,5 @@
+import CSS from 'csstype';
+
 import { getCurrentSlide, applySlideChanges } from './slides_actions';
 import { AreaLocation, Coordinates, Editor, Size, Slide, SlideElement } from './types';
 
@@ -302,5 +304,43 @@ export function removeSelectedElements(editor: Editor): Editor {
         ...updatedEditor,
         selectedSlidesIds: [currSlide.id],
         selectedSlideElementsIds: [],
+    };
+}
+
+export function setTransformToElements(editor: Editor, transform: CSS.Properties): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
+        return item.id === currSlide.id;
+    });
+
+    if (!currSlide.elementsList.length) {
+        return editor;
+    }
+
+    const updatedElementList: SlideElement[] = currSlide.elementsList.map((item) => {
+        if (editor.selectedSlideElementsIds.includes(item.id)) {
+            return {
+                ...item,
+                transform,
+            };
+        }
+
+        return item;
+    });
+
+    const updatedSlide: Slide = {
+        ...currSlide,
+        elementsList: updatedElementList,
+    };
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [currSlide.id],
     };
 }

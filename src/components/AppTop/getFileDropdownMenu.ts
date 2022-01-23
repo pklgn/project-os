@@ -4,6 +4,11 @@ import { l18nType } from '../../l18n/l18n';
 
 export type FileDropdownMenuProps = {
     locale: l18nType;
+    handleScreenRatio: {
+        handle16To10Ratio: () => void;
+        handle16To9Ratio: () => void;
+        handle4To3Ratio: () => void;
+    };
     handleOpenFile: () => void;
     handleSaveFile: () => void;
     handleUploadImage: () => void;
@@ -61,15 +66,27 @@ const getFileDropdownMenu = (props: FileDropdownMenuProps): DropdownMenuProps =>
                     mainButton: { id: generateUUId(), text: locale.localization.dropdown.file.changeAspectRatio },
                     nestedButtons: [
                         {
-                            mainButton: { id: generateUUId(), text: '16:9' },
+                            mainButton: {
+                                id: generateUUId(),
+                                text: '16:9',
+                                onMouseUp: props.handleScreenRatio.handle16To9Ratio,
+                            },
                             nestedButtons: [],
                         },
                         {
-                            mainButton: { id: generateUUId(), text: '16:10' },
+                            mainButton: {
+                                id: generateUUId(),
+                                text: '16:10',
+                                onMouseUp: props.handleScreenRatio.handle16To10Ratio,
+                            },
                             nestedButtons: [],
                         },
                         {
-                            mainButton: { id: generateUUId(), text: '4:3' },
+                            mainButton: {
+                                id: generateUUId(),
+                                text: '4:3',
+                                onMouseUp: props.handleScreenRatio.handle4To3Ratio,
+                            },
                             nestedButtons: [],
                         },
                     ],
