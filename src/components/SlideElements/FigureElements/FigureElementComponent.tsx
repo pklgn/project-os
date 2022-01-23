@@ -62,16 +62,16 @@ export function FigureElementComponent(props: FigureElementProps) {
 
 function TriangleFigure(props: FigureProps) {
     const leftVertex = {
-        x: props.startPoint.x * props.renderScale.width,
-        y: (props.startPoint.y + props.size.height) * props.renderScale.height,
+        x: props.startPoint.x * props.renderScale.width * props.windowRatio,
+        y: (props.startPoint.y + props.size.height) * props.renderScale.height * props.windowRatio,
     };
     const topVertex = {
-        x: (props.startPoint.x + props.size.width / 2) * props.renderScale.width,
-        y: props.startPoint.y * props.renderScale.height,
+        x: (props.startPoint.x + props.size.width / 2) * props.renderScale.width * props.windowRatio,
+        y: props.startPoint.y * props.renderScale.height * props.windowRatio,
     };
     const rightVertex = {
-        x: (props.startPoint.x + props.size.width) * props.renderScale.width,
-        y: (props.startPoint.y + props.size.height) * props.renderScale.height,
+        x: (props.startPoint.x + props.size.width) * props.renderScale.width * props.windowRatio,
+        y: (props.startPoint.y + props.size.height) * props.renderScale.height * props.windowRatio,
     };
     const pointsString = `${leftVertex.x},
         ${leftVertex.y} ${topVertex.x},
@@ -117,10 +117,10 @@ function CircleFigure(props: FigureProps): JSX.Element {
     return (
         <ellipse
             id={`${props.elementIndex}`}
-            cx={(startPoint.x + rx) * props.renderScale.width}
-            cy={(startPoint.y + ry) * props.renderScale.height}
-            rx={rx * props.renderScale.width}
-            ry={ry * props.renderScale.height}
+            cx={(startPoint.x + rx) * props.renderScale.width * props.windowRatio}
+            cy={(startPoint.y + ry) * props.renderScale.height * props.windowRatio}
+            rx={rx * props.renderScale.width * props.windowRatio}
+            ry={ry * props.renderScale.height * props.windowRatio}
             fill={content.figureColor}
             stroke={content.borderColor}
             strokeWidth={content.borderWidth}
