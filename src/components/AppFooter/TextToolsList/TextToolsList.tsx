@@ -1,7 +1,7 @@
 import styles from './TextToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext, useEffect, useState } from 'react';
+import { BaseSyntheticEvent, useContext, useEffect, useState } from 'react';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
 import { useDispatch } from 'react-redux';
@@ -14,6 +14,9 @@ import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatch
 // } from '../../../app_model/redux_model/dispatchers';
 // import { dispatchSetChosenElementsTypeAction } from '../../../app_model/redux_model/dispatchers';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
+import { ColorInput } from '../../common/ColorInput/ColorInput';
+import { getActiveElementsIds } from '../../../app_model/model/element_actions';
+import { store } from '../../../app_model/redux_model/store';
 // import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
 
 export function TextToolsList(): JSX.Element {
@@ -48,23 +51,23 @@ export function TextToolsList(): JSX.Element {
         };
     }, []);
 
-    // const [timeOuted, setTimeOuted] = useState(false);
-    // const onChangeHandler = (e: BaseSyntheticEvent) => {
-    //     if (!timeOuted) {
-    //         setTimeOuted(true);
-    //         setTimeout(() => {
-    //             const el = e.target as HTMLInputElement;
-    //             if (getActiveElementsIds(store.getState().model).length) {
-    //                 dispatchSetElementsColorAction(el.value);
-    //             } else {
-    //                 dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
-    //             }
-    //             dispatchKeepModelAction(dispatch)();
-    //             setTimeOuted(false);
-    //         }, 50);
-    //     }
-    //     // setDragging(true);
-    // };
+    const [timeOuted, setTimeOuted] = useState(false);
+    const onChangeHandler = (e: BaseSyntheticEvent) => {
+        if (!timeOuted) {
+            setTimeOuted(true);
+            setTimeout(() => {
+                const el = e.target as HTMLInputElement;
+                if (getActiveElementsIds(store.getState().model).length) {
+                    // dispatchSetElementsColorAction(el.value);
+                } else {
+                    // dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
+                }
+                dispatchKeepModelAction(dispatch)();
+                setTimeOuted(false);
+            }, 1000);
+        }
+        // setDragging(true);
+    };
 
     const textToolsButtonInfo: ButtonProps[] = [
         {
@@ -72,6 +75,12 @@ export function TextToolsList(): JSX.Element {
             id: 'text-tool-button',
             iconLeft: <TextColor />,
             onClick: changeTextColorHandler,
+        },
+        {
+            text: localeContext.locale.localization.elementsListTool.removeElementTool,
+            id: 'fawfawfaw',
+            iconLeft: <ColorInput onInput={onChangeHandler} />,
+            onClick: () => {},
         },
     ];
 

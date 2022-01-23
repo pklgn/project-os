@@ -295,9 +295,7 @@ export function moveElementsBackwardOrForward(editor: Editor, way: boolean): Edi
     const updatedElementList: SlideElement[] = [];
     const selectedSlideElementsIds = editor.selectedSlideElementsIds;
 
-    while (indexLeft >= 0) {
-        console.log(elementsList[indexLeft].id);
-        console.log('5');
+    while (indexRight < elementsList.length - 1 && indexRight !== -1) {
         if (selectedSlideElementsIds.includes(elementsList[indexLeft].id)) {
             indexRight = elementsList.findIndex(
                 (item, index) => !selectedSlideElementsIds.includes(item.id) && index > indexLeft,
@@ -305,7 +303,7 @@ export function moveElementsBackwardOrForward(editor: Editor, way: boolean): Edi
 
             indexRight !== -1
                 ? updatedElementList.push(elementsList[indexRight], ...elementsList.slice(indexLeft, indexRight))
-                : updatedElementList.push(...elementsList.splice(indexLeft));
+                : updatedElementList.push(...elementsList.slice(indexLeft));
 
             indexLeft = indexRight;
         } else {
@@ -313,7 +311,7 @@ export function moveElementsBackwardOrForward(editor: Editor, way: boolean): Edi
                 (item, index) => selectedSlideElementsIds.includes(item.id) && index > indexLeft,
             );
 
-            updatedElementList.push(...elementsList.splice(indexLeft));
+            updatedElementList.push(...elementsList.slice(indexLeft));
 
             indexLeft = indexRight;
         }
