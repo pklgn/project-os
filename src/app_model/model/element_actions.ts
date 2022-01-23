@@ -19,28 +19,28 @@ export function changeElementsSize(editor: Editor, cordsAndDimensions: AreaLocat
     const xy = cordsAndDimensions.xy;
     const dimensions = cordsAndDimensions.dimensions;
 
-    // const previosAreaLocation = getElementsAreaLoaction(currSlide, getActiveElementsIds(editor));
-    // const dXY = {
-    //     dx: previosAreaLocation ? xy.x - previosAreaLocation.xy.x : 0,
-    //     dy: previosAreaLocation ? xy.y - previosAreaLocation.xy.y : 0,
-    // };
-    // const dDimensions = {
-    //     dWidth: previosAreaLocation ? dimensions.width - previosAreaLocation.dimensions.width : 0,
-    //     dHeight: previosAreaLocation ? dimensions.height - previosAreaLocation.dimensions.height : 0,
-    // };
+    const previosAreaLocation = getElementsAreaLoaction(currSlide, getActiveElementsIds(editor));
+    const dXY = {
+        dx: previosAreaLocation ? xy.x - previosAreaLocation.xy.x : 0,
+        dy: previosAreaLocation ? xy.y - previosAreaLocation.xy.y : 0,
+    };
+    const dDimensions = {
+        dWidth: previosAreaLocation ? dimensions.width - previosAreaLocation.dimensions.width : 0,
+        dHeight: previosAreaLocation ? dimensions.height - previosAreaLocation.dimensions.height : 0,
+    };
 
-    // console.log(dXY);
-    // console.log(dDimensions);
+    console.log(dXY);
+    console.log(dDimensions);
 
     const updatedElementList: SlideElement[] = currSlide.elementsList.map((item) => {
         if (editor.selectedSlideElementsIds.includes(item.id)) {
             const size: Size = {
-                width: dimensions.width,
-                height: dimensions.height,
+                width: Math.abs(item.size.width + dDimensions.dWidth),
+                height: Math.abs(item.size.height + dDimensions.dHeight),
             };
             const startPoint = {
-                x: xy.x,
-                y: xy.y,
+                x: item.startPoint.x + dXY.dx,
+                y: item.startPoint.y + dXY.dy,
             };
 
             return {
