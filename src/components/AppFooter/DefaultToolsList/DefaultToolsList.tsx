@@ -12,6 +12,7 @@ import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 // import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
 import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
+import { OpacityToolsList } from '../OpacityToolsList/OpacityToolsList';
 
 enum commonList {
     DEFAULT = 'DEFAULT',
@@ -53,7 +54,7 @@ export function DefaultToolsList(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.textTool,
             id: 'text-tool-button',
             iconLeft: <Opacity />,
-            onMouseUp: opacityHandler,
+            onClick: opacityHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.geometryTool,
@@ -89,6 +90,8 @@ export function DefaultToolsList(): JSX.Element {
                         });
                     case commonList.REORDER:
                         return <ReorderToolsList setListSwitcher={callbackHandler} />;
+                    case commonList.OPACITY:
+                        return <OpacityToolsList />;
                 }
             })()}
         </>

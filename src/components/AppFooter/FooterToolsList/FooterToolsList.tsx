@@ -12,7 +12,6 @@ import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 import { store } from '../../../app_model/redux_model/store';
 
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { TextToolsList } from '../TextToolsList/TextToolsList';
 import { FigureToolsList } from '../FigureToolsList/FigureToolsList';
 import { DefaultToolsList } from '../DefaultToolsList/DefaultToolsList';

@@ -1,102 +1,57 @@
 import styles from './OpacityToolsList.module.css';
 
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { LocaleContext, LocaleContextType } from '../../../App';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
-import { Reorder } from '../../common/icons/Reorder/Reorder';
-import { Opacity } from '../../common/icons/Opacity/Opacity';
-import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
+import { LayerBackward } from '../../common/icons/LayerBackward/LayerBackward';
+import { LayerBackground } from '../../common/icons/LayerBackground/LayerBackground';
+import { LayerForward } from '../../common/icons/LayerForward/LayerForward';
+import { LayerForeground } from '../../common/icons/LayerForeground/LayerForeground';
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
-import {
-    dispatchRemoveSelectedElementsAction,
-    dispatchKeepModelAction,
-} from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
+import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
 
-enum commonList {
-    DEFAULT = 'DEFAULT',
-    REORDER = 'REORDER',
-    OPACITY = 'OPACITY',
-}
+type OpacityToolsListProps = {
+    setListSwitcher: () => void;
+};
 
-export function DefaultToolsList(): JSX.Element {
+export function OpacityToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
-    const [listSwitcher, setListSwitcher] = useState(commonList.DEFAULT);
     const dispatch = useDispatch();
-
-    const reorderHandler = () => {
-        setListSwitcher(commonList.REORDER);
-    };
-
-    const opacityHandler = () => {
-        setListSwitcher(commonList.OPACITY);
-    };
-
-    const callbackHandler = () => {
-        setListSwitcher(commonList.DEFAULT);
-    };
-
-    const removeSelectedElementsHandler = () => {
-        dispatchRemoveSelectedElementsAction(dispatch)();
+    const moveForegroundHandler = () => {
+        // dispatchMoveElementsToBackgroundOrForeground(dispatch)(false);
         dispatchKeepModelAction(dispatch)();
     };
 
-    const defaultToolsButtonInfo: ButtonProps[] = [
-        {
-            text: localeContext.locale.localization.elementsListTool.cursorTool,
-            id: 'select-tool-button',
-            iconLeft: <Reorder />,
-            onClick: reorderHandler,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.textTool,
-            id: 'text-tool-button',
-            iconLeft: <Opacity />,
-            onMouseUp: opacityHandler,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.geometryTool,
-            id: 'geometry-tool-button',
-            iconLeft: <DeleteElement />,
-            onClick: removeSelectedElementsHandler,
-        },
-    ];
+    const moveBackgroundHandler = () => {
+        // dispatchMoveElementsToBackgroundOrForeground(dispatch)(true);
+        dispatchKeepModelAction(dispatch)();
+    };
 
     return (
-        <div className={styles['default-tools']}>
-            {(() => {
-                switch (listSwitcher) {
-                    case commonList.DEFAULT:
-                        return (
-                            <div className={styles['tools-buttons-container']} id="tools-buttons-container">
-                                {defaultToolsButtonInfo.map((buttonInfo, index) => {
-                                    return (
-                                        <ToolTip
-                                            key={index}
-                                            title={buttonInfo.text ? buttonInfo.text : 'None'}
-                                            position="above"
-                                            child={
-                                                <Button
-                                                    key={index}
-                                                    type={buttonInfo.type}
-                                                    state={buttonInfo.state}
-                                                    id={buttonInfo.id}
-                                                    iconLeft={buttonInfo.iconLeft}
-                                                    onClick={buttonInfo.onClick}
-                                                />
-                                            }
-                                        />
-                                    );
-                                })}
-                            </div>
-                        );
-                    case commonList.REORDER:
-                        return <ReorderToolsList setListSwitcher={callbackHandler} />;
-                }
-            })()}
-        </div>
+        <>
+            <div className={styles['opacity-wrapper']}>
+                <div color="white" className={styles['opacity-text']}>
+                    Opacity
+                </div>
+                <div className={styles['opacity-picker']}>
+                    <div className={styles['range-picker']}>
+                        <div className={styles['range-toddler-wrapper']}>
+                            <div className={styles['range-toddler-content']}></div>
+                            <input
+                                type="range"
+                                className={styles['range-toddler']}
+                                min="0.1"
+                                max="1"
+                                step="0.05"
+                                value="0.5"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }
