@@ -19,7 +19,7 @@ import { addFigure } from './actions_model/action_creators/figure_action_creator
 import { setActiveViewArea } from './actions_view_model/action_creators/active_area_action_creators';
 import { setAppViewMode } from './actions_view_model/action_creators/app_mode_action_creator';
 import * as slideRenderActions from './actions_view_model/action_creators/slide_render_action_creators';
-import { addText } from './actions_model/action_creators/text_action_creators';
+import { addText, changeTextContent } from './actions_model/action_creators/text_action_creators';
 
 const dispatchAddSlideAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideActionCreator.addSlide, dispatch);
@@ -97,6 +97,10 @@ const dispatchAddTextAction = (dispatch: Dispatch) => {
     return bindActionCreators(addText, dispatch);
 };
 
+const dispatchChangeTextContent = (dispatch: Dispatch) => {
+    return bindActionCreators(changeTextContent, dispatch);
+};
+
 export {
     dispatchAddSlideAction,
     dispatchAddFigureAction,
@@ -121,4 +125,5 @@ export {
     dispatchUndoAction,
     dispatchRedoAction,
     dispatchAddTextAction,
+    dispatchChangeTextContent,
 };

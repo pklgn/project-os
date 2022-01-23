@@ -5,6 +5,9 @@ import { SlideElement, TextElement } from '../../../app_model/model/types';
 
 import { getElementsRenderRatio, getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
 import { store } from '../../../app_model/redux_model/store';
+import { setChosenElementsType } from '../../../app_model/redux_model/actions_view_model/action_creators/chosen_elements_action_creator';
+import { useDispatch } from 'react-redux';
+import { setSelectedElementId } from '../../../app_model/model/editor_actions';
 
 type TextElementProps = {
     element: SlideElement;
@@ -24,6 +27,7 @@ function getTextElementContent(element: SlideElement): TextElement | undefined {
 }
 
 function TextElementComponent(props: TextElementProps) {
+    const dispatch = useDispatch();
     const element: SlideElement = props.element;
     const elementText: TextElement | undefined = getTextElementContent(element);
 
@@ -45,6 +49,8 @@ function TextElementComponent(props: TextElementProps) {
                 fontSize={elementText.fontSize}
                 fontStyle={elementText.fontStyle}
                 fill={elementText.fontColor}
+                //onClick{() => setSelectedElementId(store.getState().model, [element.id])}
+                onDoubleClick={() => setChosenElementsType('TEXT')(dispatch)}
             >
                 {elementText.content.map((line, index) => {
                     return (
@@ -54,7 +60,6 @@ function TextElementComponent(props: TextElementProps) {
                     );
                 })}
             </text>
-            {store.getState().viewModel.chosenElementsType === 'TEXT' && <textarea />}
         </>
     );
 }

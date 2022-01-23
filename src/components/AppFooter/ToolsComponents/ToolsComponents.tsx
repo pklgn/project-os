@@ -1,4 +1,4 @@
-import styles from './DefaultToolsList.module.css';
+import styles from './ToolsComponents.module.css';
 
 import { useContext, useState } from 'react';
 import { LocaleContext, LocaleContextType } from '../../../App';
@@ -8,7 +8,6 @@ import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 
 enum commonList {

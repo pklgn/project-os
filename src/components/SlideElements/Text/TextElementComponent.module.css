@@ -1,8 +1,4 @@
 .element {
+    position: relative;
     user-select: none;
-}
-
-.element::selection {
-    background: #f6ea6a;
-    line-height: 1.5;
 }
