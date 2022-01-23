@@ -1,12 +1,7 @@
 import { getCurrentSlide, applySlideChanges } from './slides_actions';
-import { Coordinates, Editor, AreaLocation, Size, Slide, SlideElement } from './types';
+import { AreaLocation, Coordinates, Editor, Size, Slide, SlideElement } from './types';
 
-export function changeElementsSize(editor: Editor, scaleX: number, scaleY: number): Editor {
-    const scale: Size = {
-        width: scaleX,
-        height: scaleY,
-    };
-
+export function changeElementsSize(editor: Editor, cordsAndDimensions: AreaLocation): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
@@ -21,15 +16,36 @@ export function changeElementsSize(editor: Editor, scaleX: number, scaleY: numbe
         return editor;
     }
 
+    const xy = cordsAndDimensions.xy;
+    const dimensions = cordsAndDimensions.dimensions;
+
+    // const previosAreaLocation = getElementsAreaLoaction(currSlide, getActiveElementsIds(editor));
+    // const dXY = {
+    //     dx: previosAreaLocation ? xy.x - previosAreaLocation.xy.x : 0,
+    //     dy: previosAreaLocation ? xy.y - previosAreaLocation.xy.y : 0,
+    // };
+    // const dDimensions = {
+    //     dWidth: previosAreaLocation ? dimensions.width - previosAreaLocation.dimensions.width : 0,
+    //     dHeight: previosAreaLocation ? dimensions.height - previosAreaLocation.dimensions.height : 0,
+    // };
+
+    // console.log(dXY);
+    // console.log(dDimensions);
+
     const updatedElementList: SlideElement[] = currSlide.elementsList.map((item) => {
         if (editor.selectedSlideElementsIds.includes(item.id)) {
             const size: Size = {
-                width: item.size.width * scale.width,
-                height: item.size.height * scale.height,
+                width: dimensions.width,
+                height: dimensions.height,
+            };
+            const startPoint = {
+                x: xy.x,
+                y: xy.y,
             };
 
             return {
                 ...item,
+                startPoint,
                 size,
             };
         }

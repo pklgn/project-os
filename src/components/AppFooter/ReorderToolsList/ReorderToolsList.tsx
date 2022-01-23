@@ -9,9 +9,9 @@ import { LayerBackground } from '../../common/icons/LayerBackground/LayerBackgro
 import { LayerForward } from '../../common/icons/LayerForward/LayerForward';
 import { LayerForeground } from '../../common/icons/LayerForeground/LayerForeground';
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { dispatchMoveElementsToBackgroundOrForeground } from '../../../app_model/redux_model/elementDispatchers';
+// import { dispatchMoveElementsToBackgroundOrForeground } from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
-import { dispatchKeepModelAction } from '../../../app_model/redux_model/historyDispatchers';
+import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
 
 type reorderToolsListProps = {
     setListSwitcher: () => void;
@@ -22,13 +22,13 @@ export function ReorderToolsList(props: reorderToolsListProps): JSX.Element {
 
     const dispatch = useDispatch();
     const moveForegroundHandler = () => {
-        dispatchMoveElementsToBackgroundOrForeground(dispatch)(false);
+        // dispatchMoveElementsToBackgroundOrForeground(dispatch)(false);
         dispatchKeepModelAction(dispatch)();
         props.setListSwitcher();
     };
 
     const moveBackgroundHandler = () => {
-        dispatchMoveElementsToBackgroundOrForeground(dispatch)(true);
+        // dispatchMoveElementsToBackgroundOrForeground(dispatch)(true);
         dispatchKeepModelAction(dispatch)();
         props.setListSwitcher();
     };

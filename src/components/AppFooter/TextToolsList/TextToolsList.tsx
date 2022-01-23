@@ -13,14 +13,14 @@ import { store } from '../../../app_model/redux_model/store';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
-import { dispatchKeepModelAction } from '../../../app_model/redux_model/historyDispatchers';
-import {
-    dispatchChangeTextContentAction,
-    dispatchChangeTextsColorAction,
-} from '../../../app_model/redux_model/textDispatchers';
-import { dispatchSetChosenElementsTypeAction } from '../../../app_model/redux_model/chosenElementsDispatchers';
+import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
+// import {
+//     dispatchChangeTextContentAction,
+//     dispatchChangeTextsColorAction,
+// } from '../../../app_model/redux_model/dispatchers';
+// import { dispatchSetChosenElementsTypeAction } from '../../../app_model/redux_model/dispatchers';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
-import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/elementDispatchers';
+// import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
 
 enum commonList {
     DEFAULT = 'DEFAULT',
@@ -49,7 +49,7 @@ export function TextToolsList(): JSX.Element {
     };
 
     const removeSelectedElementsHandler = () => {
-        dispatchRemoveSelectedElementsAction(dispatch)();
+        // dispatchRemoveSelectedElementsAction(dispatch)();
         dispatchKeepModelAction(dispatch)();
     };
 
@@ -58,17 +58,17 @@ export function TextToolsList(): JSX.Element {
     };
 
     const changeTextColorHandler = () => {
-        dispatchChangeTextsColorAction(dispatch)('black');
+        // dispatchChangeTextsColorAction(dispatch)('black');
         dispatchKeepModelAction(dispatch)();
     };
 
     const changeTextContentHandler = () => {
-        dispatchChangeTextContentAction(dispatch)(['plplpl']);
+        // dispatchChangeTextContentAction(dispatch)(['plplpl']);
         dispatchKeepModelAction(dispatch)();
     };
 
     const noneChosenElementsHandler = () => {
-        dispatchSetChosenElementsTypeAction(dispatch)('NONE');
+        // dispatchSetChosenElementsTypeAction(dispatch)('NONE');
     };
 
     useEffect(() => {

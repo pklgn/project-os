@@ -15,7 +15,12 @@ import {
     dispatchSlideContainerDimensions,
 } from '../../../app_model/redux_model/dispatchers';
 import { AreaLocation, Slide } from '../../../app_model/model/types';
-import { getSlideToContainerRatio, getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
+import {
+    getElementsRenderRatio,
+    getSlideToContainerRatio,
+    getWindowRatio,
+} from '../../../app_model/view_model/slide_render_actions';
+import { ElementsRatioType } from '../../../app_model/view_model/types';
 
 export function SlideWrapper() {
     const ref = useRef<HTMLDivElement>(null);
@@ -48,7 +53,9 @@ export function SlideWrapper() {
     const [initHeight, setCurrHeight] = useState(0);
     const maxSelectedAreaLocationInfo = useSlideResize(ref, currSlide);
 
-    const slideViewBox = getSlideViewBox(maxSelectedAreaLocationInfo, containerWidth, containerHeight);
+    const renderScale = getElementsRenderRatio(store.getState().viewModel);
+
+    const slideViewBox = getSlideViewBox(maxSelectedAreaLocationInfo, containerWidth, containerHeight, renderScale);
 
     const emptySlideWidth = containerWidth ? containerWidth * getSlideToContainerRatio(store.getState().viewModel) : 0;
     const emptySlideHeight = emptySlideWidth / getWindowRatio(store.getState().viewModel);
@@ -107,15 +114,16 @@ function getSlideViewBox(
     maxSelectedElementsArea: AreaLocation | undefined,
     slideContainerWidth: number,
     slideContainerHeight: number,
+    scale: ElementsRatioType,
 ): ViewBoxType {
-    const contentMinX = maxSelectedElementsArea ? maxSelectedElementsArea.xy.x : 0;
-    const contentMinY = maxSelectedElementsArea ? maxSelectedElementsArea.xy.y : 0;
+    const contentMinX = maxSelectedElementsArea ? maxSelectedElementsArea.xy.x * scale.width : 0;
+    const contentMinY = maxSelectedElementsArea ? maxSelectedElementsArea.xy.y * scale.height : 0;
 
     const contentMaxX = maxSelectedElementsArea
-        ? maxSelectedElementsArea.xy.x + maxSelectedElementsArea.dimensions.width
+        ? (maxSelectedElementsArea.xy.x + maxSelectedElementsArea.dimensions.width) * scale.width
         : 0;
     const contentMaxY = maxSelectedElementsArea
-        ? maxSelectedElementsArea.xy.y + maxSelectedElementsArea.dimensions.height
+        ? (maxSelectedElementsArea.xy.y + maxSelectedElementsArea.dimensions.height) * scale.height
         : 0;
 
     const containerMinX = -slideContainerWidth / 2;
