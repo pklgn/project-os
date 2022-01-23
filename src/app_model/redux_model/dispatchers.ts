@@ -71,7 +71,7 @@ const dispatchDeleteSlideAction = (dispatch: Dispatch) => {
 const dispatchInsertSelectedSlides = (dispatch: Dispatch) => {
     return bindActionCreators(slideActionCreator.insertSelectedSlidesAtIndexAction, dispatch);
 };
-const dispatchChangeSelecredSlidesBackground = (dispatch: Dispatch) => {
+const dispatchChangeSelectedSlidesBackground = (dispatch: Dispatch) => {
     return bindActionCreators(slideActionCreator.changeSlidesBackground, dispatch);
 };
 //SlideActions
@@ -196,4 +196,5 @@ export {
     dispatchChangeTextsSizeAction,
     dispatchChangeTextsStyleAction,
     dispatchAddPictureAction,
+    dispatchChangeSelectedSlidesBackground,
 };

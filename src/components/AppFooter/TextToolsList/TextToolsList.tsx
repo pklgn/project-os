@@ -7,7 +7,11 @@ import { Button, ButtonProps } from '../../common/Button/Button';
 import { useDispatch } from 'react-redux';
 import { TextColor } from '../../common/icons/TextColor/TextColor';
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
+import {
+    dispatchChangeFiguresColorAction,
+    dispatchChangeSelectedSlidesBackground,
+    dispatchKeepModelAction,
+} from '../../../app_model/redux_model/dispatchers';
 // import {
 //     dispatchChangeTextContentAction,
 //     dispatchChangeTextsColorAction,
@@ -58,12 +62,14 @@ export function TextToolsList(): JSX.Element {
             setTimeout(() => {
                 const el = e.target as HTMLInputElement;
                 if (getActiveElementsIds(store.getState().model).length) {
-                    // dispatchSetElementsColorAction(el.value);
+                    dispatchChangeFiguresColorAction(dispatch)(el.value);
                 } else {
-                    // dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
+                    dispatchChangeSelectedSlidesBackground(dispatch)({ src: '', color: el.value });
                 }
-                dispatchKeepModelAction(dispatch)();
                 setTimeOuted(false);
+            }, 50);
+            setTimeout(() => {
+                dispatchKeepModelAction(dispatch)();
             }, 1000);
         }
         // setDragging(true);
