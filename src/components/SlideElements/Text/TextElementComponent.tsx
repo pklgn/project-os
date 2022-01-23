@@ -2,6 +2,7 @@ import styles from './TextElementComponent.module.css';
 
 import { isText } from '../../../app_model/model/utils/tools';
 import { SlideElement, TextElement } from '../../../app_model/model/types';
+import { store } from '../../../app_model/redux_model/store';
 
 type TextElementProps = {
     element: SlideElement;
@@ -29,24 +30,27 @@ function TextElementComponent(props: TextElementProps) {
     }
 
     return (
-        <text
-            id={`${props.elementIndex}`}
-            className={styles.element}
-            x={element.startPoint.x}
-            y={element.startPoint.y}
-            fontFamily={'Arial, Helvetica, sans-serif'}
-            fontSize={elementText.fontSize}
-            fontStyle={elementText.fontStyle}
-            fill={elementText.fontColor}
-        >
-            {elementText.content.map((line, index) => {
-                return (
-                    <tspan key={index} x={element.startPoint.x} dy={elementText.fontSize}>
-                        {line}
-                    </tspan>
-                );
-            })}
-        </text>
+        <>
+            <text
+                id={`${props.elementIndex}`}
+                className={styles.element}
+                x={element.startPoint.x}
+                y={element.startPoint.y}
+                fontFamily={'Arial, Helvetica, sans-serif'}
+                fontSize={elementText.fontSize}
+                fontStyle={elementText.fontStyle}
+                fill={elementText.fontColor}
+            >
+                {elementText.content.map((line, index) => {
+                    return (
+                        <tspan key={index} x={element.startPoint.x} dy={elementText.fontSize}>
+                            {line}
+                        </tspan>
+                    );
+                })}
+            </text>
+            {store.getState().viewModel.chosenElementsType === 'TEXT' && <textarea />}
+        </>
     );
 }
 

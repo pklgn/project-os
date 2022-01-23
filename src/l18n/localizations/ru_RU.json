@@ -28,7 +28,12 @@
     "elements": {
         "text": "Текст",
         "picture": "Изображение",
-        "figure": "Фигура"
+        "figure": {
+            "generic": "Фигура",
+            "circle": "Круг",
+            "triangle": "Треугольник",
+            "rectangle": "Прямоугольник"
+        }
     },
     "elementsListTool": {
         "cursorTool": "Выбрать (Esc)",

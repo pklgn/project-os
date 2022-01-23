@@ -20,6 +20,7 @@ import { getFileDropdownMenu } from './getFileDropdownMenu';
 
 import {
     dispatchActiveViewAreaAction,
+    dispatchAddFigureAction,
     dispatchPresentationName,
     dispatchSetEditorModeAction,
 } from '../../app_model/redux_model/dispatchers';
@@ -30,6 +31,7 @@ import { initEditor } from '../../app_model/model/init_model_action';
 import { UploadPresentationInput } from '../common/ToolBar/UploadPresentationInput';
 import { generateUUId } from '../../app_model/model/utils/uuid';
 import { UploadPictureInput } from '../common/ToolBar/UploadPictureInput';
+import { FigureInfo, FigureShape } from '../../app_model/model/types';
 
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
@@ -113,12 +115,27 @@ export function AppTop(): JSX.Element {
             });
         }
     };
+    const mockFigure: FigureInfo = {
+        shape: FigureShape.Rectangle,
+        xy: {
+            x: 0,
+            y: 0,
+        },
+    };
 
     const fileDropdownMenu = getFileDropdownMenu({
         locale: localeContext.locale,
         handleOpenFile: handleUploadPresentationClick,
         handleSaveFile: saveAsJSONFunction,
-        handleUploadImage: handleUploadImageClick,
+        handleInsert: {
+            text: () => undefined,
+            image: handleUploadImageClick,
+            figure: {
+                circle: () => undefined,
+                triangle: () => undefined,
+                rectangle: () => dispatchAddFigureAction(dispatch)(mockFigure),
+            },
+        },
     });
 
     return (

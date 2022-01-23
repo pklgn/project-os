@@ -28,7 +28,12 @@
     "elements": {
         "text": "Text",
         "picture": "Picture",
-        "figure": "Figure"
+        "figure": {
+            "generic": "Figure",
+            "circle": "Circle",
+            "triangle": "Triangle",
+            "rectangle": "Rectangle"
+        }
     },
     "elementsListTool": {
         "cursorTool": "Choose (Esc)",

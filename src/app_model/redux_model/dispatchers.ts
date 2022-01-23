@@ -15,6 +15,7 @@ import { addFigure } from './actions_model/action_creators/figure_action_creator
 import { setActiveViewArea } from './actions_view_model/action_creators/active_area_action_creators';
 import { setAppViewMode } from './actions_view_model/action_creators/app_mode_action_creator';
 import * as slideRenderActions from './actions_view_model/action_creators/slide_render_action_creators';
+import { addText } from './actions_model/action_creators/text_action_creators';
 
 const dispatchAddSlideAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideActionCreator.addSlide, dispatch);
@@ -70,6 +71,10 @@ const dispatchRedoAction = (dispatch: Dispatch) => {
     return bindActionCreators(editorActionCreator.redoModelAction, dispatch);
 };
 
+const dispatchAddTextAction = (dispatch: Dispatch) => {
+    return bindActionCreators(addText, dispatch);
+};
+
 export {
     dispatchAddSlideAction,
     dispatchAddFigureAction,
@@ -87,4 +92,5 @@ export {
     dispatchSetSlideWhiteAreaLocationAction,
     dispatchUndoAction,
     dispatchRedoAction,
+    dispatchAddTextAction,
 };
