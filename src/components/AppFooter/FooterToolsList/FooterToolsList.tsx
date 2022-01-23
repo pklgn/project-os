@@ -59,7 +59,6 @@ export function FooterToolsList(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
-            state: 'active',
             iconLeft: <SelectCursorIcon color="#ffa322" />,
         },
         {
@@ -122,15 +121,6 @@ export function FooterToolsList(): JSX.Element {
                     switch ('TEXT') {
                         case 'TEXT':
                             return [<TextToolsList key={0} />, <DefaultToolsList key={1} />];
-                        // );
-                        // case 'PICTURE':
-                        // return <DefaultToolsList />;
-                        // case 'FIGURE':
-                        // return <FigureToolsList />;
-                        // case 'MIXED':
-                        //     return <DefaultToolsList />;
-                        // case 'NONE':
-                        // return <span className={styles.empty_block}></span>;
                     }
                 })()}
             </div>

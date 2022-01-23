@@ -13,7 +13,7 @@ export function addTextElement(editor: Editor, x = 1, y = 1): Editor {
     const textElement: TextElement = {
         content: ['Введите текст'],
         fontSize: 10,
-        fontColor: '#ffffff',
+        fontColor: 'black',
         fontStyle: 'italic',
         fontFamily: 'sans-serif',
     };
@@ -24,8 +24,8 @@ export function addTextElement(editor: Editor, x = 1, y = 1): Editor {
             y,
         },
         size: {
-            width: 100,
-            height: 70,
+            width: 0,
+            height: 0,
         },
         opacity: 1,
         content: textElement,

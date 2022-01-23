@@ -17,6 +17,12 @@ export function setSelectedIdInEditor(
     return editor;
 }
 
+export function setSelectedElementId(editor: Editor, selectedSlideElementsIds: string[] = []): Editor {
+    editor.selectedSlideElementsIds = selectedSlideElementsIds;
+
+    return editor;
+}
+
 export function savePresentationAsJson(editor: Editor) {
     const presentation = editor.presentation;
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(presentation));

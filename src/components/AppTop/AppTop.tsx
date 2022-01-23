@@ -20,6 +20,9 @@ import { getFileDropdownMenu } from './getFileDropdownMenu';
 
 import {
     dispatchActiveViewAreaAction,
+    dispatchAddFigureAction,
+    dispatchAddTextAction,
+    dispatchKeepModelAction,
     dispatchPresentationName,
     dispatchSetEditorModeAction,
     dispatchSetWindowRatio,
@@ -33,6 +36,7 @@ import { UploadPresentationInput } from '../common/ToolBar/UploadPresentationInp
 import { generateUUId } from '../../app_model/model/utils/uuid';
 import { UploadPictureInput } from '../common/ToolBar/UploadPictureInput';
 import { getSlideAmount } from '../../app_model/model/slides_actions';
+import { FigureInfo, FigureShape } from '../../app_model/model/types';
 
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
@@ -116,6 +120,18 @@ export function AppTop(): JSX.Element {
             });
         }
     };
+    const mockFigure: FigureInfo = {
+        shape: FigureShape.Rectangle,
+        xy: {
+            x: 0,
+            y: 0,
+        },
+    };
+
+    const handleAddText = () => {
+        dispatchAddTextAction(dispatch)({ x: 0, y: 0 });
+        dispatchKeepModelAction(dispatch)();
+    };
 
     const handle16To9RatioClick = () => {
         dispatchSetWindowRatio(dispatch)('16/9');
@@ -152,6 +168,15 @@ export function AppTop(): JSX.Element {
         handleSaveFile: saveAsJSONFunction,
         handleSavePdf: handleSavePdf,
         handleUploadImage: handleUploadImageClick,
+        handleInsert: {
+            text: handleAddText,
+            image: handleUploadImageClick,
+            figure: {
+                circle: () => undefined,
+                triangle: () => undefined,
+                rectangle: () => dispatchAddFigureAction(dispatch)(mockFigure),
+            },
+        },
     });
 
     return (

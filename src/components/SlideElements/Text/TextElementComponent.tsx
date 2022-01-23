@@ -5,6 +5,9 @@ import { SlideElement, TextElement } from '../../../app_model/model/types';
 
 import { store } from '../../../app_model/redux_model/store';
 import { getElementsRenderRatio } from '../../../app_model/view_model/slide_render_actions';
+import { setChosenElementsType } from '../../../app_model/redux_model/actions_view_model/action_creators/chosen_elements_action_creator';
+import { useDispatch } from 'react-redux';
+import { setSelectedElementId } from '../../../app_model/model/editor_actions';
 
 type TextElementProps = {
     element: SlideElement;
@@ -24,6 +27,7 @@ function getTextElementContent(element: SlideElement): TextElement | undefined {
 }
 
 function TextElementComponent(props: TextElementProps) {
+    const dispatch = useDispatch();
     const element: SlideElement = props.element;
     const elementText: TextElement | undefined = getTextElementContent(element);
 
@@ -34,26 +38,28 @@ function TextElementComponent(props: TextElementProps) {
     const renderScale = getElementsRenderRatio(store.getState().viewModel);
 
     return (
-        <text
-            id={`${props.elementIndex}`}
-            className={styles.element}
-            x={element.startPoint.x * renderScale.width}
-            y={element.startPoint.y * renderScale.height}
-            width={element.size.width * renderScale.width}
-            height={element.size.height * renderScale.height}
-            fontFamily={'Arial, Helvetica, sans-serif'}
-            fontSize={elementText.fontSize}
-            fontStyle={elementText.fontStyle}
-            fill={elementText.fontColor}
-        >
-            {elementText.content.map((line, index) => {
-                return (
-                    <tspan key={index} x={element.startPoint.x} dy={elementText.fontSize}>
-                        {line}
-                    </tspan>
-                );
-            })}
-        </text>
+        <>
+            <text
+                id={`${props.elementIndex}`}
+                className={styles.element}
+                x={element.startPoint.x * renderScale.width * windowRatio}
+                y={element.startPoint.y * renderScale.height * windowRatio}
+                fontFamily={'Arial, Helvetica, sans-serif'}
+                fontSize={elementText.fontSize}
+                fontStyle={elementText.fontStyle}
+                fill={elementText.fontColor}
+                //onClick{() => setSelectedElementId(store.getState().model, [element.id])}
+                onDoubleClick={() => setChosenElementsType('TEXT')(dispatch)}
+            >
+                {elementText.content.map((line, index) => {
+                    return (
+                        <tspan key={index} x={element.startPoint.x} dy={elementText.fontSize}>
+                            {line}
+                        </tspan>
+                    );
+                })}
+            </text>
+        </>
     );
 }
 
