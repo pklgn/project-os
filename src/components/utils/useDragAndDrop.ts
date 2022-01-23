@@ -8,8 +8,6 @@ export type DragAndDropParamsType = {
     position: AreaLocation;
     setPosition: (coordinates: AreaLocation) => void;
     scale: ElementsRatioType;
-    slideToContainerRatio: number;
-    windowRatio: number;
 };
 
 export function useDragAndDrop(params: DragAndDropParamsType): void {
@@ -35,8 +33,8 @@ export function useDragAndDrop(params: DragAndDropParamsType): void {
             y: e.pageY - startDragPosition.y,
         };
         const newPosition = {
-            x: position.xy.x + delta.x / params.scale.width / params.slideToContainerRatio,
-            y: position.xy.y + delta.y / params.scale.height / (params.slideToContainerRatio / params.windowRatio),
+            x: position.xy.x + delta.x / params.scale.width,
+            y: position.xy.y + delta.y / params.scale.height,
         };
 
         const newSelectedAreaLocation: AreaLocation = {

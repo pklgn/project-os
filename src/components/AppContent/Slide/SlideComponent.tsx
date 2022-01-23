@@ -269,8 +269,8 @@ export function SlideComponent(props: SlideProps) {
         let newSelectedAreaLocation: AreaLocation | undefined;
 
         const mouseMoveReziseHandler = (e: MouseEvent) => {
-            const dx = (e.pageX - startX) / renderScale.width / slideContainerRatio;
-            const dy = (e.pageY - startY) / renderScale.height / (slideContainerRatio / windowRatio);
+            const dx = (e.pageX - startX) / renderScale.width;
+            const dy = (e.pageY - startY) / renderScale.height;
             if (itsNResizer || itsSResizer) {
                 if (refCanvas.current && refCanvas.current.style.cursor !== resizerStuff.N_RESIZER_ID) {
                     refCanvas.current.style.cursor = resizerStuff.N_RESIZER_ID;
@@ -328,8 +328,6 @@ export function SlideComponent(props: SlideProps) {
         resizersSize,
         resizersOffset,
         renderScale,
-        slideContainerRatio,
-        windowRatio,
     );
 
     useDragAndDrop({
@@ -337,8 +335,6 @@ export function SlideComponent(props: SlideProps) {
         position: selectedAreaLocation!,
         setPosition: setSelectedAreaLocation,
         scale: renderScale,
-        slideToContainerRatio: slideContainerRatio,
-        windowRatio: windowRatio,
     });
 
     const onSelectAreaEnterHandler = (event: BaseSyntheticEvent) => {
@@ -427,12 +423,12 @@ export function SlideComponent(props: SlideProps) {
                 <>
                     <rect
                         ref={refSelectedArea}
-                        x={selectedAreaLocation.xy.x * renderScale.width * slideContainerRatio}
-                        y={selectedAreaLocation.xy.y * renderScale.height * (slideContainerRatio / windowRatio)}
+                        x={selectedAreaLocation.xy.x * renderScale.width}
+                        y={selectedAreaLocation.xy.y * renderScale.height}
                         id={SELECT_AREA_ID}
                         className={styles[SELECT_AREA_ID]}
-                        width={selectedAreaLocation.dimensions.width * renderScale.width * slideContainerRatio}
-                        height={selectedAreaLocation.dimensions.height * renderScale.height * slideContainerRatio}
+                        width={selectedAreaLocation.dimensions.width * renderScale.width}
+                        height={selectedAreaLocation.dimensions.height * renderScale.height}
                         onMouseEnter={onSelectAreaEnterHandler}
                         onMouseLeave={onSelectAreaLeaveHandler}
                     />
