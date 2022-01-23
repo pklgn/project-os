@@ -1,0 +1,30 @@
+.opacity-tools {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.2rem;
+}
+
+.tools-buttons-container {
+    display: flex;
+}
+
+.opacity-tools > * {
+    animation: show-opacity-tools .4s forwards;
+}
+
+@keyframes show-opacity-tools {
+    0%{
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    50%{
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateY(0);
+    }
+}

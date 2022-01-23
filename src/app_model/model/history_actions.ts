@@ -1,5 +1,7 @@
 import { Editor } from './types';
 
+const historyCapacity = 50;
+
 export function undo(editor: Editor): Editor {
     if (editor.history.currState > 0) {
         const currState = editor.history.currState - 1;
@@ -45,6 +47,13 @@ export function redo(editor: Editor): Editor {
 }
 
 export function keep(editor: Editor): Editor {
+    if (
+        editor.history.presentationStates.length === historyCapacity &&
+        editor.history.currState === editor.history.presentationStates.length - 1
+    ) {
+        editor.history.presentationStates.splice(0, 1);
+        editor.history.presentationStates.push(editor.presentation);
+    }
     const spliceStart: number = editor.history.currState + 1;
 
     const selectedSlidesIds = editor.selectedSlidesIds;

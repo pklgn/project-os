@@ -1,4 +1,4 @@
-import styles from './DefaultToolsList.module.css';
+import styles from './OpacityToolsList.module.css';
 
 import { useContext, useState } from 'react';
 import { LocaleContext, LocaleContextType } from '../../../App';
@@ -9,9 +9,11 @@ import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
-// import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
+import {
+    dispatchRemoveSelectedElementsAction,
+    dispatchKeepModelAction,
+} from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
-import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
 
 enum commonList {
     DEFAULT = 'DEFAULT',
@@ -38,7 +40,7 @@ export function DefaultToolsList(): JSX.Element {
     };
 
     const removeSelectedElementsHandler = () => {
-        // dispatchRemoveSelectedElementsAction(dispatch)();
+        dispatchRemoveSelectedElementsAction(dispatch)();
         dispatchKeepModelAction(dispatch)();
     };
 
@@ -64,33 +66,37 @@ export function DefaultToolsList(): JSX.Element {
     ];
 
     return (
-        <>
+        <div className={styles['default-tools']}>
             {(() => {
                 switch (listSwitcher) {
                     case commonList.DEFAULT:
-                        return defaultToolsButtonInfo.map((buttonInfo, index) => {
-                            return (
-                                <ToolTip
-                                    key={index}
-                                    title={buttonInfo.text ? buttonInfo.text : 'None'}
-                                    position="above"
-                                    child={
-                                        <Button
+                        return (
+                            <div className={styles['tools-buttons-container']} id="tools-buttons-container">
+                                {defaultToolsButtonInfo.map((buttonInfo, index) => {
+                                    return (
+                                        <ToolTip
                                             key={index}
-                                            type={buttonInfo.type}
-                                            state={buttonInfo.state}
-                                            id={buttonInfo.id}
-                                            iconLeft={buttonInfo.iconLeft}
-                                            onClick={buttonInfo.onClick}
+                                            title={buttonInfo.text ? buttonInfo.text : 'None'}
+                                            position="above"
+                                            child={
+                                                <Button
+                                                    key={index}
+                                                    type={buttonInfo.type}
+                                                    state={buttonInfo.state}
+                                                    id={buttonInfo.id}
+                                                    iconLeft={buttonInfo.iconLeft}
+                                                    onClick={buttonInfo.onClick}
+                                                />
+                                            }
                                         />
-                                    }
-                                />
-                            );
-                        });
+                                    );
+                                })}
+                            </div>
+                        );
                     case commonList.REORDER:
                         return <ReorderToolsList setListSwitcher={callbackHandler} />;
                 }
             })()}
-        </>
+        </div>
     );
 }

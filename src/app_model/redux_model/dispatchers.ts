@@ -8,6 +8,7 @@ import { changePresentationTitle } from './actions_model/action_creators/present
 import {
     changeSelectedElementsPosition,
     changeSelectedElementsSize,
+    removeSelectedElements,
 } from './actions_model/action_creators/elements_action_creators';
 
 import { addFigure } from './actions_model/action_creators/figure_action_creators';
@@ -43,6 +44,9 @@ const dispatchSetElementsPoistionAction = (dispatch: Dispatch) => {
 const dispatchAddFigureAction = (dispatch: Dispatch) => {
     return bindActionCreators(addFigure, dispatch);
 };
+const dispatchRemoveSelectedElementsAction = (dispatch: Dispatch) => {
+    return bindActionCreators(removeSelectedElements, dispatch);
+};
 
 const dispatchActiveViewAreaAction = (dispatch: Dispatch) => {
     return bindActionCreators(setActiveViewArea, dispatch);
@@ -73,6 +77,7 @@ const dispatchRedoAction = (dispatch: Dispatch) => {
 export {
     dispatchAddSlideAction,
     dispatchAddFigureAction,
+    dispatchRemoveSelectedElementsAction,
     dispatchActiveViewAreaAction,
     dispatchDeleteSlideAction,
     dispatchInsertSelectedSlides,

@@ -32,11 +32,6 @@ export function TextToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const [listSwitcher, setListSwitcher] = useState(commonList.DEFAULT);
-    const [query, setQuery] = useState('Введите текст');
-    const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const enteredName = event.target.value;
-        setQuery(enteredName);
-    };
 
     const dispatch = useDispatch();
 
@@ -62,11 +57,6 @@ export function TextToolsList(): JSX.Element {
         dispatchKeepModelAction(dispatch)();
     };
 
-    const changeTextContentHandler = () => {
-        // dispatchChangeTextContentAction(dispatch)(['plplpl']);
-        dispatchKeepModelAction(dispatch)();
-    };
-
     const noneChosenElementsHandler = () => {
         // dispatchSetChosenElementsTypeAction(dispatch)('NONE');
     };
@@ -86,48 +76,19 @@ export function TextToolsList(): JSX.Element {
 
     const uniqueTextToolsButtonInfo: ButtonProps[] = [
         {
-            text: localeContext.locale.localization.elementsListTool.cursorTool,
-            id: 'select-tool-button',
-            iconLeft: <ChangeText />,
-            onMouseUp: changeTextContentHandler,
-        },
-        {
             text: localeContext.locale.localization.elementsListTool.textTool,
             id: 'text-tool-button',
             iconLeft: <TextColor />,
-            onMouseUp: changeTextColorHandler,
+            onClick: changeTextColorHandler,
         },
     ];
-
-    const defaultToolsButtonInfo: ButtonProps[] = [
-        {
-            text: localeContext.locale.localization.elementsListTool.cursorTool,
-            id: 'select-tool-button',
-            iconLeft: <Reorder />,
-            onClick: reorderHandler,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.textTool,
-            id: 'text-tool-button',
-            iconLeft: <Opacity />,
-            onClick: opacityHandler,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.geometryTool,
-            id: 'geometry-tool-button',
-            iconLeft: <DeleteElement />,
-            onClick: removeSelectedElementsHandler,
-        },
-    ];
-
-    const textToolsButtonInfo: ButtonProps[] = [...uniqueTextToolsButtonInfo, ...defaultToolsButtonInfo];
 
     return (
-        <div className={styles['text-tools']}>
+        <>
             {(() => {
                 switch (listSwitcher) {
                     case commonList.DEFAULT:
-                        return textToolsButtonInfo.map((buttonInfo, index) => {
+                        return uniqueTextToolsButtonInfo.map((buttonInfo, index) => {
                             return (
                                 <ToolTip
                                     key={index}
@@ -150,6 +111,6 @@ export function TextToolsList(): JSX.Element {
                         return <ReorderToolsList setListSwitcher={callbackHandler} />;
                 }
             })()}
-        </div>
+        </>
     );
 }

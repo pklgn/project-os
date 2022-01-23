@@ -1,4 +1,4 @@
-import styles from './ElementListTool.module.css';
+import styles from './FooterToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
 import { useContext, useState } from 'react';
@@ -32,7 +32,7 @@ import { setChosenElementsType } from '../../../app_model/view_model/chosen_elem
 import { getSlideElementType, SlideElementType } from '../../../app_model/model/utils/tools';
 import { ChosenElementsType } from '../../../app_model/view_model/types';
 
-export function ElementListTool(): JSX.Element {
+export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
@@ -93,35 +93,8 @@ export function ElementListTool(): JSX.Element {
         },
     ];
 
-    // const [chosenType, setChosenType] = useState('NONE' as ChosenElementsType);
-    // const handleChange = () => {
-    //     const activeSLide = store.getState().model.presentation.slidesList.slice(-1)[0];
-    //     const viewModel = store.getState().viewModel;
-    //     if (activeSLide === undefined) {
-    //         setChosenType('NONE');
-    //     } else {
-    //         if (activeSLide.elementsList.length) {
-    //             const selectedElementsList = activeSLide.elementsList.filter((item) =>
-    //                 selectedSlideElementsIds.includes(item.id),
-    //             );
-
-    //             if (selectedElementsList.length) {
-    //                 const elementsType = getSlideElementType(selectedElementsList[0].content);
-
-    //                 selectedElementsList.every((item) => getSlideElementType(item.content) === elementsType)
-    //                     ? setChosenType(elementsType)
-    //                     : setChosenType('MIXED');
-    //             }
-    //             if (!selectedElementsList.length) setChosenType('NONE');
-    //         }
-    //         if (!activeSLide.elementsList.length) setChosenType('NONE');
-    //     }
-    // };
-
-    // store.subscribe(handleChange);
-
     return (
-        <div className={styles['element-tools']}>
+        <div className={styles['footer-tools']}>
             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
                 {mainToolsButtonInfo.map((buttonInfo, index) => {
                     return (
@@ -145,24 +118,23 @@ export function ElementListTool(): JSX.Element {
                 })}
             </div>
             <VerticalLine id="vertical-1" />
-            {(function () {
-                switch (store.getState().viewModel.chosenElementsType) {
-                    case 'TEXT':
-                        return (
-                            <>
-                                <TextToolsList /> <DefaultToolsList />
-                            </>
-                        );
-                    case 'PICTURE':
-                        return <DefaultToolsList />;
-                    case 'FIGURE':
-                        return <FigureToolsList />;
-                    case 'MIXED':
-                        return <DefaultToolsList />;
-                    case 'NONE':
-                        return <span className={styles.empty_block}></span>;
-                }
-            })()}
+            <div className={styles['element-tools']}>
+                {(function () {
+                    switch ('TEXT') {
+                        case 'TEXT':
+                            return [<TextToolsList key={0} />, <DefaultToolsList key={1} />];
+                        // );
+                        // case 'PICTURE':
+                        // return <DefaultToolsList />;
+                        // case 'FIGURE':
+                        // return <FigureToolsList />;
+                        // case 'MIXED':
+                        //     return <DefaultToolsList />;
+                        // case 'NONE':
+                        // return <span className={styles.empty_block}></span>;
+                    }
+                })()}
+            </div>
             {/* <DefaultToolsList /> */}
             <VerticalLine id="vertical-2" />
             <div className={styles['history-buttons-container']} id="history-buttons-container">
