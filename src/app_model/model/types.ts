@@ -1,3 +1,5 @@
+import CSS from 'csstype';
+
 export type Editor = {
     presentation: Presentation;
     history: History;
@@ -44,6 +46,7 @@ export type SlideElement = {
     size: Size;
     opacity: number;
     content: TextElement | PictureElement | FigureElement;
+    transform?: CSS.Properties;
 };
 
 export type Size = {

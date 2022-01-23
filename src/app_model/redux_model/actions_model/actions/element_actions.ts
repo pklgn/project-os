@@ -1,3 +1,5 @@
+import CSS from 'csstype';
+
 import { AreaLocation } from '../../../model/types';
 import { ActionType } from '../action_types/types';
 
@@ -16,10 +18,6 @@ interface ElementsChangeOpacityAction {
     payload: number;
 }
 
-interface ElementsRemoveAction {
-    type: ActionType.REMOVE_SELECTED_ELEMENTS;
-}
-
 interface ElementsChangePositionAction {
     type: ActionType.CHANGE_ELEMENTS_POSITION;
     payload: {
@@ -28,9 +26,19 @@ interface ElementsChangePositionAction {
     };
 }
 
+interface ElementsRemoveAction {
+    type: ActionType.REMOVE_SELECTED_ELEMENTS;
+}
+
+interface SetElementsTranfsormProperty {
+    type: ActionType.SET_ELEMENTS_TRANSFORM_PROP;
+    payload: CSS.Properties;
+}
+
 export type ElementAction =
     | ElementsMoveToForegroundOrBackgroundAction
     | ElementsChangeSizeAction
     | ElementsChangeOpacityAction
+    | ElementsChangePositionAction
     | ElementsRemoveAction
-    | ElementsChangePositionAction;
+    | SetElementsTranfsormProperty;

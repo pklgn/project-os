@@ -28,7 +28,7 @@ import {
     dispatchActiveViewAreaAction,
     dispatchAddSlideAction,
     dispatchKeepModelAction,
-    dispatchSetElementsPoistionAction,
+    dispatchSetElementsPositionAction,
     dispatchSetElementsSizeAction,
     dispatchSetIdAction,
 } from '../../../app_model/redux_model/dispatchers';
@@ -82,63 +82,68 @@ export function SlideComponent(props: SlideProps) {
     );
     const [windowRatio, setWindowRatio] = useState(getWindowRatio(store.getState().viewModel));
     const [resizersRenderInfo, setResizersRenderInfo] = useState(getResizersInfo(store.getState().viewModel));
-    const [currHistoryIndex, setCurrHistoryIndex] = useState(0);
+
+    const handleRenderSpecs = () => {
+        const prevSlideContainerRatio = slideContainerRatio;
+        const prevWindowRatio = windowRatio;
+        const prevResizersRenderInfo = resizersRenderInfo;
+
+        const currSlideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
+        const currWindowRatio = getWindowRatio(store.getState().viewModel);
+        const currResizersRenderInfo = getResizersInfo(store.getState().viewModel);
+
+        if (prevSlideContainerRatio !== currSlideContainerRatio) {
+            setSlideContainerRatio(currSlideContainerRatio);
+        }
+        if (prevWindowRatio !== currWindowRatio) {
+            setWindowRatio(currWindowRatio);
+        }
+        if (prevResizersRenderInfo !== currResizersRenderInfo) {
+            setResizersRenderInfo(currResizersRenderInfo);
+        }
+    };
+
+    // const onElementsAmountHandler = () => {
+    //     const prevAmount = elementsAmount;
+    //     const currAmount = getSlideElementsAmount(props.slide);
+    //     if (prevAmount !== currAmount) {
+    //         setSelectedAreaLocation(undefined);
+    //         setSelectedAreaStartPoint(undefined);
+    //         setElementsAmount(currAmount);
+    //     }
+    // };
+
+    // store.subscribe(onElementsAmountHandler);
+    store.subscribe(handleRenderSpecs);
 
     useLayoutEffect(() => {
-        const handleRenderSpecs = () => {
-            const prevSlideContainerRatio = slideContainerRatio;
-            const prevWindowRatio = windowRatio;
-            const prevResizersRenderInfo = resizersRenderInfo;
+        const onHistoryHandler = (event: KeyboardEvent) => {
+            if (event.ctrlKey && (event.code === 'KeyZ' || event.code === 'KeyY')) {
+                if (store.getState().model.history.currState > 1) {
+                    const currSlide = getCurrentSlide(store.getState().model);
+                    if (currSlide) {
+                        const selectedElementsArea = getElementsAreaLoaction(
+                            currSlide,
+                            getActiveElementsIds(store.getState().model),
+                        );
 
-            const currSlideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
-            const currWindowRatio = getWindowRatio(store.getState().viewModel);
-            const currResizersRenderInfo = getResizersInfo(store.getState().viewModel);
-
-            if (prevSlideContainerRatio !== currSlideContainerRatio) {
-                setSlideContainerRatio(currSlideContainerRatio);
-            }
-            if (prevWindowRatio !== currWindowRatio) {
-                setWindowRatio(currWindowRatio);
-            }
-            if (prevResizersRenderInfo !== currResizersRenderInfo) {
-                setResizersRenderInfo(currResizersRenderInfo);
-            }
-        };
-
-        const onHistoryChangeHandler = () => {
-            const currSlide = getCurrentSlide(store.getState().model);
-            if (currSlide) {
-                const prevValue = selectedAreaLocation;
-                const currValue = getElementsAreaLoaction(currSlide, getActiveElementsIds(store.getState().model));
-                if (prevValue !== currValue) {
-                    if (currValue) {
-                        setSelectedAreaLocation(currValue);
-                        setSelectedAreaStartPoint(currValue.xy);
+                        if (selectedElementsArea) {
+                            setSelectedAreaLocation(selectedElementsArea);
+                            setSelectedAreaStartPoint(selectedElementsArea.xy);
+                        }
                     }
+                } else {
+                    setSelectedAreaLocation(undefined);
+                    setSelectedAreaStartPoint(undefined);
                 }
             }
         };
-
-        const onElementsAmountHandler = () => {
-            const prevAmount = elementsAmount;
-            const currAmount = getSlideElementsAmount(props.slide);
-            if (prevAmount !== currAmount) {
-                setSelectedAreaLocation(undefined);
-                setSelectedAreaStartPoint(undefined);
-                setElementsAmount(currAmount);
-            }
-        };
-
-        const unsubscribeOnElementsAmount = store.subscribe(onElementsAmountHandler);
-        const unsubscribeOnHistory = store.subscribe(onHistoryChangeHandler);
-        const unsubscribeOnRenderSpecs = store.subscribe(handleRenderSpecs);
+        window.addEventListener('keydown', onHistoryHandler);
 
         return () => {
-            unsubscribeOnRenderSpecs();
-            unsubscribeOnHistory();
-            unsubscribeOnElementsAmount();
+            window.removeEventListener('keydown', onHistoryHandler);
         };
-    }, [slideContainerRatio, resizersRenderInfo, windowRatio, currHistoryIndex]);
+    });
 
     useEffect(() => {
         const onMouseDownHandler = (event: MouseEvent) => {
@@ -190,7 +195,7 @@ export function SlideComponent(props: SlideProps) {
                             selectedSlidesIds: [slideId],
                             selectedSlideElementsIds: [elementId],
                         });
-                    } else if (event.ctrlKey) {
+                    } else if (event.shiftKey) {
                         dispatchSetIdAction(dispatch)({
                             selectedSlidesIds: [slideId],
                             selectedSlideElementsIds: [...getActiveElementsIds(store.getState().model), elementId],
@@ -245,7 +250,7 @@ export function SlideComponent(props: SlideProps) {
             if (onDragAndDrop && selectedAreaLocation && selectedAreaStartPoint) {
                 const dx = selectedAreaLocation.xy.x - selectedAreaStartPoint.x;
                 const dy = selectedAreaLocation.xy.y - selectedAreaStartPoint.y;
-                dispatchSetElementsPoistionAction(dispatch)({ dx: dx, dy: dy });
+                dispatchSetElementsPositionAction(dispatch)({ dx: dx, dy: dy });
                 setSelectedAreaStartPoint(selectedAreaLocation.xy);
                 dispatchKeepModelAction(dispatch)();
             }
@@ -274,7 +279,6 @@ export function SlideComponent(props: SlideProps) {
         const mouseMoveReziseHandler = (e: MouseEvent) => {
             const dx = (e.pageX - startX) / renderScale.width;
             const dy = (e.pageY - startY) / renderScale.height;
-            const maxD = Math.abs(dx) > Math.abs(dy) ? dx : dy;
             if (itsNResizer || itsSResizer) {
                 if (refCanvas.current && refCanvas.current.style.cursor !== resizerStuff.N_RESIZER_ID) {
                     refCanvas.current.style.cursor = resizerStuff.N_RESIZER_ID;
@@ -332,6 +336,7 @@ export function SlideComponent(props: SlideProps) {
         resizersSize,
         resizersOffset,
         renderScale,
+        windowRatio,
     );
 
     useDragAndDrop({
@@ -339,6 +344,7 @@ export function SlideComponent(props: SlideProps) {
         position: selectedAreaLocation!,
         setPosition: setSelectedAreaLocation,
         scale: renderScale,
+        windowRatio: windowRatio,
     });
 
     const onSelectAreaEnterHandler = (event: BaseSyntheticEvent) => {
@@ -427,12 +433,12 @@ export function SlideComponent(props: SlideProps) {
                 <>
                     <rect
                         ref={refSelectedArea}
-                        x={selectedAreaLocation.xy.x * renderScale.width}
-                        y={selectedAreaLocation.xy.y * renderScale.height}
+                        x={selectedAreaLocation.xy.x * renderScale.width * windowRatio}
+                        y={selectedAreaLocation.xy.y * renderScale.height * windowRatio}
                         id={SELECT_AREA_ID}
                         className={styles[SELECT_AREA_ID]}
-                        width={selectedAreaLocation.dimensions.width * renderScale.width}
-                        height={selectedAreaLocation.dimensions.height * renderScale.height}
+                        width={selectedAreaLocation.dimensions.width * renderScale.width * windowRatio}
+                        height={selectedAreaLocation.dimensions.height * renderScale.height * windowRatio}
                         onMouseEnter={onSelectAreaEnterHandler}
                         onMouseLeave={onSelectAreaLeaveHandler}
                     />

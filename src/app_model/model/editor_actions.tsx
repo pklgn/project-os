@@ -7,9 +7,8 @@ export function setSelectedIdInEditor(
     selectedSlideElementsIds: string[] = [],
 ): Editor {
     const nextSelectedSlidesIds: string[] = selectedSlidesIds.length ? selectedSlidesIds : editor.selectedSlidesIds;
-    editor.selectedSlideElementsIds = selectedSlideElementsIds.length
-        ? selectedSlideElementsIds
-        : editor.selectedSlideElementsIds;
+    editor.selectedSlideElementsIds = selectedSlideElementsIds;
+
     editor.selectedSlidesIds = nextSelectedSlidesIds;
 
     return editor;

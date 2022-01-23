@@ -5,11 +5,10 @@
     border-radius: 0.2rem;
     width: 100%;
     grid-area: elementTools;
-    overflow-y: hidden;
 }
 
 .picture-tools > * {
-    animation: show-element-tools .4s forwards;
+    animation: show-picture-tools .4s forwards;
 }
 
 @keyframes show-picture-tools {

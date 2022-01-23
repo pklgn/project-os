@@ -6,8 +6,12 @@ import * as editorActionCreator from './actions_model/action_creators/editor_act
 import { changePresentationTitle } from './actions_model/action_creators/presentation_action_creators';
 
 import {
+    changeSelectedElementsOpacity,
     changeSelectedElementsPosition,
     changeSelectedElementsSize,
+    moveSelectedElementsToBackgroundOrForeground,
+    removeSelectedElements,
+    setSelectedElementsTransformProperty,
 } from './actions_model/action_creators/elements_action_creators';
 
 import { addFigure } from './actions_model/action_creators/figure_action_creators';
@@ -37,12 +41,24 @@ const dispatchSetIdAction = (dispatch: Dispatch) => {
 const dispatchSetElementsSizeAction = (dispatch: Dispatch) => {
     return bindActionCreators(changeSelectedElementsSize, dispatch);
 };
-const dispatchSetElementsPoistionAction = (dispatch: Dispatch) => {
+const dispatchSetElementsPositionAction = (dispatch: Dispatch) => {
     return bindActionCreators(changeSelectedElementsPosition, dispatch);
+};
+const dispatchSetElementsTransform = (dispatch: Dispatch) => {
+    return bindActionCreators(setSelectedElementsTransformProperty, dispatch);
+};
+const dispatchChangeElementsOpacityAction = (dispatch: Dispatch) => {
+    return bindActionCreators(changeSelectedElementsOpacity, dispatch);
+};
+const dispatchMoveSelectedElementsToBackgroundOrForegroundAction = (dispatch: Dispatch) => {
+    return bindActionCreators(moveSelectedElementsToBackgroundOrForeground, dispatch);
 };
 
 const dispatchAddFigureAction = (dispatch: Dispatch) => {
     return bindActionCreators(addFigure, dispatch);
+};
+const dispatchRemoveSelectedElementsAction = (dispatch: Dispatch) => {
+    return bindActionCreators(removeSelectedElements, dispatch);
 };
 
 const dispatchActiveViewAreaAction = (dispatch: Dispatch) => {
@@ -54,11 +70,17 @@ const dispatchSetEditorModeAction = (dispatch: Dispatch) => {
 const dispatchSetElementsRenderRatioAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideRenderActions.setElementsRenderRatio, dispatch);
 };
+const dispatchSlideToContainerRatio = (dispatch: Dispatch) => {
+    return bindActionCreators(slideRenderActions.setSlideToContainerRatio, dispatch);
+};
 const dispatchSlideContainerDimensions = (dispatch: Dispatch) => {
     return bindActionCreators(slideRenderActions.setSlideContainerDimensions, dispatch);
 };
 const dispatchSetSlideWhiteAreaLocationAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideRenderActions.setSlideWhiteAreaLocation, dispatch);
+};
+const dispatchSetWindowRatio = (dispatch: Dispatch) => {
+    return bindActionCreators(slideRenderActions.setWindowRatio, dispatch);
 };
 
 const dispatchKeepModelAction = (dispatch: Dispatch) => {
@@ -79,17 +101,23 @@ export {
     dispatchAddSlideAction,
     dispatchAddFigureAction,
     dispatchActiveViewAreaAction,
+    dispatchChangeElementsOpacityAction,
     dispatchDeleteSlideAction,
     dispatchInsertSelectedSlides,
     dispatchKeepModelAction,
+    dispatchMoveSelectedElementsToBackgroundOrForegroundAction,
     dispatchPresentationName,
+    dispatchRemoveSelectedElementsAction,
     dispatchSlideContainerDimensions,
     dispatchSetEditorModeAction,
-    dispatchSetElementsPoistionAction,
+    dispatchSetElementsPositionAction,
     dispatchSetElementsRenderRatioAction,
+    dispatchSlideToContainerRatio,
     dispatchSetElementsSizeAction,
+    dispatchSetElementsTransform,
     dispatchSetIdAction,
     dispatchSetSlideWhiteAreaLocationAction,
+    dispatchSetWindowRatio,
     dispatchUndoAction,
     dispatchRedoAction,
     dispatchAddTextAction,

@@ -1,4 +1,4 @@
-import styles from './ElementListTool.module.css';
+import styles from './FooterToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
 import { useContext, useState } from 'react';
@@ -12,39 +12,39 @@ import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
 import { store } from '../../../app_model/redux_model/store';
 
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { TextToolsList } from '../TextToolsList/TextToolsList';
-import { FigureToolsList } from '../FigureToolsList/FigureToolsList';
 import { DefaultToolsList } from '../DefaultToolsList/DefaultToolsList';
-import { Reorder } from '../../common/icons/Reorder/Reorder';
-import { Opacity } from '../../common/icons/Opacity/Opacity';
-import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 import {
     dispatchUndoAction,
     dispatchRedoAction,
     dispatchAddFigureAction,
+    dispatchActiveViewAreaAction,
 } from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
 
 import { FigureInfo, FigureShape } from '../../../app_model/model/types';
-import { bindActionCreators } from 'redux';
-import { setChosenElementsType } from '../../../app_model/view_model/chosen_elements_action';
-import { getSlideElementType, SlideElementType } from '../../../app_model/model/utils/tools';
-import { ChosenElementsType } from '../../../app_model/view_model/types';
 
-export function ElementListTool(): JSX.Element {
+export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
-    const dispatchChosenElementsTypeAction = bindActionCreators(setChosenElementsType, dispatch);
-    const selectedSlideElementsIds = store.getState().model.selectedSlideElementsIds;
+
+    const onUndoButton = () => {
+        dispatchActiveViewAreaAction(dispatch)('HISTORY_TOOL');
+        return dispatchUndoAction(dispatch)();
+    };
+
+    const onRedoButton = () => {
+        dispatchActiveViewAreaAction(dispatch)('HISTORY_TOOL');
+        return dispatchRedoAction(dispatch)();
+    };
 
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
-            dispatchUndoAction(dispatch)();
+            onUndoButton();
         }
         if (event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
-            dispatchRedoAction(dispatch)();
+            onRedoButton();
         }
     });
 
@@ -60,7 +60,7 @@ export function ElementListTool(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
-            state: 'pressed',
+            state: 'active',
             iconLeft: <SelectCursorIcon color="#ffa322" />,
         },
         {
@@ -82,46 +82,19 @@ export function ElementListTool(): JSX.Element {
             id: 'undo-button',
             type: 'round',
             iconLeft: <RedoUndoIcon turn="undo" color="#ffa322" />,
-            onMouseUp: dispatchUndoAction(dispatch),
+            onMouseUp: onUndoButton,
         },
         {
             text: localeContext.locale.localization.historyTool.redoTool,
             id: 'redo-button',
             type: 'round',
             iconLeft: <RedoUndoIcon turn="redo" color="#ffa322" />,
-            onMouseUp: dispatchRedoAction(dispatch),
+            onMouseUp: onRedoButton,
         },
     ];
 
-    // const [chosenType, setChosenType] = useState('NONE' as ChosenElementsType);
-    // const handleChange = () => {
-    //     const activeSLide = store.getState().model.presentation.slidesList.slice(-1)[0];
-    //     const viewModel = store.getState().viewModel;
-    //     if (activeSLide === undefined) {
-    //         setChosenType('NONE');
-    //     } else {
-    //         if (activeSLide.elementsList.length) {
-    //             const selectedElementsList = activeSLide.elementsList.filter((item) =>
-    //                 selectedSlideElementsIds.includes(item.id),
-    //             );
-
-    //             if (selectedElementsList.length) {
-    //                 const elementsType = getSlideElementType(selectedElementsList[0].content);
-
-    //                 selectedElementsList.every((item) => getSlideElementType(item.content) === elementsType)
-    //                     ? setChosenType(elementsType)
-    //                     : setChosenType('MIXED');
-    //             }
-    //             if (!selectedElementsList.length) setChosenType('NONE');
-    //         }
-    //         if (!activeSLide.elementsList.length) setChosenType('NONE');
-    //     }
-    // };
-
-    // store.subscribe(handleChange);
-
     return (
-        <div className={styles['element-tools']}>
+        <div className={styles['footer-tools']}>
             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
                 {mainToolsButtonInfo.map((buttonInfo, index) => {
                     return (
@@ -145,24 +118,23 @@ export function ElementListTool(): JSX.Element {
                 })}
             </div>
             <VerticalLine id="vertical-1" />
-            {(function () {
-                switch (store.getState().viewModel.chosenElementsType) {
-                    case 'TEXT':
-                        return (
-                            <>
-                                <TextToolsList /> <DefaultToolsList />
-                            </>
-                        );
-                    case 'PICTURE':
-                        return <DefaultToolsList />;
-                    case 'FIGURE':
-                        return <FigureToolsList />;
-                    case 'MIXED':
-                        return <DefaultToolsList />;
-                    case 'NONE':
-                        return <span className={styles.empty_block}></span>;
-                }
-            })()}
+            <div className={styles['element-tools']}>
+                {(function () {
+                    switch ('TEXT') {
+                        case 'TEXT':
+                            return [<TextToolsList key={0} />, <DefaultToolsList key={1} />];
+                        // );
+                        // case 'PICTURE':
+                        // return <DefaultToolsList />;
+                        // case 'FIGURE':
+                        // return <FigureToolsList />;
+                        // case 'MIXED':
+                        //     return <DefaultToolsList />;
+                        // case 'NONE':
+                        // return <span className={styles.empty_block}></span>;
+                    }
+                })()}
+            </div>
             {/* <DefaultToolsList /> */}
             <VerticalLine id="vertical-2" />
             <div className={styles['history-buttons-container']} id="history-buttons-container">

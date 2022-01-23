@@ -8,11 +8,11 @@ import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { generateUUId } from '../../../app_model/model/utils/uuid';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 // import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
 import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
+import { OpacityToolsList } from '../OpacityToolsList/OpacityToolsList';
 
 enum commonList {
     DEFAULT = 'DEFAULT',
@@ -54,7 +54,7 @@ export function DefaultToolsList(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.textTool,
             id: 'text-tool-button',
             iconLeft: <Opacity />,
-            onMouseUp: opacityHandler,
+            onClick: opacityHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.geometryTool,
@@ -65,37 +65,35 @@ export function DefaultToolsList(): JSX.Element {
     ];
 
     return (
-        <div className={styles['default-tools']}>
+        <>
             {(() => {
                 switch (listSwitcher) {
                     case commonList.DEFAULT:
-                        return (
-                            <div className={styles['tools-buttons-container']} id="tools-buttons-container">
-                                {defaultToolsButtonInfo.map((buttonInfo, index) => {
-                                    return (
-                                        <ToolTip
+                        return defaultToolsButtonInfo.map((buttonInfo, index) => {
+                            return (
+                                <ToolTip
+                                    key={index}
+                                    title={buttonInfo.text ? buttonInfo.text : 'None'}
+                                    position="above"
+                                    child={
+                                        <Button
                                             key={index}
-                                            title={buttonInfo.text ? buttonInfo.text : 'None'}
-                                            position="above"
-                                            child={
-                                                <Button
-                                                    key={index}
-                                                    type={buttonInfo.type}
-                                                    state={buttonInfo.state}
-                                                    id={buttonInfo.id}
-                                                    iconLeft={buttonInfo.iconLeft}
-                                                    onClick={buttonInfo.onClick}
-                                                />
-                                            }
+                                            type={buttonInfo.type}
+                                            state={buttonInfo.state}
+                                            id={buttonInfo.id}
+                                            iconLeft={buttonInfo.iconLeft}
+                                            onClick={buttonInfo.onClick}
                                         />
-                                    );
-                                })}
-                            </div>
-                        );
+                                    }
+                                />
+                            );
+                        });
                     case commonList.REORDER:
                         return <ReorderToolsList setListSwitcher={callbackHandler} />;
+                    case commonList.OPACITY:
+                        return <OpacityToolsList setListSwitcher={callbackHandler} />;
                 }
             })()}
-        </div>
+        </>
     );
 }

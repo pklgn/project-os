@@ -31,6 +31,7 @@ import {
     changeElementsSize,
     moveElementsToBackgroundOrForeground,
     removeSelectedElements,
+    setTransformToElements,
 } from '../../model/element_actions';
 import { setSelectedIdInEditor, uploadPresentationFromJson } from '../../model/editor_actions';
 import { addPictureElement } from '../../model/specified_actions/picture_actions';
@@ -88,6 +89,8 @@ export const modelReducers = (state: Editor = initEditor(), action: ModelActions
             return removeSelectedElements(state);
         case ActionType.CHANGE_ELEMENTS_POSITION:
             return changeElementsPosition(state, action.payload.dx, action.payload.dy);
+        case ActionType.SET_ELEMENTS_TRANSFORM_PROP:
+            return setTransformToElements(state, action.payload);
 
         case ActionType.ADD_TEXT_AT_SELECTED_SLIDE:
             return addTextElement(state, action.payload.x, action.payload.y);
