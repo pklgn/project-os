@@ -45,7 +45,7 @@ function TextElementComponent(props: TextElementProps) {
             x={element.startPoint.x * renderScale.width * slideToContainerRatio}
             y={element.startPoint.y * renderScale.height * (slideToContainerRatio / windowRatio)}
             width={element.size.width * renderScale.width * slideToContainerRatio}
-            height={element.size.height * renderScale.height * (slideToContainerRatio / windowRatio)}
+            height={element.size.height * renderScale.height * slideToContainerRatio}
             fontFamily={'Arial, Helvetica, sans-serif'}
             fontSize={elementText.fontSize}
             fontStyle={elementText.fontStyle}

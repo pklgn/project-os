@@ -117,7 +117,7 @@ export function getResizersRenderInfoArr(
                 ? selectedAreaLocation.dimensions.width * renderScale.width * slideToContainerRatio
                 : 0,
             height: selectedAreaLocation
-                ? selectedAreaLocation.dimensions.height * renderScale.width * (slideToContainerRatio / windowRatio)
+                ? selectedAreaLocation.dimensions.height * renderScale.width * slideToContainerRatio
                 : 0,
         },
     };

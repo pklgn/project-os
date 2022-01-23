@@ -32,7 +32,7 @@ export function PictureElementComponent(props: PictureElementProps) {
             x={props.element.startPoint.x * renderScale.width * slideToContainerRatio}
             y={props.element.startPoint.y * renderScale.height * (slideToContainerRatio / windowRatio)}
             width={props.element.size.width * renderScale.width * slideToContainerRatio}
-            height={props.element.size.height * renderScale.height * (slideToContainerRatio / windowRatio)}
+            height={props.element.size.height * renderScale.height * slideToContainerRatio}
         />
     );
 }

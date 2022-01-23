@@ -108,7 +108,7 @@ function RectangleFigure(props: FigureProps) {
             x={props.startPoint.x * props.renderScale.width * props.slideToContainerRatio}
             y={props.startPoint.y * props.renderScale.height * (props.slideToContainerRatio / props.windowRatio)}
             width={props.size.width * props.renderScale.width * props.slideToContainerRatio}
-            height={props.size.height * props.renderScale.height * (props.slideToContainerRatio / props.windowRatio)}
+            height={props.size.height * props.renderScale.height * props.slideToContainerRatio}
             opacity={props.opacity}
             fill={props.content.figureColor}
             stroke={props.content.borderColor}
@@ -130,7 +130,7 @@ function CircleFigure(props: FigureProps): JSX.Element {
             cx={(startPoint.x + rx) * props.renderScale.width * props.slideToContainerRatio}
             cy={(startPoint.y + ry) * props.renderScale.height * (props.slideToContainerRatio / props.windowRatio)}
             rx={rx * props.renderScale.width * props.slideToContainerRatio}
-            ry={ry * props.renderScale.height * (props.slideToContainerRatio / props.windowRatio)}
+            ry={ry * props.renderScale.height * props.slideToContainerRatio}
             fill={content.figureColor}
             stroke={content.borderColor}
             strokeWidth={content.borderWidth}

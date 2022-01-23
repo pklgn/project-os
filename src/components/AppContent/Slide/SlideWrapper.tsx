@@ -141,8 +141,7 @@ function getSlideViewBox(
         : 0;
     const contentMaxY = maxSelectedElementsArea
         ? (maxSelectedElementsArea.xy.y + maxSelectedElementsArea.dimensions.height) *
-          scale.height *
-          (slideToContainerRatio / windowRatio)
+          (scale.height / windowRatio)
         : 0;
 
     const containerMinX = -slideContainerWidth / 2;

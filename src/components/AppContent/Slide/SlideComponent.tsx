@@ -426,11 +426,7 @@ export function SlideComponent(props: SlideProps) {
                         id={SELECT_AREA_ID}
                         className={styles[SELECT_AREA_ID]}
                         width={selectedAreaLocation.dimensions.width * renderScale.width * slideContainerRatio}
-                        height={
-                            selectedAreaLocation.dimensions.height *
-                            renderScale.height *
-                            (slideContainerRatio / windowRatio)
-                        }
+                        height={selectedAreaLocation.dimensions.height * renderScale.height * slideContainerRatio}
                         onMouseEnter={onSelectAreaEnterHandler}
                         onMouseLeave={onSelectAreaLeaveHandler}
                     />
