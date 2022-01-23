@@ -54,15 +54,8 @@ export function SlideWrapper() {
     const maxSelectedAreaLocationInfo = useSlideResize(ref, currSlide);
 
     const renderScale = getElementsRenderRatio(store.getState().viewModel);
-    const slideToContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
-    const windowRatio = getWindowRatio(store.getState().viewModel);
 
-    const slideViewBox = getSlideViewBox(
-        maxSelectedAreaLocationInfo,
-        containerWidth,
-        containerHeight,
-        renderScale,
-    );
+    const slideViewBox = getSlideViewBox(maxSelectedAreaLocationInfo, containerWidth, containerHeight, renderScale);
 
     const emptySlideWidth = containerWidth ? containerWidth * getSlideToContainerRatio(store.getState().viewModel) : 0;
     const emptySlideHeight = emptySlideWidth / getWindowRatio(store.getState().viewModel);
@@ -123,12 +116,8 @@ function getSlideViewBox(
     slideContainerHeight: number,
     scale: ElementsRatioType,
 ): ViewBoxType {
-    const contentMinX = maxSelectedElementsArea
-        ? maxSelectedElementsArea.xy.x * scale.width
-        : 0;
-    const contentMinY = maxSelectedElementsArea
-        ? maxSelectedElementsArea.xy.y * scale.height
-        : 0;
+    const contentMinX = maxSelectedElementsArea ? maxSelectedElementsArea.xy.x * scale.width : 0;
+    const contentMinY = maxSelectedElementsArea ? maxSelectedElementsArea.xy.y * scale.height : 0;
 
     const contentMaxX = maxSelectedElementsArea
         ? (maxSelectedElementsArea.xy.x + maxSelectedElementsArea.dimensions.width) * scale.width
