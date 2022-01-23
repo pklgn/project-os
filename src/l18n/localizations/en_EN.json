@@ -5,8 +5,30 @@
         "l18n": "Change language",
         "presentationNameInputField": "Change presentation name"
     },
+    "dropdown": {
+        "common": {
+            "back": "Back"
+        },
+        "fullscreen": {
+            "firstSlideStart": "From first slide",
+            "currSlideStart": "From current slide"
+        },
+        "file": {
+            "file": "File",
+            "openFile": "Open",
+            "saveFile": "Save",
+            "insertElement": "Insert",
+            "exportPDF": "Export to PDF",
+            "changeAspectRatio": "Change the aspect ratio"
+        }
+    },
     "editor": {
         "emptySlide": "Click to add new slide"
+    },
+    "elements": {
+        "text": "Text",
+        "picture": "Picture",
+        "figure": "Figure"
     },
     "elementsListTool": {
         "cursorTool": "Choose (Esc)",
