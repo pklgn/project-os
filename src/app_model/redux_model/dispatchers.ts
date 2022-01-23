@@ -18,6 +18,7 @@ import { addFigure } from './actions_model/action_creators/figure_action_creator
 
 import { setActiveViewArea } from './actions_view_model/action_creators/active_area_action_creators';
 import { setAppViewMode } from './actions_view_model/action_creators/app_mode_action_creator';
+import { setChosenElementsType } from './actions_view_model/action_creators/chosen_elements_action_creator';
 import * as slideRenderActions from './actions_view_model/action_creators/slide_render_action_creators';
 
 const dispatchAddSlideAction = (dispatch: Dispatch) => {
@@ -63,6 +64,9 @@ const dispatchRemoveSelectedElementsAction = (dispatch: Dispatch) => {
 const dispatchActiveViewAreaAction = (dispatch: Dispatch) => {
     return bindActionCreators(setActiveViewArea, dispatch);
 };
+const dispatchSetChosenElementsType = (dispatch: Dispatch) => {
+    return bindActionCreators(setChosenElementsType, dispatch);
+};
 const dispatchSetEditorModeAction = (dispatch: Dispatch) => {
     return bindActionCreators(setAppViewMode, dispatch);
 };
@@ -104,6 +108,7 @@ export {
     dispatchPresentationName,
     dispatchRemoveSelectedElementsAction,
     dispatchSlideContainerDimensions,
+    dispatchSetChosenElementsType,
     dispatchSetEditorModeAction,
     dispatchSetElementsPositionAction,
     dispatchSetElementsRenderRatioAction,

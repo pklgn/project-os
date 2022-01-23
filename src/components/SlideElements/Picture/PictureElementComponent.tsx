@@ -23,10 +23,10 @@ export function PictureElementComponent(props: PictureElementProps) {
         <image
             id={`${props.elementIndex}`}
             href={element.src}
-            width={props.element.size.width * renderScale.width}
-            height={props.element.size.height * renderScale.height}
             x={props.element.startPoint.x * renderScale.width}
             y={props.element.startPoint.y * renderScale.height}
+            width={props.element.size.width * renderScale.width}
+            height={props.element.size.height * renderScale.height}
         />
     );
 }

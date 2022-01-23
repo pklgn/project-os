@@ -11,6 +11,7 @@ import { LocaleContext } from '../../../App';
 
 import {
     getActiveElementsIds,
+    getChosenElementsType,
     getElementsAreaLoaction,
     getSlideElementsAmount,
 } from '../../../app_model/model/element_actions';
@@ -28,6 +29,7 @@ import {
     dispatchActiveViewAreaAction,
     dispatchAddSlideAction,
     dispatchKeepModelAction,
+    dispatchSetChosenElementsType,
     dispatchSetElementsPositionAction,
     dispatchSetElementsSizeAction,
     dispatchSetIdAction,
@@ -103,17 +105,6 @@ export function SlideComponent(props: SlideProps) {
         }
     };
 
-    // const onElementsAmountHandler = () => {
-    //     const prevAmount = elementsAmount;
-    //     const currAmount = getSlideElementsAmount(props.slide);
-    //     if (prevAmount !== currAmount) {
-    //         setSelectedAreaLocation(undefined);
-    //         setSelectedAreaStartPoint(undefined);
-    //         setElementsAmount(currAmount);
-    //     }
-    // };
-
-    // store.subscribe(onElementsAmountHandler);
     store.subscribe(handleRenderSpecs);
 
     useLayoutEffect(() => {
@@ -209,6 +200,8 @@ export function SlideComponent(props: SlideProps) {
                         });
                     }
 
+                    dispatchSetChosenElementsType(dispatch)(getChosenElementsType(store.getState().model));
+
                     const selectedElementsArea = getElementsAreaLoaction(
                         getCurrentSlide(store.getState().model)!,
                         getActiveElementsIds(store.getState().model),
@@ -225,6 +218,7 @@ export function SlideComponent(props: SlideProps) {
                     });
                     setSelectedAreaLocation(undefined);
                     setSelectedAreaStartPoint(undefined);
+                    dispatchSetChosenElementsType(dispatch)(getChosenElementsType(store.getState().model));
                 }
             } else if (isSlideActive) {
                 dispatchSetIdAction(dispatch)({
@@ -234,6 +228,7 @@ export function SlideComponent(props: SlideProps) {
                 setSlideActiveStatus(false);
                 setSelectedAreaLocation(undefined);
                 setSelectedAreaStartPoint(undefined);
+                dispatchSetChosenElementsType(dispatch)(getChosenElementsType(store.getState().model));
             }
         };
 

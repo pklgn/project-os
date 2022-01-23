@@ -1,7 +1,9 @@
 import CSS from 'csstype';
+import { ChosenElementsType } from '../view_model/types';
 
 import { getCurrentSlide, applySlideChanges } from './slides_actions';
 import { AreaLocation, Coordinates, Editor, Size, Slide, SlideElement } from './types';
+import { SlideElementType, getSlideElementType } from './utils/tools';
 
 export function changeElementsSize(editor: Editor, cordsAndDimensions: AreaLocation): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
@@ -162,6 +164,39 @@ export function getElementsCoordinates(editor: Editor): Coordinates[] | undefine
     return activeSlide?.elementsList.map((element) => {
         return element.startPoint;
     });
+}
+
+export function getChosenElementsType(editor: Editor): ChosenElementsType {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return 'NONE';
+    }
+
+    if (!currSlide.elementsList.length) {
+        return 'NONE';
+    }
+
+    const elementsType: (SlideElementType | undefined)[] = currSlide.elementsList
+        .map((element) => {
+            if (editor.selectedSlideElementsIds.includes(element.id)) {
+                return getSlideElementType(element.content);
+            }
+            return undefined;
+        })
+        .filter((el) => el !== undefined);
+
+    if (elementsType.length === 0) {
+        return 'NONE';
+    } else if (elementsType.filter((el) => el !== 'FIGURE').length === 0) {
+        return 'FIGURE';
+    } else if (elementsType.filter((el) => el !== 'TEXT').length === 0) {
+        return 'TEXT';
+    } else if (elementsType.filter((el) => el !== 'PICTURE').length === 0) {
+        return 'PICTURE';
+    } else {
+        return 'MIXED';
+    }
 }
 
 export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): AreaLocation | undefined {
