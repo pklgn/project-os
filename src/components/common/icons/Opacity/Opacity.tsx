@@ -1,6 +1,6 @@
 export function Opacity(): JSX.Element {
     return (
-        <svg x="0px" y="0px" width="32px" height="32px" fill="#ffa322" viewBox="0 0 24 24" enableBackground="0 0 24 24">
+        <svg x="0px" y="0px" width="28px" height="28px" fill="#ffa322" viewBox="0 0 24 24" enableBackground="0 0 24 24">
             <path d="M24 0H0v24h24V0zm0 0H0v24h24V0zM0 24h24V0H0v24z" fill="none" />
             <path
                 d="M17.66 8L12 2.35 6.34 8C4.78 9.56 4 11.64 4 13.64s.78 4.11 2.34 5.67 3.61 2.35 5.66 2.35 

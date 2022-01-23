@@ -9,7 +9,6 @@ import { RedoUndoIcon } from '../../common/icons/RedoUndo/RedoUndo';
 import { SelectCursorIcon } from '../../common/icons/Cursor/Cursor';
 import { TextIcon } from '../../common/icons/Text/Text';
 import { VerticalLine } from '../../common/VerticalLine/VerticalLine';
-import { store } from '../../../app_model/redux_model/store';
 
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { TextToolsList } from '../TextToolsList/TextToolsList';

@@ -49,6 +49,15 @@ export const moveSelectedElementsToBackgroundOrForeground = (payload: boolean) =
     };
 };
 
+export const moveSelectedElementsBackwardOrForward = (payload: boolean) => {
+    return (dispatch: Dispatch<ElementAction>) => {
+        dispatch({
+            type: ActionType.MOVE_ELEMENTS_BACKWARD_OR_FORWARD,
+            payload,
+        });
+    };
+};
+
 export const setSelectedElementsTransformProperty = (payload: CSS.Properties) => {
     return (dispatch: Dispatch<ElementAction>) => {
         dispatch({

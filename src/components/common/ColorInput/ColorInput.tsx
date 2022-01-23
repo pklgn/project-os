@@ -2,8 +2,8 @@ import { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
 import styles from './ColorInput.module.css';
 
 export type UploadProps = {
-    onChange: (e: BaseSyntheticEvent) => void;
-    onMouseDown: (e: BaseSyntheticEvent) => void;
+    onInput: (e: BaseSyntheticEvent) => void;
+    children?: JSX.Element;
 };
 
 function ColorInput(props: UploadProps) {
@@ -19,10 +19,10 @@ function ColorInput(props: UploadProps) {
                 type="color"
                 onClick={handleColorInputClick}
                 className={styles['color-input']}
-                onChange={props.onChange}
+                onInput={props.onInput}
             />
             <span className={styles['color-btn']} onClick={handleColorInputClick}>
-                {' '}
+                {props.children}
             </span>
         </div>
     );

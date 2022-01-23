@@ -310,32 +310,47 @@ export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolea
 }
 
 export function moveElementsBackwardOrForward(editor: Editor, way: boolean): Editor {
-    // TODO
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
         return editor;
     }
+    const elementsList = currSlide.elementsList;
 
     const slideIndex = editor.presentation.slidesList.findIndex((item) => {
         return item.id === currSlide.id;
     });
 
-    if (!currSlide.elementsList.length) {
+    if (!editor.selectedSlideElementsIds.length) {
         return editor;
     }
 
-    const movedElementList: SlideElement[] = currSlide.elementsList.filter((item) =>
-        editor.selectedSlideElementsIds.includes(item.id),
-    );
+    let indexLeft = 0;
+    let indexRight = 0;
+    const updatedElementList: SlideElement[] = [];
+    const selectedSlideElementsIds = editor.selectedSlideElementsIds;
 
-    const unmovedElementList: SlideElement[] = currSlide.elementsList.filter(
-        (item) => !editor.selectedSlideElementsIds.includes(item.id),
-    );
+    while (indexRight < elementsList.length - 1 && indexRight !== -1) {
+        if (selectedSlideElementsIds.includes(elementsList[indexLeft].id)) {
+            indexRight = elementsList.findIndex(
+                (item, index) => !selectedSlideElementsIds.includes(item.id) && index > indexLeft,
+            );
 
-    const updatedElementList: SlideElement[] = way
-        ? [...movedElementList, ...unmovedElementList]
-        : [...unmovedElementList, ...movedElementList];
+            indexRight !== -1
+                ? updatedElementList.push(elementsList[indexRight], ...elementsList.slice(indexLeft, indexRight))
+                : updatedElementList.push(...elementsList.slice(indexLeft));
+
+            indexLeft = indexRight;
+        } else {
+            indexRight = elementsList.findIndex(
+                (item, index) => selectedSlideElementsIds.includes(item.id) && index > indexLeft,
+            );
+
+            updatedElementList.push(...elementsList.slice(indexLeft));
+
+            indexLeft = indexRight;
+        }
+    }
 
     const updatedSlide: Slide = {
         ...currSlide,

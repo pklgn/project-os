@@ -46,7 +46,6 @@ export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
                                 min="0.1"
                                 max="1"
                                 step="0.05"
-                                // value="1"
                                 onChange={onChangeHandler}
                             />
                         </div>

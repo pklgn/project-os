@@ -9,8 +9,6 @@ import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
-import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
-// import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
 import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
 
 enum commonList {
@@ -42,26 +40,7 @@ export function FigureToolsList(): JSX.Element {
         dispatchKeepModelAction(dispatch)();
     };
 
-    const defaultToolsButtonInfo: ButtonProps[] = [
-        {
-            text: localeContext.locale.localization.elementsListTool.cursorTool,
-            id: 'select-tool-button',
-            iconLeft: <Reorder />,
-            onClick: reorderHandler,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.textTool,
-            id: 'text-tool-button',
-            iconLeft: <Opacity />,
-            onMouseUp: opacityHandler,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.geometryTool,
-            id: 'geometry-tool-button',
-            iconLeft: <DeleteElement />,
-            onClick: removeSelectedElementsHandler,
-        },
-    ];
+    const pictureToolsButtonInfo: ButtonProps[] = [];
 
     return (
         <div className={styles['default-tools']}>
@@ -70,7 +49,7 @@ export function FigureToolsList(): JSX.Element {
                     case commonList.DEFAULT:
                         return (
                             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
-                                {defaultToolsButtonInfo.map((buttonInfo, index) => {
+                                {pictureToolsButtonInfo.map((buttonInfo, index) => {
                                     return (
                                         <ToolTip
                                             key={index}
