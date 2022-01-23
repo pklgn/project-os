@@ -77,8 +77,6 @@ export function SlideComponent(props: SlideProps) {
     const [selectedAreaLocation, setSelectedAreaLocation] = useState(undefined as AreaLocation | undefined);
     const [selectedAreaStartPoint, setSelectedAreaStartPoint] = useState(undefined as Coordinates | undefined);
 
-    const [elementsAmount, setElementsAmount] = useState(getSlideElementsAmount(props.slide));
-
     const [slideContainerRatio, setSlideContainerRatio] = useState(
         getSlideToContainerRatio(store.getState().viewModel),
     );
@@ -104,7 +102,6 @@ export function SlideComponent(props: SlideProps) {
             setResizersRenderInfo(currResizersRenderInfo);
         }
     };
-
     store.subscribe(handleRenderSpecs);
 
     useLayoutEffect(() => {
@@ -272,8 +269,8 @@ export function SlideComponent(props: SlideProps) {
         let newSelectedAreaLocation: AreaLocation | undefined;
 
         const mouseMoveReziseHandler = (e: MouseEvent) => {
-            const dx = (e.pageX - startX) / renderScale.width;
-            const dy = (e.pageY - startY) / renderScale.height;
+            const dx = (e.pageX - startX) / renderScale.width / slideContainerRatio;
+            const dy = (e.pageY - startY) / renderScale.height / (slideContainerRatio / windowRatio);
             if (itsNResizer || itsSResizer) {
                 if (refCanvas.current && refCanvas.current.style.cursor !== resizerStuff.N_RESIZER_ID) {
                     refCanvas.current.style.cursor = resizerStuff.N_RESIZER_ID;
@@ -331,6 +328,8 @@ export function SlideComponent(props: SlideProps) {
         resizersSize,
         resizersOffset,
         renderScale,
+        slideContainerRatio,
+        windowRatio,
     );
 
     useDragAndDrop({
@@ -338,6 +337,8 @@ export function SlideComponent(props: SlideProps) {
         position: selectedAreaLocation!,
         setPosition: setSelectedAreaLocation,
         scale: renderScale,
+        slideToContainerRatio: slideContainerRatio,
+        windowRatio: windowRatio,
     });
 
     const onSelectAreaEnterHandler = (event: BaseSyntheticEvent) => {
@@ -426,12 +427,12 @@ export function SlideComponent(props: SlideProps) {
                 <>
                     <rect
                         ref={refSelectedArea}
-                        x={selectedAreaLocation.xy.x * renderScale.width}
-                        y={selectedAreaLocation.xy.y * renderScale.height}
+                        x={selectedAreaLocation.xy.x * renderScale.width * slideContainerRatio}
+                        y={selectedAreaLocation.xy.y * renderScale.height * (slideContainerRatio / windowRatio)}
                         id={SELECT_AREA_ID}
                         className={styles[SELECT_AREA_ID]}
-                        width={selectedAreaLocation.dimensions.width * renderScale.width}
-                        height={selectedAreaLocation.dimensions.height * renderScale.height}
+                        width={selectedAreaLocation.dimensions.width * renderScale.width * slideContainerRatio}
+                        height={selectedAreaLocation.dimensions.height * renderScale.height * slideContainerRatio}
                         onMouseEnter={onSelectAreaEnterHandler}
                         onMouseLeave={onSelectAreaLeaveHandler}
                     />

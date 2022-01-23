@@ -2,7 +2,11 @@ import { isPicture } from '../../../app_model/model/utils/tools';
 import { PictureElement, SlideElement } from '../../../app_model/model/types';
 
 import { store } from '../../../app_model/redux_model/store';
-import { getElementsRenderRatio } from '../../../app_model/view_model/slide_render_actions';
+import {
+    getElementsRenderRatio,
+    getSlideToContainerRatio,
+    getWindowRatio,
+} from '../../../app_model/view_model/slide_render_actions';
 
 type PictureElementProps = {
     element: SlideElement;
@@ -18,6 +22,8 @@ export function PictureElementComponent(props: PictureElementProps) {
     }
 
     const renderScale = getElementsRenderRatio(store.getState().viewModel);
+    const windowRatio = getWindowRatio(store.getState().viewModel);
+    const slideToContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
 
     return (
         <image
