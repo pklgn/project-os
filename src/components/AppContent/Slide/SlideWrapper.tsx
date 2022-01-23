@@ -13,6 +13,7 @@ import { useSlideResize } from '../../utils/useSlideResize';
 import {
     dispatchSetElementsRenderRatioAction,
     dispatchSlideContainerDimensions,
+    dispatchSlideViewBox,
 } from '../../../app_model/redux_model/dispatchers';
 import { AreaLocation, Slide } from '../../../app_model/model/types';
 import {
@@ -20,7 +21,7 @@ import {
     getSlideToContainerRatio,
     getWindowRatio,
 } from '../../../app_model/view_model/slide_render_actions';
-import { ElementsRatioType } from '../../../app_model/view_model/types';
+import { ElementsRatioType, ViewBoxType } from '../../../app_model/view_model/types';
 
 export function SlideWrapper() {
     const ref = useRef<HTMLDivElement>(null);
@@ -77,6 +78,7 @@ export function SlideWrapper() {
         if (initHeight === 0) {
             setCurrHeight(emptySlideHeight);
         }
+        dispatchSlideViewBox(dispatch)(slideViewBox);
         dispatchSetElementsRenderRatioAction(dispatch)({
             width: containerWidth / initWidth,
             height: emptySlideHeight / initHeight,
@@ -102,13 +104,6 @@ export function SlideWrapper() {
         </div>
     );
 }
-
-type ViewBoxType = {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-};
 
 function getSlideViewBox(
     maxSelectedElementsArea: AreaLocation | undefined,

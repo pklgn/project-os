@@ -29,6 +29,12 @@ export function initViewModel(): ViewModelType {
                     height: 0,
                 },
             },
+            slideViewBox: {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0,
+            },
             slideToContainerRatio: 0.7,
             windowRatio: '16/9',
         },

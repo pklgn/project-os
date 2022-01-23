@@ -1,4 +1,4 @@
-import { ElementsRatioType, RenderRatio } from '../../../view_model/types';
+import { ElementsRatioType, RenderRatio, ViewBoxType } from '../../../view_model/types';
 
 import { Dispatch } from 'react';
 import { SlideRenderActions } from '../actions/slide_render_actions';
@@ -36,6 +36,15 @@ export const setSlideWhiteAreaLocation = (payload: AreaLocation) => {
     return (dispatch: Dispatch<SlideRenderActions>) => {
         dispatch({
             type: ViewActionType.SET_SLIDE_WHITE_AREA_LOCATION,
+            payload,
+        });
+    };
+};
+
+export const setSlideViewBox = (payload: ViewBoxType) => {
+    return (dispatch: Dispatch<SlideRenderActions>) => {
+        dispatch({
+            type: ViewActionType.SET_SLIDE_VIEWBOX,
             payload,
         });
     };

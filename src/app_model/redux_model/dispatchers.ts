@@ -63,6 +63,9 @@ const dispatchSlideContainerDimensions = (dispatch: Dispatch) => {
 const dispatchSetSlideWhiteAreaLocationAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideRenderActions.setSlideWhiteAreaLocation, dispatch);
 };
+const dispatchSlideViewBox = (dispatch: Dispatch) => {
+    return bindActionCreators(slideRenderActions.setSlideViewBox, dispatch);
+};
 
 const dispatchKeepModelAction = (dispatch: Dispatch) => {
     return bindActionCreators(editorActionCreator.keepModelAction, dispatch);
@@ -90,6 +93,7 @@ export {
     dispatchSetElementsSizeAction,
     dispatchSetIdAction,
     dispatchSetSlideWhiteAreaLocationAction,
+    dispatchSlideViewBox,
     dispatchUndoAction,
     dispatchRedoAction,
 };

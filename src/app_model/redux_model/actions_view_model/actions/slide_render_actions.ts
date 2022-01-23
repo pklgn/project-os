@@ -1,5 +1,5 @@
 import { AreaLocation } from '../../../model/types';
-import { ElementsRatioType, RenderRatio } from '../../../view_model/types';
+import { ElementsRatioType, RenderRatio, ViewBoxType } from '../../../view_model/types';
 
 import { ViewActionType } from '../action_types/types';
 
@@ -25,6 +25,11 @@ interface SetSlideWhiteAreaLocationAction {
     payload: AreaLocation;
 }
 
+interface SetSLideViewBox {
+    type: ViewActionType.SET_SLIDE_VIEWBOX;
+    payload: ViewBoxType;
+}
+
 interface SetWindowRatioAction {
     type: ViewActionType.SET_WINDOW_RATIO;
     payload: RenderRatio;
@@ -35,4 +40,5 @@ export type SlideRenderActions =
     | SetSlideContainerDimensionsAction
     | SetSlideToContainerRatioAction
     | SetSlideWhiteAreaLocationAction
+    | SetSLideViewBox
     | SetWindowRatioAction;

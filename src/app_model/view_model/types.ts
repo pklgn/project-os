@@ -11,6 +11,7 @@ export type ViewModelType = {
         slideContainerDimensions: SlideContainerDimensionsType;
         slideToContainerRatio: number;
         slideWhiteAreaRectLocation: AreaLocation;
+        slideViewBox: ViewBoxType;
         windowRatio: RenderRatio;
     };
 };
@@ -44,4 +45,11 @@ export type ResizersInfoType = {
 export type SlideContainerDimensionsType = {
     width: number;
     height: number;
+};
+
+export type ViewBoxType = {
+    x: number;
+    y: number;
+    height: number;
+    width: number;
 };

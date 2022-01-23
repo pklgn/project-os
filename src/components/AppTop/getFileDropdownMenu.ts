@@ -6,6 +6,7 @@ export type FileDropdownMenuProps = {
     locale: l18nType;
     handleOpenFile: () => void;
     handleSaveFile: () => void;
+    handleSavePdf: () => void;
     handleUploadImage: () => void;
 };
 
@@ -28,6 +29,10 @@ const getFileDropdownMenu = (props: FileDropdownMenuProps): DropdownMenuProps =>
                     nestedButtons: [
                         {
                             mainButton: { id: generateUUId(), text: '.json', onMouseUp: props.handleSaveFile },
+                            nestedButtons: [],
+                        },
+                        {
+                            mainButton: { id: generateUUId(), text: '.pdf', onMouseUp: props.handleSavePdf },
                             nestedButtons: [],
                         },
                     ],
@@ -54,7 +59,11 @@ const getFileDropdownMenu = (props: FileDropdownMenuProps): DropdownMenuProps =>
                     ],
                 },
                 {
-                    mainButton: { id: generateUUId(), text: locale.localization.dropdown.file.exportPDF },
+                    mainButton: {
+                        id: generateUUId(),
+                        text: locale.localization.dropdown.file.exportPDF,
+                        onMouseUp: props.handleSavePdf,
+                    },
                     nestedButtons: [],
                 },
                 {

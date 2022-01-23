@@ -51,6 +51,7 @@ type SlideProps = {
     containerHeight?: number;
     slideWidth?: number;
     slideHeight?: number;
+    id?: string;
 };
 
 const SELECT_AREA_ID = 'select-area';
@@ -368,6 +369,7 @@ export function SlideComponent(props: SlideProps) {
             preserveAspectRatio={'xMidYMid meet'}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
+            id={props.id ? props.id : 'main-slide'}
         >
             <rect
                 x={-emptySlideWidth / 2}

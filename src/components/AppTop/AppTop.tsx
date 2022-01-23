@@ -4,6 +4,7 @@ import { BaseSyntheticEvent, useContext, useRef } from 'react';
 
 import { RootState } from '../../app_model/redux_model/reducers/root_reducer';
 import { useDispatch, useSelector } from 'react-redux';
+import { store } from '../../app_model/redux_model/store';
 
 import { AdaptiveInputField } from '../common/AdaptiveInputField/AdaptiveInputField';
 import { AppLogoPng } from '../common/icons/AppLogo';
@@ -24,12 +25,13 @@ import {
     dispatchSetEditorModeAction,
 } from '../../app_model/redux_model/dispatchers';
 import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
-import { store } from '../../app_model/redux_model/store';
-import { savePresentationAsJson } from '../../app_model/model/editor_actions';
-import { initEditor } from '../../app_model/model/init_model_action';
-import { UploadPresentationInput } from '../common/ToolBar/UploadPresentationInput';
+
+import { getSlideAmount } from '../../app_model/model/slides_actions';
 import { generateUUId } from '../../app_model/model/utils/uuid';
+import { initEditor } from '../../app_model/model/init_model_action';
 import { UploadPictureInput } from '../common/ToolBar/UploadPictureInput';
+import { UploadPresentationInput } from '../common/ToolBar/UploadPresentationInput';
+import { savePresentationAsJson, savePresentationAsPdf } from '../../app_model/model/editor_actions';
 
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
@@ -103,8 +105,8 @@ export function AppTop(): JSX.Element {
     };
 
     const saveAsJSONFunction = () => {
-        const presentation = store.getState().model.presentation;
-        if (presentation.slidesList.length === 0) {
+        const slidesAmount = getSlideAmount(store.getState().model);
+        if (slidesAmount === 0) {
             alert(localeContext.locale.localization.errors['noSlidesToSave']);
         } else {
             savePresentationAsJson({
@@ -114,10 +116,20 @@ export function AppTop(): JSX.Element {
         }
     };
 
+    const saveAsPdfFunction = () => {
+        const slidesAmount = getSlideAmount(store.getState().model);
+        if (slidesAmount === 0) {
+            alert(localeContext.locale.localization.errors['noSlidesToSave']);
+        } else {
+            savePresentationAsPdf(store.getState().model, store.getState().viewModel);
+        }
+    };
+
     const fileDropdownMenu = getFileDropdownMenu({
         locale: localeContext.locale,
         handleOpenFile: handleUploadPresentationClick,
         handleSaveFile: saveAsJSONFunction,
+        handleSavePdf: saveAsPdfFunction,
         handleUploadImage: handleUploadImageClick,
     });
 

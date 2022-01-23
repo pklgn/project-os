@@ -17,3 +17,9 @@
 .slides-list-tools div[id='add-slide-button-tooltip'] span[id='tooltip-content']:after {
     left: 33.5%;
 }
+
+.some {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+}
