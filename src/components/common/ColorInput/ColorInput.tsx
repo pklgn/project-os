@@ -4,6 +4,7 @@ import styles from './ColorInput.module.css';
 export type UploadProps = {
     onChange: (e: BaseSyntheticEvent) => void;
     onMouseDown: (e: BaseSyntheticEvent) => void;
+    children: JSX.Element;
 };
 
 function ColorInput(props: UploadProps) {
@@ -22,7 +23,7 @@ function ColorInput(props: UploadProps) {
                 onChange={props.onChange}
             />
             <span className={styles['color-btn']} onClick={handleColorInputClick}>
-                {' '}
+                {props.children}
             </span>
         </div>
     );

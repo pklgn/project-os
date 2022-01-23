@@ -9,6 +9,7 @@ import {
     changeSelectedElementsOpacity,
     changeSelectedElementsPosition,
     changeSelectedElementsSize,
+    moveSelectedElementsBackwardOrForward,
     moveSelectedElementsToBackgroundOrForeground,
     removeSelectedElements,
     setSelectedElementsTransformProperty,
@@ -51,6 +52,9 @@ const dispatchChangeElementsOpacityAction = (dispatch: Dispatch) => {
 };
 const dispatchMoveSelectedElementsToBackgroundOrForegroundAction = (dispatch: Dispatch) => {
     return bindActionCreators(moveSelectedElementsToBackgroundOrForeground, dispatch);
+};
+const dispatchMoveSelectedElementsBackwardOrForward = (dispatch: Dispatch) => {
+    return bindActionCreators(moveSelectedElementsBackwardOrForward, dispatch);
 };
 
 const dispatchAddFigureAction = (dispatch: Dispatch) => {
@@ -100,6 +104,7 @@ export {
     dispatchDeleteSlideAction,
     dispatchInsertSelectedSlides,
     dispatchKeepModelAction,
+    dispatchMoveSelectedElementsBackwardOrForward,
     dispatchMoveSelectedElementsToBackgroundOrForegroundAction,
     dispatchPresentationName,
     dispatchRemoveSelectedElementsAction,

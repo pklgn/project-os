@@ -1,6 +1,6 @@
 export function AddFigure(): JSX.Element {
     return (
-        <svg height="24px" viewBox="0 0 24 24" width="24px" fill="#EAA363">
+        <svg height="28px" viewBox="0 0 24 24" width="28px" fill="#EAA363">
             <rect height="100%" width="100%" fill="#582C1E" rx="5" ry="5" />
             <path d="M0 0h24v24H0V0z" fill="none" />
             <path

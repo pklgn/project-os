@@ -40,7 +40,11 @@
         "forwardLayerTool": "Forward",
         "frontLayerTool": "Front",
         "backwardLayerTool": "Backward",
-        "backLayerTool": "Back"
+        "backLayerTool": "Back",
+        "reorderTool": "Reorder",
+        "changeTextColor": "Text color",
+        "opacityTool": "Opacity",
+        "removeElementTool": "Remove"
     },
     "errors": {
         "noSlidesToSave": "You cannot save an empty presentation"

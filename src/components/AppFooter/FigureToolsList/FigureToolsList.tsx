@@ -8,9 +8,7 @@ import { Button, ButtonProps } from '../../common/Button/Button';
 import { useDispatch } from 'react-redux';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
-import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 import ToolTip from '../../common/ToolTip/ToolTip';
-// import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers/elementDispatchers';
 import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 
@@ -43,28 +41,7 @@ export function FigureToolsList(): JSX.Element {
         setListSwitcher(commonList.DEFAULT);
     };
 
-    const defaultToolsButtonInfo: ButtonProps[] = [
-        {
-            text: localeContext.locale.localization.elementsListTool.cursorTool,
-            id: 'select-tool-button',
-            iconLeft: <Reorder />,
-            onClick: reorderHandler,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.textTool,
-            id: 'text-tool-button',
-            iconLeft: <Opacity />,
-            onClick: opacityHandler,
-        },
-        {
-            text: localeContext.locale.localization.elementsListTool.geometryTool,
-            id: 'geometry-tool-button',
-            iconLeft: <DeleteElement />,
-            onClick: removeSelectedElementsHandler,
-        },
-    ];
-
-    const uniqueFigureToolsButtonInfo: ButtonProps[] = [
+    const figureToolsButtonInfo: ButtonProps[] = [
         {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
@@ -75,14 +52,7 @@ export function FigureToolsList(): JSX.Element {
             id: 'text-tool-button',
             iconLeft: <Opacity />,
         },
-        {
-            text: localeContext.locale.localization.elementsListTool.geometryTool,
-            id: 'geometry-tool-button',
-            iconLeft: <DeleteElement />,
-        },
     ];
-
-    const figureToolsButtonInfo: ButtonProps[] = [...uniqueFigureToolsButtonInfo, ...defaultToolsButtonInfo];
 
     return (
         <div className={styles['text-tools']}>

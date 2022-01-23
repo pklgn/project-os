@@ -40,7 +40,11 @@
         "forwardLayerTool": "Вперёд на 1",
         "frontLayerTool": "Вперёд",
         "backwardLayerTool": "Назад на 1",
-        "backLayerTool": "Назад"
+        "backLayerTool": "Назад",
+        "reorderTool": "Изменить порядок",
+        "changeTextColor": "Изменить цвет текста",
+        "opacityTool": "Прозрачность",
+        "removeElementTool": "Удалить"
     },
     "errors": {
         "noSlidesToSave": "Нельзя сохранить пустую презентацию"

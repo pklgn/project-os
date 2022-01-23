@@ -1,6 +1,6 @@
 export function Reorder(): JSX.Element {
     return (
-        <svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 280.168 280.168">
+        <svg x="0px" y="0px" width="28px" height="28px" viewBox="0 0 280.168 280.168">
             <path
                 fill="#a36a1e"
                 d="M0,183.842l140.084-70.042l140.084,70.033l-140.084,

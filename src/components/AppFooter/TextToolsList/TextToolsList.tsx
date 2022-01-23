@@ -5,14 +5,8 @@ import { useContext, useEffect, useState } from 'react';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
 import { useDispatch } from 'react-redux';
-import { Clear } from '../../common/icons/Cancel/Clear';
 import { TextColor } from '../../common/icons/TextColor/TextColor';
-import { ChangeText } from '../../common/icons/ChangeText/ChangeText';
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { store } from '../../../app_model/redux_model/store';
-import { Opacity } from '../../common/icons/Opacity/Opacity';
-import { Reorder } from '../../common/icons/Reorder/Reorder';
-import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
 import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
 // import {
 //     dispatchChangeTextContentAction,
@@ -22,34 +16,14 @@ import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatch
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 // import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
 
-enum commonList {
-    DEFAULT = 'DEFAULT',
-    REORDER = 'REORDER',
-    OPACITY = 'OPACITY',
-}
-
 export function TextToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
-    const [listSwitcher, setListSwitcher] = useState(commonList.DEFAULT);
-
     const dispatch = useDispatch();
-
-    const reorderHandler = () => {
-        setListSwitcher(commonList.REORDER);
-    };
-
-    const opacityHandler = () => {
-        setListSwitcher(commonList.OPACITY);
-    };
 
     const removeSelectedElementsHandler = () => {
         // dispatchRemoveSelectedElementsAction(dispatch)();
         dispatchKeepModelAction(dispatch)();
-    };
-
-    const callbackHandler = () => {
-        setListSwitcher(commonList.DEFAULT);
     };
 
     const changeTextColorHandler = () => {
@@ -74,9 +48,27 @@ export function TextToolsList(): JSX.Element {
         };
     }, []);
 
-    const uniqueTextToolsButtonInfo: ButtonProps[] = [
+    // const [timeOuted, setTimeOuted] = useState(false);
+    // const onChangeHandler = (e: BaseSyntheticEvent) => {
+    //     if (!timeOuted) {
+    //         setTimeOuted(true);
+    //         setTimeout(() => {
+    //             const el = e.target as HTMLInputElement;
+    //             if (getActiveElementsIds(store.getState().model).length) {
+    //                 dispatchSetElementsColorAction(el.value);
+    //             } else {
+    //                 dispatchSetSlideBackgroundColorAction({ src: '', color: el.value });
+    //             }
+    //             dispatchKeepModelAction(dispatch)();
+    //             setTimeOuted(false);
+    //         }, 50);
+    //     }
+    //     // setDragging(true);
+    // };
+
+    const textToolsButtonInfo: ButtonProps[] = [
         {
-            text: localeContext.locale.localization.elementsListTool.textTool,
+            text: localeContext.locale.localization.elementsListTool.changeTextColor,
             id: 'text-tool-button',
             iconLeft: <TextColor />,
             onClick: changeTextColorHandler,
@@ -85,32 +77,25 @@ export function TextToolsList(): JSX.Element {
 
     return (
         <>
-            {(() => {
-                switch (listSwitcher) {
-                    case commonList.DEFAULT:
-                        return uniqueTextToolsButtonInfo.map((buttonInfo, index) => {
-                            return (
-                                <ToolTip
-                                    key={index}
-                                    title={buttonInfo.text ? buttonInfo.text : 'None'}
-                                    position="above"
-                                    child={
-                                        <Button
-                                            key={index}
-                                            type={buttonInfo.type}
-                                            state={buttonInfo.state}
-                                            id={buttonInfo.id}
-                                            iconLeft={buttonInfo.iconLeft}
-                                            onClick={buttonInfo.onClick}
-                                        />
-                                    }
-                                />
-                            );
-                        });
-                    case commonList.REORDER:
-                        return <ReorderToolsList setListSwitcher={callbackHandler} />;
-                }
-            })()}
+            {textToolsButtonInfo.map((buttonInfo, index) => {
+                return (
+                    <ToolTip
+                        key={index}
+                        title={buttonInfo.text ? buttonInfo.text : 'None'}
+                        position="above"
+                        child={
+                            <Button
+                                key={index}
+                                type={buttonInfo.type}
+                                state={buttonInfo.state}
+                                id={buttonInfo.id}
+                                iconLeft={buttonInfo.iconLeft}
+                                onClick={buttonInfo.onClick}
+                            />
+                        }
+                    />
+                );
+            })}
         </>
     );
 }

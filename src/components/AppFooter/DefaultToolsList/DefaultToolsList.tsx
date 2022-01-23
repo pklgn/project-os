@@ -6,7 +6,7 @@ import { LocaleContext, LocaleContextType } from '../../../App';
 import { Button, ButtonProps } from '../../common/Button/Button';
 import { Reorder } from '../../common/icons/Reorder/Reorder';
 import { Opacity } from '../../common/icons/Opacity/Opacity';
-import { DeleteElement } from '../../common/icons/DeleteElement/DeleteElement';
+import { RemoveElement } from '../../common/icons/RemoveElement/RemoveElement';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 // import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
@@ -45,21 +45,21 @@ export function DefaultToolsList(): JSX.Element {
 
     const defaultToolsButtonInfo: ButtonProps[] = [
         {
-            text: localeContext.locale.localization.elementsListTool.cursorTool,
+            text: localeContext.locale.localization.elementsListTool.reorderTool,
             id: 'select-tool-button',
             iconLeft: <Reorder />,
             onClick: reorderHandler,
         },
         {
-            text: localeContext.locale.localization.elementsListTool.textTool,
+            text: localeContext.locale.localization.elementsListTool.opacityTool,
             id: 'text-tool-button',
             iconLeft: <Opacity />,
             onClick: opacityHandler,
         },
         {
-            text: localeContext.locale.localization.elementsListTool.geometryTool,
+            text: localeContext.locale.localization.elementsListTool.removeElementTool,
             id: 'geometry-tool-button',
-            iconLeft: <DeleteElement />,
+            iconLeft: <RemoveElement />,
             onClick: removeSelectedElementsHandler,
         },
     ];
