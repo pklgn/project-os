@@ -104,6 +104,22 @@ export function SlideComponent(props: SlideProps) {
     };
     store.subscribe(handleRenderSpecs);
 
+    useEffect(() => {
+        const handleSlideChange = () => {
+            const prevSlide = props.slide?.id;
+            const currSlide = getCurrentSlide(store.getState().model)?.id;
+            if (prevSlide !== currSlide) {
+                setSelectedAreaLocation(undefined);
+                setSelectedAreaStartPoint(undefined);
+            }
+        };
+        const unsubscribeOnSlideChange = store.subscribe(handleSlideChange);
+
+        return () => {
+            unsubscribeOnSlideChange();
+        };
+    });
+
     useLayoutEffect(() => {
         const onHistoryHandler = (event: KeyboardEvent) => {
             if (event.ctrlKey && (event.code === 'KeyZ' || event.code === 'KeyY')) {
@@ -234,7 +250,7 @@ export function SlideComponent(props: SlideProps) {
         return () => {
             document.removeEventListener('mousedown', onMouseDownHandler);
         };
-    }, [isSlideActive]);
+    }, [dispatch, isSlideActive]);
 
     useEffect(() => {
         const onMouseUpHandler = (event: MouseEvent) => {
@@ -252,7 +268,7 @@ export function SlideComponent(props: SlideProps) {
         return () => {
             document.removeEventListener('mouseup', onMouseUpHandler);
         };
-    }, [selectedAreaLocation]);
+    }, [dispatch, selectedAreaLocation, selectedAreaStartPoint]);
 
     const onMouseDownResizeHandler = (event: React.MouseEvent) => {
         const chosenResizer = event.target as Element;
