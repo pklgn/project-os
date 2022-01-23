@@ -45,7 +45,7 @@ const dispatchSetElementsPositionAction = (dispatch: Dispatch) => {
 };
 const dispatchSetElementsTransform = (dispatch: Dispatch) => {
     return bindActionCreators(setSelectedElementsTransformProperty, dispatch);
-}
+};
 const dispatchChangeElementsOpacityAction = (dispatch: Dispatch) => {
     return bindActionCreators(changeSelectedElementsOpacity, dispatch);
 };

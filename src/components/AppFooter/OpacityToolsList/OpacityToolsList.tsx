@@ -1,6 +1,6 @@
 import styles from './OpacityToolsList.module.css';
 
-import { useEffect, useRef, useState } from 'react';
+import { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
     dispatchChangeElementsOpacityAction,
@@ -14,10 +14,8 @@ type OpacityToolsListProps = {
 export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
     const dispatch = useDispatch();
 
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    const onChangeHandler = () => {
-        dispatchChangeElementsOpacityAction(dispatch)(inputRef.current!.valueAsNumber);
+    const onChangeHandler = (event: BaseSyntheticEvent) => {
+        dispatchChangeElementsOpacityAction(dispatch)(event.target.value);
         dispatchKeepModelAction(dispatch)();
     };
 
@@ -30,7 +28,7 @@ export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
         return () => {
             document.removeEventListener('keydown', onKeyDownHandler);
         };
-    }, [inputRef]);
+    }, []);
 
     return (
         <>
@@ -43,7 +41,6 @@ export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
                         <div className={styles['range-toddler-wrapper']}>
                             <div className={styles['range-toddler-content']}></div>
                             <input
-                                ref={inputRef}
                                 type="range"
                                 className={styles['range-toddler']}
                                 min="0.1"

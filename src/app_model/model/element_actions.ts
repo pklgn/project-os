@@ -79,11 +79,11 @@ export function changeElementsOpacity(editor: Editor, opacity: number): Editor {
         return editor;
     }
 
-    const newElementsList: SlideElement[] = currSlide.elementsList.filter((item) => {
+    const newElementsList: SlideElement[] = currSlide.elementsList.map((item) => {
         if (editor.selectedSlideElementsIds.includes(item.id)) {
             return {
                 ...item,
-                opacity,
+                opacity: opacity,
             };
         }
         return item;
