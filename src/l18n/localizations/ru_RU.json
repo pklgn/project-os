@@ -53,6 +53,8 @@
         "backLayerTool": "Назад",
         "reorderTool": "Изменить порядок",
         "changeTextColor": "Цвет текста",
+        "changeTextSize": "Размер текста",
+        "changeTextStyle": "Стиль текста",
         "changeElementColor": "Цвет заливки элемента",
         "changeElementBorderColor": "Цвет границы элемента",
         "changeSlideColor": "Цвет слайда",

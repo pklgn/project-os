@@ -53,6 +53,8 @@
         "backLayerTool": "Back",
         "reorderTool": "Reorder",
         "changeTextColor": "Text color",
+        "changeTextSize": "Text size",
+        "changeTextStyle": "Text style",
         "changeElementColor": "Element's color",
         "changeElementBorderColor": "Element's border color",
         "changeSlideColor": "Slide's color",
