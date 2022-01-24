@@ -176,9 +176,18 @@ export function AppTop(): JSX.Element {
             text: handleAddText,
             image: handleUploadImageClick,
             figure: {
-                circle: () => dispatchAddFigureAction(dispatch)(defaultFigure(FigureShape.Circle)),
-                triangle: () => dispatchAddFigureAction(dispatch)(defaultFigure(FigureShape.Triangle)),
-                rectangle: () => dispatchAddFigureAction(dispatch)(defaultFigure(FigureShape.Rectangle)),
+                circle: () => {
+                    dispatchAddFigureAction(dispatch)(defaultFigure(FigureShape.Circle));
+                    dispatchKeepModelAction(dispatch)();
+                },
+                triangle: () => {
+                    dispatchAddFigureAction(dispatch)(defaultFigure(FigureShape.Triangle));
+                    dispatchKeepModelAction(dispatch)();
+                },
+                rectangle: () => {
+                    dispatchAddFigureAction(dispatch)(defaultFigure(FigureShape.Rectangle));
+                    dispatchKeepModelAction(dispatch)();
+                },
             },
         },
     });

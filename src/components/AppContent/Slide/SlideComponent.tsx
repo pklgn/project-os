@@ -28,6 +28,7 @@ import {
     dispatchActiveViewAreaAction,
     dispatchAddSlideAction,
     dispatchKeepModelAction,
+    dispatchRemoveSelectedElementsAction,
     dispatchSetChosenElementsType,
     dispatchSetElementsPositionAction,
     dispatchSetElementsSizeAction,
@@ -138,6 +139,19 @@ export function SlideComponent(props: SlideProps) {
                 } else {
                     setSelectedAreaLocation(undefined);
                     setSelectedAreaStartPoint(undefined);
+                }
+            }
+            if (
+                event.code === 'Delete' &&
+                getActiveElementsIds(store.getState().model).length &&
+                getActiveViewArea(store.getState().viewModel) === 'MAIN_SLIDE'
+            ) {
+                dispatchRemoveSelectedElementsAction(dispatch)();
+                dispatchKeepModelAction(dispatch)();
+                setSelectedAreaLocation(undefined);
+                setSelectedAreaStartPoint(undefined);
+                if (refCanvas.current) {
+                    refCanvas.current.style.cursor = 'default';
                 }
             }
         };
