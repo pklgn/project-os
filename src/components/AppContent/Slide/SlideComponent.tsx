@@ -200,7 +200,6 @@ export function SlideComponent(props: SlideProps) {
                 }
 
                 if (pressedOnElement) {
-                    console.log('on Element!');
                     const elementIndex = elDomIndex - 1;
                     const elementId = slide.elementsList[elementIndex].id;
                     const slideId = slide.id;
