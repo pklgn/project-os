@@ -17,11 +17,12 @@ export default function ToolTip(props: ToolTipPropsType): JSX.Element {
         <div className={styles.container} id={`${id ?? 'element'}-tooltip`}>
             <div
                 className={styles['tooltip-placeholder']}
-                onMouseOver={(event) => {
+                onMouseEnter={(event) => {
                     event.preventDefault();
                     setVisibleState(true);
                 }}
                 onMouseOut={() => setVisibleState(false)}
+                onMouseLeave={() => setVisibleState(false)}
                 onClick={() => setVisibleState(false)}
             >
                 {child}

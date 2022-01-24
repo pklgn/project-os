@@ -4,6 +4,7 @@
     background-color: rgba(190, 189, 189, 0.75);
     border-radius: 0.2rem;
     align-items: center;
+    justify-content: space-between;
 }
 
 .slides-list-tools div[id='add-slide-button-tooltip'] span[id='tooltip-content'] {

@@ -4,16 +4,15 @@ import { BaseSyntheticEvent, useContext, useRef } from 'react';
 
 import { AdaptiveInputField } from '../common/AdaptiveInputField/AdaptiveInputField';
 import { AppLogoPng } from '../common/icons/AppLogo';
-import { Button, ButtonProps } from '../common/Button/Button';
+import { ButtonProps } from '../common/Button/Button';
 import { GlobeIcon } from '../common/icons/GlobeInternationalization/GlobeInternationalizationIcon';
 import ToolTip from '../common/ToolTip/ToolTip';
 
-import { getL18nObject } from '../../l18n/l18n';
+import { getL18nObject, l18nLocale } from '../../l18n/l18n';
 import { LocaleContext } from '../../App';
 
 import { DropdownMenu } from '../common/DropdownMenu/DropdownMenu';
-import { getFullScreenDropdownMenu } from './getFullScreenDropdownMenu';
-import { getFileDropdownMenu } from './getFileDropdownMenu';
+import { getChangeLocaleDropDownMenu, getFileDropdownMenu, getFullScreenDropdownMenu } from './dropdown_creators';
 
 import { FigureInfo, FigureShape } from '../../app_model/model/types';
 
@@ -46,11 +45,16 @@ export function AppTop(): JSX.Element {
     const localeContext = useContext(LocaleContext);
     const dispatch = useDispatch();
 
-    const toggleLocaleContext = () => {
-        if (localeContext.locale.currLocale === 'en_EN') {
-            localeContext.changeLocale?.(getL18nObject('ru_RU'));
-        } else if (localeContext.locale.currLocale === 'ru_RU') {
-            localeContext.changeLocale?.(getL18nObject('en_EN'));
+    const toggleLocaleContext = (key: l18nLocale) => {
+        switch (key) {
+            case 'ru_RU':
+                return () => {
+                    localeContext.changeLocale?.(getL18nObject('ru_RU'));
+                };
+            case 'en_EN':
+                return () => {
+                    localeContext.changeLocale?.(getL18nObject('en_EN'));
+                };
         }
     };
 
@@ -78,17 +82,6 @@ export function AppTop(): JSX.Element {
         dispatchSetEditorModeAction(dispatch)('SHOW_FROM_FIRST_SLIDE');
     };
 
-    const miscButtonsInfo: ButtonProps[] = [
-        {
-            id: 'lang-button',
-            text: localeContext.locale.localization.appTopButtons.l18n,
-            iconLeft: <GlobeIcon width={28} height={28} color="#ffa322" />,
-            type: 'round',
-            cssMix: { margin: '0 5px' },
-            onMouseUp: toggleLocaleContext,
-        },
-    ];
-
     const onFocus = () => {
         if (getActiveViewArea(store.getState().viewModel) !== 'APP_TOP') {
             dispatchActiveViewAreaAction(dispatch)('APP_TOP');
@@ -99,6 +92,12 @@ export function AppTop(): JSX.Element {
         firstSlideStartHandler: onPreviewerButtonFirstAction,
         currSlideStartHandler: onPreviewerButtonCurrentAction,
         locale: localeContext.locale,
+    });
+
+    const changeLocaleDropDownProps = getChangeLocaleDropDownMenu({
+        locale: localeContext.locale,
+        setRussianLocale: toggleLocaleContext('ru_RU'),
+        setEnglishLocale: toggleLocaleContext('en_EN'),
     });
 
     const uploadPresentationInputRef = useRef<HTMLInputElement>(null);
@@ -121,13 +120,6 @@ export function AppTop(): JSX.Element {
                 presentation: store.getState().model.presentation,
             });
         }
-    };
-    const mockFigure: FigureInfo = {
-        shape: FigureShape.Rectangle,
-        xy: {
-            x: 0,
-            y: 0,
-        },
     };
 
     const handleAddText = () => {
@@ -159,6 +151,16 @@ export function AppTop(): JSX.Element {
         }
     };
 
+    const defaultFigure = (shape: FigureShape) => {
+        return {
+            shape,
+            xy: {
+                x: 0,
+                y: 0,
+            },
+        };
+    };
+
     const fileDropdownMenu = getFileDropdownMenu({
         locale: localeContext.locale,
         handleScreenRatio: {
@@ -174,17 +176,17 @@ export function AppTop(): JSX.Element {
             text: handleAddText,
             image: handleUploadImageClick,
             figure: {
-                circle: () => undefined,
-                triangle: () => undefined,
-                rectangle: () => dispatchAddFigureAction(dispatch)(mockFigure),
+                circle: () => dispatchAddFigureAction(dispatch)(defaultFigure(FigureShape.Circle)),
+                triangle: () => dispatchAddFigureAction(dispatch)(defaultFigure(FigureShape.Triangle)),
+                rectangle: () => dispatchAddFigureAction(dispatch)(defaultFigure(FigureShape.Rectangle)),
             },
         },
     });
 
     return (
         <div className={styles['top-bar']}>
-            <AppLogoPng width={55} height={55} type={'default'} />
             <div className={styles['top-bar-menu']}>
+                <AppLogoPng width={55} height={55} type={'default'} />
                 <DropdownMenu {...fileDropdownMenu} />
                 <ToolTip
                     title={localeContext.locale.localization.appTopButtons.presentationNameInputField}
@@ -202,27 +204,18 @@ export function AppTop(): JSX.Element {
                         />
                     }
                 />
-                <DropdownMenu {...fullScreenDropdownProps} />
-                {miscButtonsInfo.map((info, index) => {
-                    return (
-                        <ToolTip
-                            title={info.text ?? 'None'}
-                            id={info.id}
-                            position={'under'}
-                            key={index}
-                            child={
-                                <Button
-                                    id={info.id}
-                                    key={index}
-                                    iconLeft={info.iconLeft}
-                                    type={info.type}
-                                    cssMix={info.cssMix}
-                                    onMouseUp={info.onMouseUp}
-                                />
-                            }
-                        />
-                    );
-                })}
+                <ToolTip
+                    title={localeContext.locale.localization.appTopButtons.fullscreen}
+                    id={'full-screen-dropdown'}
+                    position={'under'}
+                    child={<DropdownMenu {...fullScreenDropdownProps} />}
+                />
+                <ToolTip
+                    title={localeContext.locale.localization.appTopButtons.l18n}
+                    id={'locale-dropdown'}
+                    position={'under'}
+                    child={<DropdownMenu {...changeLocaleDropDownProps} />}
+                />
             </div>
             <UploadPresentationInput key={generateUUId()} inputRef={uploadPresentationInputRef} />
             <UploadPictureInput key={generateUUId()} inputRef={uploadImageInputRef} />

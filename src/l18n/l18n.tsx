@@ -1,7 +1,7 @@
 import ru_RU from './localizations/ru_RU.json';
 import en_EN from './localizations/en_EN.json';
 
-type l18nLocale = 'ru_RU' | 'en_EN';
+export type l18nLocale = 'ru_RU' | 'en_EN';
 
 export type l18nType = {
     localization: typeof ru_RU | typeof en_EN;

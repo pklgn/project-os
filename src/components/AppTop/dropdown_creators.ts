@@ -1,6 +1,44 @@
-import { generateUUId } from '../../app_model/model/utils/uuid';
-import { DropdownMenuProps } from '../common/DropdownMenu/DropdownMenu';
 import { l18nType } from '../../l18n/l18n';
+
+import { DropdownMenuProps } from '../common/DropdownMenu/DropdownMenu';
+
+import { generateUUId } from '../../app_model/model/utils/uuid';
+
+import { FullscreenIcon } from '../common/icons/Fullscreen/Fullscreen';
+import { GlobeIcon } from '../common/icons/GlobeInternationalization/GlobeInternationalizationIcon';
+
+export type FullScreenDropdownProps = {
+    locale: l18nType;
+    firstSlideStartHandler: () => void;
+    currSlideStartHandler: () => void;
+};
+
+export const getFullScreenDropdownMenu = (props: FullScreenDropdownProps): DropdownMenuProps => {
+    return {
+        data: {
+            mainButton: { id: generateUUId(), iconLeft: FullscreenIcon({ color: '#ffa322' }) },
+            nestedButtons: [
+                {
+                    mainButton: {
+                        id: generateUUId(),
+                        text: props.locale.localization.dropdown.fullscreen.firstSlideStart,
+                        onMouseUp: props.firstSlideStartHandler,
+                    },
+                    nestedButtons: [],
+                },
+                {
+                    mainButton: {
+                        id: generateUUId(),
+                        text: props.locale.localization.dropdown.fullscreen.currSlideStart,
+                        onMouseUp: props.currSlideStartHandler,
+                    },
+                    nestedButtons: [],
+                },
+            ],
+        },
+        position: 'left',
+    };
+};
 
 export type FileDropdownMenuProps = {
     locale: l18nType;
@@ -24,7 +62,7 @@ export type FileDropdownMenuProps = {
     };
 };
 
-const getFileDropdownMenu = (props: FileDropdownMenuProps): DropdownMenuProps => {
+export const getFileDropdownMenu = (props: FileDropdownMenuProps): DropdownMenuProps => {
     const { locale } = props;
     return {
         data: {
@@ -140,4 +178,44 @@ const getFileDropdownMenu = (props: FileDropdownMenuProps): DropdownMenuProps =>
     };
 };
 
-export { getFileDropdownMenu };
+export type ChangeLocaleDropDownPropsType = {
+    locale: l18nType;
+    setEnglishLocale: () => void;
+    setRussianLocale: () => void;
+};
+
+export const getChangeLocaleDropDownMenu = (props: ChangeLocaleDropDownPropsType): DropdownMenuProps => {
+    return {
+        data: {
+            mainButton: {
+                id: generateUUId(),
+                iconLeft: GlobeIcon({
+                    width: 28,
+                    height: 28,
+                    color: '#ffa322',
+                }),
+                cssMix: { margin: '0 5px' },
+                type: 'round',
+            },
+            nestedButtons: [
+                {
+                    mainButton: {
+                        id: generateUUId(),
+                        text: props.locale.localization.dropdown.locale.ruRU,
+                        onMouseUp: props.setRussianLocale,
+                    },
+                    nestedButtons: [],
+                },
+                {
+                    mainButton: {
+                        id: generateUUId(),
+                        text: props.locale.localization.dropdown.locale.enEN,
+                        onMouseUp: props.setEnglishLocale,
+                    },
+                    nestedButtons: [],
+                },
+            ],
+        },
+        position: 'left',
+    };
+};

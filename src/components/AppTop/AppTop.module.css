@@ -4,12 +4,28 @@
     display: flex;
     align-items: center;
     border-radius: 0.2rem;
+    min-height: 45px;
 }
 .top-bar-menu {
     display: flex;
     width: 100%;
     align-content: center;
     align-items: center;
+    max-height: 35px;
+    background-color: #b8b8b8;
+}
+
+.top-bar-menu img {
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: #cecdcd;
+    border-radius: 50%;
+    border: 2px solid #cecdcd;
+}
+
+.top-bar-menu button {
+    font-size: xx-small;
+    margin-right: 5px;
 }
 
 .top-bar-menu div[id="input-tooltip"] {

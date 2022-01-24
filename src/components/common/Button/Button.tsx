@@ -4,7 +4,7 @@ import CSS from 'csstype';
 import { joinClassNames } from '../../utils/joinClassNames';
 import { BaseSyntheticEvent, MouseEvent, useRef, useState } from 'react';
 
-type ButtonState = 'pressed' | 'active' | 'disabled' | 'independently' | 'hover';
+export type ButtonState = 'pressed' | 'active' | 'disabled' | 'independently' | 'hover';
 type ButtonType = 'in-list' | 'default' | 'round';
 
 export type ButtonProps = {

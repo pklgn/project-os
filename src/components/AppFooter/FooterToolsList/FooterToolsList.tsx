@@ -1,9 +1,9 @@
 import styles from './FooterToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { Button, ButtonProps } from '../../common/Button/Button';
+import { Button, ButtonProps, ButtonState } from '../../common/Button/Button';
 import { GeometryIcon } from '../../common/icons/Geometry/Geometry';
 import { RedoUndoIcon } from '../../common/icons/RedoUndo/RedoUndo';
 import { SelectCursorIcon } from '../../common/icons/Cursor/Cursor';
@@ -22,6 +22,8 @@ import {
 import { useDispatch } from 'react-redux';
 
 import { FigureInfo, FigureShape } from '../../../app_model/model/types';
+import { store } from '../../../app_model/redux_model/store';
+import { getCurrentEditingToolState } from '../../../app_model/view_model/editing_tool_actions';
 
 export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
