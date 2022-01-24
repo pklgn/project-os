@@ -1,7 +1,7 @@
 import styles from './FooterToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import { Button, ButtonProps, ButtonState } from '../../common/Button/Button';
 import { GeometryIcon } from '../../common/icons/Geometry/Geometry';
@@ -22,8 +22,10 @@ import {
 import { useDispatch } from 'react-redux';
 
 import { FigureInfo, FigureShape } from '../../../app_model/model/types';
+import { PictureToolsList } from '../PictureToolsList/PictureToolsList';
+import { FigureToolsList } from '../FigureToolsList/FigureToolsList';
 import { store } from '../../../app_model/redux_model/store';
-import { getCurrentEditingToolState } from '../../../app_model/view_model/editing_tool_actions';
+import { ChosenElementsType } from '../../../app_model/view_model/types';
 
 export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
@@ -82,6 +84,7 @@ export function FooterToolsList(): JSX.Element {
             id: 'undo-button',
             type: 'round',
             iconLeft: <RedoUndoIcon turn="undo" color="#ffa322" />,
+            onClick: dispatchUndoAction(dispatch),
             onMouseUp: onUndoButton,
         },
         {
@@ -89,10 +92,14 @@ export function FooterToolsList(): JSX.Element {
             id: 'redo-button',
             type: 'round',
             iconLeft: <RedoUndoIcon turn="redo" color="#ffa322" />,
+            onClick: dispatchRedoAction(dispatch),
             onMouseUp: onRedoButton,
         },
     ];
 
+    const [toolsSwitcher, setToolsSwitcher] = useState('NONE' as ChosenElementsType);
+
+    store.subscribe(() => setToolsSwitcher(store.getState().viewModel.chosenElementsType));
     return (
         <div className={styles['footer-tools']}>
             <div className={styles['tools-buttons-container']} id="tools-buttons-container">
@@ -120,13 +127,21 @@ export function FooterToolsList(): JSX.Element {
             <VerticalLine id="vertical-1" />
             <div className={styles['element-tools']}>
                 {(function () {
-                    switch ('TEXT') {
+                    switch (toolsSwitcher) {
+                        case 'MIXED':
+                            return <DefaultToolsList />;
+                        case 'PICTURE':
+                            return [<PictureToolsList key={0} />, <DefaultToolsList key={1} />];
                         case 'TEXT':
                             return [<TextToolsList key={0} />, <DefaultToolsList key={1} />];
+                        case 'FIGURE':
+                            return [<FigureToolsList key={0} />, <DefaultToolsList key={1} />];
+                        case 'NONE':
+                            return <span className={styles['empty_block']}></span>
+                                
                     }
                 })()}
             </div>
-            {/* <DefaultToolsList /> */}
             <VerticalLine id="vertical-2" />
             <div className={styles['history-buttons-container']} id="history-buttons-container">
                 {redoUndoButtonInfo.map((buttonInfo, index) => {

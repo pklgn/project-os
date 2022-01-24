@@ -49,11 +49,18 @@ export const moveSelectedElementsToBackgroundOrForeground = (payload: boolean) =
     };
 };
 
-export const moveSelectedElementsBackwardOrForward = (payload: boolean) => {
+export const moveSelectedElementsForward = () => {
     return (dispatch: Dispatch<ElementAction>) => {
         dispatch({
-            type: ActionType.MOVE_ELEMENTS_BACKWARD_OR_FORWARD,
-            payload,
+            type: ActionType.MOVE_ELEMENTS_FORWARD,
+        });
+    };
+};
+
+export const moveSelectedElementsBackward = () => {
+    return (dispatch: Dispatch<ElementAction>) => {
+        dispatch({
+            type: ActionType.MOVE_ELEMENTS_BACKWARD,
         });
     };
 };
