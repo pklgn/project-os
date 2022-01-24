@@ -177,7 +177,8 @@ export function SlideComponent(props: SlideProps) {
                         el.tagName === 'ellipse' ||
                         el.tagName === 'polygon' ||
                         el.tagName === 'text' ||
-                        el.tagName === 'image');
+                        el.tagName === 'image' ||
+                        el.tagName === 'tspan');
 
                 const elDomIndex = isSlideElement ? parseInt(elAttrId!) : undefined;
 
