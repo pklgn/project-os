@@ -67,14 +67,12 @@ export function FigureToolsList(): JSX.Element {
             id: 'border-color-tool-button',
             // eslint-disable-next-line react/no-children-prop
             iconLeft: <ColorInput onInput={onChangeBorderHandler} children={BorderColor()} />,
-            // onClick: (e: BaseSyntheticEvent) => { e.stopPropagation() },
         },
         {
             text: localeContext.locale.localization.elementsListTool.changeFigureColor,
             id: 'fill-color-button',
             // eslint-disable-next-line react/no-children-prop
             iconLeft: <ColorInput onInput={onChangeFillHandler} children={FillColor()} />,
-            // onClick: (e: BaseSyntheticEvent) => { e.stopPropagation() },
         },
     ];
 

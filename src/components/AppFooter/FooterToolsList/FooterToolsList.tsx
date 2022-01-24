@@ -1,7 +1,7 @@
 import styles from './FooterToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { BaseSyntheticEvent, useContext, useEffect, useRef, useState } from 'react';
 
 import { Button, ButtonProps, ButtonState } from '../../common/Button/Button';
 import { GeometryIcon } from '../../common/icons/Geometry/Geometry';
@@ -125,7 +125,9 @@ export function FooterToolsList(): JSX.Element {
                 })}
             </div>
             <VerticalLine id="vertical-1" />
-            <div className={styles['element-tools']}>
+            <div className={styles['element-tools']} onMouseDown={(e: BaseSyntheticEvent) => {
+                    e.stopPropagation();
+                }}>
                 {(function () {
                     switch (toolsSwitcher) {
                         case 'MIXED':

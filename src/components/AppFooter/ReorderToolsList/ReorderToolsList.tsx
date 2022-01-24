@@ -28,25 +28,21 @@ export function ReorderToolsList(props: ReorderToolsListProps): JSX.Element {
     const moveForwardHandler = () => {
         dispatchMoveSelectedElementsForward(dispatch)();
         dispatchKeepModelAction(dispatch)();
-        props.setListSwitcher();
     };
 
     const moveForegroundHandler = () => {
         dispatchMoveSelectedElementsToBackgroundOrForegroundAction(dispatch)(false);
         dispatchKeepModelAction(dispatch)();
-        props.setListSwitcher();
     };
 
     const moveBackwardHandler = () => {
         dispatchMoveSelectedElementsBackward(dispatch)();
         dispatchKeepModelAction(dispatch)();
-        props.setListSwitcher();
     };
 
     const moveBackgroundHandler = () => {
         dispatchMoveSelectedElementsToBackgroundOrForegroundAction(dispatch)(true);
         dispatchKeepModelAction(dispatch)();
-        props.setListSwitcher();
     };
 
     const reorderToolsButtonInfo: ButtonProps[] = [
