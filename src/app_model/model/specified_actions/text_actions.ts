@@ -12,9 +12,9 @@ export function addTextElement(editor: Editor, x = 1, y = 1): Editor {
 
     const textElement: TextElement = {
         content: ['Введите текст'],
-        fontSize: 10,
+        fontSize: 20,
         fontColor: 'black',
-        fontStyle: 'italic',
+        fontStyle: '',
         fontFamily: 'sans-serif',
     };
     const element: SlideElement = {
