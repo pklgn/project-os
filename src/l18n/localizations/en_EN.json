@@ -61,7 +61,8 @@
         "opacityTool": "Opacity",
         "removeElementTool": "Remove",
         "changeBorderColor": "Border color",
-        "changeFigureColor": "Figure color"
+        "changeFigureColor": "Figure color",
+        "changeFigureBorderWidth": "Border width"
 
     },
     "errors": {

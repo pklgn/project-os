@@ -125,9 +125,12 @@ export function FooterToolsList(): JSX.Element {
                 })}
             </div>
             <VerticalLine id="vertical-1" />
-            <div className={styles['element-tools']} onMouseDown={(e: BaseSyntheticEvent) => {
+            <div
+                className={styles['element-tools']}
+                onMouseDown={(e: BaseSyntheticEvent) => {
                     e.stopPropagation();
-                }}>
+                }}
+            >
                 {(function () {
                     switch (toolsSwitcher) {
                         case 'MIXED':

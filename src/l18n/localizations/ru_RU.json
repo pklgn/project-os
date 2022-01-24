@@ -61,7 +61,8 @@
         "opacityTool": "Прозрачность",
         "removeElementTool": "Удалить",
         "changeBorderColor": "Цвет контура",
-        "changeFigureColor": "Цвет фигуры"
+        "changeFigureColor": "Цвет фигуры",
+        "changeFigureBorderWidth": "Ширина границы"
     },
     "errors": {
         "noSlidesToSave": "Нельзя сохранить пустую презентацию"
