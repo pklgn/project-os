@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { setSelectedElementId } from '../../../app_model/model/editor_actions';
 import { useLayoutEffect, useRef } from 'react';
 import { useResize } from '../../utils/useResize';
+import { store } from '../../../app_model/redux_model/store';
 
 type TextElementProps = {
     element: SlideElement;

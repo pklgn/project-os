@@ -11,7 +11,7 @@ import { useResize } from '../../utils/useResize';
 import { useSlideResize } from '../../utils/useSlideResize';
 
 import {
-    dispatchChangeTextContent,
+    dispatchChangeTextContentAction,
     dispatchSetElementsRenderRatioAction,
     dispatchSlideContainerDimensions,
 } from '../../../app_model/redux_model/dispatchers';
@@ -111,8 +111,7 @@ export function SlideWrapper() {
 
     function handleOnInput(e: BaseSyntheticEvent) {
         const value = e.target.value;
-        dispatchChangeTextContent(dispatch)(value.split('\n'));
-        console.log(value.split('\n'));
+        dispatchChangeTextContentAction(dispatch)(value.split('\n'));
     }
 
     function getCurrElement() {
