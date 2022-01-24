@@ -317,6 +317,10 @@ export function moveElementsForward(editor: Editor): Editor {
     }
     const elementsList = currSlide.elementsList;
 
+    if (elementsList.length === 1) {
+        return editor;
+    }
+
     const slideIndex = editor.presentation.slidesList.findIndex((item) => {
         return item.id === currSlide.id;
     });
@@ -330,7 +334,7 @@ export function moveElementsForward(editor: Editor): Editor {
     const updatedElementList: SlideElement[] = [];
     const selectedSlideElementsIds = editor.selectedSlideElementsIds;
 
-    while (indexLeft < elementsList.length - 1 && indexRight !== -1) {
+    while (indexLeft < elementsList.length && indexRight !== -1) {
         if (selectedSlideElementsIds.includes(elementsList[indexLeft].id)) {
             indexRight = elementsList.findIndex(
                 (item, index) => !selectedSlideElementsIds.includes(item.id) && index > indexLeft,
@@ -374,6 +378,10 @@ export function moveElementsBackward(editor: Editor): Editor {
     }
     const elementsList = currSlide.elementsList;
 
+    if (elementsList.length === 1) {
+        return editor;
+    }
+
     const slideIndex = editor.presentation.slidesList.findIndex((item) => {
         return item.id === currSlide.id;
     });
@@ -387,7 +395,7 @@ export function moveElementsBackward(editor: Editor): Editor {
     const updatedElementList: SlideElement[] = [];
     const selectedSlideElementsIds = editor.selectedSlideElementsIds;
 
-    while (indexRight > 0 && indexLeft !== -1) {
+    while (indexRight >= 0 && indexLeft !== -1) {
         if (selectedSlideElementsIds.includes(elementsList[indexRight].id)) {
             indexLeft = findLastIndex(
                 elementsList,
