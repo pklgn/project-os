@@ -12,7 +12,7 @@ export function TextToolsList(): JSX.Element {
 
     const dispatch = useDispatch();
     const changeTextColorHandler = (e: BaseSyntheticEvent) => {
-        dispatchChangeTextsColorAction(dispatch)(e.target.value)
+        dispatchChangeTextsColorAction(dispatch)(e.target.value);
         dispatchKeepModelAction(dispatch)();
         e.stopPropagation();
     };
