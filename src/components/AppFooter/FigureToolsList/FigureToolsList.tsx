@@ -97,7 +97,7 @@ export function FigureToolsList(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.changeFigureBorderWidth,
             id: 'border-width-button',
             iconLeft: <BorderWidth />,
-            onClick: () => setListSwitcher(commonList.BORDER_WIDTH)
+            onClick: () => setListSwitcher(commonList.BORDER_WIDTH),
         },
     ];
 

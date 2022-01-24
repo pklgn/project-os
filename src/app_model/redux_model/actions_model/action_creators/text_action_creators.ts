@@ -39,6 +39,22 @@ export const changeTextsSize = (payload: number) => {
     };
 };
 
+export const textsSizeUp = () => {
+    return (dispatch: Dispatch<TextActions>) => {
+        dispatch({
+            type: ActionType.SELECTED_TEXTS_SIZE_UP,
+        });
+    };
+};
+
+export const textsSizeDown = () => {
+    return (dispatch: Dispatch<TextActions>) => {
+        dispatch({
+            type: ActionType.SELECTED_TEXTS_SIZE_DOWN,
+        });
+    };
+};
+
 export const changeTextsStyle = (payload: string) => {
     return (dispatch: Dispatch<TextActions>) => {
         dispatch({
