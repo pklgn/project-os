@@ -24,6 +24,7 @@ import {
 import { ElementsRatioType } from '../../../app_model/view_model/types';
 import { setChosenElementsType } from '../../../app_model/redux_model/actions_view_model/action_creators/chosen_elements_action_creator';
 import { changeTextContent } from '../../../app_model/redux_model/actions_model/action_creators/text_action_creators';
+import { isText } from '../../../app_model/model/utils/tools';
 
 export function SlideWrapper() {
     const ref = useRef<HTMLDivElement>(null);
@@ -114,6 +115,14 @@ export function SlideWrapper() {
         console.log(value.split('\n'));
     }
 
+    function getCurrElement() {
+        const currSlide = getCurrentSlide(store.getState().model);
+        return currSlide?.elementsList.filter(
+            (elem) => elem.id === store.getState().model.selectedSlideElementsIds[0],
+        )[0];
+    }
+    const currElement = getCurrElement();
+
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>
             <SlideComponent
@@ -137,6 +146,7 @@ export function SlideWrapper() {
                     onBlur={handleOnBlur}
                     onInput={handleOnInput}
                     placeholder={'hello'}
+                    value={`${currElement && isText(currElement.content) && currElement?.content.content.join('\n')}`}
                 />
             )}
         </div>

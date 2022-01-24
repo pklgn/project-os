@@ -8,6 +8,8 @@ import { store } from '../../../app_model/redux_model/store';
 import { setChosenElementsType } from '../../../app_model/redux_model/actions_view_model/action_creators/chosen_elements_action_creator';
 import { useDispatch } from 'react-redux';
 import { setSelectedElementId } from '../../../app_model/model/editor_actions';
+import { useLayoutEffect, useRef } from 'react';
+import { useResize } from '../../utils/useResize';
 
 type TextElementProps = {
     element: SlideElement;
@@ -30,6 +32,8 @@ function TextElementComponent(props: TextElementProps) {
     const dispatch = useDispatch();
     const element: SlideElement = props.element;
     const elementText: TextElement | undefined = getTextElementContent(element);
+    const ref = useRef(null);
+    const [width, height] = useResize(ref);
 
     if (!elementText) {
         return null;
@@ -41,6 +45,7 @@ function TextElementComponent(props: TextElementProps) {
     return (
         <>
             <text
+                ref={ref}
                 id={`${props.elementIndex}`}
                 className={styles.element}
                 x={element.startPoint.x * renderScale.width * windowRatio}
@@ -49,8 +54,11 @@ function TextElementComponent(props: TextElementProps) {
                 fontSize={elementText.fontSize}
                 fontStyle={elementText.fontStyle}
                 fill={elementText.fontColor}
-                //onClick{() => setSelectedElementId(store.getState().model, [element.id])}
-                onDoubleClick={() => setChosenElementsType('TEXT')(dispatch)}
+                onMouseDown={() => setSelectedElementId(store.getState().model, [element.id])}
+                onDoubleClick={() => {
+                    setChosenElementsType('TEXT')(dispatch);
+                    setSelectedElementId(store.getState().model, [element.id]);
+                }}
             >
                 {elementText.content.map((line, index) => {
                     return (
