@@ -43,6 +43,7 @@ export function TextToolsList(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.changeTextColor,
             id: 'text-color-tool-button',
+            // eslint-disable-next-line react/no-children-prop
             iconLeft: <ColorInput onInput={changeTextColorHandler} children={TextColor()} />,
             onClick: changeTextColorHandler,
         },
@@ -61,6 +62,7 @@ export function TextToolsList(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.changeTextStyle,
             id: 'text-style-tool-button',
+            // eslint-disable-next-line react/no-children-prop
             iconLeft: <ColorInput onInput={changeTextColorHandler} children={TextStyle()} />,
             onClick: changeTextStyleHandler,
         },

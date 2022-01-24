@@ -106,7 +106,6 @@ export function SlideWrapper() {
 
     function handleOnBlur() {
         setIsTextEdit(!isTextEdit);
-        setChosenElementsType('NONE');
     }
 
     function handleOnInput(e: BaseSyntheticEvent) {
@@ -144,7 +143,7 @@ export function SlideWrapper() {
                     className={wrapperStyles.textarea}
                     onBlur={handleOnBlur}
                     onInput={handleOnInput}
-                    placeholder={'hello'}
+                    placeholder={'Enter a text'}
                     value={`${currElement && isText(currElement.content) && currElement?.content.content.join('\n')}`}
                 />
             )}

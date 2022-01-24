@@ -52,7 +52,7 @@ function TextElementComponent(props: TextElementProps) {
                 fontSize={elementText.fontSize}
                 fontStyle={elementText.fontStyle}
                 fill={elementText.fontColor}
-                onMouseDown={() => setSelectedElementId(store.getState().model, [element.id])}
+                onClick={() => setSelectedElementId(store.getState().model, [element.id])}
                 onDoubleClick={() => {
                     setChosenElementsType('TEXT')(dispatch);
                     setSelectedElementId(store.getState().model, [element.id]);
