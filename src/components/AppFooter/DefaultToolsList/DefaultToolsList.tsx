@@ -14,7 +14,6 @@ import {
     dispatchKeepModelAction,
     dispatchRemoveSelectedElementsAction,
 } from '../../../app_model/redux_model/dispatchers';
-import { OpacityToolsList } from '../OpacityToolsList/OpacityToolsList';
 import { ToddlerInput } from '../../common/ToddlerInput/ToddlerInput';
 
 enum commonList {
@@ -101,7 +100,15 @@ export function DefaultToolsList(): JSX.Element {
                     case commonList.REORDER:
                         return <ReorderToolsList setListSwitcher={callbackHandler} />;
                     case commonList.OPACITY:
-                        return <OpacityToolsList setListSwitcher={callbackHandler} />;
+                        return (
+                            <ToddlerInput
+                                onChangeHandler={onChangeHandler}
+                                setListSwitcher={callbackHandler}
+                                min="0.1"
+                                max="1"
+                                step="0.05"
+                            />
+                        );
                 }
             })()}
         </>

@@ -7,9 +7,10 @@ import { TextColor } from '../../common/icons/TextColor/TextColor';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import {
     dispatchChangeTextsColorAction,
-    dispatchChangeTextsSizeAction,
     dispatchChangeTextsStyleAction,
     dispatchKeepModelAction,
+    dispatchTextsSizeDown,
+    dispatchTextsSizeUp,
 } from '../../../app_model/redux_model/dispatchers';
 import { ColorInput } from '../../common/ColorInput/ColorInput';
 import { TextStyle } from '../../common/icons/TextStyle/TextStyle';
@@ -27,8 +28,14 @@ export function TextToolsList(): JSX.Element {
         e.stopPropagation();
     };
 
-    const changeTextSizeHandler = (e: BaseSyntheticEvent) => {
-        dispatchChangeTextsSizeAction(dispatch)(e.target.value);
+    const textSizeUpHandler = (e: BaseSyntheticEvent) => {
+        dispatchTextsSizeUp(dispatch)();
+        dispatchKeepModelAction(dispatch)();
+        e.stopPropagation();
+    };
+
+    const textSizeDownHandler = (e: BaseSyntheticEvent) => {
+        dispatchTextsSizeDown(dispatch)();
         dispatchKeepModelAction(dispatch)();
         e.stopPropagation();
     };
@@ -43,27 +50,33 @@ export function TextToolsList(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.changeTextColor,
             id: 'text-color-tool-button',
-            // eslint-disable-next-line react/no-children-prop
-            iconLeft: <ColorInput onInput={changeTextColorHandler} children={TextColor()} />,
+            iconLeft: (
+                <ColorInput onInput={changeTextColorHandler}>
+                    <TextColor />
+                </ColorInput>
+            ),
             onClick: changeTextColorHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.changeTextSize,
             id: 'text-size-tool-button',
             iconLeft: <TextSizeUp />,
-            onClick: changeTextSizeHandler,
+            onClick: textSizeUpHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.changeTextSize,
             id: 'text-size-tool-button',
             iconLeft: <TextSizeDown />,
-            onClick: changeTextSizeHandler,
+            onClick: textSizeDownHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.changeTextStyle,
             id: 'text-style-tool-button',
-            // eslint-disable-next-line react/no-children-prop
-            iconLeft: <ColorInput onInput={changeTextColorHandler} children={TextStyle()} />,
+            iconLeft: (
+                <ColorInput onInput={changeTextColorHandler}>
+                    <TextStyle />
+                </ColorInput>
+            ),
             onClick: changeTextStyleHandler,
         },
     ];
