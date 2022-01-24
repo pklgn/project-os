@@ -11,7 +11,8 @@ import ToolTip from '../../common/ToolTip/ToolTip';
 import { useDispatch } from 'react-redux';
 import {
     dispatchKeepModelAction,
-    dispatchMoveSelectedElementsBackwardOrForward,
+    dispatchMoveSelectedElementsForward,
+    dispatchMoveSelectedElementsBackward,
     dispatchMoveSelectedElementsToBackgroundOrForegroundAction,
 } from '../../../app_model/redux_model/dispatchers';
 
@@ -25,7 +26,7 @@ export function ReorderToolsList(props: ReorderToolsListProps): JSX.Element {
     const dispatch = useDispatch();
 
     const moveForwardHandler = () => {
-        dispatchMoveSelectedElementsBackwardOrForward(dispatch)(false);
+        dispatchMoveSelectedElementsForward(dispatch)();
         dispatchKeepModelAction(dispatch)();
         props.setListSwitcher();
     };
@@ -37,7 +38,7 @@ export function ReorderToolsList(props: ReorderToolsListProps): JSX.Element {
     };
 
     const moveBackwardHandler = () => {
-        dispatchMoveSelectedElementsBackwardOrForward(dispatch)(false);
+        dispatchMoveSelectedElementsBackward(dispatch)();
         dispatchKeepModelAction(dispatch)();
         props.setListSwitcher();
     };

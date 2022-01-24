@@ -29,7 +29,8 @@ import {
     changeElementsOpacity,
     changeElementsPosition,
     changeElementsSize,
-    moveElementsBackwardOrForward,
+    moveElementsBackward,
+    moveElementsForward,
     moveElementsToBackgroundOrForeground,
     removeSelectedElements,
     setTransformToElements,
@@ -82,8 +83,10 @@ export const modelReducers = (state: Editor = initEditor(), action: ModelActions
 
         case ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND:
             return moveElementsToBackgroundOrForeground(state, action.payload);
-        case ActionType.MOVE_ELEMENTS_BACKWARD_OR_FORWARD:
-            return moveElementsBackwardOrForward(state, action.payload);
+        case ActionType.MOVE_ELEMENTS_FORWARD:
+            return moveElementsForward(state);
+        case ActionType.MOVE_ELEMENTS_BACKWARD:
+            return moveElementsBackward(state);
         case ActionType.CHANGE_ELEMENTS_SIZE:
             return changeElementsSize(state, action.payload);
         case ActionType.CHANGE_ELEMENTS_OPACITY:

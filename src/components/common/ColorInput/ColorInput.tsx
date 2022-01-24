@@ -8,7 +8,8 @@ export type UploadProps = {
 
 function ColorInput(props: UploadProps) {
     const colorInputRef = useRef<HTMLInputElement>(null);
-    const handleColorInputClick = () => {
+    const handleColorInputClick = (e: BaseSyntheticEvent) => {
+        e.stopPropagation();
         colorInputRef.current?.click();
     };
 
@@ -21,9 +22,17 @@ function ColorInput(props: UploadProps) {
                 className={styles['color-input']}
                 onInput={props.onInput}
             />
-            <span className={styles['color-btn']} onClick={handleColorInputClick}>
-                {props.children}
-            </span>
+            {
+                props.children !== undefined 
+                ? 
+                    <span onClick={handleColorInputClick}>
+                        {props.children}
+                    </span>
+                : 
+                    <span className={styles['color-btn']} onClick={handleColorInputClick}>
+                         {props.children}
+                     </span>
+            }
         </div>
     );
 }

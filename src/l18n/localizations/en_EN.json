@@ -57,7 +57,10 @@
         "changeElementBorderColor": "Element's border color",
         "changeSlideColor": "Slide's color",
         "opacityTool": "Opacity",
-        "removeElementTool": "Remove"
+        "removeElementTool": "Remove",
+        "changeBorderColor": "Border color",
+        "changeFigureColor": "Figure color"
+
     },
     "errors": {
         "noSlidesToSave": "You cannot save an empty presentation"

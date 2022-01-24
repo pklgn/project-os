@@ -57,7 +57,9 @@
         "changeElementBorderColor": "Цвет границы элемента",
         "changeSlideColor": "Цвет слайда",
         "opacityTool": "Прозрачность",
-        "removeElementTool": "Удалить"
+        "removeElementTool": "Удалить",
+        "changeBorderColor": "Цвет контура",
+        "changeFigureColor": "Цвет фигуры"
     },
     "errors": {
         "noSlidesToSave": "Нельзя сохранить пустую презентацию"
