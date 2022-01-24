@@ -1,7 +1,7 @@
 import styles from './FigureToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { BaseSyntheticEvent, useContext, useState } from 'react';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
 
@@ -9,29 +9,52 @@ import { useDispatch } from 'react-redux';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { BorderColor } from '../../common/icons/BorderColor/BorderColor';
 import { FillColor } from '../../common/icons/FillColor/FillColor';
-
-enum commonList {
-    DEFAULT = 'DEFAULT',
-    REORDER = 'REORDER',
-    OPACITY = 'OPACITY',
-}
+import {
+    dispatchChangeFiguresColorAction,
+    dispatchChangeSelectedSlidesBackground,
+    dispatchKeepModelAction,
+} from '../../../app_model/redux_model/dispatchers';
+import { getActiveElementsIds } from '../../../app_model/model/element_actions';
+import { store } from '../../../app_model/redux_model/store';
+import { ColorInput } from '../../common/ColorInput/ColorInput';
 
 export function FigureToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
 
+    const [timeOuted, setTimeOuted] = useState(false);
+    const onChangeHandler = (e: BaseSyntheticEvent) => {
+        e.stopPropagation();
+        if (!timeOuted) {
+            setTimeOuted(true);
+            setTimeout(() => {
+                const el = e.target as HTMLInputElement;
+                if (getActiveElementsIds(store.getState().model).length) {
+                    dispatchChangeFiguresColorAction(dispatch)(el.value);
+                } else {
+                    dispatchChangeSelectedSlidesBackground(dispatch)({ src: '', color: el.value });
+                }
+                setTimeOuted(false);
+            }, 50);
+            setTimeout(() => {
+                dispatchKeepModelAction(dispatch)();
+            }, 1000);
+        }
+    };
+
     const figureToolsButtonInfo: ButtonProps[] = [
         {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'border-color-tool-button',
-            iconLeft: <BorderColor />,
-            onClick: () => {},
+            iconLeft: <ColorInput onInput={onChangeHandler} children={BorderColor()} />,
+            onClick: onChangeHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.textTool,
             id: 'fill-color-button',
-            iconLeft: <FillColor />,
+            iconLeft: <ColorInput onInput={onChangeHandler} children={FillColor()} />,
+            onClick: onChangeHandler,
         },
     ];
 

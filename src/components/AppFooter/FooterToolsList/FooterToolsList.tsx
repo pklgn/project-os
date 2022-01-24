@@ -70,14 +70,14 @@ export function FooterToolsList(): JSX.Element {
             id: 'undo-button',
             type: 'round',
             iconLeft: <RedoUndoIcon turn="undo" color="#ffa322" />,
-            onMouseUp: dispatchUndoAction(dispatch),
+            onClick: dispatchUndoAction(dispatch),
         },
         {
             text: localeContext.locale.localization.historyTool.redoTool,
             id: 'redo-button',
             type: 'round',
             iconLeft: <RedoUndoIcon turn="redo" color="#ffa322" />,
-            onMouseUp: dispatchRedoAction(dispatch),
+            onClick: dispatchRedoAction(dispatch),
         },
     ];
 

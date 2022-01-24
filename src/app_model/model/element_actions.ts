@@ -274,7 +274,7 @@ export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolea
     };
 }
 
-export function moveElementsBackwardOrForward(editor: Editor, way: boolean): Editor {
+export function moveElementsForward(editor: Editor): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
@@ -295,7 +295,7 @@ export function moveElementsBackwardOrForward(editor: Editor, way: boolean): Edi
     const updatedElementList: SlideElement[] = [];
     const selectedSlideElementsIds = editor.selectedSlideElementsIds;
 
-    while (indexRight < elementsList.length - 1 && indexRight !== -1) {
+    while (indexLeft < elementsList.length - 1 && indexRight !== -1) {
         if (selectedSlideElementsIds.includes(elementsList[indexLeft].id)) {
             indexRight = elementsList.findIndex(
                 (item, index) => !selectedSlideElementsIds.includes(item.id) && index > indexLeft,
@@ -305,13 +305,15 @@ export function moveElementsBackwardOrForward(editor: Editor, way: boolean): Edi
                 ? updatedElementList.push(elementsList[indexRight], ...elementsList.slice(indexLeft, indexRight))
                 : updatedElementList.push(...elementsList.slice(indexLeft));
 
-            indexLeft = indexRight;
+            indexLeft = indexRight + 1;
         } else {
             indexRight = elementsList.findIndex(
                 (item, index) => selectedSlideElementsIds.includes(item.id) && index > indexLeft,
             );
 
-            updatedElementList.push(...elementsList.slice(indexLeft));
+            indexRight !== -1
+                ? updatedElementList.push(...elementsList.slice(indexLeft, indexRight))
+                : updatedElementList.push(...elementsList.slice(indexLeft));
 
             indexLeft = indexRight;
         }
@@ -327,6 +329,76 @@ export function moveElementsBackwardOrForward(editor: Editor, way: boolean): Edi
         ...updatedEditor,
         selectedSlidesIds: [currSlide.id],
     };
+}
+
+export function moveElementsBackward(editor: Editor): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+    const elementsList = currSlide.elementsList;
+
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
+        return item.id === currSlide.id;
+    });
+
+    if (!editor.selectedSlideElementsIds.length) {
+        return editor;
+    }
+
+    let indexLeft = elementsList.length - 1;
+    let indexRight = elementsList.length - 1;
+    const updatedElementList: SlideElement[] = [];
+    const selectedSlideElementsIds = editor.selectedSlideElementsIds;
+
+    while (indexRight > 0 && indexLeft !== -1) {
+        if (selectedSlideElementsIds.includes(elementsList[indexRight].id)) {
+            indexLeft = findLastIndex(
+                elementsList,
+                (array, index) => !selectedSlideElementsIds.includes(array[index].id) && index < indexRight,
+            );
+
+            indexLeft !== -1
+                ? updatedElementList.unshift(
+                      ...elementsList.slice(indexLeft + 1, indexRight + 1),
+                      elementsList[indexLeft],
+                  )
+                : updatedElementList.unshift(...elementsList.slice(0, indexRight + 1));
+
+            indexRight = indexLeft - 1;
+        } else {
+            indexLeft = findLastIndex(
+                elementsList,
+                (array, index) => selectedSlideElementsIds.includes(array[index].id) && index < indexRight,
+            );
+
+            indexLeft !== -1
+                ? updatedElementList.unshift(...elementsList.slice(indexLeft + 1, indexRight + 1))
+                : updatedElementList.unshift(...elementsList.slice(0, indexRight + 1));
+
+            indexRight = indexLeft - 1;
+        }
+    }
+
+    const updatedSlide: Slide = {
+        ...currSlide,
+        elementsList: updatedElementList,
+    };
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [currSlide.id],
+    };
+}
+
+function findLastIndex(array: SlideElement[], predicate: (obj: SlideElement[], index: number) => boolean): number {
+    let l = array.length;
+    while (l--) {
+        if (predicate(array, l)) return l;
+    }
+    return -1;
 }
 
 export function removeSelectedElements(editor: Editor): Editor {
