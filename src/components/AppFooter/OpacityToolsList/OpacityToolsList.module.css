@@ -90,6 +90,7 @@ opacity.opacity-tools {
     z-index: 1;
     margin: 0px;
     display: flex;
+    z-index: 9999;
 }
 
 input[type="range"]::-webkit-slider-thumb {

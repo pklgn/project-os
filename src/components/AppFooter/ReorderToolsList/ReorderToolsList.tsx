@@ -25,18 +25,6 @@ export function ReorderToolsList(props: ReorderToolsListProps): JSX.Element {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        const onKeyDownHandler = (event: KeyboardEvent) => {
-            event.stopPropagation();
-            if (event.code === 'Escape') props.setListSwitcher();
-        };
-
-        document.addEventListener('keydown', onKeyDownHandler);
-        return () => {
-            document.removeEventListener('keydown', onKeyDownHandler);
-        };
-    }, []);
-
     const moveForwardHandler = () => {
         dispatchMoveSelectedElementsForward(dispatch)();
         dispatchKeepModelAction(dispatch)();

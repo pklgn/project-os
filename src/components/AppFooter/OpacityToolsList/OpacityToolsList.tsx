@@ -30,7 +30,7 @@ export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
         return () => {
             document.removeEventListener('keydown', onKeyDownHandler);
         };
-    }, []);
+    }, [dispatch]);
 
     return (
         <>
