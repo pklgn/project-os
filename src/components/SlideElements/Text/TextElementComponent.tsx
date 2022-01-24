@@ -7,9 +7,10 @@ import { getElementsRenderRatio } from '../../../app_model/view_model/slide_rend
 import { setChosenElementsType } from '../../../app_model/redux_model/actions_view_model/action_creators/chosen_elements_action_creator';
 import { useDispatch } from 'react-redux';
 import { setSelectedElementId } from '../../../app_model/model/editor_actions';
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useResize } from '../../utils/useResize';
 import { store } from '../../../app_model/redux_model/store';
+import { dispatchSetElementsSizeAction } from '../../../app_model/redux_model/dispatchers';
 
 type TextElementProps = {
     element: SlideElement;
@@ -32,8 +33,6 @@ function TextElementComponent(props: TextElementProps) {
     const dispatch = useDispatch();
     const element: SlideElement = props.element;
     const elementText: TextElement | undefined = getTextElementContent(element);
-    const ref = useRef(null);
-    const [width, height] = useResize(ref);
 
     if (!elementText) {
         return null;

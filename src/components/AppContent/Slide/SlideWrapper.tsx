@@ -121,6 +121,13 @@ export function SlideWrapper() {
     }
     const currElement = getCurrElement();
 
+    useLayoutEffect(() => {
+        if (textareaRef.current?.style) {
+            textareaRef.current.style.height = 'auto';
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        }
+    });
+
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>
             <SlideComponent

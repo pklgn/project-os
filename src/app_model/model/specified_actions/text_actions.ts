@@ -24,8 +24,8 @@ export function addTextElement(editor: Editor, x = 1, y = 1): Editor {
             y,
         },
         size: {
-            width: 0,
-            height: 0,
+            width: 20,
+            height: 20,
         },
         opacity: 1,
         content: textElement,
