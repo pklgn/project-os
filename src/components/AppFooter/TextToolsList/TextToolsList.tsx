@@ -1,5 +1,3 @@
-import styles from './TextToolsList.module.css';
-
 import { LocaleContext, LocaleContextType } from '../../../App';
 import { useContext } from 'react';
 

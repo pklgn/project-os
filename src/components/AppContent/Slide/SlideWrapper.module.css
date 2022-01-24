@@ -6,4 +6,12 @@
     justify-content: flex-start;
     align-items: flex-start;
     overflow: auto;
+    position: relative;
+}
+
+.textarea {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+
 }

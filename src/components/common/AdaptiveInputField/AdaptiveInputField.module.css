@@ -16,6 +16,7 @@
     -o-transition: all 0.2s;
     transition: all 0.2s;
     border-bottom: 2px solid rgba(102, 107, 124, 0.8);
+    border-top: 2px solid rgba(102, 107, 124, 0.8);
 }
 
 .ghost-input:focus {

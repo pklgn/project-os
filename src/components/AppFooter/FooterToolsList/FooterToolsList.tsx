@@ -1,9 +1,9 @@
 import styles from './FooterToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { Button, ButtonProps } from '../../common/Button/Button';
+import { Button, ButtonProps, ButtonState } from '../../common/Button/Button';
 import { GeometryIcon } from '../../common/icons/Geometry/Geometry';
 import { RedoUndoIcon } from '../../common/icons/RedoUndo/RedoUndo';
 import { SelectCursorIcon } from '../../common/icons/Cursor/Cursor';
@@ -17,22 +17,35 @@ import {
     dispatchUndoAction,
     dispatchRedoAction,
     dispatchAddFigureAction,
+    dispatchActiveViewAreaAction,
 } from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
 
 import { FigureInfo, FigureShape } from '../../../app_model/model/types';
+import { store } from '../../../app_model/redux_model/store';
+import { getCurrentEditingToolState } from '../../../app_model/view_model/editing_tool_actions';
 
 export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
 
+    const onUndoButton = () => {
+        dispatchActiveViewAreaAction(dispatch)('HISTORY_TOOL');
+        return dispatchUndoAction(dispatch)();
+    };
+
+    const onRedoButton = () => {
+        dispatchActiveViewAreaAction(dispatch)('HISTORY_TOOL');
+        return dispatchRedoAction(dispatch)();
+    };
+
     document.addEventListener('keydown', function (event) {
         if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
-            dispatchUndoAction(dispatch)();
+            onUndoButton();
         }
         if (event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
-            dispatchRedoAction(dispatch)();
+            onRedoButton();
         }
     });
 
@@ -48,7 +61,6 @@ export function FooterToolsList(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.cursorTool,
             id: 'select-tool-button',
-            state: 'pressed',
             iconLeft: <SelectCursorIcon color="#ffa322" />,
         },
         {
@@ -71,6 +83,7 @@ export function FooterToolsList(): JSX.Element {
             type: 'round',
             iconLeft: <RedoUndoIcon turn="undo" color="#ffa322" />,
             onClick: dispatchUndoAction(dispatch),
+            onMouseUp: onUndoButton,
         },
         {
             text: localeContext.locale.localization.historyTool.redoTool,
@@ -78,6 +91,7 @@ export function FooterToolsList(): JSX.Element {
             type: 'round',
             iconLeft: <RedoUndoIcon turn="redo" color="#ffa322" />,
             onClick: dispatchRedoAction(dispatch),
+            onMouseUp: onRedoButton,
         },
     ];
 
@@ -111,15 +125,6 @@ export function FooterToolsList(): JSX.Element {
                     switch ('TEXT') {
                         case 'TEXT':
                             return [<TextToolsList key={0} />, <DefaultToolsList key={1} />];
-                        // );
-                        // case 'PICTURE':
-                        // return <DefaultToolsList />;
-                        // case 'FIGURE':
-                        // return <FigureToolsList />;
-                        // case 'MIXED':
-                        //     return <DefaultToolsList />;
-                        // case 'NONE':
-                        // return <span className={styles.empty_block}></span>;
                     }
                 })()}
             </div>

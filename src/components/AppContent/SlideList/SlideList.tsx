@@ -126,7 +126,7 @@ export function SlideList(props: SlideListProps) {
                     }),
                 );
 
-                if (props.slidesList.length) {
+                if (getActiveViewArea(store.getState().viewModel) === 'SLIDE_LIST') {
                     dispatchSetIdAction(dispatch)({
                         selectedSlidesIds: [props.slidesList[activeSlideIndex].id],
                         selectedSlideElementsIds: [],

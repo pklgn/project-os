@@ -50,6 +50,7 @@
     },
     "rules": {
         "react/react-in-jsx-scope": "off",
-        "no-extra-parens": "off"
+        "no-extra-parens": "off",
+        "@typescript-eslint/no-non-null-assertion": "off"
     }
 }

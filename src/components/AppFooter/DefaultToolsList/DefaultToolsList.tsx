@@ -1,5 +1,3 @@
-import styles from './DefaultToolsList.module.css';
-
 import { useContext, useState } from 'react';
 import { LocaleContext, LocaleContextType } from '../../../App';
 
@@ -9,7 +7,7 @@ import { Opacity } from '../../common/icons/Opacity/Opacity';
 import { RemoveElement } from '../../common/icons/RemoveElement/RemoveElement';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
-// import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
+
 import { useDispatch } from 'react-redux';
 import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
 import { OpacityToolsList } from '../OpacityToolsList/OpacityToolsList';

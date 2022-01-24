@@ -20,6 +20,10 @@
             "insertElement": "Вставить",
             "exportPDF": "Экспортировать в PDF",
             "changeAspectRatio": "Изменить соотношение сторон"
+        },
+        "locale": {
+            "ruRU": "Русский язык",
+            "enEN": "Английский язык"
         }
     },
     "editor": {
@@ -28,10 +32,16 @@
     "elements": {
         "text": "Текст",
         "picture": "Изображение",
-        "figure": "Фигура"
+        "figure": {
+            "generic": "Фигура",
+            "circle": "Круг",
+            "triangle": "Треугольник",
+            "rectangle": "Прямоугольник"
+        }
     },
     "elementsListTool": {
         "cursorTool": "Выбрать (Esc)",
+        "deleteElement": "Удалить элементы на слайде",
         "textTool": "Текстовое поле (T)",
         "geometryTool": "Фигура (F)",
         "geometryCircleTool": "Круг (F+C)",
@@ -42,7 +52,10 @@
         "backwardLayerTool": "Назад на 1",
         "backLayerTool": "Назад",
         "reorderTool": "Изменить порядок",
-        "changeTextColor": "Изменить цвет текста",
+        "changeTextColor": "Цвет текста",
+        "changeElementColor": "Цвет заливки элемента",
+        "changeElementBorderColor": "Цвет границы элемента",
+        "changeSlideColor": "Цвет слайда",
         "opacityTool": "Прозрачность",
         "removeElementTool": "Удалить"
     },

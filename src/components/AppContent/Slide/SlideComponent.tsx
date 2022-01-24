@@ -11,8 +11,8 @@ import { LocaleContext } from '../../../App';
 
 import {
     getActiveElementsIds,
+    getChosenElementsType,
     getElementsAreaLoaction,
-    getSlideElementsAmount,
 } from '../../../app_model/model/element_actions';
 import { getActiveSlidesIds, getCurrentSlide } from '../../../app_model/model/slides_actions';
 import { getActiveViewArea } from '../../../app_model/view_model/active_view_area_actions';
@@ -28,6 +28,7 @@ import {
     dispatchActiveViewAreaAction,
     dispatchAddSlideAction,
     dispatchKeepModelAction,
+    dispatchSetChosenElementsType,
     dispatchSetElementsPositionAction,
     dispatchSetElementsSizeAction,
     dispatchSetIdAction,
@@ -75,53 +76,77 @@ export function SlideComponent(props: SlideProps) {
     const [selectedAreaLocation, setSelectedAreaLocation] = useState(undefined as AreaLocation | undefined);
     const [selectedAreaStartPoint, setSelectedAreaStartPoint] = useState(undefined as Coordinates | undefined);
 
-    const [elementsAmount, setElementsAmount] = useState(getSlideElementsAmount(props.slide));
-
     const [slideContainerRatio, setSlideContainerRatio] = useState(
         getSlideToContainerRatio(store.getState().viewModel),
     );
     const [windowRatio, setWindowRatio] = useState(getWindowRatio(store.getState().viewModel));
     const [resizersRenderInfo, setResizersRenderInfo] = useState(getResizersInfo(store.getState().viewModel));
 
-    useLayoutEffect(() => {
-        const handleRenderSpecs = () => {
-            const prevSlideContainerRatio = slideContainerRatio;
-            const prevWindowRatio = windowRatio;
-            const prevResizersRenderInfo = resizersRenderInfo;
+    const handleRenderSpecs = () => {
+        const prevSlideContainerRatio = slideContainerRatio;
+        const prevWindowRatio = windowRatio;
+        const prevResizersRenderInfo = resizersRenderInfo;
 
-            const currSlideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
-            const currWindowRatio = getWindowRatio(store.getState().viewModel);
-            const currResizersRenderInfo = getResizersInfo(store.getState().viewModel);
+        const currSlideContainerRatio = getSlideToContainerRatio(store.getState().viewModel);
+        const currWindowRatio = getWindowRatio(store.getState().viewModel);
+        const currResizersRenderInfo = getResizersInfo(store.getState().viewModel);
 
-            if (prevSlideContainerRatio !== currSlideContainerRatio) {
-                setSlideContainerRatio(currSlideContainerRatio);
-            }
-            if (prevWindowRatio !== currWindowRatio) {
-                setWindowRatio(currWindowRatio);
-            }
-            if (prevResizersRenderInfo !== currResizersRenderInfo) {
-                setResizersRenderInfo(currResizersRenderInfo);
-            }
-        };
+        if (prevSlideContainerRatio !== currSlideContainerRatio) {
+            setSlideContainerRatio(currSlideContainerRatio);
+        }
+        if (prevWindowRatio !== currWindowRatio) {
+            setWindowRatio(currWindowRatio);
+        }
+        if (prevResizersRenderInfo !== currResizersRenderInfo) {
+            setResizersRenderInfo(currResizersRenderInfo);
+        }
+    };
+    store.subscribe(handleRenderSpecs);
 
-        const onElementsAmountHandler = () => {
-            const prevAmount = elementsAmount;
-            const currAmount = getSlideElementsAmount(props.slide);
-            if (prevAmount !== currAmount) {
+    useEffect(() => {
+        const handleSlideChange = () => {
+            const prevSlide = props.slide?.id;
+            const currSlide = getCurrentSlide(store.getState().model)?.id;
+            if (prevSlide !== currSlide) {
                 setSelectedAreaLocation(undefined);
                 setSelectedAreaStartPoint(undefined);
-                setElementsAmount(currAmount);
             }
         };
-
-        const unsubscribeOnElementsAmount = store.subscribe(onElementsAmountHandler);
-        const unsubscribeOnRenderSpecs = store.subscribe(handleRenderSpecs);
+        const unsubscribeOnSlideChange = store.subscribe(handleSlideChange);
 
         return () => {
-            unsubscribeOnRenderSpecs();
-            unsubscribeOnElementsAmount();
+            unsubscribeOnSlideChange();
         };
-    }, [slideContainerRatio, resizersRenderInfo, windowRatio]);
+    });
+
+    useLayoutEffect(() => {
+        const onHistoryHandler = (event: KeyboardEvent) => {
+            if (event.ctrlKey && (event.code === 'KeyZ' || event.code === 'KeyY')) {
+                if (store.getState().model.history.currState > 1) {
+                    const currSlide = getCurrentSlide(store.getState().model);
+                    if (currSlide) {
+                        const selectedElementsArea = getElementsAreaLoaction(
+                            currSlide,
+                            getActiveElementsIds(store.getState().model),
+                        );
+
+                        if (selectedElementsArea) {
+                            setSelectedAreaLocation(selectedElementsArea);
+                            setSelectedAreaStartPoint(selectedElementsArea.xy);
+                        }
+                    }
+                } else {
+                    setSelectedAreaLocation(undefined);
+                    setSelectedAreaStartPoint(undefined);
+                }
+            }
+        };
+        window.addEventListener('keydown', onHistoryHandler);
+
+        return () => {
+            window.removeEventListener('keydown', onHistoryHandler);
+        };
+    });
 
     useEffect(() => {
         const onMouseDownHandler = (event: MouseEvent) => {
@@ -173,7 +198,7 @@ export function SlideComponent(props: SlideProps) {
                             selectedSlidesIds: [slideId],
                             selectedSlideElementsIds: [elementId],
                         });
-                    } else if (event.ctrlKey) {
+                    } else if (event.shiftKey) {
                         dispatchSetIdAction(dispatch)({
                             selectedSlidesIds: [slideId],
                             selectedSlideElementsIds: [...getActiveElementsIds(store.getState().model), elementId],
@@ -186,6 +211,8 @@ export function SlideComponent(props: SlideProps) {
                             ],
                         });
                     }
+
+                    dispatchSetChosenElementsType(dispatch)(getChosenElementsType(store.getState().model));
 
                     const selectedElementsArea = getElementsAreaLoaction(
                         getCurrentSlide(store.getState().model)!,
@@ -203,6 +230,7 @@ export function SlideComponent(props: SlideProps) {
                     });
                     setSelectedAreaLocation(undefined);
                     setSelectedAreaStartPoint(undefined);
+                    dispatchSetChosenElementsType(dispatch)(getChosenElementsType(store.getState().model));
                 }
             } else if (isSlideActive) {
                 dispatchSetIdAction(dispatch)({
@@ -212,6 +240,7 @@ export function SlideComponent(props: SlideProps) {
                 setSlideActiveStatus(false);
                 setSelectedAreaLocation(undefined);
                 setSelectedAreaStartPoint(undefined);
+                dispatchSetChosenElementsType(dispatch)(getChosenElementsType(store.getState().model));
             }
         };
 
@@ -220,7 +249,7 @@ export function SlideComponent(props: SlideProps) {
         return () => {
             document.removeEventListener('mousedown', onMouseDownHandler);
         };
-    }, [isSlideActive]);
+    }, [dispatch, isSlideActive]);
 
     useEffect(() => {
         const onMouseUpHandler = (event: MouseEvent) => {
@@ -238,7 +267,7 @@ export function SlideComponent(props: SlideProps) {
         return () => {
             document.removeEventListener('mouseup', onMouseUpHandler);
         };
-    }, [selectedAreaLocation]);
+    }, [dispatch, selectedAreaLocation, selectedAreaStartPoint]);
 
     const onMouseDownResizeHandler = (event: React.MouseEvent) => {
         const chosenResizer = event.target as Element;
@@ -257,7 +286,6 @@ export function SlideComponent(props: SlideProps) {
         const mouseMoveReziseHandler = (e: MouseEvent) => {
             const dx = (e.pageX - startX) / renderScale.width;
             const dy = (e.pageY - startY) / renderScale.height;
-            const maxD = Math.abs(dx) > Math.abs(dy) ? dx : dy;
             if (itsNResizer || itsSResizer) {
                 if (refCanvas.current && refCanvas.current.style.cursor !== resizerStuff.N_RESIZER_ID) {
                     refCanvas.current.style.cursor = resizerStuff.N_RESIZER_ID;

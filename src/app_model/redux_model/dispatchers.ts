@@ -25,6 +25,7 @@ import {
 
 import { setActiveViewArea } from './actions_view_model/action_creators/active_area_action_creators';
 import { setAppViewMode } from './actions_view_model/action_creators/app_mode_action_creator';
+import { setChosenElementsType } from './actions_view_model/action_creators/chosen_elements_action_creator';
 import * as slideRenderActions from './actions_view_model/action_creators/slide_render_action_creators';
 import {
     addText,
@@ -146,6 +147,9 @@ const dispatchChangeFiguresBorderWidthAction = (dispatch: Dispatch) => {
 const dispatchActiveViewAreaAction = (dispatch: Dispatch) => {
     return bindActionCreators(setActiveViewArea, dispatch);
 };
+const dispatchSetChosenElementsType = (dispatch: Dispatch) => {
+    return bindActionCreators(setChosenElementsType, dispatch);
+};
 
 const dispatchSetElementsRenderRatioAction = (dispatch: Dispatch) => {
     return bindActionCreators(slideRenderActions.setElementsRenderRatio, dispatch);
@@ -181,6 +185,7 @@ export {
     dispatchPresentationName,
     dispatchRemoveSelectedElementsAction,
     dispatchSlideContainerDimensions,
+    dispatchSetChosenElementsType,
     dispatchSetEditorModeAction,
     dispatchSetElementsPositionAction,
     dispatchSetElementsRenderRatioAction,

@@ -1,11 +1,8 @@
-import styles from './FigureToolsList.module.css';
-
 import { LocaleContext, LocaleContextType } from '../../../App';
 import React, { BaseSyntheticEvent, useContext, useState } from 'react';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
 
-import { useDispatch } from 'react-redux';
 import ToolTip from '../../common/ToolTip/ToolTip';
 import { BorderColor } from '../../common/icons/BorderColor/BorderColor';
 import { FillColor } from '../../common/icons/FillColor/FillColor';
@@ -21,7 +18,7 @@ import { ColorInput } from '../../common/ColorInput/ColorInput';
 export function FigureToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const [timeOuted, setTimeOuted] = useState(false);
     const onChangeHandler = (e: BaseSyntheticEvent) => {

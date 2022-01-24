@@ -22,6 +22,7 @@ export type FigureProps = {
     opacity: number;
     content: FigureElement;
     transfrom?: CSS.Properties;
+    renderScale: ElementsRatioType;
 };
 
 export function FigureElementComponent(props: FigureElementProps) {
@@ -31,39 +32,40 @@ export function FigureElementComponent(props: FigureElementProps) {
         return null;
     }
 
+    const renderScale = getElementsRenderRatio(store.getState().viewModel);
+
     const figureProps: FigureProps = {
         elementIndex: props.elementIndex,
         startPoint: props.element.startPoint,
         size: props.element.size,
         opacity: props.element.opacity,
         content: figureElement,
+        renderScale: renderScale,
     };
     const figureShape = figureElement.figureType;
 
-    const renderScale = getElementsRenderRatio(store.getState().viewModel);
-
     switch (figureShape) {
         case FigureShape.Circle:
-            return CircleFigure(figureProps, renderScale);
+            return CircleFigure(figureProps);
         case FigureShape.Rectangle:
-            return RectangleFigure(figureProps, renderScale);
+            return RectangleFigure(figureProps);
         case FigureShape.Triangle:
-            return TriangleFigure(figureProps, renderScale);
+            return TriangleFigure(figureProps);
     }
 }
 
-function TriangleFigure(props: FigureProps, renderScale: ElementsRatioType) {
+function TriangleFigure(props: FigureProps) {
     const leftVertex = {
-        x: props.startPoint.x * renderScale.width,
-        y: (props.startPoint.y + props.size.height) * renderScale.height,
+        x: props.startPoint.x * props.renderScale.width,
+        y: (props.startPoint.y + props.size.height) * props.renderScale.height,
     };
     const topVertex = {
-        x: (props.startPoint.x + props.size.width / 2) * renderScale.width,
-        y: props.startPoint.y * renderScale.height,
+        x: props.startPoint.x + props.size.width / 2,
+        y: props.startPoint.y * props.renderScale.height,
     };
     const rightVertex = {
-        x: (props.startPoint.x + props.size.width) * renderScale.width,
-        y: (props.startPoint.y + props.size.height) * renderScale.height,
+        x: (props.startPoint.x + props.size.width) * props.renderScale.width,
+        y: (props.startPoint.y + props.size.height) * props.renderScale.height,
     };
     const pointsString = `${leftVertex.x},
         ${leftVertex.y} ${topVertex.x},
@@ -83,14 +85,14 @@ function TriangleFigure(props: FigureProps, renderScale: ElementsRatioType) {
     );
 }
 
-function RectangleFigure(props: FigureProps, renderScale: ElementsRatioType) {
+function RectangleFigure(props: FigureProps) {
     return (
         <rect
             id={`${props.elementIndex}`}
-            x={props.startPoint.x * renderScale.width}
-            y={props.startPoint.y * renderScale.height}
-            width={props.size.width * renderScale.width}
-            height={props.size.height * renderScale.height}
+            x={props.startPoint.x * props.renderScale.width}
+            y={props.startPoint.y * props.renderScale.height}
+            width={props.size.width * props.renderScale.width}
+            height={props.size.height * props.renderScale.height}
             opacity={props.opacity}
             fill={props.content.figureColor}
             stroke={props.content.borderColor}
@@ -100,7 +102,7 @@ function RectangleFigure(props: FigureProps, renderScale: ElementsRatioType) {
     );
 }
 
-function CircleFigure(props: FigureProps, renderScale: ElementsRatioType): JSX.Element {
+function CircleFigure(props: FigureProps): JSX.Element {
     const { startPoint, size, opacity, content } = props;
 
     const rx = size.width / 2;
@@ -109,10 +111,10 @@ function CircleFigure(props: FigureProps, renderScale: ElementsRatioType): JSX.E
     return (
         <ellipse
             id={`${props.elementIndex}`}
-            cx={(startPoint.x + rx) * renderScale.width}
-            cy={(startPoint.y + ry) * renderScale.height}
-            rx={rx * renderScale.width}
-            ry={ry * renderScale.height}
+            cx={(startPoint.x + rx) * props.renderScale.width}
+            cy={(startPoint.y + ry) * props.renderScale.height}
+            rx={rx * props.renderScale.width}
+            ry={ry * props.renderScale.height}
             fill={content.figureColor}
             stroke={content.borderColor}
             strokeWidth={content.borderWidth}

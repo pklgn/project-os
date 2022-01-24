@@ -1,7 +1,7 @@
 import { isFigure } from '../utils/tools';
 import { generateUUId } from '../utils/uuid';
-import { getCurrentSlide, applySlideChanges } from '../slides_actions';
-import { Editor, FigureShape, Slide, FigureElement, SlideElement } from '../types';
+import { applySlideChanges, getCurrentSlide } from '../slides_actions';
+import { Editor, FigureElement, FigureShape, Slide, SlideElement } from '../types';
 
 export function addFigureElement(editor: Editor, figureType: FigureShape, x = 1, y = 1): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);

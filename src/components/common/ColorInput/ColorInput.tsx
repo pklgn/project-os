@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
+import { BaseSyntheticEvent, useRef } from 'react';
 import styles from './ColorInput.module.css';
 
 export type UploadProps = {

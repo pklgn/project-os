@@ -19,7 +19,11 @@
             "saveFile": "Save",
             "insertElement": "Insert",
             "exportPDF": "Export to PDF",
-            "changeAspectRatio": "Change the aspect ratio"
+            "changeAspectRatio": "Change aspect ratio"
+        },
+        "locale": {
+            "ruRU": "Русский язык",
+            "enEN": "Английский язык"
         }
     },
     "editor": {
@@ -28,10 +32,16 @@
     "elements": {
         "text": "Text",
         "picture": "Picture",
-        "figure": "Figure"
+        "figure": {
+            "generic": "Figure",
+            "circle": "Circle",
+            "triangle": "Triangle",
+            "rectangle": "Rectangle"
+        }
     },
     "elementsListTool": {
         "cursorTool": "Choose (Esc)",
+        "deleteElement": "Delete chosen elements",
         "textTool": "Text tool (T)",
         "geometryTool": "Figure (F)",
         "geometryCircleTool": "Circle (F+C)",
@@ -43,6 +53,9 @@
         "backLayerTool": "Back",
         "reorderTool": "Reorder",
         "changeTextColor": "Text color",
+        "changeElementColor": "Element's color",
+        "changeElementBorderColor": "Element's border color",
+        "changeSlideColor": "Slide's color",
         "opacityTool": "Opacity",
         "removeElementTool": "Remove"
     },
