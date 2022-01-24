@@ -22,8 +22,6 @@ import {
 import { useDispatch } from 'react-redux';
 
 import { FigureInfo, FigureShape } from '../../../app_model/model/types';
-import { store } from '../../../app_model/redux_model/store';
-import { getCurrentEditingToolState } from '../../../app_model/view_model/editing_tool_actions';
 
 export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);

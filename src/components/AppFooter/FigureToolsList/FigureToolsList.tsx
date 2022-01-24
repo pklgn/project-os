@@ -14,11 +14,12 @@ import {
 import { getActiveElementsIds } from '../../../app_model/model/element_actions';
 import { store } from '../../../app_model/redux_model/store';
 import { ColorInput } from '../../common/ColorInput/ColorInput';
+import { useDispatch } from 'react-redux';
 
 export function FigureToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const [timeOuted, setTimeOuted] = useState(false);
     const onChangeHandler = (e: BaseSyntheticEvent) => {
