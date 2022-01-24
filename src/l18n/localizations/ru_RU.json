@@ -71,6 +71,10 @@
         "redoTool": "Повторить (Ctrl+Y)",
         "undoTool": "Отменить действие (Ctrl+Z)"
     },
+    "toddlerTools": {
+        "opacity": "Прозрачность",
+        "width": "Ширина"
+    },
     "presentationName": "Оладушек",
     "presentationViewer": {
         "noSlidesToShow": "Ваши слайды не такие работяги как вы? Их нет на рабочем месте!"

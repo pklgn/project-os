@@ -72,6 +72,10 @@
         "redoTool": "Redo (Ctrl+Y)",
         "undoTool": "Undo (Ctrl+Z)"
     },
+    "toddlerTools": {
+        "opacity": "Opacity",
+        "width": "Width"
+    },
     "presentationName": "Wuffel",
     "presentationViewer": {
         "noSlidesToShow": "Are your slides not as hard workers as you? They are not in the workplace!"
