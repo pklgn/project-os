@@ -62,7 +62,8 @@
         "removeElementTool": "Remove",
         "changeBorderColor": "Border color",
         "changeFigureColor": "Figure color",
-        "changeFigureBorderWidth": "Border width"
+        "changeFigureBorderWidth": "Border width",
+        "changeBackground": "Background"
 
     },
     "errors": {

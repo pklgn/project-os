@@ -11,10 +11,12 @@ import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 import { useDispatch } from 'react-redux';
 import {
     dispatchChangeElementsOpacityAction,
+    dispatchChangeSelectedSlidesBackground,
     dispatchKeepModelAction,
     dispatchRemoveSelectedElementsAction,
 } from '../../../app_model/redux_model/dispatchers';
 import { ToddlerInput } from '../../common/ToddlerInput/ToddlerInput';
+import { ColorInput } from '../../common/ColorInput/ColorInput';
 
 enum commonList {
     DEFAULT = 'DEFAULT',
