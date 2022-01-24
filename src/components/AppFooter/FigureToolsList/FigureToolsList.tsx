@@ -136,6 +136,7 @@ export function FigureToolsList(): JSX.Element {
                             <ToddlerInput
                                 onChangeHandler={onChangeHandler}
                                 setListSwitcher={callbackHandler}
+                                label={localeContext.locale.localization.toddlerTools.width}
                                 min="1"
                                 max="10"
                                 step="0.5"

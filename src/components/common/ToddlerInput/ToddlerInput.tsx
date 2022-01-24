@@ -4,6 +4,7 @@ import { BaseSyntheticEvent, useEffect } from 'react';
 
 type ToddlerInputProps = {
     setListSwitcher: () => void;
+    label: string;
     min: string;
     max: string;
     step: string;
@@ -26,7 +27,7 @@ export function ToddlerInput(props: ToddlerInputProps): JSX.Element {
         <>
             <div className={styles['opacity-wrapper']}>
                 <div color="white" className={styles['opacity-text']}>
-                    Opacity
+                    {props.label}
                 </div>
                 <div className={styles['opacity-picker']}>
                     <div className={styles['range-picker']}>

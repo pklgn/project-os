@@ -104,6 +104,7 @@ export function DefaultToolsList(): JSX.Element {
                             <ToddlerInput
                                 onChangeHandler={onChangeHandler}
                                 setListSwitcher={callbackHandler}
+                                label={localeContext.locale.localization.toddlerTools.opacity}
                                 min="0.1"
                                 max="1"
                                 step="0.05"
