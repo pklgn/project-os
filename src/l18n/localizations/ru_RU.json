@@ -62,7 +62,8 @@
         "removeElementTool": "Удалить",
         "changeBorderColor": "Цвет контура",
         "changeFigureColor": "Цвет фигуры",
-        "changeFigureBorderWidth": "Ширина границы"
+        "changeFigureBorderWidth": "Ширина границы",
+        "changeBackground": "Фон"
     },
     "errors": {
         "noSlidesToSave": "Нельзя сохранить пустую презентацию"
