@@ -25,10 +25,7 @@
     "@types/node": "^17.0.1",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
-<<<<<<< HEAD
-=======
     "canvg": "^3.0.9",
->>>>>>> 79553c9d792d68adddeebd5dc2fb13054d0360e8
     "jspdf": "^2.5.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
