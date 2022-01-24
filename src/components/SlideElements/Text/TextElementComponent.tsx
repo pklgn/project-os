@@ -7,7 +7,7 @@ import { getElementsRenderRatio } from '../../../app_model/view_model/slide_rend
 import { setChosenElementsType } from '../../../app_model/redux_model/actions_view_model/action_creators/chosen_elements_action_creator';
 import { useDispatch } from 'react-redux';
 import { setSelectedElementId } from '../../../app_model/model/editor_actions';
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useResize } from '../../utils/useResize';
 import { store } from '../../../app_model/redux_model/store';
 import { dispatchSetElementsSizeAction } from '../../../app_model/redux_model/dispatchers';
@@ -33,6 +33,23 @@ function TextElementComponent(props: TextElementProps) {
     const dispatch = useDispatch();
     const element: SlideElement = props.element;
     const elementText: TextElement | undefined = getTextElementContent(element);
+    const textRef = useRef(null);
+    const [width, height] = useResize(textRef);
+    const [textWidth, setTextWidth] = useState(0);
+
+    useEffect(() => {
+        function handleDimensions(width: number, height: number) {
+            dispatchSetElementsSizeAction(dispatch)({
+                xy: element.startPoint,
+                dimensions: {
+                    width,
+                    height,
+                },
+            });
+        }
+        handleDimensions(width, height);
+        setTextWidth(width);
+    }, [elementText, height, width, dispatch, textWidth]);
 
     if (!elementText) {
         return null;
@@ -43,6 +60,7 @@ function TextElementComponent(props: TextElementProps) {
     return (
         <>
             <text
+                ref={textRef}
                 id={`${props.elementIndex}`}
                 className={styles.element}
                 x={element.startPoint.x * renderScale.width}
@@ -51,8 +69,8 @@ function TextElementComponent(props: TextElementProps) {
                 fontSize={elementText.fontSize}
                 fontStyle={elementText.fontStyle}
                 fill={elementText.fontColor}
-                onClick={() => setSelectedElementId(store.getState().model, [element.id])}
-                onDoubleClick={() => {
+                //onMouseUp={() => setSelectedElementId(store.getState().model, [element.id])}
+                onMouseDown={() => {
                     setChosenElementsType('TEXT')(dispatch);
                     setSelectedElementId(store.getState().model, [element.id]);
                 }}

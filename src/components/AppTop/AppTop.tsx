@@ -128,6 +128,7 @@ export function AppTop(): JSX.Element {
 
     const handleAddText = () => {
         dispatchAddTextAction(dispatch)({ x: 0, y: 0 });
+        dispatchKeepModelAction(dispatch);
     };
 
     const handle16To9RatioClick = () => {
