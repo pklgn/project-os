@@ -31,8 +31,7 @@ export function PictureToolsList(): JSX.Element {
     //     }
     // };
 
-    const pictureToolsButtonInfo: ButtonProps[] = [
-    ];
+    const pictureToolsButtonInfo: ButtonProps[] = [];
 
     return (
         <>

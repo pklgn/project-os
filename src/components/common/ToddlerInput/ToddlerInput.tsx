@@ -1,24 +1,13 @@
-import styles from './OpacityToolsList.module.css';
+import styles from './ToddlerInput.module.css';
 
 import { BaseSyntheticEvent, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-    dispatchChangeElementsOpacityAction,
-    dispatchKeepModelAction,
-} from '../../../app_model/redux_model/dispatchers';
 
-type OpacityToolsListProps = {
+type ToddlerInputProps = {
     setListSwitcher: () => void;
+    onChangeHandler: (e: BaseSyntheticEvent) => void;
 };
 
-export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
-    const dispatch = useDispatch();
-
-    const onChangeHandler = (e: BaseSyntheticEvent) => {
-        e.stopPropagation();
-        dispatchChangeElementsOpacityAction(dispatch)(e.target.value);
-        dispatchKeepModelAction(dispatch)();
-    };
+export function ToddlerInput(props: ToddlerInputProps): JSX.Element {
 
     useEffect(() => {
         const onKeyDownHandler = (event: KeyboardEvent) => {
@@ -30,7 +19,7 @@ export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
             document.removeEventListener('keydown', onKeyDownHandler);
         };
     }, []);
-
+    
     return (
         <>
             <div className={styles['opacity-wrapper']}>
@@ -47,7 +36,7 @@ export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
                                 min="0.1"
                                 max="1"
                                 step="0.05"
-                                onChange={onChangeHandler}
+                                onChange={props.onChangeHandler}
                             />
                         </div>
                     </div>

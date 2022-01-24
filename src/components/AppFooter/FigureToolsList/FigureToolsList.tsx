@@ -66,13 +66,11 @@ export function FigureToolsList(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.changeBorderColor,
             id: 'border-color-tool-button',
             iconLeft: <ColorInput onInput={onChangeBorderHandler} children={BorderColor()} />,
-            // onClick: (e: BaseSyntheticEvent) => { e.stopPropagation() },
         },
         {
             text: localeContext.locale.localization.elementsListTool.changeFigureColor,
             id: 'fill-color-button',
             iconLeft: <ColorInput onInput={onChangeFillHandler} children={FillColor()} />,
-            // onClick: (e: BaseSyntheticEvent) => { e.stopPropagation() },
         },
     ];
 

@@ -22,17 +22,13 @@ function ColorInput(props: UploadProps) {
                 className={styles['color-input']}
                 onInput={props.onInput}
             />
-            {
-                props.children !== undefined 
-                ? 
-                    <span onClick={handleColorInputClick}>
-                        {props.children}
-                    </span>
-                : 
-                    <span className={styles['color-btn']} onClick={handleColorInputClick}>
-                         {props.children}
-                     </span>
-            }
+            {props.children !== undefined ? (
+                <span onClick={handleColorInputClick}>{props.children}</span>
+            ) : (
+                <span className={styles['color-btn']} onClick={handleColorInputClick}>
+                    {props.children}
+                </span>
+            )}
         </div>
     );
 }
