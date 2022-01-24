@@ -177,7 +177,8 @@ export function SlideComponent(props: SlideProps) {
                         el.tagName === 'ellipse' ||
                         el.tagName === 'polygon' ||
                         el.tagName === 'text' ||
-                        el.tagName === 'image');
+                        el.tagName === 'image' ||
+                        el.tagName === 'tspan');
 
                 const elDomIndex = isSlideElement ? parseInt(elAttrId!) : undefined;
 
@@ -199,6 +200,7 @@ export function SlideComponent(props: SlideProps) {
                 }
 
                 if (pressedOnElement) {
+                    console.log('on Element!');
                     const elementIndex = elDomIndex - 1;
                     const elementId = slide.elementsList[elementIndex].id;
                     const slideId = slide.id;
