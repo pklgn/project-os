@@ -4,6 +4,9 @@ import { BaseSyntheticEvent, useEffect } from 'react';
 
 type ToddlerInputProps = {
     setListSwitcher: () => void;
+    min: string;
+    max: string;
+    step: string;
     onChangeHandler: (e: BaseSyntheticEvent) => void;
 };
 
@@ -17,7 +20,7 @@ export function ToddlerInput(props: ToddlerInputProps): JSX.Element {
         return () => {
             document.removeEventListener('keydown', onKeyDownHandler);
         };
-    }, []);
+    }, [props.onChangeHandler]);
 
     return (
         <>
@@ -32,9 +35,9 @@ export function ToddlerInput(props: ToddlerInputProps): JSX.Element {
                             <input
                                 type="range"
                                 className={styles['range-toddler']}
-                                min="0.1"
-                                max="1"
-                                step="0.05"
+                                min={props.min}
+                                max={props.max}
+                                step={props.min}
                                 onChange={props.onChangeHandler}
                             />
                         </div>
