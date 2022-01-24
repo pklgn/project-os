@@ -1,4 +1,4 @@
-import styles from './OpacityToolsList.module.css';
+import styles from './BorderWidthToolsList.module.css';
 
 import { BaseSyntheticEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -7,11 +7,11 @@ import {
     dispatchKeepModelAction,
 } from '../../../app_model/redux_model/dispatchers';
 
-type OpacityToolsListProps = {
+type BorderWidthToolsListProps = {
     setListSwitcher: () => void;
 };
 
-export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
+export function BorderWidthToolsList(props: BorderWidthToolsListProps): JSX.Element {
     const dispatch = useDispatch();
 
     const onChangeHandler = (e: BaseSyntheticEvent) => {
@@ -30,15 +30,15 @@ export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
         return () => {
             document.removeEventListener('keydown', onKeyDownHandler);
         };
-    }, [dispatch]);
+    }, []);
 
     return (
         <>
-            <div className={styles['opacity-wrapper']}>
-                <div color="white" className={styles['opacity-text']}>
-                    Opacity
+            <div className={styles['border-width-wrapper']}>
+                <div color="white" className={styles['border-width-text']}>
+                    Border width
                 </div>
-                <div className={styles['opacity-picker']}>
+                <div className={styles['border-width-picker']}>
                     <div className={styles['range-picker']}>
                         <div className={styles['range-toddler-wrapper']}>
                             <div className={styles['range-toddler-content']}></div>

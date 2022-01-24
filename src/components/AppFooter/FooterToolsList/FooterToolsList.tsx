@@ -1,7 +1,7 @@
 import styles from './FooterToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { BaseSyntheticEvent, useContext, useEffect, useRef, useState } from 'react';
 
 import { Button, ButtonProps, ButtonState } from '../../common/Button/Button';
 import { GeometryIcon } from '../../common/icons/Geometry/Geometry';
@@ -18,6 +18,8 @@ import {
     dispatchRedoAction,
     dispatchAddFigureAction,
     dispatchActiveViewAreaAction,
+    dispatchChangeSelectedSlidesBackground,
+    dispatchKeepModelAction,
 } from '../../../app_model/redux_model/dispatchers';
 import { useDispatch } from 'react-redux';
 
@@ -26,6 +28,7 @@ import { PictureToolsList } from '../PictureToolsList/PictureToolsList';
 import { FigureToolsList } from '../FigureToolsList/FigureToolsList';
 import { store } from '../../../app_model/redux_model/store';
 import { ChosenElementsType } from '../../../app_model/view_model/types';
+import { ColorInput } from '../../common/ColorInput/ColorInput';
 
 export function FooterToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
@@ -97,6 +100,21 @@ export function FooterToolsList(): JSX.Element {
         },
     ];
 
+    const [timeOuted, setTimeOuted] = useState(false);
+    const onChangeBackgroundHandler = (e: BaseSyntheticEvent) => {
+        if (!timeOuted) {
+            setTimeOuted(true);
+            setTimeout(() => {
+                dispatchChangeSelectedSlidesBackground(dispatch)({ src: '', color: e.target.value });
+                setTimeOuted(false);
+            }, 50);
+            setTimeout(() => {
+                dispatchKeepModelAction(dispatch)();
+            }, 1000);
+        }
+        e.stopPropagation();
+    };
+
     const [toolsSwitcher, setToolsSwitcher] = useState('NONE' as ChosenElementsType);
 
     store.subscribe(() => setToolsSwitcher(store.getState().viewModel.chosenElementsType));
@@ -125,7 +143,12 @@ export function FooterToolsList(): JSX.Element {
                 })}
             </div>
             <VerticalLine id="vertical-1" />
-            <div className={styles['element-tools']}>
+            <div
+                className={styles['element-tools']}
+                onMouseDown={(e: BaseSyntheticEvent) => {
+                    e.stopPropagation();
+                }}
+            >
                 {(function () {
                     switch (toolsSwitcher) {
                         case 'MIXED':
@@ -141,6 +164,20 @@ export function FooterToolsList(): JSX.Element {
                     }
                 })()}
             </div>
+            ,
+            <ToolTip
+                title={localeContext.locale.localization.elementsListTool.changeBackground}
+                position="above"
+                child={
+                    <Button
+                        id={'geometry-tool-button'}
+                        iconLeft={<ColorInput onInput={onChangeBackgroundHandler} />}
+                        onClick={(e: BaseSyntheticEvent) => {
+                            e.stopPropagation();
+                        }}
+                    />
+                }
+            />
             <VerticalLine id="vertical-2" />
             <div className={styles['history-buttons-container']} id="history-buttons-container">
                 {redoUndoButtonInfo.map((buttonInfo, index) => {

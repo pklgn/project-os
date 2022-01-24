@@ -53,13 +53,17 @@
         "backLayerTool": "Назад",
         "reorderTool": "Изменить порядок",
         "changeTextColor": "Цвет текста",
+        "changeTextSize": "Размер текста",
+        "changeTextStyle": "Стиль текста",
         "changeElementColor": "Цвет заливки элемента",
         "changeElementBorderColor": "Цвет границы элемента",
         "changeSlideColor": "Цвет слайда",
         "opacityTool": "Прозрачность",
         "removeElementTool": "Удалить",
         "changeBorderColor": "Цвет контура",
-        "changeFigureColor": "Цвет фигуры"
+        "changeFigureColor": "Цвет фигуры",
+        "changeFigureBorderWidth": "Ширина границы",
+        "changeBackground": "Фон"
     },
     "errors": {
         "noSlidesToSave": "Нельзя сохранить пустую презентацию"
@@ -67,6 +71,10 @@
     "historyTool" : {
         "redoTool": "Повторить (Ctrl+Y)",
         "undoTool": "Отменить действие (Ctrl+Z)"
+    },
+    "toddlerTools": {
+        "opacity": "Прозрачность",
+        "width": "Ширина"
     },
     "presentationName": "Оладушек",
     "presentationViewer": {

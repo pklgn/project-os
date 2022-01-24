@@ -23,6 +23,14 @@ interface ChangeTextSizeAction {
     payload: number;
 }
 
+interface TextSizeUpAction {
+    type: ActionType.SELECTED_TEXTS_SIZE_UP;
+}
+
+interface TextSizeDownpAction {
+    type: ActionType.SELECTED_TEXTS_SIZE_DOWN;
+}
+
 interface ChangeTextStyleAction {
     type: ActionType.CHANGE_SELECTED_TEXTS_STYLE;
     payload: string;
@@ -33,4 +41,6 @@ export type TextActions =
     | ChangeTextColorAction
     | ChangeTextContentAction
     | ChangeTextSizeAction
+    | TextSizeUpAction
+    | TextSizeDownpAction
     | ChangeTextStyleAction;

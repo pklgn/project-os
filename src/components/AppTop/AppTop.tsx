@@ -31,7 +31,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../app_model/redux_model/store';
 
 import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
-import { savePresentationAsJson, savePresentationAsPdf } from '../../app_model/model/editor_actions';
+import {
+    savePresentationAsJson,
+    savePresentationAsPdf,
+    setSelectedElementId,
+} from '../../app_model/model/editor_actions';
 import { initEditor } from '../../app_model/model/init_model_action';
 import { generateUUId } from '../../app_model/model/utils/uuid';
 
@@ -124,7 +128,7 @@ export function AppTop(): JSX.Element {
 
     const handleAddText = () => {
         dispatchAddTextAction(dispatch)({ x: 0, y: 0 });
-        dispatchKeepModelAction(dispatch)();
+        dispatchKeepModelAction(dispatch);
     };
 
     const handle16To9RatioClick = () => {

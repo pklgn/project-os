@@ -12,6 +12,7 @@ import { useSlideResize } from '../../utils/useSlideResize';
 
 import {
     dispatchChangeTextContentAction,
+    dispatchKeepModelAction,
     dispatchSetElementsRenderRatioAction,
     dispatchSlideContainerDimensions,
 } from '../../../app_model/redux_model/dispatchers';
@@ -25,6 +26,7 @@ import { ElementsRatioType } from '../../../app_model/view_model/types';
 import { setChosenElementsType } from '../../../app_model/redux_model/actions_view_model/action_creators/chosen_elements_action_creator';
 import { changeTextContent } from '../../../app_model/redux_model/actions_model/action_creators/text_action_creators';
 import { isText } from '../../../app_model/model/utils/tools';
+import { setSelectedElementId } from '../../../app_model/model/editor_actions';
 
 export function SlideWrapper() {
     const ref = useRef<HTMLDivElement>(null);
@@ -106,12 +108,12 @@ export function SlideWrapper() {
 
     function handleOnBlur() {
         setIsTextEdit(!isTextEdit);
-        setChosenElementsType('NONE');
     }
 
     function handleOnInput(e: BaseSyntheticEvent) {
         const value = e.target.value;
         dispatchChangeTextContentAction(dispatch)(value.split('\n'));
+        dispatchKeepModelAction(dispatch)();
     }
 
     function getCurrElement() {
@@ -121,6 +123,13 @@ export function SlideWrapper() {
         )[0];
     }
     const currElement = getCurrElement();
+
+    useLayoutEffect(() => {
+        if (textareaRef.current?.style) {
+            textareaRef.current.style.height = 'auto';
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        }
+    });
 
     return (
         <div ref={ref} className={wrapperStyles.wrapper}>
@@ -144,7 +153,7 @@ export function SlideWrapper() {
                     className={wrapperStyles.textarea}
                     onBlur={handleOnBlur}
                     onInput={handleOnInput}
-                    placeholder={'hello'}
+                    placeholder={'Enter a text'}
                     value={`${currElement && isText(currElement.content) && currElement?.content.content.join('\n')}`}
                 />
             )}

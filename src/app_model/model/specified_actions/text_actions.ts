@@ -12,9 +12,9 @@ export function addTextElement(editor: Editor, x = 1, y = 1): Editor {
 
     const textElement: TextElement = {
         content: ['Введите текст'],
-        fontSize: 10,
+        fontSize: 20,
         fontColor: 'black',
-        fontStyle: 'italic',
+        fontStyle: '',
         fontFamily: 'sans-serif',
     };
     const element: SlideElement = {
@@ -24,8 +24,8 @@ export function addTextElement(editor: Editor, x = 1, y = 1): Editor {
             y,
         },
         size: {
-            width: 0,
-            height: 0,
+            width: 20,
+            height: 20,
         },
         opacity: 1,
         content: textElement,
@@ -157,6 +157,92 @@ export function changeTextsSize(editor: Editor, fontSize: number): Editor {
                 content: {
                     ...element.content,
                     fontSize,
+                },
+            };
+        }
+        return element;
+    });
+
+    const updatedSlide: Slide = {
+        ...currSlide,
+        elementsList: newElementsList,
+    };
+
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [currSlide.id],
+    };
+}
+
+export function textsSizeUp(editor: Editor): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
+        return item.id === currSlide.id;
+    });
+
+    const elementsList: SlideElement[] = currSlide.elementsList;
+
+    if (!elementsList.length) {
+        return editor;
+    }
+
+    const newElementsList: SlideElement[] = elementsList.map((element) => {
+        if (editor.selectedSlideElementsIds.includes(element.id) && isText(element.content)) {
+            return {
+                ...element,
+                content: {
+                    ...element.content,
+                    fontSize: element.content.fontSize + 1,
+                },
+            };
+        }
+        return element;
+    });
+
+    const updatedSlide: Slide = {
+        ...currSlide,
+        elementsList: newElementsList,
+    };
+
+    const updatedEditor = applySlideChanges(editor, updatedSlide, slideIndex);
+
+    return {
+        ...updatedEditor,
+        selectedSlidesIds: [currSlide.id],
+    };
+}
+
+export function textsSizeDown(editor: Editor): Editor {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return editor;
+    }
+
+    const slideIndex = editor.presentation.slidesList.findIndex((item) => {
+        return item.id === currSlide.id;
+    });
+
+    const elementsList: SlideElement[] = currSlide.elementsList;
+
+    if (!elementsList.length) {
+        return editor;
+    }
+
+    const newElementsList: SlideElement[] = elementsList.map((element) => {
+        if (editor.selectedSlideElementsIds.includes(element.id) && isText(element.content)) {
+            return {
+                ...element,
+                content: {
+                    ...element.content,
+                    fontSize: element.content.fontSize - 1,
                 },
             };
         }

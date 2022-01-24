@@ -53,13 +53,17 @@
         "backLayerTool": "Back",
         "reorderTool": "Reorder",
         "changeTextColor": "Text color",
+        "changeTextSize": "Text size",
+        "changeTextStyle": "Text style",
         "changeElementColor": "Element's color",
         "changeElementBorderColor": "Element's border color",
         "changeSlideColor": "Slide's color",
         "opacityTool": "Opacity",
         "removeElementTool": "Remove",
         "changeBorderColor": "Border color",
-        "changeFigureColor": "Figure color"
+        "changeFigureColor": "Figure color",
+        "changeFigureBorderWidth": "Border width",
+        "changeBackground": "Background"
 
     },
     "errors": {
@@ -68,6 +72,10 @@
     "historyTool" : {
         "redoTool": "Redo (Ctrl+Y)",
         "undoTool": "Undo (Ctrl+Z)"
+    },
+    "toddlerTools": {
+        "opacity": "Opacity",
+        "width": "Width"
     },
     "presentationName": "Wuffel",
     "presentationViewer": {

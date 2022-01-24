@@ -16,6 +16,8 @@ import {
     changeTextsContent,
     changeTextsSize,
     changeTextsStyle,
+    textsSizeDown,
+    textsSizeUp,
 } from '../../model/specified_actions/text_actions';
 import {
     addSlide,
@@ -106,6 +108,10 @@ export const modelReducers = (state: Editor = initEditor(), action: ModelActions
             return changeTextsContent(state, action.payload);
         case ActionType.CHANGE_SELECTED_TEXTS_SIZE:
             return changeTextsSize(state, action.payload);
+        case ActionType.SELECTED_TEXTS_SIZE_UP:
+            return textsSizeUp(state);
+        case ActionType.SELECTED_TEXTS_SIZE_DOWN:
+            return textsSizeDown(state);
         case ActionType.CHANGE_SELECTED_TEXTS_STYLE:
             return changeTextsStyle(state, action.payload);
 

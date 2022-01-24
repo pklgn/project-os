@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { BaseSyntheticEvent, useContext, useState } from 'react';
 import { LocaleContext, LocaleContextType } from '../../../App';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
@@ -9,8 +9,14 @@ import ToolTip from '../../common/ToolTip/ToolTip';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 
 import { useDispatch } from 'react-redux';
-import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
-import { OpacityToolsList } from '../OpacityToolsList/OpacityToolsList';
+import {
+    dispatchChangeElementsOpacityAction,
+    dispatchChangeSelectedSlidesBackground,
+    dispatchKeepModelAction,
+    dispatchRemoveSelectedElementsAction,
+} from '../../../app_model/redux_model/dispatchers';
+import { ToddlerInput } from '../../common/ToddlerInput/ToddlerInput';
+import { ColorInput } from '../../common/ColorInput/ColorInput';
 
 enum commonList {
     DEFAULT = 'DEFAULT',
@@ -36,8 +42,9 @@ export function DefaultToolsList(): JSX.Element {
         setListSwitcher(commonList.DEFAULT);
     };
 
-    const removeSelectedElementsHandler = () => {
-        // dispatchRemoveSelectedElementsAction(dispatch)();
+    const removeSelectedElementsHandler = (e: BaseSyntheticEvent) => {
+        e.stopPropagation();
+        dispatchRemoveSelectedElementsAction(dispatch)();
         dispatchKeepModelAction(dispatch)();
     };
 
@@ -61,6 +68,12 @@ export function DefaultToolsList(): JSX.Element {
             onClick: removeSelectedElementsHandler,
         },
     ];
+
+    const onChangeHandler = (e: BaseSyntheticEvent) => {
+        e.stopPropagation();
+        dispatchChangeElementsOpacityAction(dispatch)(e.target.value);
+        dispatchKeepModelAction(dispatch)();
+    };
 
     return (
         <>
@@ -89,7 +102,16 @@ export function DefaultToolsList(): JSX.Element {
                     case commonList.REORDER:
                         return <ReorderToolsList setListSwitcher={callbackHandler} />;
                     case commonList.OPACITY:
-                        return <OpacityToolsList setListSwitcher={callbackHandler} />;
+                        return (
+                            <ToddlerInput
+                                onChangeHandler={onChangeHandler}
+                                setListSwitcher={callbackHandler}
+                                label={localeContext.locale.localization.toddlerTools.opacity}
+                                min="0.1"
+                                max="1"
+                                step="0.05"
+                            />
+                        );
                 }
             })()}
         </>

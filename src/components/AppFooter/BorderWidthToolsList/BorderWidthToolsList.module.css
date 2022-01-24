@@ -1,4 +1,4 @@
-opacity.opacity-tools {
+borderWidth.border-width-tools {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -7,11 +7,11 @@ opacity.opacity-tools {
     grid-area: elementTools;
 }
 
-.opacity-tools > * {
-    animation: show-opacity-tools .4s forwards;
+.border-width-tools > * {
+    animation: show-border-width-tools .4s forwards;
 }
 
-@keyframes show-opacity-tools {
+@keyframes show-border-width-tools {
     0%{
         opacity: 0;
         transform: translateY(30px);
@@ -26,7 +26,7 @@ opacity.opacity-tools {
     }
 }
 
-.opacity-wrapper {
+.border-width-wrapper {
     display: flex;
     align-items: center;
     padding: 4px 15px;
@@ -35,7 +35,7 @@ opacity.opacity-tools {
     border-radius: 6px;
 }
 
-.opacity-text {
+.border-width-text {
     margin: 0px;
     margin-right: 15px;
     display: block;
@@ -44,7 +44,7 @@ opacity.opacity-tools {
     font-weight: 600;
 }
 
-.opacity-picker {
+.border-width-picker {
     display: flex;
     -webkit-box-align: center;
     align-items: center;
@@ -87,10 +87,9 @@ opacity.opacity-tools {
     outline: none;
     opacity: 0.95;
     transition: opacity 0.2s ease 0s;
-    z-index: 1;
+    z-index: 9999;
     margin: 0px;
     display: flex;
-    z-index: 9999;
 }
 
 input[type="range"]::-webkit-slider-thumb {

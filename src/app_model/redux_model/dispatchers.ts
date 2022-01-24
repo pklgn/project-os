@@ -33,6 +33,8 @@ import {
     changeTextsColor,
     changeTextsSize,
     changeTextsStyle,
+    textsSizeDown,
+    textsSizeUp,
 } from './actions_model/action_creators/text_action_creators';
 import { addPicture } from './actions_model/action_creators/picture_action_creators';
 
@@ -117,6 +119,12 @@ const dispatchChangeTextsColorAction = (dispatch: Dispatch) => {
 };
 const dispatchChangeTextsSizeAction = (dispatch: Dispatch) => {
     return bindActionCreators(changeTextsSize, dispatch);
+};
+const dispatchTextsSizeUp = (dispatch: Dispatch) => {
+    return bindActionCreators(textsSizeUp, dispatch);
+};
+const dispatchTextsSizeDown = (dispatch: Dispatch) => {
+    return bindActionCreators(textsSizeDown, dispatch);
 };
 const dispatchChangeTextsStyleAction = (dispatch: Dispatch) => {
     return bindActionCreators(changeTextsStyle, dispatch);
@@ -204,6 +212,8 @@ export {
     dispatchChangeTextContentAction,
     dispatchChangeTextsColorAction,
     dispatchChangeTextsSizeAction,
+    dispatchTextsSizeUp,
+    dispatchTextsSizeDown,
     dispatchChangeTextsStyleAction,
     dispatchAddPictureAction,
     dispatchChangeSelectedSlidesBackground,

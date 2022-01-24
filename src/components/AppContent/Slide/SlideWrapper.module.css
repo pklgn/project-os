@@ -10,8 +10,11 @@
 }
 
 .textarea {
+    width:250px;
+    min-height:50px;
     position: absolute;
     left: 10px;
     bottom: 10px;
-
+    overflow-y:hidden;
+    height:auto;
 }
