@@ -11,7 +11,7 @@ import { useResize } from '../../utils/useResize';
 import { useSlideResize } from '../../utils/useSlideResize';
 
 import {
-    dispatchChangeTextContent,
+    dispatchChangeTextContentAction,
     dispatchSetElementsRenderRatioAction,
     dispatchSlideContainerDimensions,
 } from '../../../app_model/redux_model/dispatchers';
@@ -23,7 +23,7 @@ import {
 } from '../../../app_model/view_model/slide_render_actions';
 import { ElementsRatioType } from '../../../app_model/view_model/types';
 import { setChosenElementsType } from '../../../app_model/redux_model/actions_view_model/action_creators/chosen_elements_action_creator';
-import { changeTextContent } from '../../../app_model/redux_model/actions_model/action_creators/text_action_creators';
+// import { changeTextContent } from '../../../app_model/redux_model/actions_model/action_creators/text_action_creators';
 
 export function SlideWrapper() {
     const ref = useRef<HTMLDivElement>(null);
@@ -110,7 +110,7 @@ export function SlideWrapper() {
 
     function handleOnInput(e: BaseSyntheticEvent) {
         const value = e.target.value;
-        dispatchChangeTextContent(dispatch)(value.split('\n'));
+        dispatchChangeTextContentAction(dispatch)(value.split('\n'));
         console.log(value.split('\n'));
     }
 

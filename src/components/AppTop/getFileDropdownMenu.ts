@@ -1,7 +1,6 @@
 import { generateUUId } from '../../app_model/model/utils/uuid';
 import { DropdownMenuProps } from '../common/DropdownMenu/DropdownMenu';
 import { l18nType } from '../../l18n/l18n';
-import { FigureShape } from '../../app_model/model/types';
 
 export type FileDropdownMenuProps = {
     locale: l18nType;

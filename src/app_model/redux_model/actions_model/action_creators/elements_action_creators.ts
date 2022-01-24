@@ -3,7 +3,7 @@ import CSS from 'csstype';
 import { ActionType } from '../action_types/types';
 import { Dispatch } from 'redux';
 import { ElementAction } from '../actions/element_actions';
-import { AreaLocation, LocationDeltas } from '../../../model/types';
+import { AreaLocation } from '../../../model/types';
 
 export const removeSelectedElements = () => {
     return (dispatch: Dispatch<ElementAction>) => {

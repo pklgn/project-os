@@ -1,15 +1,11 @@
 import styles from './PictureToolsList.module.css';
 
-import { LocaleContext, LocaleContextType } from '../../../App';
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
 import { useDispatch } from 'react-redux';
 import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 import ToolTip from '../../common/ToolTip/ToolTip';
-import { Reorder } from '../../common/icons/Reorder/Reorder';
-import { Opacity } from '../../common/icons/Opacity/Opacity';
-import { dispatchKeepModelAction } from '../../../app_model/redux_model/dispatchers';
 
 enum commonList {
     DEFAULT = 'DEFAULT',
@@ -18,27 +14,25 @@ enum commonList {
 }
 
 export function FigureToolsList(): JSX.Element {
-    const localeContext: LocaleContextType = useContext(LocaleContext);
-
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const [listSwitcher, setListSwitcher] = useState(commonList.DEFAULT);
 
-    const reorderHandler = () => {
-        setListSwitcher(commonList.REORDER);
-    };
+    // const reorderHandler = () => {
+    //     setListSwitcher(commonList.REORDER);
+    // };
 
-    const opacityHandler = () => {
-        setListSwitcher(commonList.OPACITY);
-    };
+    // const opacityHandler = () => {
+    //     setListSwitcher(commonList.OPACITY);
+    // };
 
     const callbackHandler = () => {
         setListSwitcher(commonList.DEFAULT);
     };
 
-    const removeSelectedElementsHandler = () => {
-        // dispatchRemoveSelectedElementsAction(dispatch)();
-        dispatchKeepModelAction(dispatch)();
-    };
+    // const removeSelectedElementsHandler = () => {
+    //     // dispatchRemoveSelectedElementsAction(dispatch)();
+    //     dispatchKeepModelAction(dispatch)();
+    // };
 
     const pictureToolsButtonInfo: ButtonProps[] = [];
 

@@ -3,11 +3,10 @@ import styles from './TextElementComponent.module.css';
 import { isText } from '../../../app_model/model/utils/tools';
 import { SlideElement, TextElement } from '../../../app_model/model/types';
 
-import { store } from '../../../app_model/redux_model/store';
 import { getElementsRenderRatio } from '../../../app_model/view_model/slide_render_actions';
 import { setChosenElementsType } from '../../../app_model/redux_model/actions_view_model/action_creators/chosen_elements_action_creator';
+import { store } from '../../../app_model/redux_model/store';
 import { useDispatch } from 'react-redux';
-import { setSelectedElementId } from '../../../app_model/model/editor_actions';
 
 type TextElementProps = {
     element: SlideElement;
@@ -42,8 +41,8 @@ function TextElementComponent(props: TextElementProps) {
             <text
                 id={`${props.elementIndex}`}
                 className={styles.element}
-                x={element.startPoint.x * renderScale.width * windowRatio}
-                y={element.startPoint.y * renderScale.height * windowRatio}
+                x={element.startPoint.x * renderScale.width}
+                y={element.startPoint.y * renderScale.height}
                 fontFamily={'Arial, Helvetica, sans-serif'}
                 fontSize={elementText.fontSize}
                 fontStyle={elementText.fontStyle}

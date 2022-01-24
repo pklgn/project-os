@@ -2,9 +2,6 @@ import styles from './AppTop.module.css';
 
 import { BaseSyntheticEvent, useContext, useRef } from 'react';
 
-import { RootState } from '../../app_model/redux_model/reducers/root_reducer';
-import { useDispatch, useSelector } from 'react-redux';
-
 import { AdaptiveInputField } from '../common/AdaptiveInputField/AdaptiveInputField';
 import { AppLogoPng } from '../common/icons/AppLogo';
 import { Button, ButtonProps } from '../common/Button/Button';
@@ -18,6 +15,8 @@ import { DropdownMenu } from '../common/DropdownMenu/DropdownMenu';
 import { getFullScreenDropdownMenu } from './getFullScreenDropdownMenu';
 import { getFileDropdownMenu } from './getFileDropdownMenu';
 
+import { FigureInfo, FigureShape } from '../../app_model/model/types';
+
 import {
     dispatchActiveViewAreaAction,
     dispatchAddFigureAction,
@@ -28,15 +27,18 @@ import {
     dispatchSetWindowRatio,
     dispatchSlideToContainerRatio,
 } from '../../app_model/redux_model/dispatchers';
-import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
+import { RootState } from '../../app_model/redux_model/reducers/root_reducer';
+import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../app_model/redux_model/store';
+
+import { getActiveViewArea } from '../../app_model/view_model/active_view_area_actions';
 import { savePresentationAsJson, savePresentationAsPdf } from '../../app_model/model/editor_actions';
 import { initEditor } from '../../app_model/model/init_model_action';
-import { UploadPresentationInput } from '../common/ToolBar/UploadPresentationInput';
 import { generateUUId } from '../../app_model/model/utils/uuid';
-import { UploadPictureInput } from '../common/ToolBar/UploadPictureInput';
+
+import { UploadPresentationInput } from '../common/Uploaders/UploadPresentationInput';
+import { UploadPictureInput } from '../common/Uploaders/UploadPictureInput';
 import { getSlideAmount } from '../../app_model/model/slides_actions';
-import { FigureInfo, FigureShape } from '../../app_model/model/types';
 
 export function AppTop(): JSX.Element {
     const state = useSelector((state: RootState) => state);
@@ -153,7 +155,7 @@ export function AppTop(): JSX.Element {
         if (slidesAmount === 0) {
             alert(localeContext.locale.localization.errors.noSlidesToSave);
         } else {
-            savePresentationAsPdf(store.getState().model);
+            savePresentationAsPdf();
         }
     };
 

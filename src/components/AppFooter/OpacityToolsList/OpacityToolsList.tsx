@@ -1,6 +1,6 @@
 import styles from './OpacityToolsList.module.css';
 
-import { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
+import { BaseSyntheticEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
     dispatchChangeElementsOpacityAction,

@@ -34,7 +34,7 @@ export function savePresentationAsJson(editor: Editor) {
     downloadAnchorNode.remove();
 }
 
-export function savePresentationAsPdf(editor: Editor) {
+export function savePresentationAsPdf() {
     const svg = document.getElementsByTagName('svg');
     const slides: string[] = [];
     for (let index = 0; index < svg.length; index++) {

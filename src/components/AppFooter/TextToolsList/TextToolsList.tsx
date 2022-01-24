@@ -1,5 +1,3 @@
-import styles from './TextToolsList.module.css';
-
 import { LocaleContext, LocaleContextType } from '../../../App';
 import { BaseSyntheticEvent, useContext, useEffect, useState } from 'react';
 
@@ -12,40 +10,33 @@ import {
     dispatchChangeSelectedSlidesBackground,
     dispatchKeepModelAction,
 } from '../../../app_model/redux_model/dispatchers';
-// import {
-//     dispatchChangeTextContentAction,
-//     dispatchChangeTextsColorAction,
-// } from '../../../app_model/redux_model/dispatchers';
-// import { dispatchSetChosenElementsTypeAction } from '../../../app_model/redux_model/dispatchers';
-import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
 import { ColorInput } from '../../common/ColorInput/ColorInput';
 import { getActiveElementsIds } from '../../../app_model/model/element_actions';
 import { store } from '../../../app_model/redux_model/store';
-// import { dispatchRemoveSelectedElementsAction } from '../../../app_model/redux_model/dispatchers';
 
 export function TextToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
 
     const dispatch = useDispatch();
 
-    const removeSelectedElementsHandler = () => {
-        // dispatchRemoveSelectedElementsAction(dispatch)();
-        dispatchKeepModelAction(dispatch)();
-    };
+    // const removeSelectedElementsHandler = () => {
+    //     // dispatchRemoveSelectedElementsAction(dispatch)();
+    //     dispatchKeepModelAction(dispatch)();
+    // };
 
     const changeTextColorHandler = () => {
         // dispatchChangeTextsColorAction(dispatch)('black');
         dispatchKeepModelAction(dispatch)();
     };
 
-    const noneChosenElementsHandler = () => {
-        // dispatchSetChosenElementsTypeAction(dispatch)('NONE');
-    };
+    // const noneChosenElementsHandler = () => {
+    //     // dispatchSetChosenElementsTypeAction(dispatch)('NONE');
+    // };
 
     useEffect(() => {
         const revocationHandler = (event: KeyboardEvent) => {
             if (event.code === 'Escape') {
-                noneChosenElementsHandler();
+                // noneChosenElementsHandler();
             }
         };
         document.addEventListener('keydown', revocationHandler);
@@ -86,7 +77,6 @@ export function TextToolsList(): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.removeElementTool,
             id: 'fawfawfaw',
             iconLeft: <ColorInput onInput={onChangeHandler} />,
-            onClick: () => {},
         },
     ];
 

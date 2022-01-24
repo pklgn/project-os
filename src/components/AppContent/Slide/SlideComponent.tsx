@@ -13,7 +13,6 @@ import {
     getActiveElementsIds,
     getChosenElementsType,
     getElementsAreaLoaction,
-    getSlideElementsAmount,
 } from '../../../app_model/model/element_actions';
 import { getActiveSlidesIds, getCurrentSlide } from '../../../app_model/model/slides_actions';
 import { getActiveViewArea } from '../../../app_model/view_model/active_view_area_actions';

@@ -7,11 +7,7 @@ import { ElementsRatioType } from '../../../app_model/view_model/types';
 import { isFigure } from '../../../app_model/model/utils/tools';
 import { joinClassNames } from '../../utils/joinClassNames';
 
-import {
-    getElementsRenderRatio,
-    getSlideToContainerRatio,
-    getWindowRatio,
-} from '../../../app_model/view_model/slide_render_actions';
+import { getElementsRenderRatio } from '../../../app_model/view_model/slide_render_actions';
 import { store } from '../../../app_model/redux_model/store';
 
 type FigureElementProps = {

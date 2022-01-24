@@ -1,7 +1,7 @@
 import styles from './FooterToolsList.module.css';
 
 import { LocaleContext, LocaleContextType } from '../../../App';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
 import { GeometryIcon } from '../../common/icons/Geometry/Geometry';

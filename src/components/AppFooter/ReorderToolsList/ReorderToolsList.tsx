@@ -1,5 +1,3 @@
-import styles from './ReorderToolsList.module.css';
-
 import { useContext, useEffect } from 'react';
 import { LocaleContext, LocaleContextType } from '../../../App';
 
@@ -9,7 +7,7 @@ import { LayerBackground } from '../../common/icons/LayerBackground/LayerBackgro
 import { LayerForward } from '../../common/icons/LayerForward/LayerForward';
 import { LayerForeground } from '../../common/icons/LayerForeground/LayerForeground';
 import ToolTip from '../../common/ToolTip/ToolTip';
-// import { dispatchMoveElementsToBackgroundOrForeground } from '../../../app_model/redux_model/dispatchers';
+
 import { useDispatch } from 'react-redux';
 import {
     dispatchKeepModelAction,
