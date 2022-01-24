@@ -16,6 +16,7 @@ import { getActiveElementsIds } from '../../../app_model/model/element_actions';
 import { store } from '../../../app_model/redux_model/store';
 import { ColorInput } from '../../common/ColorInput/ColorInput';
 import { useDispatch } from 'react-redux';
+import { BorderWidth } from '../../common/icons/BorderWidth/BorderWidth';
 
 export function FigureToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
@@ -65,14 +66,29 @@ export function FigureToolsList(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.changeBorderColor,
             id: 'border-color-tool-button',
-            // eslint-disable-next-line react/no-children-prop
-            iconLeft: <ColorInput onInput={onChangeBorderHandler} children={BorderColor()} />,
+            iconLeft: (
+                <ColorInput onInput={onChangeBorderHandler}>
+                    <BorderColor />
+                </ColorInput>
+            ),
         },
         {
             text: localeContext.locale.localization.elementsListTool.changeFigureColor,
             id: 'fill-color-button',
-            // eslint-disable-next-line react/no-children-prop
-            iconLeft: <ColorInput onInput={onChangeFillHandler} children={FillColor()} />,
+            iconLeft: (
+                <ColorInput onInput={onChangeFillHandler}>
+                    <FillColor />
+                </ColorInput>
+            ),
+        },
+        {
+            text: localeContext.locale.localization.elementsListTool.changeFigureBorderWidth,
+            id: 'border-width-button',
+            iconLeft: (
+                <ColorInput onInput={onChangeFillHandler}>
+                    <BorderWidth />
+                </ColorInput>
+            ),
         },
     ];
 
