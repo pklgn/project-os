@@ -101,7 +101,7 @@ export function DefaultToolsList(): JSX.Element {
                     case commonList.REORDER:
                         return <ReorderToolsList setListSwitcher={callbackHandler} />;
                     case commonList.OPACITY:
-                        return <ToddlerInput onChangeHandler={onChangeHandler} setListSwitcher={callbackHandler} />;
+                        return <OpacityToolsList setListSwitcher={callbackHandler} />;
                 }
             })()}
         </>

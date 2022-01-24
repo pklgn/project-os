@@ -12,6 +12,9 @@ import {
     dispatchKeepModelAction,
 } from '../../../app_model/redux_model/dispatchers';
 import { ColorInput } from '../../common/ColorInput/ColorInput';
+import { TextStyle } from '../../common/icons/TextStyle/TextStyle';
+import { TextSizeUp } from '../../common/icons/TextSizeUp/TextSizeUp';
+import { TextSizeDown } from '../../common/icons/TextSizeDown/TextSizeDown';
 
 export function TextToolsList(): JSX.Element {
     const localeContext: LocaleContextType = useContext(LocaleContext);
@@ -46,13 +49,19 @@ export function TextToolsList(): JSX.Element {
         {
             text: localeContext.locale.localization.elementsListTool.changeTextSize,
             id: 'text-size-tool-button',
-            iconLeft: <ColorInput onInput={changeTextColorHandler} children={TextColor()} />,
+            iconLeft: <TextSizeUp />,
+            onClick: changeTextSizeHandler,
+        },
+        {
+            text: localeContext.locale.localization.elementsListTool.changeTextSize,
+            id: 'text-size-tool-button',
+            iconLeft: <TextSizeDown />,
             onClick: changeTextSizeHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.changeTextStyle,
             id: 'text-style-tool-button',
-            iconLeft: <ColorInput onInput={changeTextColorHandler} children={TextColor()} />,
+            iconLeft: <ColorInput onInput={changeTextColorHandler} children={TextStyle()} />,
             onClick: changeTextStyleHandler,
         },
     ];

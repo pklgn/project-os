@@ -8,7 +8,6 @@ type ToddlerInputProps = {
 };
 
 export function ToddlerInput(props: ToddlerInputProps): JSX.Element {
-
     useEffect(() => {
         const onKeyDownHandler = (event: KeyboardEvent) => {
             if (event.code === 'Escape') props.setListSwitcher();
@@ -19,7 +18,7 @@ export function ToddlerInput(props: ToddlerInputProps): JSX.Element {
             document.removeEventListener('keydown', onKeyDownHandler);
         };
     }, []);
-    
+
     return (
         <>
             <div className={styles['opacity-wrapper']}>

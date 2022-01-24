@@ -22,6 +22,7 @@ export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
 
     useEffect(() => {
         const onKeyDownHandler = (event: KeyboardEvent) => {
+            event.stopPropagation();
             if (event.code === 'Escape') props.setListSwitcher();
         };
 
