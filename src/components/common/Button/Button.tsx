@@ -38,7 +38,8 @@ export function Button(props: ButtonProps) {
     const [buttonState, setButtonState] = useState(state);
     const classNames = joinClassNames([styles['button'], styles[`button--${buttonState}`], styles[`button--${type}`]]);
 
-    const onMouseDownHandler = () => {
+    const onMouseDownHandler = (event: BaseSyntheticEvent) => {
+        event.stopPropagation();
         setButtonState('active');
     };
 

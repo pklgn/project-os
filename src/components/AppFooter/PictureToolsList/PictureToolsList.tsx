@@ -1,73 +1,60 @@
-import styles from './PictureToolsList.module.css';
-
-import { useState } from 'react';
+import { LocaleContext, LocaleContextType } from '../../../App';
+import React, { BaseSyntheticEvent, useContext, useState } from 'react';
 
 import { Button, ButtonProps } from '../../common/Button/Button';
-import { useDispatch } from 'react-redux';
-import { ReorderToolsList } from '../ReorderToolsList/ReorderToolsList';
+
 import ToolTip from '../../common/ToolTip/ToolTip';
+import { useDispatch } from 'react-redux';
 
-enum commonList {
-    DEFAULT = 'DEFAULT',
-    REORDER = 'REORDER',
-    OPACITY = 'OPACITY',
-}
+export function PictureToolsList(): JSX.Element {
+    const localeContext: LocaleContextType = useContext(LocaleContext);
 
-export function FigureToolsList(): JSX.Element {
-    // const dispatch = useDispatch();
-    const [listSwitcher, setListSwitcher] = useState(commonList.DEFAULT);
+    const dispatch = useDispatch();
 
-    // const reorderHandler = () => {
-    //     setListSwitcher(commonList.REORDER);
+    // const [timeOuted, setTimeOuted] = useState(false);
+    // const onChangeHandler = (e: BaseSyntheticEvent) => {
+    //     e.stopPropagation();
+    //     if (!timeOuted) {
+    //         setTimeOuted(true);
+    //         setTimeout(() => {
+    //             const el = e.target as HTMLInputElement;
+    //             if (getActiveElementsIds(store.getState().model).length) {
+    //                 dispatchChangeFiguresColorAction(dispatch)(el.value);
+    //             } else {
+    //                 dispatchChangeSelectedSlidesBackground(dispatch)({ src: '', color: el.value });
+    //             }
+    //             setTimeOuted(false);
+    //         }, 50);
+    //         setTimeout(() => {
+    //             dispatchKeepModelAction(dispatch)();
+    //         }, 1000);
+    //     }
     // };
 
-    // const opacityHandler = () => {
-    //     setListSwitcher(commonList.OPACITY);
-    // };
-
-    const callbackHandler = () => {
-        setListSwitcher(commonList.DEFAULT);
-    };
-
-    // const removeSelectedElementsHandler = () => {
-    //     // dispatchRemoveSelectedElementsAction(dispatch)();
-    //     dispatchKeepModelAction(dispatch)();
-    // };
-
-    const pictureToolsButtonInfo: ButtonProps[] = [];
+    const pictureToolsButtonInfo: ButtonProps[] = [
+    ];
 
     return (
-        <div className={styles['default-tools']}>
-            {(() => {
-                switch (listSwitcher) {
-                    case commonList.DEFAULT:
-                        return (
-                            <div className={styles['tools-buttons-container']} id="tools-buttons-container">
-                                {pictureToolsButtonInfo.map((buttonInfo, index) => {
-                                    return (
-                                        <ToolTip
-                                            key={index}
-                                            title={buttonInfo.text ? buttonInfo.text : 'None'}
-                                            position="above"
-                                            child={
-                                                <Button
-                                                    key={index}
-                                                    type={buttonInfo.type}
-                                                    state={buttonInfo.state}
-                                                    id={buttonInfo.id}
-                                                    iconLeft={buttonInfo.iconLeft}
-                                                    onClick={buttonInfo.onClick}
-                                                />
-                                            }
-                                        />
-                                    );
-                                })}
-                            </div>
-                        );
-                    case commonList.REORDER:
-                        return <ReorderToolsList setListSwitcher={callbackHandler} />;
-                }
-            })()}
-        </div>
+        <>
+            {pictureToolsButtonInfo.map((buttonInfo, index) => {
+                return (
+                    <ToolTip
+                        key={index}
+                        title={buttonInfo.text ? buttonInfo.text : 'None'}
+                        position="above"
+                        child={
+                            <Button
+                                key={index}
+                                type={buttonInfo.type}
+                                state={buttonInfo.state}
+                                id={buttonInfo.id}
+                                iconLeft={buttonInfo.iconLeft}
+                                onClick={buttonInfo.onClick}
+                            />
+                        }
+                    />
+                );
+            })}
+        </>
     );
 }
