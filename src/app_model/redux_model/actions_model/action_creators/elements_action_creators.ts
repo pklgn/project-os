@@ -3,7 +3,7 @@ import CSS from 'csstype';
 import { ActionType } from '../action_types/types';
 import { Dispatch } from 'redux';
 import { ElementAction } from '../actions/element_actions';
-import { AreaLocation, LocationDeltas } from '../../../model/types';
+import { AreaLocation } from '../../../model/types';
 
 export const removeSelectedElements = () => {
     return (dispatch: Dispatch<ElementAction>) => {
@@ -44,6 +44,15 @@ export const moveSelectedElementsToBackgroundOrForeground = (payload: boolean) =
     return (dispatch: Dispatch<ElementAction>) => {
         dispatch({
             type: ActionType.MOVE_ELEMENTS_TO_BACKGROUND_OR_FOREGROUND,
+            payload,
+        });
+    };
+};
+
+export const moveSelectedElementsBackwardOrForward = (payload: boolean) => {
+    return (dispatch: Dispatch<ElementAction>) => {
+        dispatch({
+            type: ActionType.MOVE_ELEMENTS_BACKWARD_OR_FORWARD,
             payload,
         });
     };

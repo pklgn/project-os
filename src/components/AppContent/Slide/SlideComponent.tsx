@@ -11,8 +11,8 @@ import { LocaleContext } from '../../../App';
 
 import {
     getActiveElementsIds,
+    getChosenElementsType,
     getElementsAreaLoaction,
-    getSlideElementsAmount,
 } from '../../../app_model/model/element_actions';
 import { getActiveSlidesIds, getCurrentSlide } from '../../../app_model/model/slides_actions';
 import { getActiveViewArea } from '../../../app_model/view_model/active_view_area_actions';
@@ -28,6 +28,7 @@ import {
     dispatchActiveViewAreaAction,
     dispatchAddSlideAction,
     dispatchKeepModelAction,
+    dispatchSetChosenElementsType,
     dispatchSetElementsPositionAction,
     dispatchSetElementsSizeAction,
     dispatchSetIdAction,
@@ -75,8 +76,6 @@ export function SlideComponent(props: SlideProps) {
     const [selectedAreaLocation, setSelectedAreaLocation] = useState(undefined as AreaLocation | undefined);
     const [selectedAreaStartPoint, setSelectedAreaStartPoint] = useState(undefined as Coordinates | undefined);
 
-    const [elementsAmount, setElementsAmount] = useState(getSlideElementsAmount(props.slide));
-
     const [slideContainerRatio, setSlideContainerRatio] = useState(
         getSlideToContainerRatio(store.getState().viewModel),
     );
@@ -102,19 +101,23 @@ export function SlideComponent(props: SlideProps) {
             setResizersRenderInfo(currResizersRenderInfo);
         }
     };
-
-    // const onElementsAmountHandler = () => {
-    //     const prevAmount = elementsAmount;
-    //     const currAmount = getSlideElementsAmount(props.slide);
-    //     if (prevAmount !== currAmount) {
-    //         setSelectedAreaLocation(undefined);
-    //         setSelectedAreaStartPoint(undefined);
-    //         setElementsAmount(currAmount);
-    //     }
-    // };
-
-    // store.subscribe(onElementsAmountHandler);
     store.subscribe(handleRenderSpecs);
+
+    useEffect(() => {
+        const handleSlideChange = () => {
+            const prevSlide = props.slide?.id;
+            const currSlide = getCurrentSlide(store.getState().model)?.id;
+            if (prevSlide !== currSlide) {
+                setSelectedAreaLocation(undefined);
+                setSelectedAreaStartPoint(undefined);
+            }
+        };
+        const unsubscribeOnSlideChange = store.subscribe(handleSlideChange);
+
+        return () => {
+            unsubscribeOnSlideChange();
+        };
+    });
 
     useLayoutEffect(() => {
         const onHistoryHandler = (event: KeyboardEvent) => {
@@ -209,6 +212,8 @@ export function SlideComponent(props: SlideProps) {
                         });
                     }
 
+                    dispatchSetChosenElementsType(dispatch)(getChosenElementsType(store.getState().model));
+
                     const selectedElementsArea = getElementsAreaLoaction(
                         getCurrentSlide(store.getState().model)!,
                         getActiveElementsIds(store.getState().model),
@@ -225,6 +230,7 @@ export function SlideComponent(props: SlideProps) {
                     });
                     setSelectedAreaLocation(undefined);
                     setSelectedAreaStartPoint(undefined);
+                    dispatchSetChosenElementsType(dispatch)(getChosenElementsType(store.getState().model));
                 }
             } else if (isSlideActive) {
                 dispatchSetIdAction(dispatch)({
@@ -234,6 +240,7 @@ export function SlideComponent(props: SlideProps) {
                 setSlideActiveStatus(false);
                 setSelectedAreaLocation(undefined);
                 setSelectedAreaStartPoint(undefined);
+                dispatchSetChosenElementsType(dispatch)(getChosenElementsType(store.getState().model));
             }
         };
 
@@ -242,7 +249,7 @@ export function SlideComponent(props: SlideProps) {
         return () => {
             document.removeEventListener('mousedown', onMouseDownHandler);
         };
-    }, [isSlideActive]);
+    }, [dispatch, isSlideActive]);
 
     useEffect(() => {
         const onMouseUpHandler = (event: MouseEvent) => {
@@ -260,7 +267,7 @@ export function SlideComponent(props: SlideProps) {
         return () => {
             document.removeEventListener('mouseup', onMouseUpHandler);
         };
-    }, [selectedAreaLocation]);
+    }, [dispatch, selectedAreaLocation, selectedAreaStartPoint]);
 
     const onMouseDownResizeHandler = (event: React.MouseEvent) => {
         const chosenResizer = event.target as Element;
@@ -336,7 +343,6 @@ export function SlideComponent(props: SlideProps) {
         resizersSize,
         resizersOffset,
         renderScale,
-        windowRatio,
     );
 
     useDragAndDrop({
@@ -344,7 +350,6 @@ export function SlideComponent(props: SlideProps) {
         position: selectedAreaLocation!,
         setPosition: setSelectedAreaLocation,
         scale: renderScale,
-        windowRatio: windowRatio,
     });
 
     const onSelectAreaEnterHandler = (event: BaseSyntheticEvent) => {
@@ -433,12 +438,12 @@ export function SlideComponent(props: SlideProps) {
                 <>
                     <rect
                         ref={refSelectedArea}
-                        x={selectedAreaLocation.xy.x * renderScale.width * windowRatio}
-                        y={selectedAreaLocation.xy.y * renderScale.height * windowRatio}
+                        x={selectedAreaLocation.xy.x * renderScale.width}
+                        y={selectedAreaLocation.xy.y * renderScale.height}
                         id={SELECT_AREA_ID}
                         className={styles[SELECT_AREA_ID]}
-                        width={selectedAreaLocation.dimensions.width * renderScale.width * windowRatio}
-                        height={selectedAreaLocation.dimensions.height * renderScale.height * windowRatio}
+                        width={selectedAreaLocation.dimensions.width * renderScale.width}
+                        height={selectedAreaLocation.dimensions.height * renderScale.height}
                         onMouseEnter={onSelectAreaEnterHandler}
                         onMouseLeave={onSelectAreaLeaveHandler}
                     />

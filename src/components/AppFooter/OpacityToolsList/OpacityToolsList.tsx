@@ -1,6 +1,6 @@
 import styles from './OpacityToolsList.module.css';
 
-import { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
+import { BaseSyntheticEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
     dispatchChangeElementsOpacityAction,
@@ -46,7 +46,6 @@ export function OpacityToolsList(props: OpacityToolsListProps): JSX.Element {
                                 min="0.1"
                                 max="1"
                                 step="0.05"
-                                // value="1"
                                 onChange={onChangeHandler}
                             />
                         </div>

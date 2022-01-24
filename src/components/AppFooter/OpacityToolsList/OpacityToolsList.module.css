@@ -26,16 +26,12 @@ opacity.opacity-tools {
     }
 }
 
-.hAmWqc {
-    position: absolute;
-}
-
 .opacity-wrapper {
-    /* box-shadow: rgb(30 37 57) 0px 3px 9px 0px; */
     display: flex;
     align-items: center;
     padding: 4px 15px;
-    background: rgb(54, 63, 90);
+    background: #666b7c;
+    opacity: 0.8;
     border-radius: 6px;
 }
 
@@ -59,7 +55,6 @@ opacity.opacity-tools {
     padding: 12px 15px;
     border: 1px solid rgb(30, 37, 57);
     border-radius: 6px;
-    padding: 15px;
     width: 100%;
 }
 
@@ -72,7 +67,7 @@ opacity.opacity-tools {
 .range-toddler-content {
     display: flex;
     position: absolute;
-    width: 44.4444%;
+    width: 100%;
     box-sizing: border-box;
     align-items: center;
     border-radius: 30px;
@@ -96,3 +91,12 @@ opacity.opacity-tools {
     margin: 0px;
     display: flex;
 }
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background: #ffa322;
+    cursor: pointer;
+  }

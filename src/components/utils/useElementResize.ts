@@ -102,18 +102,15 @@ export function getResizersRenderInfoArr(
     resizersSize: number,
     resizersOffset: number,
     renderScale: ElementsRatioType,
-    windowRatio: number,
 ) {
     const scaledAreaLocation = {
         xy: {
-            x: selectedAreaLocation ? selectedAreaLocation.xy.x * renderScale.width * windowRatio : 0,
-            y: selectedAreaLocation ? selectedAreaLocation.xy.y * renderScale.height * windowRatio : 0,
+            x: selectedAreaLocation ? selectedAreaLocation.xy.x * renderScale.width : 0,
+            y: selectedAreaLocation ? selectedAreaLocation.xy.y * renderScale.height : 0,
         },
         dimensions: {
-            width: selectedAreaLocation ? selectedAreaLocation.dimensions.width * renderScale.width * windowRatio : 0,
-            height: selectedAreaLocation
-                ? selectedAreaLocation.dimensions.height * renderScale.height * windowRatio
-                : 0,
+            width: selectedAreaLocation ? selectedAreaLocation.dimensions.width * renderScale.width : 0,
+            height: selectedAreaLocation ? selectedAreaLocation.dimensions.height * renderScale.width : 0,
         },
     };
     const resizersCords = {

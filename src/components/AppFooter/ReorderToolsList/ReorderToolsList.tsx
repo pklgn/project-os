@@ -1,5 +1,3 @@
-import styles from './ReorderToolsList.module.css';
-
 import { useContext, useEffect } from 'react';
 import { LocaleContext, LocaleContextType } from '../../../App';
 
@@ -9,10 +7,11 @@ import { LayerBackground } from '../../common/icons/LayerBackground/LayerBackgro
 import { LayerForward } from '../../common/icons/LayerForward/LayerForward';
 import { LayerForeground } from '../../common/icons/LayerForeground/LayerForeground';
 import ToolTip from '../../common/ToolTip/ToolTip';
-// import { dispatchMoveElementsToBackgroundOrForeground } from '../../../app_model/redux_model/dispatchers';
+
 import { useDispatch } from 'react-redux';
 import {
     dispatchKeepModelAction,
+    dispatchMoveSelectedElementsBackwardOrForward,
     dispatchMoveSelectedElementsToBackgroundOrForegroundAction,
 } from '../../../app_model/redux_model/dispatchers';
 
@@ -25,8 +24,20 @@ export function ReorderToolsList(props: ReorderToolsListProps): JSX.Element {
 
     const dispatch = useDispatch();
 
+    const moveForwardHandler = () => {
+        dispatchMoveSelectedElementsBackwardOrForward(dispatch)(false);
+        dispatchKeepModelAction(dispatch)();
+        props.setListSwitcher();
+    };
+
     const moveForegroundHandler = () => {
         dispatchMoveSelectedElementsToBackgroundOrForegroundAction(dispatch)(false);
+        dispatchKeepModelAction(dispatch)();
+        props.setListSwitcher();
+    };
+
+    const moveBackwardHandler = () => {
+        dispatchMoveSelectedElementsBackwardOrForward(dispatch)(false);
         dispatchKeepModelAction(dispatch)();
         props.setListSwitcher();
     };
@@ -42,7 +53,7 @@ export function ReorderToolsList(props: ReorderToolsListProps): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.forwardLayerTool,
             id: 'select-tool-button',
             iconLeft: <LayerForward />,
-            onClick: props.setListSwitcher,
+            onClick: moveForwardHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.frontLayerTool,
@@ -54,7 +65,7 @@ export function ReorderToolsList(props: ReorderToolsListProps): JSX.Element {
             text: localeContext.locale.localization.elementsListTool.backwardLayerTool,
             id: '',
             iconLeft: <LayerBackward />,
-            onClick: props.setListSwitcher,
+            onClick: moveBackwardHandler,
         },
         {
             text: localeContext.locale.localization.elementsListTool.backLayerTool,
@@ -76,7 +87,7 @@ export function ReorderToolsList(props: ReorderToolsListProps): JSX.Element {
     }, [localeContext]);
 
     return (
-        <div className={styles['reorder-tools']}>
+        <>
             {reorderToolsButtonInfo.map((buttonInfo, index) => {
                 return (
                     <ToolTip
@@ -97,6 +108,6 @@ export function ReorderToolsList(props: ReorderToolsListProps): JSX.Element {
                     />
                 );
             })}
-        </div>
+        </>
     );
 }

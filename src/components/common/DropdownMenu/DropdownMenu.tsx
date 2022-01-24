@@ -178,6 +178,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
                 text={props.data.mainButton.text}
                 onMouseUp={() => handleToggleMenu()}
                 iconLeft={props.data.mainButton.iconLeft}
+                type={props.data.mainButton.type}
             />
             {open && (
                 <DropdownList

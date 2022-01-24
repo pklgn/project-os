@@ -2,7 +2,7 @@ import { isPicture } from '../../../app_model/model/utils/tools';
 import { PictureElement, SlideElement } from '../../../app_model/model/types';
 
 import { store } from '../../../app_model/redux_model/store';
-import { getElementsRenderRatio, getWindowRatio } from '../../../app_model/view_model/slide_render_actions';
+import { getElementsRenderRatio } from '../../../app_model/view_model/slide_render_actions';
 
 type PictureElementProps = {
     element: SlideElement;
@@ -18,16 +18,15 @@ export function PictureElementComponent(props: PictureElementProps) {
     }
 
     const renderScale = getElementsRenderRatio(store.getState().viewModel);
-    const windowRatio = getWindowRatio(store.getState().viewModel);
 
     return (
         <image
             id={`${props.elementIndex}`}
             href={element.src}
-            width={props.element.size.width * renderScale.width * windowRatio}
-            height={props.element.size.height * renderScale.height * windowRatio}
             x={props.element.startPoint.x * renderScale.width}
             y={props.element.startPoint.y * renderScale.height}
+            width={props.element.size.width * renderScale.width}
+            height={props.element.size.height * renderScale.height}
         />
     );
 }

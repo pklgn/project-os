@@ -3,15 +3,6 @@ import { generateUUId } from '../utils/uuid';
 import { applySlideChanges, getCurrentSlide } from '../slides_actions';
 import { Editor, FigureElement, FigureShape, Slide, SlideElement } from '../types';
 
-const defaultFigures = {
-    rectangle: {
-        figureType: FigureShape.Rectangle,
-        figureColor: 'transparent',
-        borderWidth: 1,
-        borderColor: 'black',
-    },
-};
-
 export function addFigureElement(editor: Editor, figureType: FigureShape, x = 1, y = 1): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 

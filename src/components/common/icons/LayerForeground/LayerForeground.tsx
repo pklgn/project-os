@@ -3,8 +3,8 @@ export function LayerForeground(): JSX.Element {
         <svg
             x="0px"
             y="0px"
-            width="32px"
-            height="32px"
+            width="28px"
+            height="28px"
             viewBox="0 0 24 24"
             enableBackground="new 0 0 280.168 280.168"
             fill="#ffa322"

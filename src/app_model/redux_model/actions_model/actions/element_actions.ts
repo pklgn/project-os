@@ -8,6 +8,11 @@ interface ElementsMoveToForegroundOrBackgroundAction {
     payload: boolean;
 }
 
+interface ElementsMoveForwardOrBackwardAction {
+    type: ActionType.MOVE_ELEMENTS_BACKWARD_OR_FORWARD;
+    payload: boolean;
+}
+
 interface ElementsChangeSizeAction {
     type: ActionType.CHANGE_ELEMENTS_SIZE;
     payload: AreaLocation;
@@ -37,6 +42,7 @@ interface SetElementsTranfsormProperty {
 
 export type ElementAction =
     | ElementsMoveToForegroundOrBackgroundAction
+    | ElementsMoveForwardOrBackwardAction
     | ElementsChangeSizeAction
     | ElementsChangeOpacityAction
     | ElementsChangePositionAction

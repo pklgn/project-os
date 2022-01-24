@@ -1,7 +1,9 @@
 import CSS from 'csstype';
+import { ChosenElementsType } from '../view_model/types';
 
 import { getCurrentSlide, applySlideChanges } from './slides_actions';
 import { AreaLocation, Coordinates, Editor, Size, Slide, SlideElement } from './types';
+import { SlideElementType, getSlideElementType } from './utils/tools';
 
 export function changeElementsSize(editor: Editor, cordsAndDimensions: AreaLocation): Editor {
     const currSlide: Slide | undefined = getCurrentSlide(editor);
@@ -164,6 +166,39 @@ export function getElementsCoordinates(editor: Editor): Coordinates[] | undefine
     });
 }
 
+export function getChosenElementsType(editor: Editor): ChosenElementsType {
+    const currSlide: Slide | undefined = getCurrentSlide(editor);
+
+    if (!currSlide) {
+        return 'NONE';
+    }
+
+    if (!currSlide.elementsList.length) {
+        return 'NONE';
+    }
+
+    const elementsType: (SlideElementType | undefined)[] = currSlide.elementsList
+        .map((element) => {
+            if (editor.selectedSlideElementsIds.includes(element.id)) {
+                return getSlideElementType(element.content);
+            }
+            return undefined;
+        })
+        .filter((el) => el !== undefined);
+
+    if (elementsType.length === 0) {
+        return 'NONE';
+    } else if (elementsType.filter((el) => el !== 'FIGURE').length === 0) {
+        return 'FIGURE';
+    } else if (elementsType.filter((el) => el !== 'TEXT').length === 0) {
+        return 'TEXT';
+    } else if (elementsType.filter((el) => el !== 'PICTURE').length === 0) {
+        return 'PICTURE';
+    } else {
+        return 'MIXED';
+    }
+}
+
 export function getElementsAreaLoaction(slide: Slide, elementsIds: string[]): AreaLocation | undefined {
     type elementLocationInfo = {
         coords: Coordinates;
@@ -275,32 +310,47 @@ export function moveElementsToBackgroundOrForeground(editor: Editor, way: boolea
 }
 
 export function moveElementsBackwardOrForward(editor: Editor, way: boolean): Editor {
-    // TODO
     const currSlide: Slide | undefined = getCurrentSlide(editor);
 
     if (!currSlide) {
         return editor;
     }
+    const elementsList = currSlide.elementsList;
 
     const slideIndex = editor.presentation.slidesList.findIndex((item) => {
         return item.id === currSlide.id;
     });
 
-    if (!currSlide.elementsList.length) {
+    if (!editor.selectedSlideElementsIds.length) {
         return editor;
     }
 
-    const movedElementList: SlideElement[] = currSlide.elementsList.filter((item) =>
-        editor.selectedSlideElementsIds.includes(item.id),
-    );
+    let indexLeft = 0;
+    let indexRight = 0;
+    const updatedElementList: SlideElement[] = [];
+    const selectedSlideElementsIds = editor.selectedSlideElementsIds;
 
-    const unmovedElementList: SlideElement[] = currSlide.elementsList.filter(
-        (item) => !editor.selectedSlideElementsIds.includes(item.id),
-    );
+    while (indexRight < elementsList.length - 1 && indexRight !== -1) {
+        if (selectedSlideElementsIds.includes(elementsList[indexLeft].id)) {
+            indexRight = elementsList.findIndex(
+                (item, index) => !selectedSlideElementsIds.includes(item.id) && index > indexLeft,
+            );
 
-    const updatedElementList: SlideElement[] = way
-        ? [...movedElementList, ...unmovedElementList]
-        : [...unmovedElementList, ...movedElementList];
+            indexRight !== -1
+                ? updatedElementList.push(elementsList[indexRight], ...elementsList.slice(indexLeft, indexRight))
+                : updatedElementList.push(...elementsList.slice(indexLeft));
+
+            indexLeft = indexRight;
+        } else {
+            indexRight = elementsList.findIndex(
+                (item, index) => selectedSlideElementsIds.includes(item.id) && index > indexLeft,
+            );
+
+            updatedElementList.push(...elementsList.slice(indexLeft));
+
+            indexLeft = indexRight;
+        }
+    }
 
     const updatedSlide: Slide = {
         ...currSlide,
