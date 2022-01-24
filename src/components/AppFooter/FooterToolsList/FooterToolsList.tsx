@@ -137,8 +137,7 @@ export function FooterToolsList(): JSX.Element {
                         case 'FIGURE':
                             return [<FigureToolsList key={0} />, <DefaultToolsList key={1} />];
                         case 'NONE':
-                            return <span className={styles['empty_block']}></span>
-                                
+                            return <span className={styles['empty_block']}></span>;
                     }
                 })()}
             </div>
