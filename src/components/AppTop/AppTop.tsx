@@ -4,17 +4,15 @@ import { BaseSyntheticEvent, useContext, useRef } from 'react';
 
 import { AdaptiveInputField } from '../common/AdaptiveInputField/AdaptiveInputField';
 import { AppLogoPng } from '../common/icons/AppLogo';
-import { ButtonProps } from '../common/Button/Button';
-import { GlobeIcon } from '../common/icons/GlobeInternationalization/GlobeInternationalizationIcon';
 import ToolTip from '../common/ToolTip/ToolTip';
 
-import { getL18nObject, l18nLocale } from '../../l18n/l18n';
+import { getL18nObject, l18nLocale } from '../../i18n/i18n';
 import { LocaleContext } from '../../App';
 
 import { DropdownMenu } from '../common/DropdownMenu/DropdownMenu';
 import { getChangeLocaleDropDownMenu, getFileDropdownMenu, getFullScreenDropdownMenu } from './dropdown_creators';
 
-import { FigureInfo, FigureShape } from '../../app_model/model/types';
+import { FigureShape } from '../../app_model/model/types';
 
 import {
     dispatchActiveViewAreaAction,
@@ -34,7 +32,6 @@ import { getActiveViewArea } from '../../app_model/view_model/active_view_area_a
 import {
     savePresentationAsJson,
     savePresentationAsPdf,
-    setSelectedElementId,
 } from '../../app_model/model/editor_actions';
 import { initEditor } from '../../app_model/model/init_model_action';
 import { generateUUId } from '../../app_model/model/utils/uuid';

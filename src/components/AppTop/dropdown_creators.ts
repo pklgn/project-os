@@ -1,4 +1,4 @@
-import { l18nType } from '../../l18n/l18n';
+import { l18nType } from '../../i18n/i18n';
 
 import { DropdownMenuProps } from '../common/DropdownMenu/DropdownMenu';
 

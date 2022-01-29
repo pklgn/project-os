@@ -4,7 +4,7 @@ import styles from './App.module.css';
 import { PresentationEditor } from './components/PresentationEditor/PresentationEditor';
 import { PresentationViewer } from './components/PresentationViewer/PresentationViewer';
 
-import { getL18nObject, l18nType } from './l18n/l18n';
+import { getL18nObject, l18nType } from './i18n/i18n';
 
 import { Provider } from 'react-redux';
 import { store } from './app_model/redux_model/store';
